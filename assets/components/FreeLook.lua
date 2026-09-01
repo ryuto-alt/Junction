@@ -1,5 +1,5 @@
 -- JUNCTION の一人称プレイヤー。MainCamera(CharacterController + Camera)に付ける。
--- WASD 移動 / SPACE ジャンプ / SHIFT ダッシュ / E インタラクト / マウス視点 / ESC でマウス解放(エディタの Stop を押したい時)。
+-- WASD/左スティック 移動 / SPACE/A ジャンプ / SHIFT/RB ダッシュ / E/X インタラクト / マウス/右スティック 視点。
 --
 -- ★このゲームの入力は【移動方向そのものが解答】。ドアへ入った角度で行き先が変わるので、
 --   Junction.lua が読む「最後に押していた WASD のワールド方向」をここが唯一の出所として
@@ -13,6 +13,8 @@ local SPEED = 3.4    -- m/s
 local FAST  = 1.45   -- Shift 中の倍率
 local SENS  = 0.09   -- マウス感度(度/カウント)
 local TURNK = 110    -- 矢印キーで回す速さ(度/秒)。マウス解放中用
+local PAD_LOOK = 145  -- 右スティック視点移動(度/秒)
+local PAD_DEAD = 0.18
 local SHIFT = KEY_SHIFT or 0x10
 
 local BOB_AMP  = 0.42
@@ -20,6 +22,11 @@ local BOB_ROLL = 0.36
 local BOB_YAW  = 0.18
 local BOB_FREQ = 1.75
 local BOB_BLEND = 8.0
+
+local function dead(v)
+    if math.abs(v) < PAD_DEAD then return 0 end
+    return v
+end
 
 function OnStart(self)
     self.yaw = self.transform.rotation.y
@@ -55,6 +62,12 @@ function OnUpdate(self, dt)
     if keyDown("RIGHT") then self.yaw = self.yaw + TURNK * dt end
     if keyDown("UP")    then self.pitch = self.pitch + TURNK * dt end
     if keyDown("DOWN")  then self.pitch = self.pitch - TURNK * dt end
+    if padConnected() then
+        local rx, ry = padStick("right")
+        rx, ry = dead(rx), dead(ry)
+        self.yaw = self.yaw + rx * PAD_LOOK * dt
+        self.pitch = self.pitch + ry * PAD_LOOK * dt
+    end
     self.yaw = self.yaw % 360
     self.pitch = math.max(-85, math.min(85, self.pitch))
 
@@ -65,16 +78,22 @@ function OnUpdate(self, dt)
     if keyDown("S") then mx, mz = mx - fx, mz - fz end
     if keyDown("A") then mx, mz = mx - fz, mz + fx end
     if keyDown("D") then mx, mz = mx + fz, mz - fx end
+    if padConnected() then
+        local lx, ly = padStick("left")
+        lx, ly = dead(lx), dead(ly)
+        mx, mz = mx + fx * ly + fz * lx, mz + fz * ly - fx * lx
+    end
 
     local len = math.sqrt(mx * mx + mz * mz)
-    local run = input:isKeyDown(SHIFT)
-    saveNum("playerInteractPressed", keyPressed("E") and 1 or 0)
-    saveNum("playerInteractDown", keyDown("E") and 1 or 0)
-    if keyPressed("SPACE") and physics:isGrounded(e) then
+    local run = input:isKeyDown(SHIFT) or padDown("RB") or padDown("LSTICK")
+    saveNum("playerInteractPressed", (keyPressed("E") or padPressed("X")) and 1 or 0)
+    saveNum("playerInteractDown", (keyDown("E") or padDown("X")) and 1 or 0)
+    saveNum("playerCancelPressed", (keyPressed("Q") or padPressed("B")) and 1 or 0)
+    if (keyPressed("SPACE") or padPressed("A")) and physics:isGrounded(e) then
         physics:jump(e)
     end
     if len > 0 then
-        local sp = SPEED * (run and FAST or 1) / len
+        local sp = SPEED * (run and FAST or 1) * math.min(len, 1) / len
         physics:move(e, mx * sp, mz * sp)
         -- ★入った角度の一次情報源。0 のフレームは書かない(直前の向きを Junction が保つ)
         saveNum("moveX", mx / len)

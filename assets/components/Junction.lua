@@ -109,6 +109,10 @@ local function interactPressed()
     return loadNum("playerInteractPressed", 0) > 0.5
 end
 
+local function cancelPressed()
+    return loadNum("playerCancelPressed", 0) > 0.5
+end
+
 local function drawReticle(W, H, active)
     local cx, cy = W * 0.5, H * 0.5
     local size = active and 7 or 5
@@ -498,7 +502,7 @@ function OnUpdate(self, dt)
         end
         self.aim = best
 
-        if keyPressed("Q") then closeConnect(self) end
+        if cancelPressed() then closeConnect(self) end
         if self.holdE <= 0 and interactPressed() then
             if best then
                 local to = self.cand[best]
@@ -595,7 +599,7 @@ function OnUpdate(self, dt)
             names[#names + 1] = (i == self.aim) and ("[" .. o .. "]") or (" " .. o .. " ")
         end
         ui:text(40, H - 78, "候補: " .. table.concat(names, "  "), 22, 0.75, 0.95, 0.85, 1)
-        ui:text(40, H - 48, "[E] 繋ぐ    [Q] やめる    ※見かけの大きさは実距離できまる", 17,
+        ui:text(40, H - 48, "[E]/[X] 繋ぐ    [Q]/[B] やめる    ※見かけの大きさは実距離できまる", 17,
                 0.6, 0.66, 0.62, 0.95)
     elseif near and nearD < REACH then
         local list = groupOf(self, near)
@@ -627,7 +631,7 @@ function OnUpdate(self, dt)
     if not self.touched then
         ui:rect(W * 0.5 - 330, H - 190, 660, 46, 0.02, 0.05, 0.03, 0.5)
         ui:text(W * 0.5 - 312, H - 178,
-                "WASD で歩く / [SPACE] ジャンプ / [SHIFT] ダッシュ / [E] 調べる / " .. self.cfg.hint, 19, 0.85, 0.95, 0.9, 1)
+                "WASD/LS 移動 / SPACE/A ジャンプ / SHIFT/RB ダッシュ / E/X 調べる / " .. self.cfg.hint, 19, 0.85, 0.95, 0.9, 1)
     end
 
     -- メッセージ
