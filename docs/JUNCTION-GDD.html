@@ -1,0 +1,751 @@
+<!doctype html><html><head><!-- frame-runtime --><script>window.__FRAME_PREAMBLE={"v":1,"capabilities":{"artifact":"artifact.DF6_9MzE.js","assets":"assets.8Gk803W0.js","comments":"comments.vw5vQdGA.js","db":"db.h-3sndFg.js","downloads":"downloads.C3GSvEDP.js","embed":"embed.CxGAyc-v.js","mcp":"mcp.Bvma3qD7.js","network":"network.B5UA9Su4.js","notifications":"notifications.ssU4jy7G.js","permissions":"permissions.BNySkLV5.js","room":"room.BMMoe2BY.js","sample":"sample.BW2Uysoh.js","self":"artifact.DF6_9MzE.js","user":"user.BpKav-Rf.js"},"transforms":"_transforms.DSB5x63f.js","comments":"_comments.C6E0cR5g.js","translate":"_translate.5HCW4BJh.js"}</script><script>(function(){"use strict";var te=["light","dark","system"],re=/^[A-Za-z0-9_-]{1,64}$/,$=/^[a-zA-Z_:][a-zA-Z0-9_:.-]{0,127}$/,ne=new Set(["class","hidden","value","checked","style","title","alt","placeholder","lang","dir","role","tabindex","disabled","readonly","contenteditable","open","colspan","rowspan"]);function oe(e){const t=e.toLowerCase();return t.startsWith("data-")||t.startsWith("aria-")||ne.has(t)}var Be="http://www.w3.org/1999/xhtml",se="http://www.w3.org/2000/svg",ae=new Set(["script","style","iframe","noscript","noframes","noembed","xmp","plaintext","template","title","textarea","object","embed"]),ie=new Set(["script","style"]);function ce(e){const t=e.localName.toLowerCase();return e.namespaceURI==="http://www.w3.org/1999/xhtml"?!ae.has(t):e.namespaceURI===se?!ie.has(t):!1}function M(e,t){return e===t||(e===160||e===32)&&(t===160||t===32)}function le(e,t){const r=e.length,n=t.length;let s=0;for(;s<r&&s<n&&M(e.charCodeAt(s),t.charCodeAt(s));)s++;let o=0;for(;o<r-s&&o<n-s&&M(e.charCodeAt(r-1-o),t.charCodeAt(n-1-o));)o++;return{p:s,s:o}}function ue(e,t){const r=e.firstChild;if(e.childNodes.length!==1||r===null||r.nodeType!==Node.TEXT_NODE){e.textContent=t;return}const n=r.data,s=n.length,o=t.length,{p:i,s:c}=le(n,t);i===s&&c===0&&s===o||r.replaceData(i,s-i-c,t.slice(i,o-c));const h=r.data,p=e.ownerDocument.getSelection?.()??null,w=p!==null&&p.rangeCount>0&&(p.anchorNode===r||p.focusNode===r)?{anchor:p.anchorNode,anchorOffset:p.anchorOffset,focus:p.focusNode,focusOffset:p.focusOffset}:null;let m=-1,g=-1;for(let f=0;f<h.length&&f<t.length;f++){const v=h.charCodeAt(f),b=t.charCodeAt(f);v!==b&&M(v,b)&&(m<0&&(m=f),g=f)}const a=m>=0;if(a&&r.replaceData(m,g-m+1,t.slice(m,g+1)),a&&w!==null&&w.anchor!==null&&w.focus!==null)try{p.setBaseAndExtent(w.anchor,w.anchorOffset,w.focus,w.focusOffset)}catch{}}var fe=new Set(["html","head","body","frameset"]);function de(e){return e.namespaceURI==="http://www.w3.org/1999/xhtml"&&fe.has(e.localName)}function pe(e){if(e===null||typeof e!="object")return!1;const t=e;if(typeof t.target!="string"||!re.test(t.target)||t.text!==void 0&&typeof t.text!="string")return!1;if(t.attrsSet!==void 0){if(t.attrsSet===null||typeof t.attrsSet!="object")return!1;for(const[r,n]of Object.entries(t.attrsSet))if(!$.test(r)||typeof n!="string")return!1}if(t.attrsRemoved!==void 0){if(!Array.isArray(t.attrsRemoved))return!1;for(const r of t.attrsRemoved)if(typeof r!="string"||!$.test(r))return!1}return!0}function me(e,t){if(e===null||typeof e!="object")return!1;const{seq:r,elements:n}=e;if(typeof r!="number"||!Number.isSafeInteger(r)||!Array.isArray(n)||n.length===0||n.length>64)return!1;for(let s=0;s<n.length;s++)if(!t(n[s]))return!1;return!0}function he(e){return e===null||typeof e!="object"?!1:me(e.__frame_patch,pe)}function _e(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_init;return t!==null&&typeof t=="object"}function ve(e){return e!==null&&typeof e=="object"&&e.__frame_size_poke===!0}function ye(e){if(e===null||typeof e!="object")return!1;const t=e.__frame_theme;if(t===null||typeof t!="object")return!1;const r=t.theme;return typeof r=="string"&&te.includes(r)}var A=/^[\w.-]+\.js$/;function we(e,t,r){return r?"inert":typeof t=="string"&&A.test(t)?e?[t]:"inert":e?"inert":"framed"}function ge(){return{post(e,t){parent.postMessage(e,t)},on(e){const t=r=>{r.source===parent&&e(r.data,r.origin,r.isTrusted)};return addEventListener("message",t),()=>removeEventListener("message",t)}}}function be(){return{post:()=>{},on:()=>()=>{}}}var j="__frame_scroll",Ee=150,Ae=310,Se=160,Te=3e4;function ke(){let e=0,t=!1,r=!1,n=!1,s=0,o=null;const i=l=>{try{sessionStorage.setItem(j,JSON.stringify({y:l}))}catch{}},c=()=>{if(clearTimeout(e),o===null)return;const l=o;o=null,i(l)},h=()=>{if(t){t=!1;return}r=!0,o=scrollY,clearTimeout(e),e=setTimeout(c,Ee)};try{addEventListener("scroll",h,{passive:!0}),addEventListener("pagehide",c)}catch{}const p=()=>{let l;try{l=sessionStorage.getItem(j)}catch{return null}if(l===null)return null;let _;try{_=JSON.parse(l)}catch{_=null}const d=_?.y;if(!(typeof d=="number"&&Number.isFinite(d)&&d>=0)){try{sessionStorage.removeItem(j)}catch{}return null}return d};let w=!1;const m=l=>{try{const _=scrollY;scrollTo({top:l,left:0,behavior:"instant"}),s=l,n=!0,clearTimeout(e),o=null,i(l);const d=scrollY;d!==_&&(t=!0),d!==l&&!w&&(w=!0,addEventListener("load",()=>{try{if(scrollY===d){const T=p();m(T!==null?T:s)}}catch{}},{once:!0}))}catch{}},g=()=>{try{return!!location.hash}catch{return!0}};let a=!1;const f=()=>{try{if(a||innerWidth>Ae||innerHeight>Se)return;a=!0;const l=Date.now(),_=()=>{try{removeEventListener("resize",_)}catch{}if(Date.now()-l>Te||r||g())return;const d=p();m(d!==null?d:s)};addEventListener("resize",_)}catch{}};let v=!1,b=!1;return{restore(){if(v||(v=!0,g()))return;const l=p();l!==null&&(m(l),f())},promoted(){if(b||(b=!0,g()))return;const l=p();l!==null?(m(l),f()):n&&m(s)}}}function Re(e,t,r,n){let s=null;try{s=window.trustedTypes?.createPolicy("frame-runtime",{createScriptURL:h=>h})??null}catch{}const o=window.Worker,i=o?.prototype,c=Object.freeze({Worker:o,workerOn:i?.addEventListener,workerPost:i?.postMessage,workerTerminate:i?.terminate,fetch:window.fetch.bind(window),preventDefault:Event.prototype.preventDefault,policy:s,origins:t});r(e).then(h=>h?.bootTopLevel?h.bootTopLevel(c,n):n.settle()).catch(()=>n.settle())}var De="modulepreload",Ie=function(e){return"/"+e},Ue={},Le=function(t,r,n){let s=Promise.resolve();function o(i){const c=new Event("vite:preloadError",{cancelable:!0});if(c.payload=i,window.dispatchEvent(c),!c.defaultPrevented)throw i}return s.then(i=>{for(const c of i||[])c.status==="rejected"&&o(c.reason);return t().catch(o)})},Oe=window===top,q=Object.getOwnPropertyDescriptor(window,"claude"),k=we(Oe,window.__FRAME_PREAMBLE?.topLevel,q?.writable===!1),N=typeof k=="object"&&k[0],y=N?be():ge();(function(){const e=Object.defineProperty,t=globalThis,r=["RTCPeerConnection","webkitRTCPeerConnection","RTCDataChannel","RTCIceCandidate","RTCSessionDescription","RTCRtpSender","RTCRtpReceiver"];let n=0;for(let s=0;s<r.length;s++){const o=r[s];try{e(t,o,{value:void 0,writable:!1,configurable:!1})}catch{try{delete t[o]}catch{}try{e(t,o,{value:void 0,writable:!1,configurable:!0})}catch{}}typeof t[o]=="function"&&n++}if(n&&k==="framed")try{y.post({__frame_rtc_lockdown_failed:n},"*")}catch{}})();var Pe=1e4,Y=Object.freeze([...window.__FRAME_PREAMBLE?.origins??["https://claude.ai","https://preview.claude.ai"]]);function X(e){for(const t of Y)if(t.endsWith(":*"))try{const r=new URL(e);if(`${r.protocol}//${r.hostname}:*`===t)return!0}catch{}else if(e===t)return!0;return!1}var R=Object.freeze({...window.__FRAME_PREAMBLE?.capabilities}),B=window.__FRAME_PREAMBLE?.transforms,D=window.__FRAME_PREAMBLE?.comments,I=window.__FRAME_PREAMBLE?.translate;function S(e){return Le(()=>import("/_runtime/"+e),void 0)}function G(e,t){return{contract:e.contract,changes:new Set(e.changes??[]),flags:new Set(e.flags??[]),capabilities:e.capabilities??{},capBudgets:e.capBudgets??{},transforms:new Map,shellOrigin:t,mount:x,hooks:O,pipe:()=>({wrap:(r,n)=>(...s)=>{try{return n(...s)}catch(o){return Promise.reject(o)}}})}}var L=null,E=null;function V(e,t,r){try{Object.defineProperty(e,t,{value:r,writable:!1,configurable:!1,enumerable:!0})}catch{try{Object.defineProperty(e,t,{value:r,writable:!1,configurable:!0,enumerable:!0})}catch{}}}var U=!1,O={editBefore:null,edit:null};function Ce(e,t,r=!1){const n=[];let s;if(r)try{O.editBefore?.(e)}catch{}for(const o of e.elements){const i=document.querySelector(`[data-id="${o.target}"]`);if(!i){s=o.target;break}if([...Object.keys(o.attrsSet??{}),...o.attrsRemoved??[]].some(c=>!oe(c))){s=o.target;break}if(o.text!==void 0&&(!ce(i)||de(i))){s=o.target;break}for(const[c,h]of Object.entries(o.attrsSet??{}))if(!J(i,c)){try{i.setAttribute(c,h)}catch{}Z(i,c,h)}for(const c of o.attrsRemoved??[])J(i,c)||(i.removeAttribute(c),Z(i,c,null));typeof o.text=="string"&&ue(i,o.text),n.push(o.target)}if(r)try{O.edit?.(e.seq,n,s)}catch{}if(s!==void 0){y.post({__frame_patch_miss:{seq:e.seq}},t);return}try{document.dispatchEvent(new CustomEvent("claude:edit",{detail:{seq:e.seq,targets:n}}))}catch{}}function Z(e,t,r){if(!(e instanceof HTMLInputElement))return;const n=t.toLowerCase();n==="checked"?e.checked=r!==null:n==="value"&&e.type!=="file"&&(e.value=r??"")}function J(e,t){const r=t.toLowerCase(),n=e;return r==="data-id"||(r==="value"||r==="checked")&&(n.__artifactSecret===!0||/^(password|hidden|file)$/.test(n.type??"")||/(^|\s)(cc-|one-time-code|current-password|new-password)/i.test(`${e.getAttribute("autocomplete")??""} ${n.autocomplete??""}`))}function Q(e){const t=document.documentElement;e==="light"||e==="dark"?(t.dataset.theme=e,t.style.colorScheme=e,U=!0):U&&(delete t.dataset.theme,t.style.colorScheme="",U=!1)}var P=new Map;function Me(){let e;const t={u:new Promise(r=>{e=r}),r:r=>{t.done=!0,e(r)},done:!1,nulled:!1};return t}function F(){for(const e of P.values())e.done||(e.nulled=!0,e.r(null))}var je=Object.freeze(Object.assign(Object.create(null),{call:Function.prototype.call,apply:Function.prototype.apply,bind:Function.prototype.bind})),x=(e,t)=>{const r=P.get(e);if(!r||r.done){r?.nulled&&E&&y.post({__frame_cap_telemetry:{kind:"cap-load-error",cap:e}},E);return}const n=typeof t=="function"?Object.setPrototypeOf(t,je):Object.assign(Object.create(null),t);typeof n.then=="function"&&delete n.then,r.r(Object.freeze(n))};function ee(){const e=q?.value??{};V(window,"claude",e);for(const t of Object.keys(R)){if(e[t]!==void 0){V(e,t,e[t]);continue}P.set(t,Me())}if(e.use===void 0){const t=r=>{if(typeof r!="string"||!Object.hasOwn(R,r))return Promise.resolve(null);const n=P.get(r);return n?n.u:Promise.resolve(e[r]??null)};try{Object.defineProperty(e,"use",{value:t,writable:!0,configurable:!0,enumerable:!1})}catch{}}}if(k==="framed"){const e=B&&A.test(B)?S(B).catch(()=>{}):Promise.resolve(void 0),t=a=>{if(a.type==="auxclick"&&a.button!==1)return;const f=a.target,v=f&&f.closest?f.closest("a[href],area[href]"):null;if(!v)return;const b=v.getAttribute("href");if(!b)return;let l;try{l=new URL(b,document.baseURI)}catch{return}if((l.protocol==="http:"||l.protocol==="https:")&&l.origin!==location.origin){a.preventDefault();const _=(v.getAttribute("target")??"").toLowerCase(),d=a.type==="auxclick"||a.metaKey||a.ctrlKey||a.shiftKey||a.altKey||!["","_self","_top","_parent"].includes(_);y.post({__frame_nav:!0,url:l.href,newTab:d},"*")}};addEventListener("click",t,!0),addEventListener("auxclick",t,!0);const r={},n=a=>{a.isTrusted&&(r.pointer=!0)},s=a=>{a.isTrusted&&(r.click=!0)};addEventListener("pointermove",n,{capture:!0,passive:!0}),addEventListener("click",s,{capture:!0,passive:!0}),e.then(a=>{a?.wireNav&&(a.wireNav(),removeEventListener("click",t,!0),removeEventListener("auxclick",t,!0),removeEventListener("pointermove",n,!0),removeEventListener("click",s,!0),a.wireEngagement?.(r))});let o=null;try{o=ke()}catch{}ee();let i=null,c=null,h=0;const p=y.on((a,f)=>{X(f)&&_e(a)&&(i=a.__frame_init,E=f,p(),clearTimeout(h),c?.())});y.post({__frame_connect:!0},"*");const w=new Promise(a=>{c=a,h=setTimeout(()=>{p(),a()},Pe)}),m=document.readyState==="loading"?new Promise(a=>document.addEventListener("DOMContentLoaded",()=>a(),{once:!0})):Promise.resolve();m.then(()=>{try{o?.restore()}catch{}});const g={cb:null};y.on((a,f)=>{if(X(f)&&ve(a)){try{o?.promoted()}catch{}g.cb?.()}}),w.then(async()=>{if(!i||!E){F();return}Q(i.theme);const a=E;let f=!1,v=!1;y.on((u,z,C)=>{if(z!==a)return;ye(u)&&Q(u.__frame_theme.theme),he(u)&&Ce(u.__frame_patch,a,C);const H=u?.__fc_mode;H&&typeof H=="object"&&!f&&D&&A.test(D)&&(f=!0,S(D).then(K=>K.install?.(a,H.on===!0)).catch(()=>{}));const W=u?.__ft_cmd;W&&typeof W=="object"&&!v&&I&&A.test(I)&&(v=!0,S(I).then(K=>K.install?.(a,W)).catch(()=>{}))});const b=Object.keys(i.capabilities??{}).filter(u=>Object.hasOwn(R,u)).map(u=>[u,R[u]]).filter(u=>typeof u[1]=="string"&&A.test(u[1])),l=await Promise.allSettled(b.map(([,u])=>S(u))),_=await e,d=E;if(_?.buildBoot||y.post({__frame_cap_telemetry:{kind:"cap-load-error",cap:"_transforms"}},d),_?.buildBoot)try{L=_.buildBoot(i,_.TRANSFORMS??{},{shellOrigin:d,mount:x,hooks:O},u=>y.post({__frame_cap_telemetry:u},d))}catch{y.post({__frame_cap_telemetry:{kind:"cap-load-error",cap:"_transforms"}},d),L=G(i,d)}else L=G(i,d);const T=u=>y.post({__frame_cap_telemetry:{kind:"cap-load-error",cap:u}},d),Ne=L;l.forEach((u,z)=>{const C=b[z][0];if(u.status!=="fulfilled"){T(C);return}try{u.value?.install?.(Ne)}catch{T(C)}}),F(),await m,y.post({__frame_ready:!0},E),e.then(u=>u?.installSizeReporter?.(d,g))})}else N&&(ee(),Re(N,Y,S,{settle:F,mount:x}))})();</script><!-- /frame-runtime --><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}</style></head><body>
+<title>JUNCTION 継ぎ目</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+
+<style>
+:root{
+  --ground:#E8E9E4;
+  --surface:#F3F4F0;
+  --surface-2:#DEE0D9;
+  --ink:#171A16;
+  --ink-2:#5C6359;
+  --line:#C4C8BD;
+  --line-strong:#9BA294;
+  --accent:#0F6B49;
+  --accent-soft:#D6E6DD;
+  --danger:#A83A1E;
+  --danger-soft:#F0DFD8;
+  --void:#FFFFFF;
+  --void-line:#C4C8BD;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#131612;
+    --surface:#1B1F1A;
+    --surface-2:#262B24;
+    --ink:#E5E8DF;
+    --ink-2:#98A093;
+    --line:#333A31;
+    --line-strong:#4B5447;
+    --accent:#45C48D;
+    --accent-soft:#173328;
+    --danger:#E07A5A;
+    --danger-soft:#33201A;
+    --void:#2A2F28;
+    --void-line:#4B5447;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#131612;
+  --surface:#1B1F1A;
+  --surface-2:#262B24;
+  --ink:#E5E8DF;
+  --ink-2:#98A093;
+  --line:#333A31;
+  --line-strong:#4B5447;
+  --accent:#45C48D;
+  --accent-soft:#173328;
+  --danger:#E07A5A;
+  --danger-soft:#33201A;
+  --void:#2A2F28;
+  --void-line:#4B5447;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  font-size:16px;
+  line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{
+  max-width:960px;
+  margin:0 auto;
+  padding:0 28px 120px;
+}
+.prose{max-width:70ch}
+
+/* ---------- type ---------- */
+h1,h2,h3,.disp{
+  font-family:"Oswald","Zen Kaku Gothic New","Hiragino Sans",system-ui,sans-serif;
+  font-weight:600;
+  text-wrap:balance;
+  line-height:1.3;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--ink-2);
+}
+
+/* ---------- header ---------- */
+header{
+  border-bottom:1px solid var(--line);
+  padding:80px 0 48px;
+  margin-bottom:64px;
+}
+.tag{
+  display:inline-block;
+  font-family:"IBM Plex Mono",monospace;
+  font-size:11px;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--accent);
+  border:1px solid var(--accent);
+  padding:3px 10px;
+  margin-bottom:24px;
+}
+h1{
+  font-size:clamp(52px,10vw,104px);
+  letter-spacing:.02em;
+  margin:0;
+  line-height:.95;
+}
+h1 .sub{
+  display:block;
+  font-size:clamp(20px,3.5vw,30px);
+  letter-spacing:.3em;
+  font-weight:500;
+  color:var(--ink-2);
+  margin-top:14px;
+}
+.thesis{
+  margin-top:36px;
+  font-size:20px;
+  line-height:1.7;
+  max-width:34ch;
+  border-left:3px solid var(--accent);
+  padding-left:20px;
+}
+.meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:0 40px;
+  margin-top:40px;
+  font-family:"IBM Plex Mono",monospace;
+  font-size:12px;
+  color:var(--ink-2);
+}
+.meta b{color:var(--ink);font-weight:600}
+
+/* ---------- sections ---------- */
+section{margin-bottom:88px}
+h2{
+  font-size:30px;
+  margin:0 0 8px;
+  letter-spacing:.03em;
+}
+.sec-head{
+  border-top:1px solid var(--line);
+  padding-top:14px;
+  margin-bottom:32px;
+}
+h3{
+  font-size:19px;
+  margin:44px 0 10px;
+  letter-spacing:.02em;
+}
+p{margin:0 0 18px}
+
+/* ---------- rules ---------- */
+.rule{
+  display:grid;
+  grid-template-columns:56px 1fr;
+  gap:0 20px;
+  padding:26px 0;
+  border-top:1px solid var(--line);
+}
+.rule:last-of-type{border-bottom:1px solid var(--line)}
+.rule-n{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:13px;
+  font-weight:600;
+  color:var(--accent);
+  padding-top:5px;
+}
+.rule h3{margin:0 0 10px;font-size:20px}
+.rule p:last-child{margin-bottom:0}
+.rule ul{margin:0 0 0 0;padding-left:1.2em}
+.rule li{margin-bottom:6px}
+
+.core{
+  background:var(--accent-soft);
+  border:1px solid var(--accent);
+  padding:24px 26px;
+  margin:26px 0;
+}
+.core .eyebrow{color:var(--accent)}
+.core p:last-child{margin-bottom:0}
+
+.warn{
+  background:var(--danger-soft);
+  border-left:3px solid var(--danger);
+  padding:18px 22px;
+  margin:24px 0;
+}
+.warn p:last-child{margin-bottom:0}
+
+/* ---------- figures ---------- */
+figure{
+  margin:40px 0;
+  padding:28px 24px 20px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  overflow-x:auto;
+}
+figure svg{display:block;max-width:100%;height:auto;margin:0 auto;color:var(--ink)}
+figcaption{
+  margin-top:18px;
+  font-size:13.5px;
+  line-height:1.7;
+  color:var(--ink-2);
+  max-width:62ch;
+}
+figcaption b{color:var(--ink)}
+
+/* ---------- tables ---------- */
+.tbl-wrap{overflow-x:auto;margin:28px 0}
+table{
+  border-collapse:collapse;
+  width:100%;
+  min-width:520px;
+  font-size:14.5px;
+}
+th,td{
+  text-align:left;
+  padding:11px 14px;
+  border-bottom:1px solid var(--line);
+  vertical-align:top;
+}
+th{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--ink-2);
+  font-weight:600;
+  border-bottom:1px solid var(--line-strong);
+  white-space:nowrap;
+}
+td.num,th.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:hover td{background:var(--surface)}
+
+/* ---------- gameover cards ---------- */
+.fails{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.fail{background:var(--ground);padding:22px 24px}
+.fail-top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.fail-name{font-family:"Oswald","Zen Kaku Gothic New",sans-serif;font-size:19px;font-weight:600}
+.pill{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:2px 9px;
+  border:1px solid currentColor;
+}
+.pill.hard{color:var(--danger)}
+.pill.soft{color:var(--accent)}
+.fail p{margin:0;font-size:14.5px;line-height:1.75;color:var(--ink-2)}
+.fail p b{color:var(--ink)}
+
+/* ---------- formula ---------- */
+pre{
+  font-family:"IBM Plex Mono",monospace;
+  font-size:13.5px;
+  line-height:1.9;
+  background:var(--surface);
+  border:1px solid var(--line);
+  padding:22px 24px;
+  overflow-x:auto;
+  margin:24px 0;
+}
+code{font-family:"IBM Plex Mono",monospace;font-size:.9em;background:var(--surface-2);padding:1px 5px}
+
+/* ---------- stage list ---------- */
+.stage{
+  display:grid;
+  grid-template-columns:44px 150px 1fr;
+  gap:0 18px;
+  padding:15px 0;
+  border-bottom:1px solid var(--line);
+  align-items:baseline;
+}
+.stage:first-of-type{border-top:1px solid var(--line-strong)}
+.stage-n{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--accent);font-weight:600}
+.stage-name{font-weight:700;font-size:15px}
+.stage-desc{font-size:14.5px;color:var(--ink-2);line-height:1.7}
+
+.solution{
+  border:1px solid var(--line-strong);
+  padding:26px 28px;
+  margin:32px 0;
+  background:var(--surface);
+}
+.solution ol{margin:0;padding-left:1.3em}
+.solution li{margin-bottom:10px}
+.solution li:last-child{margin-bottom:0}
+
+footer{
+  border-top:1px solid var(--line);
+  padding-top:28px;
+  font-size:13.5px;
+  color:var(--ink-2);
+  font-family:"IBM Plex Mono",monospace;
+}
+
+@media (max-width:640px){
+  .wrap{padding:0 20px 80px}
+  header{padding:52px 0 36px}
+  .rule{grid-template-columns:1fr;gap:6px}
+  .stage{grid-template-columns:36px 1fr;gap:0 12px}
+  .stage-desc{grid-column:2}
+}
+</style>
+
+<div class="wrap">
+
+<header>
+  <span class="tag">Game Design Document — v1</span>
+  <h1>JUNCTION<span class="sub">継ぎ目</span></h1>
+  <p class="thesis">白い虚無しかない建物で、ドアとドアを繋ぎ直す。<br>3分で1棟。</p>
+  <div class="meta">
+    <span>ジャンル <b>一人称パズル / スコアアタック</b></span>
+    <span>1ステージ <b>3分</b></span>
+    <span>視点 <b>3D 一人称</b></span>
+    <span>規模 <b>個人〜小規模</b></span>
+  </div>
+</header>
+
+<section>
+  <div class="sec-head"><span class="eyebrow">00 — Premise</span></div>
+  <h2>世界とゴール</h2>
+  <div class="prose">
+    <p>舞台は、蛍光灯だけが灯った無人の建物。部屋はどれも同じ顔をしていて、無数のドアがある。ところが<b>どのドアを開けても、その向こうは白い虚無</b>です。この建物には、接続が存在しない。</p>
+    <p>プレイヤーの仕事はただ一つ、<b>ドアとドアを繋いで、出口まで自分の道を敷くこと</b>。歩いて、触れて、選ぶ。カメラを回すだけでは何も起きません。</p>
+    <p>Backrooms 的な空間を「逃げ回る場所」ではなく<b>配線盤</b>として扱う——これが本作の立ち位置です。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="eyebrow">01 — Rules</span></div>
+  <h2>ルール</h2>
+
+  <div class="rule">
+    <div class="rule-n">条 1</div>
+    <div>
+      <h3>接続は、触れて・見て・選ぶ</h3>
+      <p>ドアに触れると扉が開き、白の虚無が現れます。虚無の中には<b>まだ繋がっていない全てのドアが浮かんで見える</b>——実際の距離に応じた見かけの大きさで。照準を合わせて1枚選ぶと、そのドアと接続されます。</p>
+      <p>ここに唯一の錯覚が入ります。<b>遠くの大きなドアと、近くの小さなドアは、同じ見かけになる。</b>虚無には距離の手がかりが何もないので、狙ったドアと違うドアを繋いでしまう。これが最も多い事故です。</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-n">条 2</div>
+    <div>
+      <h3>接続数は有限</h3>
+      <p>1ステージあたり <b class="mono">2〜5本</b>。使い切ったら、既存の接続を切って繋ぎ直すしかありません。繋ぎ直しは<b>その場に戻る必要がある</b>ので、位置取りそのものがコストになります。</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-n">条 3</div>
+    <div>
+      <h3>接続済みのドアに繋ぐと「合流点」になる</h3>
+      <p>A と B を繋いだあと、B にもう1枚 C を繋ぐと、<b>A・B・C の3枚が1つの合流点</b>になります。合流点は最大5枚まで。</p>
+      <p>合流点に属するドアの枠には <span class="mono">Ⅰ / Ⅱ / Ⅲ</span> の刻印が焼き付きます。全部屋が同じ見た目である以上、<b>この刻印だけが自分の現在地を知る手段</b>です。</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-n">条 4</div>
+    <div>
+      <h3>入った角度が、出る先を決める</h3>
+      <div class="core">
+        <span class="eyebrow">Core mechanic</span>
+        <p style="margin-top:8px">n枚の合流点にあるドアから入ると、出口候補は残り n−1 枚。<br>ドア正面 <b class="mono">±60°</b>（計120°）を <b class="mono">n−1</b> 等分し、各出口に割り当てます。</p>
+      </div>
+      <p>床には角度の分割線が焼き付いて見えるので、狙いは目視できます。出口からは<b>入射角を鏡映した角度で射出される</b>ため、勢いと向きが素直に繋がります。</p>
+      <p>つまりプレイヤーは、ドアに入る<b>前</b>に部屋の中で助走の経路を設計しなければならない。「どのドアを繋ぐか」という論理パズルと、「どこから入るか」という空間パズルが、1つの動作に同居します。</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-n">条 5</div>
+    <div>
+      <h3>制限時間 3分</h3>
+      <p>超過すると建物全体が白に還ります。3分は「じっくり考える」には短く、「勘で動く」には長い——設計と実行を1回ずつ通せるちょうどの尺です。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="eyebrow">02 — Core</span></div>
+  <h2>合流点と角度</h2>
+  <div class="prose">
+    <p>本作の全ては、この1枚に集約されます。同じドアに入っても、<b>どちら側から入ったかで別の場所に出る</b>。</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 640 400" role="img" aria-label="3枚の合流点。ドアIに左寄りの角度で入ると出口IIへ、右寄りで入ると出口IIIへ出る">
+      <defs>
+        <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+        </marker>
+      </defs>
+
+      <!-- other junction doors -->
+      <rect x="110" y="48" width="76" height="14" fill="var(--surface-2)" stroke="currentColor" stroke-width="1.5"/>
+      <text x="148" y="36" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="currentColor">出口 Ⅱ</text>
+      <rect x="454" y="48" width="76" height="14" fill="var(--surface-2)" stroke="currentColor" stroke-width="1.5"/>
+      <text x="492" y="36" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="currentColor">出口 Ⅲ</text>
+
+      <!-- junction links -->
+      <path d="M300,196 L155,64" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+      <path d="M340,196 L485,64" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+      <text x="320" y="120" text-anchor="middle" font-size="11.5" font-family="IBM Plex Mono, monospace" fill="var(--accent)">同一の合流点（3枚）</text>
+
+      <!-- wall + entry door -->
+      <line x1="60" y1="200" x2="580" y2="200" stroke="currentColor" stroke-width="2"/>
+      <rect x="282" y="193" width="76" height="14" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="320" y="187" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="var(--accent)">入口 Ⅰ</text>
+
+      <!-- angle wedges -->
+      <path d="M320,200 L190,275 A150,150 0 0,0 320,350 Z" fill="var(--surface-2)" stroke="currentColor" stroke-width="1" opacity="0.9"/>
+      <path d="M320,200 L320,350 A150,150 0 0,1 450,275 Z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1"/>
+      <line x1="320" y1="200" x2="320" y2="350" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+      <text x="232" y="268" text-anchor="middle" font-size="12.5" fill="currentColor">左 60°</text>
+      <text x="232" y="285" text-anchor="middle" font-size="12.5" fill="currentColor">→ Ⅱ</text>
+      <text x="408" y="268" text-anchor="middle" font-size="12.5" fill="var(--accent)">右 60°</text>
+      <text x="408" y="285" text-anchor="middle" font-size="12.5" fill="var(--accent)">→ Ⅲ</text>
+
+      <!-- approach paths -->
+      <circle cx="200" cy="360" r="5" fill="currentColor"/>
+      <line x1="200" y1="360" x2="312" y2="212" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 4" marker-end="url(#arw)"/>
+      <circle cx="440" cy="360" r="5" fill="var(--accent)"/>
+      <line x1="440" y1="360" x2="328" y2="212" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3 4" marker-end="url(#arw)"/>
+
+      <text x="176" y="384" text-anchor="middle" font-size="12" fill="currentColor">左から助走</text>
+      <text x="466" y="384" text-anchor="middle" font-size="12" fill="var(--accent)">右から助走</text>
+    </svg>
+    <figcaption>3枚の合流点では、入口Ⅰの正面 ±60° が<b>2つの60°スライス</b>に分かれる。左寄りに助走して入れば出口Ⅱ、右寄りなら出口Ⅲ。ドアは1枚しか繋いでいないのに、行き先は2つある。</figcaption>
+  </figure>
+
+  <h3>合流するほど、的が狭くなる</h3>
+  <div class="prose">
+    <p>ここが難易度設計の心臓です。合流点に枚数を足すほど<b>移動の自由度は上がるが、狙いの精度が要求される</b>。便利さと難しさが同じレバーに乗っている。</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 720 230" role="img" aria-label="合流枚数が2枚から5枚に増えるにつれ、角度スライスが120度から30度まで狭くなる図">
+      <!-- fan 1: 2 doors -->
+      <line x1="20" y1="60" x2="160" y2="60" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M90,60 L12.1,105 A90,90 0 0,0 167.9,105 Z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.2"/>
+      <text x="90" y="132" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="var(--accent)">120°</text>
+      <text x="90" y="178" text-anchor="middle" font-size="14" font-family="Oswald, sans-serif" fill="currentColor">2枚</text>
+      <text x="90" y="200" text-anchor="middle" font-size="12" fill="var(--ink-2)">出口1つ</text>
+      <text x="90" y="218" text-anchor="middle" font-size="12" fill="var(--ink-2)">角度は無関係</text>
+
+      <!-- fan 2: 3 doors -->
+      <line x1="200" y1="60" x2="340" y2="60" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M270,60 L192.1,105 A90,90 0 0,0 347.9,105 Z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.2"/>
+      <line x1="270" y1="60" x2="270" y2="150" stroke="var(--accent)" stroke-width="1.2"/>
+      <text x="270" y="132" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="var(--accent)">60°</text>
+      <text x="270" y="178" text-anchor="middle" font-size="14" font-family="Oswald, sans-serif" fill="currentColor">3枚</text>
+      <text x="270" y="200" text-anchor="middle" font-size="12" fill="var(--ink-2)">出口2つ</text>
+      <text x="270" y="218" text-anchor="middle" font-size="12" fill="var(--ink-2)">左右で選ぶ</text>
+
+      <!-- fan 3: 4 doors -->
+      <line x1="380" y1="60" x2="520" y2="60" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M450,60 L372.1,105 A90,90 0 0,0 527.9,105 Z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.2"/>
+      <line x1="450" y1="60" x2="405" y2="137.9" stroke="var(--accent)" stroke-width="1.2"/>
+      <line x1="450" y1="60" x2="495" y2="137.9" stroke="var(--accent)" stroke-width="1.2"/>
+      <text x="450" y="132" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="var(--accent)">40°</text>
+      <text x="450" y="178" text-anchor="middle" font-size="14" font-family="Oswald, sans-serif" fill="currentColor">4枚</text>
+      <text x="450" y="200" text-anchor="middle" font-size="12" fill="var(--ink-2)">出口3つ</text>
+      <text x="450" y="218" text-anchor="middle" font-size="12" fill="var(--ink-2)">助走が要る</text>
+
+      <!-- fan 4: 5 doors -->
+      <line x1="560" y1="60" x2="700" y2="60" stroke="currentColor" stroke-width="1.5"/>
+      <path d="M630,60 L552.1,105 A90,90 0 0,0 707.9,105 Z" fill="var(--danger-soft)" stroke="var(--danger)" stroke-width="1.2"/>
+      <line x1="630" y1="60" x2="599.2" y2="144.6" stroke="var(--danger)" stroke-width="1.2"/>
+      <line x1="630" y1="60" x2="630" y2="150" stroke="var(--danger)" stroke-width="1.2"/>
+      <line x1="630" y1="60" x2="660.8" y2="144.6" stroke="var(--danger)" stroke-width="1.2"/>
+      <text x="630" y="132" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="var(--danger)">30°</text>
+      <text x="630" y="178" text-anchor="middle" font-size="14" font-family="Oswald, sans-serif" fill="currentColor">5枚</text>
+      <text x="630" y="200" text-anchor="middle" font-size="12" fill="var(--ink-2)">出口4つ</text>
+      <text x="630" y="218" text-anchor="middle" font-size="12" fill="var(--danger)">精密射撃</text>
+    </svg>
+    <figcaption>合流枚数が増えるほど1つの出口に割り当てられる角度は <b class="mono">120° → 60° → 40° → 30°</b> と狭まる。5枚合流は強力なハブだが、狙った出口に入るには部屋の端から正確な経路で助走する必要がある。<b>難易度を上げているのはプレイヤー自身の設計</b>。</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="sec-head"><span class="eyebrow">03 — Proof</span></div>
+  <h2>これは本当にパズルか</h2>
+  <div class="prose">
+    <p>第4面を丸ごと開示します。4部屋・4ドア・接続予算2本。<b>全部繋ぎたくなる誘惑が、そのまま罠になっている</b>——これが本作の典型的な問題形です。</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 660 420" role="img" aria-label="第4面の平面図。4つの孤立した部屋と4枚のドア、そして2本の接続による解答経路">
+      <defs>
+        <marker id="arw2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/>
+        </marker>
+      </defs>
+
+      <!-- rooms -->
+      <rect x="40" y="230" width="200" height="140" fill="var(--surface-2)" stroke="currentColor" stroke-width="2"/>
+      <text x="56" y="256" font-size="14" font-family="Oswald, sans-serif" fill="currentColor">S ／ 開始</text>
+
+      <rect x="40" y="50" width="200" height="140" fill="var(--surface-2)" stroke="currentColor" stroke-width="2"/>
+      <text x="56" y="76" font-size="14" font-family="Oswald, sans-serif" fill="currentColor">P ／ 行き止まり</text>
+
+      <rect x="420" y="230" width="200" height="140" fill="var(--surface-2)" stroke="var(--line-strong)" stroke-width="2" stroke-dasharray="6 5"/>
+      <text x="436" y="256" font-size="14" font-family="Oswald, sans-serif" fill="var(--ink-2)">Q ／ 罠</text>
+
+      <rect x="420" y="50" width="200" height="140" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="2"/>
+      <text x="436" y="76" font-size="14" font-family="Oswald, sans-serif" fill="var(--accent)">G ／ 出口</text>
+
+      <!-- doors -->
+      <rect x="115" y="224" width="50" height="12" fill="var(--accent)" stroke="var(--accent)" stroke-width="1"/>
+      <text x="140" y="216" text-anchor="middle" font-size="13" font-family="IBM Plex Mono, monospace" fill="var(--accent)">a</text>
+
+      <rect x="115" y="184" width="50" height="12" fill="var(--ground)" stroke="currentColor" stroke-width="1.5"/>
+      <text x="176" y="195" font-size="13" font-family="IBM Plex Mono, monospace" fill="currentColor">b</text>
+
+      <rect x="495" y="224" width="50" height="12" fill="var(--ground)" stroke="var(--line-strong)" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <text x="556" y="235" font-size="13" font-family="IBM Plex Mono, monospace" fill="var(--ink-2)">c（未接続）</text>
+
+      <rect x="495" y="184" width="50" height="12" fill="var(--ground)" stroke="var(--accent)" stroke-width="1.5"/>
+      <text x="556" y="195" font-size="13" font-family="IBM Plex Mono, monospace" fill="var(--accent)">d</text>
+
+      <!-- link 1: a-b -->
+      <line x1="140" y1="224" x2="140" y2="196" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4"/>
+      <text x="152" y="212" font-size="11.5" font-family="IBM Plex Mono, monospace" fill="var(--accent)">接続 1</text>
+
+      <!-- link 2: a-d -->
+      <path d="M148,228 Q340,318 512,196" stroke="var(--accent)" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+      <text x="330" y="300" text-anchor="middle" font-size="11.5" font-family="IBM Plex Mono, monospace" fill="var(--accent)">接続 2</text>
+
+      <!-- angle fan at a -->
+      <path d="M140,230 L79.4,265 A70,70 0 0,0 140,300 Z" fill="var(--ground)" stroke="currentColor" stroke-width="1"/>
+      <path d="M140,230 L140,300 A70,70 0 0,1 200.6,265 Z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.2"/>
+      <text x="100" y="286" text-anchor="middle" font-size="11.5" fill="var(--ink-2)">→ b</text>
+      <text x="182" y="286" text-anchor="middle" font-size="11.5" fill="var(--accent)">→ d</text>
+
+      <!-- player -->
+      <circle cx="196" cy="330" r="6" fill="var(--accent)"/>
+      <line x1="196" y1="330" x2="148" y2="240" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3 4" marker-end="url(#arw2)"/>
+      <text x="212" y="350" font-size="12" fill="var(--accent)">右寄りに助走</text>
+
+      <text x="330" y="400" text-anchor="middle" font-size="12.5" font-family="IBM Plex Mono, monospace" fill="var(--ink-2)">接続予算 2 本 ／ ドア 4 枚 ／ 制限 3:00</text>
+    </svg>
+    <figcaption>4つの部屋はどれも孤立していて、それぞれドアが1枚だけ。<b>予算は2本</b>。ドアが4枚あるのに繋げるのは2本——ここで「4枚全部を1つの合流点にまとめる」という発想は破綻する（3枚合流に2本、4枚目に届かない）。</figcaption>
+  </figure>
+
+  <div class="solution">
+    <span class="eyebrow">Solution</span>
+    <ol style="margin-top:12px">
+      <li><b>a と b を繋ぐ</b>（接続1本目）。ここで a・b の2枚合流ができる。</li>
+      <li>そのまま <b>a に d を足す</b>（接続2本目）。a・b・d の<b>3枚合流</b>が完成。</li>
+      <li>ドア a は3枚合流なので出口は2つ。左60°なら b（行き止まり）、<b>右60°なら d（出口）</b>。</li>
+      <li>部屋 S の右寄りから助走して a に入る。<b>G に出る。</b></li>
+      <li><b>c には一度も触らない。</b>触れば予算を1本失い、その瞬間に詰む。</li>
+    </ol>
+  </div>
+
+  <div class="prose">
+    <p>この1面が示しているのは、本作のパズルが<b>3つの層</b>で成立しているということです。</p>
+    <ul>
+      <li><b>グラフ層</b> — 限られた本数で、どのドアを1つの合流点にまとめるか</li>
+      <li><b>角度層</b> — その合流点から目的の出口へ出るには、どこから入るか</li>
+      <li><b>順序層</b> — 一度通ると戻れない。繋ぐ順番と通る順番の設計</li>
+    </ul>
+    <p>視点を回すだけでは、この3層のどれも解けません。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="eyebrow">04 — Failure</span></div>
+  <h2>ゲームオーバー要因</h2>
+  <div class="prose">
+    <p>失敗は4種類。<b>リトライは0.5秒</b>で、3分ステージにおける死は安く設計します。理不尽さの正体は「死ぬこと」ではなく「<b>詰んでいるのに気づかないまま歩き続けること</b>」なので、そこを潰すのが本節の主眼です。</p>
+  </div>
+
+  <div class="fails">
+    <div class="fail">
+      <div class="fail-top">
+        <span class="fail-name">1 ／ 時間切れ</span>
+        <span class="pill hard">全ステージ</span>
+        <span class="mono" style="font-size:12px;color:var(--ink-2)">3:00</span>
+      </div>
+      <p>建物が白に還る。<b>主要因であり、唯一の常時プレッシャー</b>。残り30秒で照明が落ち、虚無の白だけが残る演出に入る。</p>
+    </div>
+
+    <div class="fail">
+      <div class="fail-top">
+        <span class="fail-name">2 ／ 孤立</span>
+        <span class="pill hard">詰み</span>
+        <span class="mono" style="font-size:12px;color:var(--ink-2)">即時判定</span>
+      </div>
+      <p>接続予算が0、かつ現在の連結成分から出口に到達できない状態。<b>システムが到達可能性を毎接続後に計算し、成立した瞬間に「孤立」を宣告して即リトライ</b>させる。プレイヤーを詰んだ迷路に放置しない。これは親切設計ではなく、テンポ設計です。</p>
+    </div>
+
+    <div class="fail">
+      <div class="fail-top">
+        <span class="fail-name">3 ／ 合流点の崩壊</span>
+        <span class="pill hard">自滅</span>
+        <span class="mono" style="font-size:12px;color:var(--ink-2)">6枚目</span>
+      </div>
+      <p>合流点の上限は5枚。6枚目を繋ごうとすると<b>合流点そのものが消滅し、そこに含まれた全接続を失う</b>。予算は戻らない。「とりあえず全部繋ぐ」戦法を封じる装置であり、後半の主要な自滅要因になります。接続直前に枠が赤く明滅して警告。</p>
+    </div>
+
+    <div class="fail">
+      <div class="fail-top">
+        <span class="fail-name">4 ／ 白の侵食</span>
+        <span class="pill soft">8面以降</span>
+        <span class="mono" style="font-size:12px;color:var(--ink-2)">20秒</span>
+      </div>
+      <p>プレイヤーが離れた部屋は20秒で白に溶ける。<b>溶けた部屋のドアは接続ごと失われる</b>。溶けている最中の部屋に留まれば失敗。じっくり設計する余裕を奪い、終盤の難度を跳ね上げる第2の時計です。</p>
+    </div>
+  </div>
+
+  <div class="warn">
+    <p><b>設計上の禁止事項。</b>「気づかないうちに詰んでいて、残り時間を無為に歩かされる」状態を1秒でも作ってはいけません。孤立判定を毎フレームではなく<b>接続・通過のたびに1回</b>走らせ、成立したら即座に画面を切る。パズルゲームの離脱理由の第一位はここです。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="eyebrow">05 — Difficulty</span></div>
+  <h2>難しさはどう上がるか</h2>
+  <div class="prose">
+    <p>難易度は<b>6本の独立した軸</b>で調整します。全部同時に上げず、1面につき1軸だけ動かすのが原則です。</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>調整軸</th><th class="num">第1面</th><th class="num">第10面</th><th>効き方</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>ドア枚数</td><td class="num">4</td><td class="num">20</td><td>選択肢が増え、虚無での誤爆率が上がる</td></tr>
+        <tr><td>接続予算</td><td class="num">3（余る）</td><td class="num">2（ぴったり）</td><td>試行錯誤の許容量。最も強い難度レバー</td></tr>
+        <tr><td>合流点の上限</td><td class="num">2枚</td><td class="num">5枚</td><td>角度スライスが 120° → 30° に狭まる</td></tr>
+        <tr><td>部屋の識別性</td><td class="num">家具あり</td><td class="num">完全同一</td><td>現在地の把握が刻印だけになる</td></tr>
+        <tr><td>虚無の混雑</td><td class="num">3枚</td><td class="num">20枚</td><td>遠近の錯覚で狙いが定まらない</td></tr>
+        <tr><td>白の侵食</td><td class="num">なし</td><td class="num">20秒</td><td>設計時間そのものを削る</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>10面の教育曲線</h3>
+
+  <div class="stage"><span class="stage-n">01</span><span class="stage-name">繋ぐ</span><span class="stage-desc">ドア2枚だけ。触れる・選ぶ・通る。パズル要素ゼロ。</span></div>
+  <div class="stage"><span class="stage-n">02</span><span class="stage-name">使い切る</span><span class="stage-desc">素直に繋ぐと予算切れで孤立。<b>詰みを体験させる</b>面。</span></div>
+  <div class="stage"><span class="stage-n">03</span><span class="stage-name">合流</span><span class="stage-desc">3枚合流と角度の導入。左右で行き先が変わることを教える。</span></div>
+  <div class="stage"><span class="stage-n">04</span><span class="stage-name">二つの出口</span><span class="stage-desc">上で開示した面。<b>コアの快感を渡す最重要ステージ</b>。</span></div>
+  <div class="stage"><span class="stage-n">05</span><span class="stage-name">遠近の罠</span><span class="stage-desc">虚無の中で見かけの同じドアが2枚。誤爆の授業。</span></div>
+  <div class="stage"><span class="stage-n">06</span><span class="stage-name">四枚合流</span><span class="stage-desc">40°スライス。助走の設計が必須になる。</span></div>
+  <div class="stage"><span class="stage-n">07</span><span class="stage-name">一発勝負</span><span class="stage-desc">繋ぎ直し禁止。設計を全部済ませてから動く面。</span></div>
+  <div class="stage"><span class="stage-n">08</span><span class="stage-name">白の侵食</span><span class="stage-desc">第2の時計を導入。考える時間が物理的に削られる。</span></div>
+  <div class="stage"><span class="stage-n">09</span><span class="stage-name">精密射撃</span><span class="stage-desc">5枚合流・30°。ハブを1つ作って全域を捌く。</span></div>
+  <div class="stage"><span class="stage-n">10</span><span class="stage-name">一棟</span><span class="stage-desc">全要素。ドア20枚、予算2本、侵食あり。</span></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="eyebrow">06 — Score</span></div>
+  <h2>スコア</h2>
+  <div class="prose">
+    <p>設計思想は一行です。<b>最少の線で、最大の到達を。</b></p>
+  </div>
+
+<pre>スコア = 残り秒数        × 10
+       + 未使用の接続     × 300
+       + 合流点の通過回数 × 50
+       − 繋ぎ直し         × 100
+       − 合流点の崩壊     × 500
+
+  ランク   S: 3000+   A: 2200+   B: 1500+   C: 到達</pre>
+
+  <div class="prose">
+    <p>時間短縮より<b>接続本数の削減</b>の配点を圧倒的に高くしてあります。上級者は接続2本で建物全体を巡り、1つの合流点を多方向ハブとして角度だけで捌く。この境地に到達したプレイの見た目は、<b>ほとんど何もせずに歩いているだけ</b>に見えます。</p>
+    <p>結果として、タイムアタックではなく<b>手数最小の競技</b>として成立します。記録更新の文化と配信の相性が良く、面数が少なくても寿命が伸びる。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="eyebrow">07 — Build</span></div>
+  <h2>実装</h2>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>要素</th><th>実装方針</th></tr></thead>
+      <tbody>
+        <tr><td>接続の管理</td><td>ドアIDの隣接リスト＋Union-Find で連結成分を管理。処理コストは無視できる</td></tr>
+        <tr><td>出口の決定</td><td>入射ベクトルとドア法線の角度を出口数で等分割。<b>完全な純関数。乱数は一切入れない</b></td></tr>
+        <tr><td>孤立判定</td><td>接続・通過のたびに現在成分から出口への到達可能性を幅優先探索。ドア20枚規模なら一瞬</td></tr>
+        <tr><td>ポータル描画</td><td>ステンシルまたは RenderTexture。<b>再帰は2段で打ち切る</b>。近クリップ面の突き抜け対策にポータル専用クリップ平面を用意</td></tr>
+        <tr><td>虚無</td><td>真っ白なシェーダ1枚。未接続ドアの向こうに浮かぶドアは板ポリゴンを実距離に配置するだけ</td></tr>
+        <tr><td>建物</td><td>モジュール数種の使い回しで足りる。<b>均質さが仕様なので、量産が正当化される</b></td></tr>
+        <tr><td>角度の可視化</td><td>ドア手前の床にデカール投影で分割線を描く。合流枚数が変わったら差し替えるだけ</td></tr>
+        <tr><td>3D酔い対策</td><td>ポータル通過時に1〜2フレームのフェードを挟む。これだけで大幅に軽減される</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="prose">
+    <p>空間の手続き生成も、歪みシェーダも、ロープ物理も不要です。<b>ドアとグラフと角度計算だけ</b>で成立します。個人〜小規模で完成まで持っていける規模に収まっている、というのがこの設計の最大の長所です。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="eyebrow">08 — Position</span></div>
+  <h2>既存作との差分</h2>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>作品</th><th>やっていること</th><th>本作との違い</th></tr></thead>
+      <tbody>
+        <tr><td><b>Portal</b></td><td>ポータルを2つ開けて移動</td><td>本作は<b>任意のドア同士を繋ぎ、合流し、角度で行き先が分岐する</b>。ポータルは2枚上限ではなく5枚のハブになる</td></tr>
+        <tr><td><b>Allocation</b></td><td>収集した部屋をミニマップに配置して経路を作る</td><td>2D俯瞰。本作は<b>3D一人称・実空間での接続</b>で、角度という第二軸がある</td></tr>
+        <tr><td><b>Backrooms系（Steamに8本以上）</b></td><td>全てホラー探索／協力サバイバル</td><td>同じ美術で<b>パズル＋スコアアタック</b>。1本も存在しない領域</td></tr>
+        <tr><td><b>プラトニカ・スペース</b></td><td>脈絡なく繋がった部屋を探索するアドベンチャー</td><td>連結は作者が固定。本作は<b>プレイヤーが位相を編集する</b></td></tr>
+        <tr><td><b>Superliminal / Viewfinder</b></td><td>視点の錯覚そのものが解法</td><td>錯覚は<b>選択UIと環境の障害</b>に留め、正面から競合しない</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="core">
+    <span class="eyebrow">One line</span>
+    <p style="margin-top:8px;font-size:19px;line-height:1.65">Backrooms を、逃げる場所ではなく<b>繋ぎ直す対象</b>にする。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="eyebrow">09 — Next</span></div>
+  <h2>最小プロトタイプ</h2>
+  <div class="prose">
+    <p>検証すべきは、たった1点です。</p>
+    <p style="font-size:19px;border-left:3px solid var(--accent);padding-left:20px"><b>「同じドアに違う角度で入ると、違う場所に出る」は気持ちいいか。</b></p>
+    <p>必要なもの——白い部屋5つ、ドア6枚、接続2本、条1と条4のみ。ステージは第3面と第4面の2つだけ。工数はおよそ1〜2週間。</p>
+    <p>ここが面白ければ企画は確定します。逆にここが鈍いなら、白の侵食もスコアも10面構成も、何を足しても救えません。<b>最初に作るべきものが明確である</b>——それがこの設計を採る最大の理由です。</p>
+  </div>
+</section>
+
+<footer>
+  JUNCTION 継ぎ目 ／ Game Design Document v1 ／ 2026-09-01
+</footer>
+
+</div>
+
+</body></html>
