@@ -15,25 +15,25 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"jx_wedge60"
+			"name":"jx_lane"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"jx_plain",
+			"name":"jx_lane",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
 				},
 				"metallicFactor":0,
-				"roughnessFactor":0.550000011920929
+				"roughnessFactor":0.699999988079071
 			}
 		}
 	],
 	"meshes":[
 		{
-			"name":"jx_wedge60",
+			"name":"jx_lane",
 			"primitives":[
 				{
 					"attributes":{
@@ -56,18 +56,18 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"plain_col",
-			"uri":"tex/plain_col.png"
+			"name":"lane_col",
+			"uri":"tex/lane_col.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":912,
+			"count":24,
 			"max":[
 				0.5,
-				0.03999999910593033,
+				0.019999999552965164,
 				1
 			],
 			"min":[
@@ -80,45 +80,45 @@
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":912,
+			"count":24,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":912,
+			"count":24,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":1452,
+			"count":36,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":10944,
+			"byteLength":288,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":10944,
-			"byteOffset":10944,
+			"byteLength":288,
+			"byteOffset":288,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":7296,
-			"byteOffset":21888,
+			"byteLength":192,
+			"byteOffset":576,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":2904,
-			"byteOffset":29184,
+			"byteLength":72,
+			"byteOffset":768,
 			"target":34963
 		}
 	],
@@ -130,8 +130,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":32088,
-			"uri":"wedge60.bin"
+			"byteLength":840,
+			"uri":"lane.bin"
 		}
 	]
 }

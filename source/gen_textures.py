@@ -206,7 +206,45 @@ def wood():
     write_png(os.path.join(OUT, "wood_col.png"), srgb(col))
 
 
+# ---------------------------------------------------------------- 門の色帯 / 床のレーン
+def gate():
+    """★どちらも Lua の scene:setColor が【乗算】で行き先の色を乗せる。
+    だから模様も境目もグラデーションも【明度だけ】で描く。色を持たせると行き先の色が濁る。
+
+    band … 開口に立つ縦板。3 枚並べたときに【境目が読める】ことが要件なので、
+           左右の縁に暗い線を入れる。帯は最小 0.5m まで細くなる(scale)ので、
+           線は UV の割合で置く = 細い帯でも同じ割合で残る。
+    lane … 床のレーン。先端(+Z 側 = 帯に接する側)が一番明るく、手前へ向かって暗くなる。
+           「ここから入る道」に見せるための唯一の手掛かり。
+    ★UV の縦は Blender -> glTF で反転する。lane は uv v=0(画像の【上】)が手前、
+      v=1(画像の【下】)が帯側。だから yy が大きいほど明るくする。"""
+    u = xx
+    edge = np.minimum(u, 1.0 - u)                    # 0=縁, 0.5=中央
+
+    # 縁: 芯の暗い線(片側 0.030) + その外の 0.10 までの緩い落ち込み。
+    # ★線だけだと帯が細いときに 1cm 未満になって消える。落ち込みが「溝」として残る。
+    core = np.clip(1.0 - edge / 0.030, 0, 1)         # 1 -> 0
+    soft = np.clip(1.0 - edge / 0.110, 0, 1)
+    seam = 1.0 - 0.62 * core - 0.20 * soft ** 2
+
+    grain = 1.0 - 0.020 * (fbm(8, 3, 0.5, 2207) - 0.5) + (rng.random((N, N)) - 0.5) * 0.006
+    brush = 1.0 - 0.022 * (0.5 + 0.5 * np.cos(yy * 2 * np.pi * 90))   # 縦板のヘアライン
+
+    band = np.clip(0.965 * seam * grain * brush, 0, 1)
+    # 足元と頭を少しだけ締める(板として自立して見える)
+    band = band * (1.0 - 0.28 * np.clip(1.0 - yy / 0.022, 0, 1)
+                       - 0.18 * np.clip(1.0 - (1.0 - yy) / 0.018, 0, 1))
+    write_png(os.path.join(OUT, "band_col.png"), srgb(np.repeat(band[..., None], 3, -1)))
+
+    # レーン: yy=1(帯側)で 1.0、yy=0(手前)で 0.30。手前ほど暗い = 淡く消えていく。
+    g = 0.30 + 0.70 * (yy ** 1.35)
+    # 帯に接する 3% は帯と同じ明るさで揃える(地続きに見せる継ぎ目)
+    g = np.maximum(g, np.clip((yy - 0.97) / 0.03, 0, 1) * 0.98)
+    lane = np.clip(0.965 * seam * g * grain, 0, 1)
+    write_png(os.path.join(OUT, "lane_col.png"), srgb(np.repeat(lane[..., None], 3, -1)))
+
+
 if __name__ == "__main__":
     wallpaper(); carpet(); ceiling(); paint(); metal(); concrete()
-    plain(); wood()
+    plain(); wood(); gate()
     print("done")

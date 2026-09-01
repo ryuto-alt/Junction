@@ -25,7 +25,9 @@ OUT = os.path.join(ROOT, "assets", "models")
 WALLT = 0.3     # 壁の厚み(gen_stages.py の WALLT)
 SPAN  = 12.3    # box12 の壁の全長 = 内寸 12 + WALLT
 WALLH = 4.0
-DOORW = 1.5
+DOORW = 2.0     # ★1.5 から拡張。開口を行き先の数だけ縦の帯に割るので、
+                #   4 出口でも帯が 0.5m 残る幅が要る(1.5 だと 0.375m でプレイヤー直径 0.7m に対し狭すぎた)。
+                #   ついでに「人が通る扉」でなく「門・ゲート」に見える。
 DOORH = 2.6
 WINW  = 6.0     # 窓の開口(第1面の「見えているのに行けない」)
 WINY0 = 1.0
@@ -174,6 +176,27 @@ class Build:
                       [(d * K, y0 * K), ((d + e) * K, y0 * K),
                        ((d + e) * K, y1 * K), (d * K, y1 * K)], m)
             d += e
+
+    def eface(self, pts, uvs, m):
+        """エンジン座標の点列で 1 面。★表裏は【エンジン座標のまま】考えてよい
+        (E() は回転なので、法線の向きから見て CCW に並べれば表になる)。
+        UV を自分で渡せるのが quad/box との違い = 帯とレーンの模様を 0..1 で貼るために要る。"""
+        self.face([E(*p) for p in pts], uvs, m)
+
+    def eslab(self, x0, x1, y0, y1, z0, z1, m, uvfn):
+        """エンジン軸並行の直方体を【6 面を自分で並べて】作る。box() と違い
+        面ごとに UV を決められる = 帯とレーンの模様を 0..1 で貼るために要る。
+        uvfn(面の名前, 4点) -> 4 つの UV。面の名前は "+z" のように軸と符号。"""
+        F = [
+            ("+z", [(x0, y0, z1), (x1, y0, z1), (x1, y1, z1), (x0, y1, z1)]),
+            ("-z", [(x0, y1, z0), (x1, y1, z0), (x1, y0, z0), (x0, y0, z0)]),
+            ("+x", [(x1, y0, z1), (x1, y0, z0), (x1, y1, z0), (x1, y1, z1)]),
+            ("-x", [(x0, y0, z0), (x0, y0, z1), (x0, y1, z1), (x0, y1, z0)]),
+            ("+y", [(x0, y1, z1), (x1, y1, z1), (x1, y1, z0), (x0, y1, z0)]),
+            ("-y", [(x0, y0, z0), (x1, y0, z0), (x1, y0, z1), (x0, y0, z1)]),
+        ]
+        for name, pts in F:
+            self.eface(pts, uvfn(name, pts), m)
 
     def etube(self, profile, m, axis="z", origin=(0, 0, 0), seg=14, k=None):
         """回転体。profile=[(軸方向の位置 t, 半径 r), ...]。r=0 の端は尖る(=円錐の先)。
@@ -398,40 +421,46 @@ def build_rooms():
             "jx_wall_%s_door" % tag, [M_WALL, M_PAINT]), "wall%s_door.gltf" % tag)
 
 
-# ---------------------------------------------------------------- 羅針(B)
-def build_compass():
-    """扇・針・ピン。★Lua が scene:setColor で【乗算】して色を乗せるので、
-    テクスチャは無地(plain_col)。模様を入れると行き先の色が濁る。
-    ★扇は半径 1.0 に正規化。Lua が transform.scale の xz を等倍で伸ばす。"""
+# ---------------------------------------------------------------- 門(GATE)
+def build_gate():
+    """開口の色帯と床のレーンとピン。
+    ★選択装置を「歩く向き(角度)」から「開口のどこを通ったか(場所)」へ変えた。
+      床の扇(wedge*)と入射角の針(needle)は【廃止】= 一人称では自分の向きが見えないので、
+      どれだけ丁寧に描いても「表示を読む作業」にしかならなかった。
+      代わりに、改札と同じ「どのゲートを通ったか」を物として置く。
+    ★Lua が scene:setColor で【乗算】して色を乗せるので、テクスチャは無彩色。
+      色を持たせると行き先の色が濁る。境目は【明度だけ】で描く。
+    ★帯もレーンも 幅 1.0 で作り、Lua が transform.scale で実寸(帯幅)へ伸ばす。"""
+    M_BAND = mat("jx_band", "band_col.png", 0.45)
+    M_LANE = mat("jx_lane", "lane_col.png", 0.70)
     M_PLAIN = mat("jx_plain", "plain_col.png", 0.55)
     M_METAL = mat("jx_metal", "metal_col.png", 0.45, 0.6)
 
-    RIM = 0.07      # 縁取りの幅(半径 1.0 のうち外側のこのぶん)
-    for deg in (120, 60, 40, 30):
-        a = math.radians(deg) / 2.0
-        n = max(12, int(deg / 2))                     # 2 度に 1 分割
-        # 原点(扇の要)から +Z を中心線に、左右 ±deg/2。エンジンの XZ 平面に寝かせる
-        ang = [-a + 2 * a * i / n for i in range(n + 1)]
-        arc = [(math.sin(t), math.cos(t)) for t in ang]
-        b = Build()
-        b.eprism([(0.0, 0.0)] + arc, 0.0, 0.02, 0)    # 板
-        # 外周の縁取り。★扇の【端がどこか】が床の上で読めないと、境界をまたいだ事が分からない。
-        #   帯を 1 枚の凹んだ n 角形で作ると三角形化が崩れるので、1 分割ずつの台形にする
-        for i in range(n):
-            p0, p1 = arc[i], arc[i + 1]
-            q0 = ((1 - RIM) * p0[0], (1 - RIM) * p0[1])
-            q1 = ((1 - RIM) * p1[0], (1 - RIM) * p1[1])
-            b.eprism([q0, p0, p1, q1], 0.004, 0.04, 0)
-        export(b.make("jx_wedge%d" % deg, [M_PLAIN]), "wedge%d.gltf" % deg)
-
-    # ---- 針(原点=支点。+Z を指す。長さ 1.0 / 幅 0.12 / 厚み 0.03) ----
-    # ★凹んだ形なので「軸 + 矢じり」の 2 個の凸多角形に割る(n 角形の三角形化を信用しない)
+    # ---- 色帯(原点=底面の中心。幅 1.0 / 高さ 1.0 / 厚み 0.06。板の面は ±Z) ----
+    # ★scale で 幅=帯幅・高さ=DOORH に伸ばされる。厚みは伸びない = 常に 0.06。
+    #   UV は面の 0..1 に貼るので、帯を細くしても【縁の暗い線は同じ割合で残る】。
+    T = 0.03
+    def uv_band(name, pts):
+        if name in ("+z", "-z"):                       # 表裏: u=幅方向, v=高さ
+            return [((p[0] + 0.5), 1.0 - p[1]) for p in pts]
+        return [(0.008, 1.0 - p[1]) for p in pts]      # 側面/上下は縁の色(暗い)で塗る
     b = Build()
-    hw, T = 0.06, 0.03
-    b.eprism([(-hw, 0.0), (hw, 0.0), (hw, 0.70), (-hw, 0.70)], 0.0, T, 0)
-    b.eprism([(-0.11, 0.66), (0.11, 0.66), (0.0, 1.0)], 0.0, T, 0)
-    b.etube([(0.0, 0.07), (0.035, 0.07)], 0, axis="y", seg=16)   # 支点のハブ
-    export(b.make("jx_needle", [M_PLAIN]), "needle.gltf")
+    b.eslab(-0.5, 0.5, 0.0, 1.0, -T, T, 0, uv_band)
+    export(b.make("jx_band", [M_BAND]), "band.gltf")
+
+    # ---- 床のレーン(原点=【手前端】の中心。幅 1.0 / 長さ 1.0 / 厚み 0.02。+Z へ伸びる) ----
+    # ★帯と地続きに見えることが全て。先端(+Z 側 = 帯に接する側)が一番明るく、
+    #   手前(原点側)へ向かって明度が落ちる。色は乗算で乗るので明度だけで作る。
+    LT = 0.02
+    def uv_lane(name, pts):
+        if name == "+y":                               # 上面: u=幅, v=長さ(0=手前, 1=帯側)
+            return [((p[0] + 0.5), 1.0 - p[2]) for p in pts]
+        if name in ("+x", "-x"):                       # 長辺の小口も長さで暗くする
+            return [(0.008, 1.0 - p[2]) for p in pts]
+        return [(0.008, 1.0 - p[2]) for p in pts]
+    b = Build()
+    b.eslab(-0.5, 0.5, 0.0, LT, 0.0, 1.0, 0, uv_lane)
+    export(b.make("jx_lane", [M_LANE]), "lane.gltf")
 
     # ---- 接続ピン(原点=針の先端。針は -Z 側へ、頭は +Z 側) ----
     # ★壁に刺した点が原点になる = Lua は刺さった座標にそのまま置ける。
@@ -442,20 +471,27 @@ def build_compass():
     export(b.make("jx_pin", [M_PLAIN, M_METAL]), "pin.gltf")
 
 
-# ---------------------------------------------------------------- 仕切り(D-2)
+# ---------------------------------------------------------------- 仕切り / 衝立
 def build_divider():
-    """腰高の仕切り。第2面で「左からか右からしか入れない」を【幾何で強制】する板。
-    原点=底面の中心。長さ方向は X、板の面は ±Z。"""
+    """腰高の板。原点=底面の中心。長さ方向は X、板の面は ±Z。
+    divider(4.0m) … 第2面の間仕切り。
+    blocker(1.2m) … ★ドアの【正面】を塞ぐ衝立。真っ直ぐ入れないので左右どちらかへ回る
+      = どの帯を通るかを必ず【選ぶ】ことになる。(4) までは仕切りがドアの中心線上に立っていて
+      「塞ぐべき中央を開け、開けるべき左右を塞ぐ」逆をやっていた。"""
     M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
     M_METAL = mat("jx_metal", "metal_col.png", 0.45, 0.6)
-    b = Build()
-    L, H, T = 4.0, 1.15, 0.14
-    b.ebox((0, (H - 0.07) / 2, 0), (L, H - 0.07, T), 0, 0.5)              # 板
-    b.ebox((0, H - 0.035, 0), (L, 0.07, 0.20), 1, 1.0)                    # 手すりの帯
-    for sx in (-1, +1):
-        b.ebox((sx * (L / 2 - 0.06), (H - 0.07) / 2, 0), (0.12, H - 0.07, T + 0.02), 1, 1.0)
-    b.ebox((0, 0.04, 0), (L, 0.08, T + 0.02), 1, 0.5)                     # 蹴込み
-    export(b.make("jx_divider", [M_PAINT, M_METAL]), "divider.gltf")
+
+    def plate(L, H=1.15, T=0.14):
+        b = Build()
+        b.ebox((0, (H - 0.07) / 2, 0), (L, H - 0.07, T), 0, 0.5)              # 板
+        b.ebox((0, H - 0.035, 0), (L, 0.07, 0.20), 1, 1.0)                    # 手すりの帯
+        for sx in (-1, +1):
+            b.ebox((sx * (L / 2 - 0.06), (H - 0.07) / 2, 0), (0.12, H - 0.07, T + 0.02), 1, 1.0)
+        b.ebox((0, 0.04, 0), (L, 0.08, T + 0.02), 1, 0.5)                     # 蹴込み
+        return b
+
+    export(plate(4.0).make("jx_divider", [M_PAINT, M_METAL]), "divider.gltf")
+    export(plate(1.2).make("jx_blocker", [M_PAINT, M_METAL]), "blocker.gltf")
 
 
 # ---------------------------------------------------------------- 什器(部屋の識別)
@@ -515,7 +551,7 @@ def build_props():
 
 build_all()
 build_rooms()
-build_compass()
+build_gate()
 build_divider()
 build_props()
 print("KIT ALL DONE")
