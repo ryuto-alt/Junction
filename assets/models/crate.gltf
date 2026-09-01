@@ -15,39 +15,39 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"jx_column"
+			"name":"jx_crate"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"jx_concrete",
-			"normalTexture":{
-				"index":0
-			},
+			"name":"jx_wood",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
-					"index":1
+					"index":0
 				},
 				"metallicFactor":0,
-				"roughnessFactor":0.8999999761581421
+				"roughnessFactor":0.800000011920929
 			}
 		},
 		{
 			"doubleSided":true,
-			"name":"jx_paint",
+			"name":"jx_concrete",
+			"normalTexture":{
+				"index":1
+			},
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":2
 				},
 				"metallicFactor":0,
-				"roughnessFactor":0.550000011920929
+				"roughnessFactor":0.8999999761581421
 			}
 		}
 	],
 	"meshes":[
 		{
-			"name":"jx_column",
+			"name":"jx_crate",
 			"primitives":[
 				{
 					"attributes":{
@@ -64,7 +64,7 @@
 						"NORMAL":5,
 						"TEXCOORD_0":6
 					},
-					"indices":3,
+					"indices":7,
 					"material":1
 				}
 			]
@@ -87,6 +87,11 @@
 	"images":[
 		{
 			"mimeType":"image/png",
+			"name":"wood_col",
+			"uri":"tex/wood_col.png"
+		},
+		{
+			"mimeType":"image/png",
 			"name":"concrete_nrm",
 			"uri":"tex/concrete_nrm.png"
 		},
@@ -94,11 +99,6 @@
 			"mimeType":"image/png",
 			"name":"concrete_col",
 			"uri":"tex/concrete_col.png"
-		},
-		{
-			"mimeType":"image/png",
-			"name":"paint_col",
-			"uri":"tex/paint_col.png"
 		}
 	],
 	"accessors":[
@@ -107,14 +107,14 @@
 			"componentType":5126,
 			"count":24,
 			"max":[
-				0.3100000023841858,
-				4,
-				0.3100000023841858
+				0.38999998569488525,
+				0.699999988079071,
+				0.38999998569488525
 			],
 			"min":[
-				-0.3100000023841858,
+				-0.38999998569488525,
 				0,
-				-0.3100000023841858
+				-0.38999998569488525
 			],
 			"type":"VEC3"
 		},
@@ -139,30 +139,36 @@
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":24,
+			"count":144,
 			"max":[
-				0.36000001430511475,
-				0.18000000715255737,
-				0.36000001430511475
+				0.42500001192092896,
+				0.699999988079071,
+				0.42500001192092896
 			],
 			"min":[
-				-0.36000001430511475,
+				-0.42500001192092896,
 				0,
-				-0.36000001430511475
+				-0.42500001192092896
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":5,
 			"componentType":5126,
-			"count":24,
+			"count":144,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":6,
 			"componentType":5126,
-			"count":24,
+			"count":144,
 			"type":"VEC2"
+		},
+		{
+			"bufferView":7,
+			"componentType":5123,
+			"count":216,
+			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
@@ -192,21 +198,27 @@
 		},
 		{
 			"buffer":0,
-			"byteLength":288,
+			"byteLength":1728,
 			"byteOffset":840,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":288,
-			"byteOffset":1128,
+			"byteLength":1728,
+			"byteOffset":2568,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":192,
-			"byteOffset":1416,
+			"byteLength":1152,
+			"byteOffset":4296,
 			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":432,
+			"byteOffset":5448,
+			"target":34963
 		}
 	],
 	"samplers":[
@@ -217,8 +229,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":1608,
-			"uri":"column.bin"
+			"byteLength":5880,
+			"uri":"crate.bin"
 		}
 	]
 }

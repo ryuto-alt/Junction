@@ -15,25 +15,28 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"jx_vent"
+			"name":"jx_floor_8"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"jx_metal",
+			"name":"jx_carpet",
+			"normalTexture":{
+				"index":0
+			},
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
-					"index":0
+					"index":1
 				},
-				"metallicFactor":0.6000000238418579,
-				"roughnessFactor":0.44999998807907104
+				"metallicFactor":0,
+				"roughnessFactor":0.949999988079071
 			}
 		}
 	],
 	"meshes":[
 		{
-			"name":"jx_vent",
+			"name":"jx_floor_8",
 			"primitives":[
 				{
 					"attributes":{
@@ -51,74 +54,83 @@
 		{
 			"sampler":0,
 			"source":0
+		},
+		{
+			"sampler":0,
+			"source":1
 		}
 	],
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"metal_col",
-			"uri":"tex/metal_col.png"
+			"name":"carpet_nrm",
+			"uri":"tex/carpet_nrm.png"
+		},
+		{
+			"mimeType":"image/png",
+			"name":"carpet_col",
+			"uri":"tex/carpet_col.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":144,
+			"count":4,
 			"max":[
-				0.3100000023841858,
-				0.18000000715255737,
-				0.05999999865889549
+				4.150000095367432,
+				0,
+				4.150000095367432
 			],
 			"min":[
-				-0.3100000023841858,
-				-0.18000000715255737,
-				0
+				-4.150000095367432,
+				0,
+				-4.150000095367432
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":144,
+			"count":4,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":144,
+			"count":4,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":216,
+			"count":6,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":1728,
+			"byteLength":48,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1728,
-			"byteOffset":1728,
+			"byteLength":48,
+			"byteOffset":48,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1152,
-			"byteOffset":3456,
+			"byteLength":32,
+			"byteOffset":96,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":432,
-			"byteOffset":4608,
+			"byteLength":12,
+			"byteOffset":128,
 			"target":34963
 		}
 	],
@@ -130,8 +142,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":5040,
-			"uri":"vent.bin"
+			"byteLength":140,
+			"uri":"floor8.bin"
 		}
 	]
 }

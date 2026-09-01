@@ -15,25 +15,25 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"jx_vent"
+			"name":"jx_needle"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"jx_metal",
+			"name":"jx_plain",
 			"pbrMetallicRoughness":{
 				"baseColorTexture":{
 					"index":0
 				},
-				"metallicFactor":0.6000000238418579,
-				"roughnessFactor":0.44999998807907104
+				"metallicFactor":0,
+				"roughnessFactor":0.550000011920929
 			}
 		}
 	],
 	"meshes":[
 		{
-			"name":"jx_vent",
+			"name":"jx_needle",
 			"primitives":[
 				{
 					"attributes":{
@@ -56,69 +56,69 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"metal_col",
-			"uri":"tex/metal_col.png"
+			"name":"plain_col",
+			"uri":"tex/plain_col.png"
 		}
 	],
 	"accessors":[
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":144,
+			"count":138,
 			"max":[
-				0.3100000023841858,
-				0.18000000715255737,
-				0.05999999865889549
+				0.10999999940395355,
+				0.03500000014901161,
+				1
 			],
 			"min":[
-				-0.3100000023841858,
-				-0.18000000715255737,
-				0
+				-0.10999999940395355,
+				0,
+				-0.07000000029802322
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":144,
+			"count":138,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":144,
+			"count":138,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":216,
+			"count":240,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":1728,
+			"byteLength":1656,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1728,
-			"byteOffset":1728,
+			"byteLength":1656,
+			"byteOffset":1656,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1152,
-			"byteOffset":3456,
+			"byteLength":1104,
+			"byteOffset":3312,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":432,
-			"byteOffset":4608,
+			"byteLength":480,
+			"byteOffset":4416,
 			"target":34963
 		}
 	],
@@ -130,8 +130,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":5040,
-			"uri":"vent.bin"
+			"byteLength":4896,
+			"uri":"needle.bin"
 		}
 	]
 }

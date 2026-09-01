@@ -15,13 +15,13 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"jx_column"
+			"name":"jx_wall_20_door"
 		}
 	],
 	"materials":[
 		{
 			"doubleSided":true,
-			"name":"jx_concrete",
+			"name":"jx_wall",
 			"normalTexture":{
 				"index":0
 			},
@@ -30,7 +30,7 @@
 					"index":1
 				},
 				"metallicFactor":0,
-				"roughnessFactor":0.8999999761581421
+				"roughnessFactor":0.8799999952316284
 			}
 		},
 		{
@@ -47,7 +47,7 @@
 	],
 	"meshes":[
 		{
-			"name":"jx_column",
+			"name":"jx_wall_20_door",
 			"primitives":[
 				{
 					"attributes":{
@@ -64,7 +64,7 @@
 						"NORMAL":5,
 						"TEXCOORD_0":6
 					},
-					"indices":3,
+					"indices":7,
 					"material":1
 				}
 			]
@@ -87,13 +87,13 @@
 	"images":[
 		{
 			"mimeType":"image/png",
-			"name":"concrete_nrm",
-			"uri":"tex/concrete_nrm.png"
+			"name":"wall_nrm",
+			"uri":"tex/wall_nrm.png"
 		},
 		{
 			"mimeType":"image/png",
-			"name":"concrete_col",
-			"uri":"tex/concrete_col.png"
+			"name":"wall_col",
+			"uri":"tex/wall_col.png"
 		},
 		{
 			"mimeType":"image/png",
@@ -105,108 +105,120 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":24,
+			"count":12,
 			"max":[
-				0.3100000023841858,
-				4,
-				0.3100000023841858
+				10.149999618530273,
+				7,
+				0
 			],
 			"min":[
-				-0.3100000023841858,
+				-10.149999618530273,
 				0,
-				-0.3100000023841858
+				0
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":24,
+			"count":12,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":24,
+			"count":12,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":36,
+			"count":18,
 			"type":"SCALAR"
 		},
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":24,
+			"count":120,
 			"max":[
-				0.36000001430511475,
-				0.18000000715255737,
-				0.36000001430511475
+				10.149999618530273,
+				2.7300000190734863,
+				0.04500000178813934
 			],
 			"min":[
-				-0.36000001430511475,
+				-10.149999618530273,
 				0,
-				-0.36000001430511475
+				-0.004999999888241291
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":5,
 			"componentType":5126,
-			"count":24,
+			"count":120,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":6,
 			"componentType":5126,
-			"count":24,
+			"count":120,
 			"type":"VEC2"
+		},
+		{
+			"bufferView":7,
+			"componentType":5123,
+			"count":180,
+			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":288,
+			"byteLength":144,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":288,
+			"byteLength":144,
+			"byteOffset":144,
+			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":96,
 			"byteOffset":288,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":192,
-			"byteOffset":576,
-			"target":34962
-		},
-		{
-			"buffer":0,
-			"byteLength":72,
-			"byteOffset":768,
+			"byteLength":36,
+			"byteOffset":384,
 			"target":34963
 		},
 		{
 			"buffer":0,
-			"byteLength":288,
-			"byteOffset":840,
+			"byteLength":1440,
+			"byteOffset":420,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":288,
-			"byteOffset":1128,
+			"byteLength":1440,
+			"byteOffset":1860,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":192,
-			"byteOffset":1416,
+			"byteLength":960,
+			"byteOffset":3300,
 			"target":34962
+		},
+		{
+			"buffer":0,
+			"byteLength":360,
+			"byteOffset":4260,
+			"target":34963
 		}
 	],
 	"samplers":[
@@ -217,8 +229,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":1608,
-			"uri":"column.bin"
+			"byteLength":4620,
+			"uri":"wall20_door.bin"
 		}
 	]
 }

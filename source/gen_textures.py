@@ -7,8 +7,8 @@
 ★全部タイル可能(周期ノイズ)。UV は Blender 側で 2m = 1タイル に切ってある。
   1024px / 2m = 512 texel/m。
 
-★numpy は Blender 同梱の python にしか無い。実行:
-  "C:/Program Files/Blender Foundation/Blender 5.1/5.1/python/bin/python.exe" gen_textures.py
+★numpy は Blender 同梱の python にしか無い。実行(Blender のバージョンは環境で読み替える):
+  "C:/Program Files/Blender Foundation/Blender 5.2/5.2/python/bin/python.exe" gen_textures.py
 """
 import os, zlib, struct
 import numpy as np
@@ -181,6 +181,32 @@ def concrete():
     write_png(os.path.join(OUT, "concrete_nrm.png"), normal_from_height(h, 0.8))
 
 
+# ---------------------------------------------------------------- 無地(羅針・ピン)
+def plain():
+    """★羅針の扇/針とピンの頭に貼る無地。色は Lua の scene:setColor が【乗算】で乗せるので、
+    模様を入れると色が濁って「どのスライスが行き先か」が読めなくなる。
+    ほぼ白のまま、のっぺり見えない程度の粒だけ残す。"""
+    v = 0.955 - 0.012 * (fbm(8, 3, 0.5, 1301) - 0.5) + (rng.random((N, N)) - 0.5) * 0.006
+    write_png(os.path.join(OUT, "plain_col.png"), srgb(np.repeat(v[..., None], 3, -1)))
+
+
+# ---------------------------------------------------------------- 木(木箱)
+def wood():
+    """木箱の板。部屋の識別に効くのは「他と material が違う」ことなので、
+    内装(壁紙/絨毯/金属/コンクリ)のどれとも似ていない暖色を持たせる。"""
+    base = np.array([0.365, 0.230, 0.120])
+    # 2m に 5 枚の板。板ごとに明度をずらす
+    plank = np.floor(yy * 5.0)
+    shift = (np.sin(plank * 12.9898) * 43758.5453) % 1.0
+    grain = fbm(3, 5, 0.55, 71) * 0.5 + 0.5 * np.sin((xx * 26.0 + fbm(4, 3, 0.5, 73) * 7.0) * np.pi)
+    gap = np.clip(1.0 - np.abs(((yy * 5.0) % 1.0) - 0.0) * 60.0, 0, 1)   # 板の継ぎ目
+    v = 1.0 + 0.22 * (shift - 0.5) + 0.16 * (grain - 0.5)
+    v = v * (1.0 - 0.55 * gap)
+    col = base[None, None, :] * v[..., None] + (rng.random((N, N, 1)) - 0.5) * 0.010
+    write_png(os.path.join(OUT, "wood_col.png"), srgb(col))
+
+
 if __name__ == "__main__":
     wallpaper(); carpet(); ceiling(); paint(); metal(); concrete()
+    plain(); wood()
     print("done")

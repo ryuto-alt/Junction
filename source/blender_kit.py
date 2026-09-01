@@ -11,17 +11,58 @@ BlenderMCP の execute_blender_code から
 ★エクスポータは use_selection=False だと .blend の【全シーン】を書き出す。
   毎回 全部 deselect → 対象だけ select → use_selection=True。
 """
-import bpy, os, math
+import bpy, os, math, shutil, tempfile
 
-HERE = os.path.dirname(bpy.path.abspath("//")) if False else None
-ROOT = r"C:\Users\GSuser\Documents\10days\Junction"
+# ★リポジトリの場所は機械によって違う。exec で叩くので __file__ が無い =
+#   実在する方を選ぶ。JX_ROOT をグローバルに入れてから exec すれば上書きできる。
+ROOT = globals().get("JX_ROOT") or next(
+    p for p in (r"C:\Users\ryuto\Documents\dev\game\Junction",
+                r"C:\Users\GSuser\Documents\10days\Junction") if os.path.isdir(p))
 TEX = os.path.join(ROOT, "assets", "models", "tex")
 OUT = os.path.join(ROOT, "assets", "models")
 
-SPAN  = 12.3    # 壁の全長 = HALF*2 + WALLT
+# ---- 寸法。gen_stages.py と【必ず一致】させる。★変えるな、増やせ ----
+WALLT = 0.3     # 壁の厚み(gen_stages.py の WALLT)
+SPAN  = 12.3    # box12 の壁の全長 = 内寸 12 + WALLT
 WALLH = 4.0
 DOORW = 1.5
 DOORH = 2.6
+WINW  = 6.0     # 窓の開口(第1面の「見えているのに行けない」)
+WINY0 = 1.0
+WINY1 = 3.0
+
+# 部屋の形。SPAN は「内寸 + WALLT」= 隣の壁と角で噛み合う長さ。
+#   (内寸X, 内寸Z, 天井高)。box12 は既存の floor/ceiling/wall/wall_door がこれ。
+FOOTPRINTS = {
+    "box12":  (12.0, 12.0, 4.0),
+    "hall20": (20.0, 20.0, 7.0),
+    "corr18": (18.0,  8.0, 3.2),
+    "cell8":  ( 8.0,  8.0, 3.0),
+}
+
+
+def E(x, y, z):
+    """エンジン座標(x=右, y=上, z=前) -> Blender 座標。
+    エクスポータの export_yup がちょうどこの逆(blender x,y,z -> gltf x,z,-y)をやるので、
+    ここを通して置いた物は【エンジンで見た通りの向き】で出る。
+    ★新しい部品はこれを使って「エンジンの座標で」考えること。壁/床の既存コードだけは
+      昔ながらの生 Blender 座標(法線 -Y)のまま。"""
+    return (x, -z, y)
+
+def tex_mirror():
+    """★エクスポータは export_texture_dir へ画像を【コピー】する。読み込み元が
+    そのコピー先そのものだと「自分を自分に上書き」になり、Blender 5.2 は
+    OSError [Errno 22] で落ちる(5.1 は素通りしていた)。
+    だから画像は tex/ のミラーから読む。書き出される tex/*.png は中身が同じ。"""
+    d = os.path.join(tempfile.gettempdir(), "jx_tex_src")
+    if os.path.isdir(d):
+        shutil.rmtree(d)
+    shutil.copytree(TEX, d)
+    return d
+
+
+TEXSRC = tex_mirror()
+
 
 # ---------------------------------------------------------------- マテリアル
 def mat(name, tex, rough=0.85, metal=0.0, nrm=None):
@@ -37,12 +78,12 @@ def mat(name, tex, rough=0.85, metal=0.0, nrm=None):
     bsdf.inputs["Metallic"].default_value = metal
     if tex:
         t = nt.nodes.new("ShaderNodeTexImage")
-        t.image = bpy.data.images.load(os.path.join(TEX, tex), check_existing=True)
+        t.image = bpy.data.images.load(os.path.join(TEXSRC, tex), check_existing=True)
         t.location = (-600, 300)
         nt.links.new(t.outputs["Color"], bsdf.inputs["Base Color"])
     if nrm:
         t2 = nt.nodes.new("ShaderNodeTexImage")
-        t2.image = bpy.data.images.load(os.path.join(TEX, nrm), check_existing=True)
+        t2.image = bpy.data.images.load(os.path.join(TEXSRC, nrm), check_existing=True)
         t2.image.colorspace_settings.name = 'Non-Color'
         t2.location = (-600, -200)
         nm = nt.nodes.new("ShaderNodeNormalMap")
@@ -60,12 +101,16 @@ class Build:
     def __init__(self):
         self.v, self.f, self.uv, self.mi = [], [], [], []
 
-    def quad(self, p0, p1, p2, p3, uvs, m):
+    def face(self, pts, uvs, m):
+        """n 角形。CCW で並べた側が表(法線)。"""
         n = len(self.v)
-        self.v += [p0, p1, p2, p3]
-        self.f.append((n, n + 1, n + 2, n + 3))
-        self.uv.append(uvs)
+        self.v += list(pts)
+        self.f.append(tuple(range(n, n + len(pts))))
+        self.uv.append(list(uvs))
         self.mi.append(m)
+
+    def quad(self, p0, p1, p2, p3, uvs, m):
+        self.face([p0, p1, p2, p3], uvs, m)
 
     def wallquad(self, x0, x1, z0, z1, m, y=0.0):
         """XZ 平面・法線 -Y(= エンジンの +Z)。UV は x,z から。"""
@@ -101,10 +146,79 @@ class Build:
             self.quad(pts[0], pts[1], pts[2], pts[3],
                       [(p[a] * K, p[b] * K) for p in pts], m)
 
+    # ------------------------------------------------ エンジン座標で置く版
+    def ebox(self, c, s, m, k=None):
+        """エンジン座標の軸並行な箱。中心 c=(x,y,z)・全長 s=(x,y,z)。"""
+        self.box(E(*c), (s[0], s[2], s[1]), m, k)
+
+    def eprism(self, pts, y0, y1, m, k=None):
+        """エンジンの床平面(XZ)の多角形 pts=[(x,z),...] を、高さ y0..y1 に押し出す。
+        ★向きは自動で揃える(上面の法線が必ずエンジン +Y)。凸多角形で渡すこと
+          (凹んだ n 角形は三角形化で崩れることがある。針は 2 個に割ってある)。"""
+        K = k if k is not None else self.K
+        P = [(x, -z) for (x, z) in pts]                 # エンジン XZ -> Blender XY
+        n = len(P)
+        area = sum(P[i][0] * P[(i + 1) % n][1] - P[(i + 1) % n][0] * P[i][1] for i in range(n))
+        if area < 0:
+            P = P[::-1]                                  # Blender XY で CCW = 上面が +Y
+        top = [(x, y, y1) for (x, y) in P]
+        bot = [(x, y, y0) for (x, y) in P]
+        uv = [(x * K, y * K) for (x, y) in P]
+        self.face(top, uv, m)
+        self.face(bot[::-1], uv[::-1], m)
+        d = 0.0
+        for i in range(n):
+            j = (i + 1) % n
+            e = math.hypot(P[j][0] - P[i][0], P[j][1] - P[i][1])
+            self.face([bot[i], bot[j], top[j], top[i]],
+                      [(d * K, y0 * K), ((d + e) * K, y0 * K),
+                       ((d + e) * K, y1 * K), (d * K, y1 * K)], m)
+            d += e
+
+    def etube(self, profile, m, axis="z", origin=(0, 0, 0), seg=14, k=None):
+        """回転体。profile=[(軸方向の位置 t, 半径 r), ...]。r=0 の端は尖る(=円錐の先)。
+        axis はエンジンの軸。ピン(z)・配管(x)・手すりの柱(y) に使う。"""
+        K = k if k is not None else self.K
+        def pt(t, r, a):
+            c, s = r * math.cos(a), r * math.sin(a)
+            # ★角度の回り方は右手系のまま(軸の正の側から見て CCW)。ここを崩すと裏返る
+            w = {"x": (t, c, s), "y": (s, t, c), "z": (c, s, t)}[axis]
+            return E(w[0] + origin[0], w[1] + origin[1], w[2] + origin[2])
+        A = [2 * math.pi * i / seg for i in range(seg)]
+        for q in range(len(profile) - 1):
+            (t0, r0), (t1, r1) = profile[q], profile[q + 1]
+            for i in range(seg):
+                a0, a1 = A[i], A[(i + 1) % seg]
+                u0, u1 = i / seg, (i + 1) / seg
+                if r0 <= 1e-6:                            # 先端(三角形)
+                    self.face([pt(t0, 0.0, a0), pt(t1, r1, a0), pt(t1, r1, a1)],
+                              [(u0, t0), (u0, t1), (u1, t1)], m)
+                elif r1 <= 1e-6:
+                    self.face([pt(t0, r0, a0), pt(t0, r0, a1), pt(t1, 0.0, a1)],
+                              [(u0, t0), (u1, t0), (u1, t1)], m)
+                else:
+                    self.face([pt(t0, r0, a0), pt(t0, r0, a1), pt(t1, r1, a1), pt(t1, r1, a0)],
+                              [(u0, t0 * K), (u1, t0 * K), (u1, t1 * K), (u0, t1 * K)], m)
+        # 端の蓋(半径が残っている側だけ)
+        for (t, r), rev in ((profile[0], True), (profile[-1], False)):
+            if r <= 1e-6:
+                continue
+            ring = [pt(t, r, a) for a in A]
+            uv = [(0.5 + 0.5 * math.cos(a), 0.5 + 0.5 * math.sin(a)) for a in A]
+            if rev:
+                ring = ring[::-1]; uv = uv[::-1]
+            self.face(ring, uv, m)
+
     def make(self, name, mats):
+        # ★同名のオブジェクトだけでなく【メッシュ datablock も】消す。
+        #   残っていると Blender が jx_wall.001 → .002 と名前をずらし、
+        #   出力の gltf に毎回 意味の無い差分が出る(何も変えていないのに diff が出る)。
         for o in list(bpy.data.objects):
             if o.name == name:
                 bpy.data.objects.remove(o, do_unlink=True)
+        for old in list(bpy.data.meshes):
+            if old.name == name or old.name.startswith(name + "."):
+                bpy.data.meshes.remove(old, do_unlink=True)
         me = bpy.data.meshes.new(name)
         me.from_pydata(self.v, [], self.f)
         me.update()
@@ -122,16 +236,67 @@ class Build:
 
 
 def export(ob, fname):
+    """★書き出しは【一旦 temp へ】。エクスポータは export_texture_dir に PNG を
+    自前で【再エンコードして上書き】するので、assets/models へ直接書くと
+    gen_textures.py が描いた tex/*.png が Blender の再圧縮版に化ける
+    (ノーマルマップが Non-Color のまま焼き直されるので実害がある)。
+    欲しいのは .gltf と .bin だけ。uri は "tex/xxx.png" の相対なのでそのまま通る。"""
     for sc in bpy.data.scenes:
         for o in sc.objects:
             o.select_set(False)
     ob.select_set(True)
     bpy.context.view_layer.objects.active = ob
-    p = os.path.join(OUT, fname)
-    bpy.ops.export_scene.gltf(filepath=p, export_format='GLTF_SEPARATE',
+    tmp = os.path.join(tempfile.gettempdir(), "jx_export")
+    if os.path.isdir(tmp):
+        shutil.rmtree(tmp)
+    os.makedirs(tmp)
+    bpy.ops.export_scene.gltf(filepath=os.path.join(tmp, fname),
+                              export_format='GLTF_SEPARATE',
                               use_selection=True, export_texture_dir='tex',
                               export_yup=True, export_apply=True)
-    print("exported", p)
+    for ext in (".gltf", ".bin"):
+        src = os.path.join(tmp, fname[:-5] + ext)
+        if os.path.exists(src):
+            shutil.copyfile(src, os.path.join(OUT, fname[:-5] + ext))
+    print("exported", os.path.join(OUT, fname))
+
+
+# ---------------------------------------------------------------- 壁(寸法パラメータ化)
+def baseboard(b, x0, x1):
+    b.box(((x0 + x1) / 2, -0.02, 0.07), (x1 - x0, 0.05, 0.14), 1, 0.5)
+
+
+def wall_mesh(L, H, op=None):
+    """壁 1 枚。★原点は【壁の中央・床の高さ】、法線 -Y(= エンジン +Z = 部屋の内側)。
+    L は壁の全長 = 部屋の内寸 + WALLT(角で隣の壁と噛み合うぶん)。
+    op=(開口の幅, 下端, 上端)。None なら無開口。
+    ★この規約は gen_stages.py が全部の壁を同じ式で置く前提。長さと高さ以外は変えないこと。"""
+    b = Build()
+    h = L / 2
+    if op is None:
+        b.wallquad(-h, h, 0.0, H, 0)
+        baseboard(b, -h, h)
+        return b
+    w, y0, y1 = op
+    d = w / 2
+    b.wallquad(-h, -d, 0.0, H, 0)               # 左
+    b.wallquad(d, h, 0.0, H, 0)                 # 右
+    if y1 < H - 1e-6:
+        b.wallquad(-d, d, y1, H, 0)             # まぐさ
+    if y0 > 1e-6:
+        b.wallquad(-d, d, 0.0, y0, 0)           # 腰壁(窓の下)
+    baseboard(b, -h, -d); baseboard(b, d, h)
+    if y0 > 1e-6:
+        baseboard(b, -d, d)
+    cw, cd = 0.13, 0.045                        # ケーシングの幅/出っ張り
+    pz0 = y0 - cw if y0 > 1e-6 else 0.0         # 縦枠は開口の上下に cw ぶん回り込む
+    pz1 = y1 + cw
+    for s in (-1, +1):
+        b.box((s * (d + cw / 2), -cd / 2, (pz0 + pz1) / 2), (cw, cd, pz1 - pz0), 1, 0.5)
+    b.box((0.0, -cd / 2, y1 + cw / 2), (w, cd, cw), 1, 0.5)         # 上枠
+    if y0 > 1e-6:
+        b.box((0.0, -cd / 2, y0 - cw / 2), (w, cd, cw), 1, 0.5)     # 下枠(窓台)
+    return b
 
 
 # ---------------------------------------------------------------- 部品
@@ -156,26 +321,17 @@ def build_all():
     export(b.make("jx_ceiling", [M_CEIL]), "ceiling.gltf")
 
     # ---- 壁(原点=壁の中央・床の高さ。法線 -Y = エンジン +Z) ----
-    def baseboard(b, x0, x1):
-        b.box(((x0 + x1) / 2, -0.02, 0.07), (x1 - x0, 0.05, 0.14), 1, 0.5)
-
-    b = Build()
-    b.wallquad(-H, H, 0.0, WALLH, 0)
-    baseboard(b, -H, H)
-    export(b.make("jx_wall", [M_WALL, M_PAINT]), "wall.gltf")
+    export(wall_mesh(SPAN, WALLH).make("jx_wall", [M_WALL, M_PAINT]), "wall.gltf")
 
     # ---- 開口付きの壁 + ケーシング(枠の飾り) ----
-    b = Build()
-    dw = DOORW / 2
-    b.wallquad(-H, -dw, 0.0, WALLH, 0)          # 左
-    b.wallquad(dw, H, 0.0, WALLH, 0)            # 右
-    b.wallquad(-dw, dw, DOORH, WALLH, 0)        # まぐさ
-    baseboard(b, -H, -dw); baseboard(b, dw, H)
-    cw, cd = 0.13, 0.045                        # ケーシングの幅/出っ張り
-    b.box((-dw - cw / 2, -cd / 2, (DOORH + cw) / 2), (cw, cd, DOORH + cw), 1, 0.5)
-    b.box((dw + cw / 2, -cd / 2, (DOORH + cw) / 2), (cw, cd, DOORH + cw), 1, 0.5)
-    b.box((0.0, -cd / 2, DOORH + cw / 2), (DOORW, cd, cw), 1, 0.5)
-    export(b.make("jx_wall_door", [M_WALL, M_PAINT]), "wall_door.gltf")
+    export(wall_mesh(SPAN, WALLH, (DOORW, 0.0, DOORH)).make(
+        "jx_wall_door", [M_WALL, M_PAINT]), "wall_door.gltf")
+
+    # ---- 窓付きの壁(第1面。出口の部屋が【見えているのに歩いては行けない】) ----
+    # ★腰高 1.0m が残るので通り抜けられない = ガラスを入れずに済む(半透明描画を回避)。
+    #   「見た目の先」と「繋いだ先」が違う、というこのゲームの核を無言で渡す装置。
+    export(wall_mesh(SPAN, WALLH, (WINW, WINY0, WINY1)).make(
+        "jx_wall_window", [M_WALL, M_PAINT]), "wall_window.gltf")
 
     # ---- 埋め込み照明(原点=天井面。下へ 0.09 出る) ----
     b = Build()
@@ -209,4 +365,157 @@ def build_all():
     print("KIT DONE")
 
 
+# ---------------------------------------------------------------- 部屋の形(D-1)
+def build_rooms():
+    """box12 以外のフットプリント。★同じ 12m 角の箱が 8 面続くと「新しい事を足しても
+    画面が同じなので新しく見えない」= 今回の最大の指摘。形そのものを変える。
+    壁は【長さと天井高だけ】が違う。原点・向き・開口の位置は box12 と完全に同じ規約。"""
+    M_WALL = mat("jx_wall", "wall_col.png", 0.88, 0.0, "wall_nrm.png")
+    M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
+    M_CARPET = mat("jx_carpet", "carpet_col.png", 0.95, 0.0, "carpet_nrm.png")
+    M_CEIL = mat("jx_ceiling", "ceiling_col.png", 0.92)
+
+    def slab(sx, sz, name, fn, down):
+        b = Build()
+        b.floorquad(-sx / 2, sx / 2, -sz / 2, sz / 2, 0.0, 0, down=down)
+        export(b.make(name, [M_CEIL if down else M_CARPET]), fn)
+
+    # 床/天井。原点は部屋の中心(床は床面、天井は天井面)。スパン = 内寸 + WALLT
+    for tag, fx, fz in (("20", 20.0, 20.0), ("18x8", 18.0, 8.0), ("8", 8.0, 8.0)):
+        sx, sz = fx + WALLT, fz + WALLT
+        slab(sx, sz, "jx_floor_" + tag, "floor%s.gltf" % tag, False)
+        slab(sx, sz, "jx_ceil_" + tag, "ceiling%s.gltf" % tag, True)
+
+    # 壁。(ファイル接頭辞, 全長, 天井高)
+    #   ★wall8 は corr18(3.2) の高さで出し、cell8(3.0) にも流用する。
+    #     0.2m ぶん天井より上に伸びるが、天井モデルが蓋をするので中からは見えない。
+    for tag, L, H in (("20", 20.0 + WALLT, 7.0),
+                      ("18", 18.0 + WALLT, 3.2),
+                      ("8", 8.0 + WALLT, 3.2)):
+        export(wall_mesh(L, H).make("jx_wall_" + tag, [M_WALL, M_PAINT]),
+               "wall%s.gltf" % tag)
+        export(wall_mesh(L, H, (DOORW, 0.0, DOORH)).make(
+            "jx_wall_%s_door" % tag, [M_WALL, M_PAINT]), "wall%s_door.gltf" % tag)
+
+
+# ---------------------------------------------------------------- 羅針(B)
+def build_compass():
+    """扇・針・ピン。★Lua が scene:setColor で【乗算】して色を乗せるので、
+    テクスチャは無地(plain_col)。模様を入れると行き先の色が濁る。
+    ★扇は半径 1.0 に正規化。Lua が transform.scale の xz を等倍で伸ばす。"""
+    M_PLAIN = mat("jx_plain", "plain_col.png", 0.55)
+    M_METAL = mat("jx_metal", "metal_col.png", 0.45, 0.6)
+
+    RIM = 0.07      # 縁取りの幅(半径 1.0 のうち外側のこのぶん)
+    for deg in (120, 60, 40, 30):
+        a = math.radians(deg) / 2.0
+        n = max(12, int(deg / 2))                     # 2 度に 1 分割
+        # 原点(扇の要)から +Z を中心線に、左右 ±deg/2。エンジンの XZ 平面に寝かせる
+        ang = [-a + 2 * a * i / n for i in range(n + 1)]
+        arc = [(math.sin(t), math.cos(t)) for t in ang]
+        b = Build()
+        b.eprism([(0.0, 0.0)] + arc, 0.0, 0.02, 0)    # 板
+        # 外周の縁取り。★扇の【端がどこか】が床の上で読めないと、境界をまたいだ事が分からない。
+        #   帯を 1 枚の凹んだ n 角形で作ると三角形化が崩れるので、1 分割ずつの台形にする
+        for i in range(n):
+            p0, p1 = arc[i], arc[i + 1]
+            q0 = ((1 - RIM) * p0[0], (1 - RIM) * p0[1])
+            q1 = ((1 - RIM) * p1[0], (1 - RIM) * p1[1])
+            b.eprism([q0, p0, p1, q1], 0.004, 0.04, 0)
+        export(b.make("jx_wedge%d" % deg, [M_PLAIN]), "wedge%d.gltf" % deg)
+
+    # ---- 針(原点=支点。+Z を指す。長さ 1.0 / 幅 0.12 / 厚み 0.03) ----
+    # ★凹んだ形なので「軸 + 矢じり」の 2 個の凸多角形に割る(n 角形の三角形化を信用しない)
+    b = Build()
+    hw, T = 0.06, 0.03
+    b.eprism([(-hw, 0.0), (hw, 0.0), (hw, 0.70), (-hw, 0.70)], 0.0, T, 0)
+    b.eprism([(-0.11, 0.66), (0.11, 0.66), (0.0, 1.0)], 0.0, T, 0)
+    b.etube([(0.0, 0.07), (0.035, 0.07)], 0, axis="y", seg=16)   # 支点のハブ
+    export(b.make("jx_needle", [M_PLAIN]), "needle.gltf")
+
+    # ---- 接続ピン(原点=針の先端。針は -Z 側へ、頭は +Z 側) ----
+    # ★壁に刺した点が原点になる = Lua は刺さった座標にそのまま置ける。
+    #   ドアの forward(部屋の内側)を向けて置くと、頭が部屋側に出る。
+    b = Build()
+    b.etube([(0.0, 0.0), (0.020, 0.006), (0.120, 0.010), (0.156, 0.010)], 1, seg=12)  # 針
+    b.etube([(0.150, 0.014), (0.158, 0.046), (0.195, 0.048), (0.220, 0.030)], 0, seg=18)  # 頭
+    export(b.make("jx_pin", [M_PLAIN, M_METAL]), "pin.gltf")
+
+
+# ---------------------------------------------------------------- 仕切り(D-2)
+def build_divider():
+    """腰高の仕切り。第2面で「左からか右からしか入れない」を【幾何で強制】する板。
+    原点=底面の中心。長さ方向は X、板の面は ±Z。"""
+    M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
+    M_METAL = mat("jx_metal", "metal_col.png", 0.45, 0.6)
+    b = Build()
+    L, H, T = 4.0, 1.15, 0.14
+    b.ebox((0, (H - 0.07) / 2, 0), (L, H - 0.07, T), 0, 0.5)              # 板
+    b.ebox((0, H - 0.035, 0), (L, 0.07, 0.20), 1, 1.0)                    # 手すりの帯
+    for sx in (-1, +1):
+        b.ebox((sx * (L / 2 - 0.06), (H - 0.07) / 2, 0), (0.12, H - 0.07, T + 0.02), 1, 1.0)
+    b.ebox((0, 0.04, 0), (L, 0.08, T + 0.02), 1, 0.5)                     # 蹴込み
+    export(b.make("jx_divider", [M_PAINT, M_METAL]), "divider.gltf")
+
+
+# ---------------------------------------------------------------- 什器(部屋の識別)
+def build_props():
+    """★bench/column/vent の 3 種だけだとどの部屋も同じ顔になる。
+    「さっきの部屋とは違う」が一目で分かることだけが目的。当たり判定は付かない
+    (gen_stages.py が rigidBody を付けない)= 通り抜ける物として置かれる。"""
+    M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
+    M_METAL = mat("jx_metal", "metal_col.png", 0.45, 0.6)
+    M_CONC = mat("jx_concrete", "concrete_col.png", 0.90, 0.0, "concrete_nrm.png")
+    M_WOOD = mat("jx_wood", "wood_col.png", 0.80)
+
+    # ---- ロッカー列(原点=底面の中心。扉は +Z 向き) ----
+    b = Build()
+    b.ebox((0, 0.94, 0), (1.56, 1.84, 0.50), 1, 0.7)                      # 箱
+    b.ebox((0, 0.05, 0), (1.60, 0.10, 0.54), 1, 0.7)                      # 台輪
+    b.ebox((0, 1.87, 0), (1.60, 0.06, 0.54), 1, 0.7)                      # 天板
+    for i in range(4):
+        x = -0.585 + i * 0.39
+        b.ebox((x, 0.98, 0.262), (0.355, 1.70, 0.030), 0, 1.0)            # 扉
+        b.ebox((x + 0.13, 0.95, 0.292), (0.030, 0.17, 0.055), 1, 1.0)     # 取っ手
+        for j in range(3):
+            b.ebox((x, 1.70 + j * 0.05, 0.286), (0.22, 0.020, 0.020), 1, 1.0)   # 通気
+    export(b.make("jx_locker", [M_PAINT, M_METAL]), "locker.gltf")
+
+    # ---- 露出配管(原点=天井面。下へ垂れる。長さ方向は X) ----
+    b = Build()
+    for (r, dy, dz) in ((0.075, -0.20, -0.13), (0.050, -0.16, 0.07), (0.030, -0.11, 0.21)):
+        b.etube([(-3.0, r), (3.0, r)], 0, axis="x", origin=(0, dy, dz), seg=12)
+        for x in (-1.5, 1.5):                                            # 継手のカラー
+            b.etube([(x - 0.05, r + 0.018), (x + 0.05, r + 0.018)], 0,
+                    axis="x", origin=(0, dy, dz), seg=12)
+    for x in (-2.3, 0.0, 2.3):                                           # 吊りバンド
+        b.ebox((x, -0.10, 0.04), (0.05, 0.21, 0.72), 0, 1.0)
+    export(b.make("jx_pipes", [M_METAL]), "pipes.gltf")
+
+    # ---- 手すり(吹き抜けの縁。原点=底面の中心。長さ方向は X) ----
+    b = Build()
+    b.etube([(-1.5, 0.035), (1.5, 0.035)], 0, axis="x", origin=(0, 1.03, 0), seg=12)
+    b.etube([(-1.5, 0.022), (1.5, 0.022)], 0, axis="x", origin=(0, 0.56, 0), seg=10)
+    for x in (-1.40, -0.47, 0.47, 1.40):
+        b.etube([(0.0, 0.028), (1.03, 0.028)], 0, axis="y", origin=(x, 0, 0), seg=10)
+        b.ebox((x, 0.012, 0), (0.13, 0.024, 0.13), 0, 1.0)               # 座金
+    export(b.make("jx_railing", [M_METAL]), "railing.gltf")
+
+    # ---- 木箱(原点=底面の中心) ----
+    b = Build()
+    S, HT = 0.78, 0.70
+    b.ebox((0, HT / 2, 0), (S, HT, S), 0, 1.0)
+    for sx in (-1, +1):
+        for sz in (-1, +1):                                              # 隅の桟
+            b.ebox((sx * S / 2, HT / 2, sz * S / 2), (0.07, HT, 0.07), 1, 1.0)
+    for y in (0.06, HT - 0.06):                                          # 上下の帯
+        b.ebox((0, y, 0), (S + 0.02, 0.06, S + 0.02), 1, 1.0)
+    export(b.make("jx_crate", [M_WOOD, M_CONC]), "crate.gltf")
+
+
 build_all()
+build_rooms()
+build_compass()
+build_divider()
+build_props()
+print("KIT ALL DONE")

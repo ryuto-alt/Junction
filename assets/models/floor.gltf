@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v5.1.20",
+		"generator":"Khronos glTF Blender I/O v5.2.39",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -36,7 +36,7 @@
 	],
 	"meshes":[
 		{
-			"name":"jx_floor.001",
+			"name":"jx_floor",
 			"primitives":[
 				{
 					"attributes":{

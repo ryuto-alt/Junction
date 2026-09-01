@@ -15,7 +15,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"jx_vent"
+			"name":"jx_railing"
 		}
 	],
 	"materials":[
@@ -33,7 +33,7 @@
 	],
 	"meshes":[
 		{
-			"name":"jx_vent",
+			"name":"jx_railing",
 			"primitives":[
 				{
 					"attributes":{
@@ -64,61 +64,61 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":144,
+			"count":468,
 			"max":[
-				0.3100000023841858,
-				0.18000000715255737,
-				0.05999999865889549
+				1.5,
+				1.065000057220459,
+				0.06499999761581421
 			],
 			"min":[
-				-0.3100000023841858,
-				-0.18000000715255737,
-				0
+				-1.5,
+				0,
+				-0.06499999761581421
 			],
 			"type":"VEC3"
 		},
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":144,
+			"count":468,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":144,
+			"count":468,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":216,
+			"count":816,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":1728,
+			"byteLength":5616,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1728,
-			"byteOffset":1728,
+			"byteLength":5616,
+			"byteOffset":5616,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1152,
-			"byteOffset":3456,
+			"byteLength":3744,
+			"byteOffset":11232,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":432,
-			"byteOffset":4608,
+			"byteLength":1632,
+			"byteOffset":14976,
 			"target":34963
 		}
 	],
@@ -130,8 +130,8 @@
 	],
 	"buffers":[
 		{
-			"byteLength":5040,
-			"uri":"vent.bin"
+			"byteLength":16608,
+			"uri":"railing.bin"
 		}
 	]
 }
