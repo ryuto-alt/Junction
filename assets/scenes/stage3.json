@@ -3,7 +3,71 @@
   "entities": [
     {
       "guid": "75f0734ccd124d13",
+      "name": "[System]",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "d5ffead205559abc",
+      "name": "[Rooms]",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "b9ed461e8184ca63",
+      "name": "[Doors]",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "895a456cad7fb846",
       "name": "Ambient",
+      "parentGuid": "75f0734ccd124d13",
       "directionalLight": {
         "ambient": 0.045,
         "color": [
@@ -37,7 +101,29 @@
       }
     },
     {
-      "guid": "d5ffead205559abc",
+      "guid": "4a8521704f0d50d2",
+      "name": "Room S",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "d5ffead205559abc"
+    },
+    {
+      "guid": "518f47a5985c2482",
       "name": "S_Floor",
       "primitive": "box",
       "color": [
@@ -87,10 +173,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "4a8521704f0d50d2"
     },
     {
-      "guid": "b9ed461e8184ca63",
+      "guid": "2c4316dfc8663eb4",
       "name": "S_Ceil",
       "primitive": "box",
       "color": [
@@ -140,10 +227,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "4a8521704f0d50d2"
     },
     {
-      "guid": "895a456cad7fb846",
+      "guid": "65e471e0d6c9f003",
       "name": "S_Wall_N_n",
       "primitive": "box",
       "color": [
@@ -193,10 +281,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "4a8521704f0d50d2"
     },
     {
-      "guid": "4a8521704f0d50d2",
+      "guid": "4686d7035569bbf5",
       "name": "S_Wall_N_p",
       "primitive": "box",
       "color": [
@@ -246,10 +335,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "4a8521704f0d50d2"
     },
     {
-      "guid": "518f47a5985c2482",
+      "guid": "5f6107b018cb1251",
       "name": "S_Lintel_N",
       "primitive": "box",
       "color": [
@@ -299,10 +389,33 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "4a8521704f0d50d2"
     },
     {
-      "guid": "2c4316dfc8663eb4",
+      "guid": "d8e97aa15744d89e",
+      "name": "Door a",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "b9ed461e8184ca63"
+    },
+    {
+      "guid": "94c8f0c4407dfe54",
       "name": "Door_a",
       "transform": {
         "position": [
@@ -320,10 +433,11 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "d8e97aa15744d89e"
     },
     {
-      "guid": "65e471e0d6c9f003",
+      "guid": "5d1c457c6fc9de06",
       "name": "Void_a",
       "primitive": "box",
       "color": [
@@ -373,10 +487,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "d8e97aa15744d89e"
     },
     {
-      "guid": "4686d7035569bbf5",
+      "guid": "9e4d3acc6194b6ac",
       "name": "VoidLight_a",
       "pointLight": {
         "castShadows": false,
@@ -404,181 +519,27 @@
           1.0,
           1.0
         ]
-      }
-    },
-    {
-      "guid": "5f6107b018cb1251",
-      "name": "Frame_a_-1",
-      "primitive": "box",
-      "color": [
-        0.3,
-        0.32,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
       },
-      "transform": {
-        "position": [
-          -0.8200000000000001,
-          1.3,
-          5.970000000000001
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.14,
-          2.74,
-          0.16
-        ]
-      }
-    },
-    {
-      "guid": "d8e97aa15744d89e",
-      "name": "Frame_a_1",
-      "primitive": "box",
-      "color": [
-        0.3,
-        0.32,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          0.8200000000000001,
-          1.3,
-          5.970000000000001
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.14,
-          2.74,
-          0.16
-        ]
-      }
-    },
-    {
-      "guid": "94c8f0c4407dfe54",
-      "name": "Mark_a_1",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          6.15
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "5d1c457c6fc9de06",
-      "name": "Mark_a_2",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          6.15
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "9e4d3acc6194b6ac",
-      "name": "Mark_a_3",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          6.15
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
+      "parentGuid": "d8e97aa15744d89e"
     },
     {
       "guid": "193e1778322ba2b2",
-      "name": "Mark_a_4",
+      "name": "Frame_a_-1",
       "primitive": "box",
       "color": [
-        0.06,
-        0.42,
-        0.29
+        0.2,
+        0.85,
+        0.55
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.45
       },
       "transform": {
         "position": [
-          0.0,
-          -200.0,
-          6.15
+          -0.83,
+          1.3,
+          5.99
         ],
         "rotation": [
           0.0,
@@ -586,24 +547,89 @@
           0.0
         ],
         "scale": [
-          0.1,
-          0.26,
-          0.06
+          0.16,
+          2.7600000000000002,
+          0.18
         ]
-      }
+      },
+      "parentGuid": "d8e97aa15744d89e"
     },
     {
       "guid": "b1bf336b9c7f9c0b",
-      "name": "Mark_a_5",
+      "name": "Frame_a_1",
       "primitive": "box",
       "color": [
-        0.06,
-        0.42,
-        0.29
+        0.2,
+        0.85,
+        0.55
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.45
+      },
+      "transform": {
+        "position": [
+          0.83,
+          1.3,
+          5.99
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          2.7600000000000002,
+          0.18
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "00500593794220c2",
+      "name": "Frame_a_top",
+      "primitive": "box",
+      "color": [
+        0.2,
+        0.85,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.45
+      },
+      "transform": {
+        "position": [
+          0.0,
+          2.68,
+          5.99
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.82,
+          0.16,
+          0.18
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "b515d847c0afaa2a",
+      "name": "Mark_a_1",
+      "primitive": "box",
+      "color": [
+        0.2,
+        0.85,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
       },
       "transform": {
         "position": [
@@ -621,82 +647,21 @@
           0.26,
           0.06
         ]
-      }
-    },
-    {
-      "guid": "00500593794220c2",
-      "name": "Slice_a_1",
-      "primitive": "box",
-      "color": [
-        0.1,
-        0.55,
-        0.38
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
       },
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          6.15
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.06,
-          0.02,
-          1.0
-        ]
-      }
-    },
-    {
-      "guid": "b515d847c0afaa2a",
-      "name": "Slice_a_2",
-      "primitive": "box",
-      "color": [
-        0.1,
-        0.55,
-        0.38
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          6.15
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.06,
-          0.02,
-          1.0
-        ]
-      }
+      "parentGuid": "d8e97aa15744d89e"
     },
     {
       "guid": "8fe0c65212ccef7f",
-      "name": "Slice_a_3",
+      "name": "Mark_a_2",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        0.2,
+        0.85,
+        0.55
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.4
       },
       "transform": {
         "position": [
@@ -710,24 +675,25 @@
           0.0
         ],
         "scale": [
-          0.06,
-          0.02,
-          1.0
+          0.1,
+          0.26,
+          0.06
         ]
-      }
+      },
+      "parentGuid": "d8e97aa15744d89e"
     },
     {
       "guid": "fc423b06f4bbfb70",
-      "name": "Slice_a_4",
+      "name": "Mark_a_3",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        0.2,
+        0.85,
+        0.55
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.4
       },
       "transform": {
         "position": [
@@ -741,24 +707,25 @@
           0.0
         ],
         "scale": [
-          0.06,
-          0.02,
-          1.0
+          0.1,
+          0.26,
+          0.06
         ]
-      }
+      },
+      "parentGuid": "d8e97aa15744d89e"
     },
     {
       "guid": "e35c6f6f6c66b613",
-      "name": "Slice_a_5",
+      "name": "Mark_a_4",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        0.2,
+        0.85,
+        0.55
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.4
       },
       "transform": {
         "position": [
@@ -772,20 +739,53 @@
           0.0
         ],
         "scale": [
-          0.06,
-          0.02,
-          1.0
+          0.1,
+          0.26,
+          0.06
         ]
-      }
+      },
+      "parentGuid": "d8e97aa15744d89e"
     },
     {
       "guid": "61ed99bdccf604cf",
-      "name": "Slice_a_6",
+      "name": "Mark_a_5",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        0.2,
+        0.85,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "facf308b9cd4aac5",
+      "name": "Slice_a_1",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
       ],
       "material": {
         "metallic": 0.0,
@@ -807,10 +807,491 @@
           0.02,
           1.0
         ]
-      }
+      },
+      "parentGuid": "d8e97aa15744d89e"
     },
     {
-      "guid": "facf308b9cd4aac5",
+      "guid": "01eb57abc9588053",
+      "name": "Slice_a_2",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "72a4b5a013592277",
+      "name": "Slice_a_3",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "d895bd57b3c67f2f",
+      "name": "Slice_a_4",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "9a6a9ce300dc4615",
+      "name": "Slice_a_5",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "de624e008b545989",
+      "name": "Slice_a_6",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "1400ecf18c823717",
+      "name": "Lane_a_1",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.5
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.14,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "62f379ab818d252e",
+      "name": "Post_a_1",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          1.15,
+          0.16
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "e56adf3572b1b8d7",
+      "name": "Lane_a_2",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.5
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.14,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "58360c78e47c0ac0",
+      "name": "Post_a_2",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          1.15,
+          0.16
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "44830a44a3ac9b56",
+      "name": "Lane_a_3",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.5
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.14,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "42ab6dbfcb196dcd",
+      "name": "Post_a_3",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          1.15,
+          0.16
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "6a09e79dad4ce7cc",
+      "name": "Lane_a_4",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.5
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.14,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "4a14369535ba4998",
+      "name": "Post_a_4",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          1.15,
+          0.16
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "48a927501c001040",
+      "name": "Lane_a_5",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.5
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.14,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "d9e37964f16d12e6",
+      "name": "Post_a_5",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          6.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          1.15,
+          0.16
+        ]
+      },
+      "parentGuid": "d8e97aa15744d89e"
+    },
+    {
+      "guid": "23d67c15e722b16c",
       "name": "S_Wall_S",
       "primitive": "box",
       "color": [
@@ -860,10 +1341,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "4a8521704f0d50d2"
     },
     {
-      "guid": "01eb57abc9588053",
+      "guid": "665201641b2a4139",
       "name": "S_Wall_E",
       "primitive": "box",
       "color": [
@@ -913,10 +1395,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "4a8521704f0d50d2"
     },
     {
-      "guid": "72a4b5a013592277",
+      "guid": "c9946bb37464b1fb",
       "name": "S_Wall_W",
       "primitive": "box",
       "color": [
@@ -966,10 +1449,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "4a8521704f0d50d2"
     },
     {
-      "guid": "d895bd57b3c67f2f",
+      "guid": "15b56812f307a3fd",
       "name": "S_Light_0",
       "pointLight": {
         "castShadows": false,
@@ -997,10 +1481,11 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "4a8521704f0d50d2"
     },
     {
-      "guid": "9a6a9ce300dc4615",
+      "guid": "e0abdb4c056d2de1",
       "name": "S_Light_1",
       "pointLight": {
         "castShadows": false,
@@ -1028,10 +1513,33 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "4a8521704f0d50d2"
     },
     {
-      "guid": "de624e008b545989",
+      "guid": "274e6e946a458285",
+      "name": "Room A",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "d5ffead205559abc"
+    },
+    {
+      "guid": "be7223e943f90647",
       "name": "A_Floor",
       "primitive": "box",
       "color": [
@@ -1081,10 +1589,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "274e6e946a458285"
     },
     {
-      "guid": "1400ecf18c823717",
+      "guid": "6e50da2cf0307fc8",
       "name": "A_Ceil",
       "primitive": "box",
       "color": [
@@ -1134,10 +1643,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "274e6e946a458285"
     },
     {
-      "guid": "62f379ab818d252e",
+      "guid": "64c0d404fb0d6c02",
       "name": "A_Wall_N",
       "primitive": "box",
       "color": [
@@ -1187,10 +1697,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "274e6e946a458285"
     },
     {
-      "guid": "e56adf3572b1b8d7",
+      "guid": "42deb79d413b1082",
       "name": "A_Wall_S_n",
       "primitive": "box",
       "color": [
@@ -1240,10 +1751,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "274e6e946a458285"
     },
     {
-      "guid": "58360c78e47c0ac0",
+      "guid": "fcb3508cd7390177",
       "name": "A_Wall_S_p",
       "primitive": "box",
       "color": [
@@ -1293,10 +1805,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "274e6e946a458285"
     },
     {
-      "guid": "44830a44a3ac9b56",
+      "guid": "bf4e6217d6e8e3e2",
       "name": "A_Lintel_S",
       "primitive": "box",
       "color": [
@@ -1346,10 +1859,33 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "274e6e946a458285"
     },
     {
-      "guid": "42ab6dbfcb196dcd",
+      "guid": "23317c059cc3e680",
+      "name": "Door b",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "b9ed461e8184ca63"
+    },
+    {
+      "guid": "613322aae0764f44",
       "name": "Door_b",
       "transform": {
         "position": [
@@ -1367,10 +1903,11 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "6a09e79dad4ce7cc",
+      "guid": "8ddcdfa63a275129",
       "name": "Void_b",
       "primitive": "box",
       "color": [
@@ -1420,10 +1957,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "4a14369535ba4998",
+      "guid": "35d42e7fa4f046e7",
       "name": "VoidLight_b",
       "pointLight": {
         "castShadows": false,
@@ -1451,26 +1989,27 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "48a927501c001040",
+      "guid": "833659f649d0c606",
       "name": "Frame_b_-1",
       "primitive": "box",
       "color": [
-        0.3,
-        0.32,
-        0.29
+        1.0,
+        0.55,
+        0.12
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.45
       },
       "transform": {
         "position": [
-          -0.8200000000000001,
+          -0.83,
           1.3,
-          38.03
+          38.01
         ],
         "rotation": [
           0.0,
@@ -1478,20 +2017,245 @@
           0.0
         ],
         "scale": [
-          0.14,
-          2.74,
-          0.16
+          0.16,
+          2.7600000000000002,
+          0.18
         ]
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "d9e37964f16d12e6",
+      "guid": "e0d25418a5661171",
       "name": "Frame_b_1",
       "primitive": "box",
       "color": [
-        0.3,
-        0.32,
-        0.29
+        1.0,
+        0.55,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.45
+      },
+      "transform": {
+        "position": [
+          0.83,
+          1.3,
+          38.01
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          2.7600000000000002,
+          0.18
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "482d5c0874b760af",
+      "name": "Frame_b_top",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.55,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.45
+      },
+      "transform": {
+        "position": [
+          0.0,
+          2.68,
+          38.01
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.82,
+          0.16,
+          0.18
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "b14201154b78ded2",
+      "name": "Mark_b_1",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.55,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "57ae8d48fcd67039",
+      "name": "Mark_b_2",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.55,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "ea180ba67053ca79",
+      "name": "Mark_b_3",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.55,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "f8b204f340422893",
+      "name": "Mark_b_4",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.55,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "9ddf4757e218a7c4",
+      "name": "Mark_b_5",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.55,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "30ea232914e162a3",
+      "name": "Slice_b_1",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
       ],
       "material": {
         "metallic": 0.0,
@@ -1499,9 +2263,201 @@
       },
       "transform": {
         "position": [
-          0.8200000000000001,
-          1.3,
-          38.03
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "4901df144c5dfde6",
+      "name": "Slice_b_2",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "b7ef6380a41ab4bc",
+      "name": "Slice_b_3",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "7c5c8642ad46cac8",
+      "name": "Slice_b_4",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "bd3bff9fd05ab0d4",
+      "name": "Slice_b_5",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "0e968f41acaa9e65",
+      "name": "Slice_b_6",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "e05846e985519a2f",
+      "name": "Lane_b_1",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.5
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
         ],
         "rotation": [
           0.0,
@@ -1510,23 +2466,56 @@
         ],
         "scale": [
           0.14,
-          2.74,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "c67b1387c98e4277",
+      "name": "Post_b_1",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          1.15,
           0.16
         ]
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "23d67c15e722b16c",
-      "name": "Mark_b_1",
+      "guid": "628f3deb534e7093",
+      "name": "Lane_b_2",
       "primitive": "box",
       "color": [
-        0.06,
-        0.42,
-        0.29
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.5
       },
       "transform": {
         "position": [
@@ -1540,179 +2529,25 @@
           0.0
         ],
         "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "665201641b2a4139",
-      "name": "Mark_b_2",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          37.85
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "c9946bb37464b1fb",
-      "name": "Mark_b_3",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          37.85
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "15b56812f307a3fd",
-      "name": "Mark_b_4",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          37.85
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "e0abdb4c056d2de1",
-      "name": "Mark_b_5",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          37.85
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "274e6e946a458285",
-      "name": "Slice_b_1",
-      "primitive": "box",
-      "color": [
-        0.1,
-        0.55,
-        0.38
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          37.85
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.06,
+          0.14,
           0.02,
           1.0
         ]
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "be7223e943f90647",
-      "name": "Slice_b_2",
+      "guid": "a7e29d5da7c86f77",
+      "name": "Post_b_2",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.4
       },
       "transform": {
         "position": [
@@ -1726,24 +2561,25 @@
           0.0
         ],
         "scale": [
-          0.06,
-          0.02,
-          1.0
+          0.16,
+          1.15,
+          0.16
         ]
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "6e50da2cf0307fc8",
-      "name": "Slice_b_3",
+      "guid": "f713013649f722fb",
+      "name": "Lane_b_3",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.5
       },
       "transform": {
         "position": [
@@ -1757,24 +2593,25 @@
           0.0
         ],
         "scale": [
-          0.06,
+          0.14,
           0.02,
           1.0
         ]
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "64c0d404fb0d6c02",
-      "name": "Slice_b_4",
+      "guid": "3c9212209ca4be07",
+      "name": "Post_b_3",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.4
       },
       "transform": {
         "position": [
@@ -1788,24 +2625,25 @@
           0.0
         ],
         "scale": [
-          0.06,
-          0.02,
-          1.0
+          0.16,
+          1.15,
+          0.16
         ]
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "42deb79d413b1082",
-      "name": "Slice_b_5",
+      "guid": "997df7369627ed21",
+      "name": "Lane_b_4",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.5
       },
       "transform": {
         "position": [
@@ -1819,24 +2657,25 @@
           0.0
         ],
         "scale": [
-          0.06,
+          0.14,
           0.02,
           1.0
         ]
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "fcb3508cd7390177",
-      "name": "Slice_b_6",
+      "guid": "4eeb5ffc286e23e6",
+      "name": "Post_b_4",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.4
       },
       "transform": {
         "position": [
@@ -1850,14 +2689,79 @@
           0.0
         ],
         "scale": [
-          0.06,
+          0.16,
+          1.15,
+          0.16
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "4291121a6215d781",
+      "name": "Lane_b_5",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.5
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.14,
           0.02,
           1.0
         ]
-      }
+      },
+      "parentGuid": "23317c059cc3e680"
     },
     {
-      "guid": "bf4e6217d6e8e3e2",
+      "guid": "2fd95c49d2df1138",
+      "name": "Post_b_5",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          0.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          1.15,
+          0.16
+        ]
+      },
+      "parentGuid": "23317c059cc3e680"
+    },
+    {
+      "guid": "e43ef1a6a1560f19",
       "name": "A_Wall_E",
       "primitive": "box",
       "color": [
@@ -1907,10 +2811,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "274e6e946a458285"
     },
     {
-      "guid": "23317c059cc3e680",
+      "guid": "66c3e16f7954eccb",
       "name": "A_Wall_W",
       "primitive": "box",
       "color": [
@@ -1960,10 +2865,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "274e6e946a458285"
     },
     {
-      "guid": "613322aae0764f44",
+      "guid": "ca15f3948f8da39e",
       "name": "A_Light_0",
       "pointLight": {
         "castShadows": false,
@@ -1991,10 +2897,11 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "274e6e946a458285"
     },
     {
-      "guid": "8ddcdfa63a275129",
+      "guid": "4d2af0d5a8f954f9",
       "name": "A_Light_1",
       "pointLight": {
         "castShadows": false,
@@ -2022,10 +2929,33 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "274e6e946a458285"
     },
     {
-      "guid": "35d42e7fa4f046e7",
+      "guid": "85cd3cb8c1e7d877",
+      "name": "Room G",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "d5ffead205559abc"
+    },
+    {
+      "guid": "d6588e29d18de3a3",
       "name": "G_Floor",
       "primitive": "box",
       "color": [
@@ -2075,10 +3005,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "85cd3cb8c1e7d877"
     },
     {
-      "guid": "833659f649d0c606",
+      "guid": "fc8c726f62983cee",
       "name": "G_Ceil",
       "primitive": "box",
       "color": [
@@ -2128,10 +3059,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "85cd3cb8c1e7d877"
     },
     {
-      "guid": "e0d25418a5661171",
+      "guid": "fd114b4f8fd029ed",
       "name": "G_Wall_N",
       "primitive": "box",
       "color": [
@@ -2181,10 +3113,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "85cd3cb8c1e7d877"
     },
     {
-      "guid": "482d5c0874b760af",
+      "guid": "3c905445de3d28cf",
       "name": "G_Wall_S_n",
       "primitive": "box",
       "color": [
@@ -2234,10 +3167,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "85cd3cb8c1e7d877"
     },
     {
-      "guid": "b14201154b78ded2",
+      "guid": "3bb8208f0e773605",
       "name": "G_Wall_S_p",
       "primitive": "box",
       "color": [
@@ -2287,10 +3221,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "85cd3cb8c1e7d877"
     },
     {
-      "guid": "57ae8d48fcd67039",
+      "guid": "1630d08995972a6f",
       "name": "G_Lintel_S",
       "primitive": "box",
       "color": [
@@ -2340,10 +3275,33 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "85cd3cb8c1e7d877"
     },
     {
-      "guid": "ea180ba67053ca79",
+      "guid": "d0bcb5bdb98d5d60",
+      "name": "Door g",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "b9ed461e8184ca63"
+    },
+    {
+      "guid": "7c5eb392565c13f0",
       "name": "Door_g",
       "transform": {
         "position": [
@@ -2361,10 +3319,11 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "f8b204f340422893",
+      "guid": "7948efdf1ca68274",
       "name": "Void_g",
       "primitive": "box",
       "color": [
@@ -2414,10 +3373,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "9ddf4757e218a7c4",
+      "guid": "1ab9c0b24a0b0145",
       "name": "VoidLight_g",
       "pointLight": {
         "castShadows": false,
@@ -2445,26 +3405,27 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "30ea232914e162a3",
+      "guid": "cbbba49285702349",
       "name": "Frame_g_-1",
       "primitive": "box",
       "color": [
-        0.3,
-        0.32,
-        0.29
+        1.0,
+        0.82,
+        0.15
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.45
       },
       "transform": {
         "position": [
-          51.18,
+          51.17,
           1.3,
-          38.03
+          38.01
         ],
         "rotation": [
           0.0,
@@ -2472,20 +3433,245 @@
           0.0
         ],
         "scale": [
-          0.14,
-          2.74,
-          0.16
+          0.16,
+          2.7600000000000002,
+          0.18
         ]
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "4901df144c5dfde6",
+      "guid": "79033f3f18b6eb8d",
       "name": "Frame_g_1",
       "primitive": "box",
       "color": [
-        0.3,
-        0.32,
-        0.29
+        1.0,
+        0.82,
+        0.15
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.45
+      },
+      "transform": {
+        "position": [
+          52.83,
+          1.3,
+          38.01
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          2.7600000000000002,
+          0.18
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "726c628c95ce4121",
+      "name": "Frame_g_top",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.82,
+        0.15
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.45
+      },
+      "transform": {
+        "position": [
+          52.0,
+          2.68,
+          38.01
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.82,
+          0.16,
+          0.18
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "aec5b5bd61c105c5",
+      "name": "Mark_g_1",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.82,
+        0.15
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "62127f9b44c10937",
+      "name": "Mark_g_2",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.82,
+        0.15
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "3d7f4a9ee6649e86",
+      "name": "Mark_g_3",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.82,
+        0.15
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "705c7fb62bba8073",
+      "name": "Mark_g_4",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.82,
+        0.15
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "8b143504758d7a26",
+      "name": "Mark_g_5",
+      "primitive": "box",
+      "color": [
+        1.0,
+        0.82,
+        0.15
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.1,
+          0.26,
+          0.06
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "75f746ae7c2bbe05",
+      "name": "Slice_g_1",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
       ],
       "material": {
         "metallic": 0.0,
@@ -2493,9 +3679,201 @@
       },
       "transform": {
         "position": [
-          52.82,
-          1.3,
-          38.03
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "bffd59b4adb444ba",
+      "name": "Slice_g_2",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "a970ca8f05e9d445",
+      "name": "Slice_g_3",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "d090a0dc62fb7ce0",
+      "name": "Slice_g_4",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "8a039c7121a7c82c",
+      "name": "Slice_g_5",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "e77d592f0c29526b",
+      "name": "Slice_g_6",
+      "primitive": "box",
+      "color": [
+        0.42,
+        0.44,
+        0.42
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.06,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "c842d6ac987fe34b",
+      "name": "Lane_g_1",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.5
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
         ],
         "rotation": [
           0.0,
@@ -2504,23 +3882,56 @@
         ],
         "scale": [
           0.14,
-          2.74,
+          0.02,
+          1.0
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "155c743f5c96f24a",
+      "name": "Post_g_1",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          1.15,
           0.16
         ]
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "b7ef6380a41ab4bc",
-      "name": "Mark_g_1",
+      "guid": "059ff34f2331a417",
+      "name": "Lane_g_2",
       "primitive": "box",
       "color": [
-        0.06,
-        0.42,
-        0.29
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.5
       },
       "transform": {
         "position": [
@@ -2534,179 +3945,25 @@
           0.0
         ],
         "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "7c5c8642ad46cac8",
-      "name": "Mark_g_2",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          52.0,
-          -200.0,
-          37.85
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "bd3bff9fd05ab0d4",
-      "name": "Mark_g_3",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          52.0,
-          -200.0,
-          37.85
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "0e968f41acaa9e65",
-      "name": "Mark_g_4",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          52.0,
-          -200.0,
-          37.85
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "e05846e985519a2f",
-      "name": "Mark_g_5",
-      "primitive": "box",
-      "color": [
-        0.06,
-        0.42,
-        0.29
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          52.0,
-          -200.0,
-          37.85
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.1,
-          0.26,
-          0.06
-        ]
-      }
-    },
-    {
-      "guid": "c67b1387c98e4277",
-      "name": "Slice_g_1",
-      "primitive": "box",
-      "color": [
-        0.1,
-        0.55,
-        0.38
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "transform": {
-        "position": [
-          52.0,
-          -200.0,
-          37.85
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.06,
+          0.14,
           0.02,
           1.0
         ]
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "628f3deb534e7093",
-      "name": "Slice_g_2",
+      "guid": "3873bfa7e0ec2a98",
+      "name": "Post_g_2",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.4
       },
       "transform": {
         "position": [
@@ -2720,24 +3977,25 @@
           0.0
         ],
         "scale": [
-          0.06,
-          0.02,
-          1.0
+          0.16,
+          1.15,
+          0.16
         ]
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "a7e29d5da7c86f77",
-      "name": "Slice_g_3",
+      "guid": "785f50ff41869915",
+      "name": "Lane_g_3",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.5
       },
       "transform": {
         "position": [
@@ -2751,24 +4009,25 @@
           0.0
         ],
         "scale": [
-          0.06,
+          0.14,
           0.02,
           1.0
         ]
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "f713013649f722fb",
-      "name": "Slice_g_4",
+      "guid": "463b532c7f49353d",
+      "name": "Post_g_3",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.4
       },
       "transform": {
         "position": [
@@ -2782,24 +4041,25 @@
           0.0
         ],
         "scale": [
-          0.06,
-          0.02,
-          1.0
+          0.16,
+          1.15,
+          0.16
         ]
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "3c9212209ca4be07",
-      "name": "Slice_g_5",
+      "guid": "33e65be240526775",
+      "name": "Lane_g_4",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.5
       },
       "transform": {
         "position": [
@@ -2813,24 +4073,25 @@
           0.0
         ],
         "scale": [
-          0.06,
+          0.14,
           0.02,
           1.0
         ]
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "997df7369627ed21",
-      "name": "Slice_g_6",
+      "guid": "67e5509a405f1825",
+      "name": "Post_g_4",
       "primitive": "box",
       "color": [
-        0.1,
-        0.55,
-        0.38
+        1.0,
+        1.0,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 0.92
+        "roughness": 0.4
       },
       "transform": {
         "position": [
@@ -2844,14 +4105,79 @@
           0.0
         ],
         "scale": [
-          0.06,
+          0.16,
+          1.15,
+          0.16
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "52753daa294dd367",
+      "name": "Lane_g_5",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.5
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.14,
           0.02,
           1.0
         ]
-      }
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
     },
     {
-      "guid": "4eeb5ffc286e23e6",
+      "guid": "ac38e742b5a1c798",
+      "name": "Post_g_5",
+      "primitive": "box",
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.4
+      },
+      "transform": {
+        "position": [
+          52.0,
+          -200.0,
+          37.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.16,
+          1.15,
+          0.16
+        ]
+      },
+      "parentGuid": "d0bcb5bdb98d5d60"
+    },
+    {
+      "guid": "d39f5d8ee549fd13",
       "name": "G_Wall_E",
       "primitive": "box",
       "color": [
@@ -2901,10 +4227,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "85cd3cb8c1e7d877"
     },
     {
-      "guid": "4291121a6215d781",
+      "guid": "5878224ac506d5be",
       "name": "G_Wall_W",
       "primitive": "box",
       "color": [
@@ -2954,10 +4281,11 @@
         "motionType": 0,
         "restitution": 0.0,
         "useGravity": false
-      }
+      },
+      "parentGuid": "85cd3cb8c1e7d877"
     },
     {
-      "guid": "2fd95c49d2df1138",
+      "guid": "39a1c19117d4af05",
       "name": "G_Light_0",
       "pointLight": {
         "castShadows": false,
@@ -2985,10 +4313,11 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "85cd3cb8c1e7d877"
     },
     {
-      "guid": "e43ef1a6a1560f19",
+      "guid": "fac9346438c99876",
       "name": "G_Light_1",
       "pointLight": {
         "castShadows": false,
@@ -3016,10 +4345,11 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "85cd3cb8c1e7d877"
     },
     {
-      "guid": "66c3e16f7954eccb",
+      "guid": "251d5286b64105ef",
       "name": "Goal",
       "primitive": "box",
       "color": [
@@ -3047,10 +4377,11 @@
           2.2,
           0.9
         ]
-      }
+      },
+      "parentGuid": "75f0734ccd124d13"
     },
     {
-      "guid": "ca15f3948f8da39e",
+      "guid": "f302417f35cd6c7b",
       "name": "GoalLight",
       "pointLight": {
         "castShadows": false,
@@ -3078,10 +4409,33 @@
           1.0,
           1.0
         ]
-      }
+      },
+      "parentGuid": "75f0734ccd124d13"
     },
     {
-      "guid": "4d2af0d5a8f954f9",
+      "guid": "e32178cf8fcf1729",
+      "name": "Proxies",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "75f0734ccd124d13"
+    },
+    {
+      "guid": "354cb2306a0e44a4",
       "name": "Proxy_1",
       "primitive": "box",
       "color": [
@@ -3091,7 +4445,7 @@
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 1.0
+        "roughness": 0.55
       },
       "transform": {
         "position": [
@@ -3109,10 +4463,11 @@
           1.7,
           0.08
         ]
-      }
+      },
+      "parentGuid": "e32178cf8fcf1729"
     },
     {
-      "guid": "85cd3cb8c1e7d877",
+      "guid": "a08a96b562e6d5fb",
       "name": "Proxy_2",
       "primitive": "box",
       "color": [
@@ -3122,7 +4477,7 @@
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 1.0
+        "roughness": 0.55
       },
       "transform": {
         "position": [
@@ -3140,10 +4495,11 @@
           1.7,
           0.08
         ]
-      }
+      },
+      "parentGuid": "e32178cf8fcf1729"
     },
     {
-      "guid": "d6588e29d18de3a3",
+      "guid": "f700cd71fec30628",
       "name": "Proxy_3",
       "primitive": "box",
       "color": [
@@ -3153,7 +4509,7 @@
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 1.0
+        "roughness": 0.55
       },
       "transform": {
         "position": [
@@ -3171,10 +4527,11 @@
           1.7,
           0.08
         ]
-      }
+      },
+      "parentGuid": "e32178cf8fcf1729"
     },
     {
-      "guid": "fc8c726f62983cee",
+      "guid": "4f4b76f96f6158bf",
       "name": "Proxy_4",
       "primitive": "box",
       "color": [
@@ -3184,7 +4541,7 @@
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 1.0
+        "roughness": 0.55
       },
       "transform": {
         "position": [
@@ -3202,10 +4559,11 @@
           1.7,
           0.08
         ]
-      }
+      },
+      "parentGuid": "e32178cf8fcf1729"
     },
     {
-      "guid": "fd114b4f8fd029ed",
+      "guid": "4ee8d623a2dc0245",
       "name": "Proxy_5",
       "primitive": "box",
       "color": [
@@ -3215,7 +4573,7 @@
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 1.0
+        "roughness": 0.55
       },
       "transform": {
         "position": [
@@ -3233,10 +4591,11 @@
           1.7,
           0.08
         ]
-      }
+      },
+      "parentGuid": "e32178cf8fcf1729"
     },
     {
-      "guid": "3c905445de3d28cf",
+      "guid": "d67a47b9fbbd27fe",
       "name": "Proxy_6",
       "primitive": "box",
       "color": [
@@ -3246,7 +4605,7 @@
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 1.0
+        "roughness": 0.55
       },
       "transform": {
         "position": [
@@ -3264,10 +4623,11 @@
           1.7,
           0.08
         ]
-      }
+      },
+      "parentGuid": "e32178cf8fcf1729"
     },
     {
-      "guid": "3bb8208f0e773605",
+      "guid": "cab9d964998049c5",
       "name": "Proxy_7",
       "primitive": "box",
       "color": [
@@ -3277,7 +4637,7 @@
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 1.0
+        "roughness": 0.55
       },
       "transform": {
         "position": [
@@ -3295,10 +4655,11 @@
           1.7,
           0.08
         ]
-      }
+      },
+      "parentGuid": "e32178cf8fcf1729"
     },
     {
-      "guid": "1630d08995972a6f",
+      "guid": "eecb0c8d5324bb57",
       "name": "Proxy_8",
       "primitive": "box",
       "color": [
@@ -3308,7 +4669,7 @@
       ],
       "material": {
         "metallic": 0.0,
-        "roughness": 1.0
+        "roughness": 0.55
       },
       "transform": {
         "position": [
@@ -3326,10 +4687,11 @@
           1.7,
           0.08
         ]
-      }
+      },
+      "parentGuid": "e32178cf8fcf1729"
     },
     {
-      "guid": "d0bcb5bdb98d5d60",
+      "guid": "73173df90877ed49",
       "name": "MainCamera",
       "camera": {
         "farClip": 300.0,
@@ -3376,7 +4738,7 @@
       }
     },
     {
-      "guid": "7c5eb392565c13f0",
+      "guid": "0471dfcf1672797e",
       "name": "Logic_Stage_3",
       "transform": {
         "position": [
@@ -3395,6 +4757,7 @@
           1.0
         ]
       },
+      "parentGuid": "75f0734ccd124d13",
       "luaScript": {
         "enabled": true,
         "scriptPath": "components/Junction.lua"
@@ -3423,15 +4786,13 @@
     "exposureOn": true,
     "exposure": 1.0,
     "bloomOn": true,
-    "bloom": 0.55,
-    "bloomThreshold": 1.05,
+    "bloom": 0.5,
+    "bloomThreshold": 1.1,
     "bloomKnee": 0.5,
     "bloomRadius": 0.72,
     "vignetteOn": true,
-    "vignette": 0.22,
+    "vignette": 0.2,
     "fxaaOn": true,
-    "debandOn": true,
-    "saturationOn": true,
-    "saturation": 0.78
+    "debandOn": true
   }
 }
