@@ -1,5 +1,5 @@
 -- JUNCTION の一人称プレイヤー。MainCamera(CharacterController + Camera)に付ける。
--- WASD 移動 / マウス視点 / ESC でマウス解放(エディタの Stop を押したい時)。
+-- WASD 移動 / SPACE ジャンプ / SHIFT ダッシュ / E インタラクト / マウス視点 / ESC でマウス解放(エディタの Stop を押したい時)。
 --
 -- ★このゲームの入力は【移動方向そのものが解答】。ドアへ入った角度で行き先が変わるので、
 --   Junction.lua が読む「最後に押していた WASD のワールド方向」をここが唯一の出所として
@@ -10,13 +10,14 @@
 -- ★テレポート後の向きは Junction.lua が saveNum("tpSeq"/"tpYaw") で渡す。
 --   ここで yaw を書き換えないと、出口から出た瞬間に元の向きへ引き戻される。
 local SPEED = 3.4    -- m/s
-local FAST  = 1.75   -- Shift 中の倍率
+local FAST  = 1.45   -- Shift 中の倍率
 local SENS  = 0.09   -- マウス感度(度/カウント)
 local TURNK = 110    -- 矢印キーで回す速さ(度/秒)。マウス解放中用
 local SHIFT = KEY_SHIFT or 0x10
 
 local BOB_AMP  = 0.42
 local BOB_ROLL = 0.36
+local BOB_YAW  = 0.18
 local BOB_FREQ = 1.75
 local BOB_BLEND = 8.0
 
@@ -67,6 +68,11 @@ function OnUpdate(self, dt)
 
     local len = math.sqrt(mx * mx + mz * mz)
     local run = input:isKeyDown(SHIFT)
+    saveNum("playerInteractPressed", keyPressed("E") and 1 or 0)
+    saveNum("playerInteractDown", keyDown("E") and 1 or 0)
+    if keyPressed("SPACE") and physics:isGrounded(e) then
+        physics:jump(e)
+    end
     if len > 0 then
         local sp = SPEED * (run and FAST or 1) / len
         physics:move(e, mx * sp, mz * sp)
@@ -89,8 +95,10 @@ function OnUpdate(self, dt)
         self.bobPhase = (self.bobPhase + dt * frq * 2 * math.pi) % (4 * math.pi)
     end
     local w = self.bobW
-    local bobPitch = math.sin(self.bobPhase) * BOB_AMP * w
-    local bobRoll  = math.sin(self.bobPhase * 0.5) * BOB_ROLL * w
+    local amp = (run and 1.22 or 1.0) * w
+    local bobPitch = math.sin(self.bobPhase) * BOB_AMP * amp
+    local bobRoll  = math.sin(self.bobPhase * 0.5) * BOB_ROLL * amp
+    local bobYaw   = math.sin(self.bobPhase * 0.5 + math.pi * 0.5) * BOB_YAW * amp
 
-    self.transform.rotation = Vec3.new(-(self.pitch + bobPitch), self.yaw, bobRoll)
+    self.transform.rotation = Vec3.new(-(self.pitch + bobPitch), self.yaw + bobYaw, bobRoll)
 end

@@ -105,6 +105,18 @@ local function place(name, x, y, z, yaw, sx, sy, sz)
     return e
 end
 
+local function interactPressed()
+    return loadNum("playerInteractPressed", 0) > 0.5
+end
+
+local function drawReticle(W, H, active)
+    local cx, cy = W * 0.5, H * 0.5
+    local size = active and 7 or 5
+    local r, g, b = active and 0.12 or 0.95, active and 1.0 or 0.95, active and 0.58 or 0.95
+    ui:rect(cx - size * 0.5 - 2, cy - size * 0.5 - 2, size + 4, size + 4, 0, 0, 0, 0.58)
+    ui:rect(cx - size * 0.5,     cy - size * 0.5,     size,     size,     r, g, b, active and 0.96 or 0.78)
+end
+
 local function tint(name, c)
     local e = ent(name)
     if e then scene:setColor(e, c[1], c[2], c[3]) end
@@ -487,7 +499,7 @@ function OnUpdate(self, dt)
         self.aim = best
 
         if keyPressed("Q") then closeConnect(self) end
-        if self.holdE <= 0 and keyPressed("E") then
+        if self.holdE <= 0 and interactPressed() then
             if best then
                 local to = self.cand[best]
                 local from = self.connectDoor
@@ -502,7 +514,7 @@ function OnUpdate(self, dt)
 
     -- ================================ 通常 ================================
     else
-        if near and nearD < REACH and keyPressed("E") then
+        if near and nearD < REACH and interactPressed() then
             openConnect(self, near)
         end
 
@@ -555,9 +567,8 @@ function OnUpdate(self, dt)
     end
 
     -- ================================ HUD ================================
-    -- 中央の点(酔い止めの固定点 兼 照準)
-    ui:rect(W * 0.5 - 2, H * 0.5 - 2, 4, 4, 0, 0, 0, 0.45)
-    ui:rect(W * 0.5 - 1.5, H * 0.5 - 1.5, 3, 3, 1, 1, 1, 0.75)
+    -- 中央レティクル(酔い止めの固定点 兼 照準)
+    drawReticle(W, H, (self.mode == "connect" and self.aim ~= nil) or (near and nearD < REACH))
 
     -- 時間
     local m = math.floor(self.timeLeft / 60)
@@ -616,7 +627,7 @@ function OnUpdate(self, dt)
     if not self.touched then
         ui:rect(W * 0.5 - 330, H - 190, 660, 46, 0.02, 0.05, 0.03, 0.5)
         ui:text(W * 0.5 - 312, H - 178,
-                "WASD で歩く / ドアに近づいて [E] / " .. self.cfg.hint, 19, 0.85, 0.95, 0.9, 1)
+                "WASD で歩く / [SPACE] ジャンプ / [SHIFT] ダッシュ / [E] 調べる / " .. self.cfg.hint, 19, 0.85, 0.95, 0.9, 1)
     end
 
     -- メッセージ
