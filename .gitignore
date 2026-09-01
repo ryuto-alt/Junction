@@ -1,0 +1,20 @@
+# エディタ / 実行時に出る物
+imgui.ini
+dx12_engine.log
+dx12_crash*
+mcp_screenshot*.png
+assets/.texcache/
+
+# ★ build/game は【あえて追跡する】。clone してすぐ遊べることが要件なので、
+#   ビルド済みの Game.exe と game.pak をリポジトリに含めている。
+#   ただし実行時に出る物だけは除く。
+build/game/dx12_engine.log
+build/game/dx12_crash*
+build/game/settings.json
+build/game/imgui.ini
+
+__pycache__/
+*.pyc
+
+# エディタのオートセーブ(作業中の一時ファイル)
+assets/scenes/.autosave/

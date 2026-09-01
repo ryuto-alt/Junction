@@ -1,0 +1,46 @@
+# push のたびに Discord へ通知する。
+# ★ webhook URL はリポジトリ Secret の DISCORD_WEBHOOK に入れてある。
+#   ここに直接書くと、リポジトリを見られる全員に webhook が漏れて
+#   誰でもそのチャンネルへ投稿できてしまう。必ず Secret 経由にすること。
+name: Discord notify on push
+
+on:
+  push:
+    branches: ["**"]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+    steps:
+      - name: Post to Discord
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          if [ -z "$WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK secret が未設定。通知をスキップします。"
+            exit 0
+          fi
+          COUNT=$(jq '.commits | length' "$GITHUB_EVENT_PATH")
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          # コミット一覧を「- メッセージ1行目 (短縮SHA)」に整形。長すぎる時は切る
+          LIST=$(jq -r '.commits[] | "- " + (.message | split("\n")[0]) + " (`" + .id[0:7] + "`)"' "$GITHUB_EVENT_PATH" | head -c 1500)
+          [ -z "$LIST" ] && LIST="(コミットなし)"
+          jq -n \
+            --arg title "JUNCTION / 継ぎ目 — $COUNT commit(s) to $BRANCH" \
+            --arg url "${{ github.event.compare }}" \
+            --arg desc "$LIST" \
+            --arg who "${{ github.actor }}" \
+            --arg repo "${{ github.repository }}" \
+            '{
+              username: "JUNCTION",
+              embeds: [{
+                title: $title,
+                url: $url,
+                description: $desc,
+                color: 1010761,
+                footer: { text: ($repo + " · pushed by " + $who) }
+              }]
+            }' > payload.json
+          curl -sS -f -X POST -H "Content-Type: application/json" -d @payload.json "$WEBHOOK"
+          echo "通知を送りました。"
