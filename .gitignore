@@ -18,3 +18,4 @@ __pycache__/
 
 # エディタのオートセーブ(作業中の一時ファイル)
 assets/scenes/.autosave/
+assets/scenes/.diagnostics_snapshot.json

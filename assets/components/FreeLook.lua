@@ -33,6 +33,14 @@ function OnUpdate(self, dt)
     local e = scene:findEntity(self.name)
     if not (e and e:isValid()) then return end
 
+    -- ★カメラ演出中は入力を殺す。位置も向きも Junction.lua が押し込んでいるので、
+    --   ここで physics:move や rotation を書くと演出が痙攣する。
+    if loadNum("cineLock", 0) > 0.5 then
+        physics:move(e, 0, 0)
+        saveNum("moving", 0)
+        return
+    end
+
     -- ---- テレポート後の向きの受け取り(Junction.lua が唯一の書き手) ----
     local seq = loadNum("tpSeq", 0)
     if seq ~= self.tpSeen then

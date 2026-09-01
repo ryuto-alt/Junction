@@ -2,7 +2,7 @@
   "version": 1,
   "entities": [
     {
-      "guid": "36f39bdc93bd7dd4",
+      "guid": "f700cd71fec30628",
       "name": "[System]",
       "transform": {
         "position": [
@@ -23,7 +23,7 @@
       }
     },
     {
-      "guid": "bcce9b1acd97a835",
+      "guid": "4f4b76f96f6158bf",
       "name": "[Rooms]",
       "transform": {
         "position": [
@@ -44,7 +44,7 @@
       }
     },
     {
-      "guid": "4319d8b3f34c3b99",
+      "guid": "4ee8d623a2dc0245",
       "name": "[Doors]",
       "transform": {
         "position": [
@@ -65,9 +65,9 @@
       }
     },
     {
-      "guid": "14acaff86a5e02fd",
+      "guid": "d67a47b9fbbd27fe",
       "name": "Ambient",
-      "parentGuid": "36f39bdc93bd7dd4",
+      "parentGuid": "f700cd71fec30628",
       "directionalLight": {
         "ambient": 0.035,
         "color": [
@@ -101,7 +101,7 @@
       }
     },
     {
-      "guid": "abcfb90cfef33df1",
+      "guid": "cab9d964998049c5",
       "name": "Room S",
       "transform": {
         "position": [
@@ -120,10 +120,10 @@
           1.0
         ]
       },
-      "parentGuid": "bcce9b1acd97a835"
+      "parentGuid": "4f4b76f96f6158bf"
     },
     {
-      "guid": "34dde4fc96bc0a8c",
+      "guid": "eecb0c8d5324bb57",
       "name": "S_Floor",
       "transform": {
         "position": [
@@ -142,7 +142,7 @@
           12.3
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "primitive": "box",
       "color": [
         0.24,
@@ -177,7 +177,7 @@
       }
     },
     {
-      "guid": "eb77249b00e24495",
+      "guid": "73173df90877ed49",
       "name": "S_Ceil",
       "transform": {
         "position": [
@@ -196,7 +196,7 @@
           12.3
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "primitive": "box",
       "color": [
         0.72,
@@ -231,7 +231,7 @@
       }
     },
     {
-      "guid": "935471a17e2dc967",
+      "guid": "0471dfcf1672797e",
       "name": "S_FloorM",
       "transform": {
         "position": [
@@ -250,13 +250,13 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/floor.gltf"
       }
     },
     {
-      "guid": "684ff37d8e8f99e7",
+      "guid": "5f2dbfe0a2afb9c6",
       "name": "S_CeilM",
       "transform": {
         "position": [
@@ -275,13 +275,13 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/ceiling.gltf"
       }
     },
     {
-      "guid": "51c67e3ed5777b4a",
+      "guid": "e7192c57e95cbad6",
       "name": "S_WallM_N",
       "transform": {
         "position": [
@@ -300,13 +300,13 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/wall_door.gltf"
       }
     },
     {
-      "guid": "a9f2794c47696a7c",
+      "guid": "c306e30a781c8d3e",
       "name": "S_Wall_N_n",
       "transform": {
         "position": [
@@ -325,7 +325,7 @@
           0.3
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "primitive": "box",
       "color": [
         0.62,
@@ -360,7 +360,7 @@
       }
     },
     {
-      "guid": "c144e94054dd02d9",
+      "guid": "9d7241fa55096299",
       "name": "S_Wall_N_p",
       "transform": {
         "position": [
@@ -379,7 +379,7 @@
           0.3
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "primitive": "box",
       "color": [
         0.62,
@@ -414,7 +414,7 @@
       }
     },
     {
-      "guid": "c8cf40725d448501",
+      "guid": "d3d26732ac3d35ee",
       "name": "S_Lintel_N",
       "transform": {
         "position": [
@@ -433,7 +433,7 @@
           0.3
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "primitive": "box",
       "color": [
         0.62,
@@ -468,7 +468,7 @@
       }
     },
     {
-      "guid": "cb9e4f4b5553eab6",
+      "guid": "3f3f88df4f87cd9f",
       "name": "Door a",
       "transform": {
         "position": [
@@ -487,10 +487,10 @@
           1.0
         ]
       },
-      "parentGuid": "4319d8b3f34c3b99"
+      "parentGuid": "4ee8d623a2dc0245"
     },
     {
-      "guid": "4ebd316411fd2bee",
+      "guid": "8bf554edf15be2ec",
       "name": "Door_a",
       "transform": {
         "position": [
@@ -509,10 +509,10 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6"
+      "parentGuid": "3f3f88df4f87cd9f"
     },
     {
-      "guid": "4eba064a4d74864d",
+      "guid": "b146c0af9518f83e",
       "name": "Void_a",
       "transform": {
         "position": [
@@ -531,7 +531,7 @@
           0.1
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -566,7 +566,7 @@
       }
     },
     {
-      "guid": "0337cfdfc5377087",
+      "guid": "088cc3b92c854824",
       "name": "VoidLight_a",
       "transform": {
         "position": [
@@ -585,7 +585,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -598,7 +598,7 @@
       }
     },
     {
-      "guid": "fc99337e30d0f40e",
+      "guid": "440df43015293072",
       "name": "Frame_a_-1",
       "transform": {
         "position": [
@@ -617,7 +617,7 @@
           0.12
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.2,
@@ -630,7 +630,7 @@
       }
     },
     {
-      "guid": "b80da868a9b45f88",
+      "guid": "e31cabf9fb0962a8",
       "name": "Frame_a_1",
       "transform": {
         "position": [
@@ -649,7 +649,7 @@
           0.12
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.2,
@@ -662,7 +662,7 @@
       }
     },
     {
-      "guid": "e9a87253db8e5b7f",
+      "guid": "1163db04da5ca6e4",
       "name": "Frame_a_top",
       "transform": {
         "position": [
@@ -681,7 +681,7 @@
           0.12
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.2,
@@ -694,7 +694,7 @@
       }
     },
     {
-      "guid": "ddf61eee4e4b28c4",
+      "guid": "e14569db13437aec",
       "name": "Mark_a_1",
       "transform": {
         "position": [
@@ -713,7 +713,7 @@
           0.06
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.2,
@@ -726,7 +726,7 @@
       }
     },
     {
-      "guid": "5f09a999c65cb6d3",
+      "guid": "8cc8e23b862583f9",
       "name": "Mark_a_2",
       "transform": {
         "position": [
@@ -745,7 +745,7 @@
           0.06
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.2,
@@ -758,7 +758,7 @@
       }
     },
     {
-      "guid": "97a085b229b65748",
+      "guid": "a7642f5c549444c6",
       "name": "Mark_a_3",
       "transform": {
         "position": [
@@ -777,7 +777,7 @@
           0.06
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.2,
@@ -790,7 +790,7 @@
       }
     },
     {
-      "guid": "b5bffd24a4a98a69",
+      "guid": "7cd5f8099555ab70",
       "name": "Mark_a_4",
       "transform": {
         "position": [
@@ -809,7 +809,7 @@
           0.06
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.2,
@@ -822,7 +822,7 @@
       }
     },
     {
-      "guid": "a80b6f970a4224eb",
+      "guid": "c1011b022c654100",
       "name": "Mark_a_5",
       "transform": {
         "position": [
@@ -841,7 +841,7 @@
           0.06
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.2,
@@ -854,7 +854,7 @@
       }
     },
     {
-      "guid": "e6cb4a58aab1b2f5",
+      "guid": "7a558d9f0cbf36e1",
       "name": "Slice_a_1",
       "transform": {
         "position": [
@@ -873,7 +873,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.42,
@@ -886,7 +886,7 @@
       }
     },
     {
-      "guid": "b351310375115d10",
+      "guid": "0f2cfccbde575f47",
       "name": "Slice_a_2",
       "transform": {
         "position": [
@@ -905,7 +905,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.42,
@@ -918,7 +918,7 @@
       }
     },
     {
-      "guid": "de29283174d8445a",
+      "guid": "aeaa0c6fed81b1de",
       "name": "Slice_a_3",
       "transform": {
         "position": [
@@ -937,7 +937,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.42,
@@ -950,7 +950,7 @@
       }
     },
     {
-      "guid": "a4c3101f4a1358b6",
+      "guid": "204ac0e426404a56",
       "name": "Slice_a_4",
       "transform": {
         "position": [
@@ -969,7 +969,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.42,
@@ -982,7 +982,7 @@
       }
     },
     {
-      "guid": "0b3508b0bfc2a18f",
+      "guid": "3b1db0516decc0c7",
       "name": "Slice_a_5",
       "transform": {
         "position": [
@@ -1001,7 +1001,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.42,
@@ -1014,7 +1014,7 @@
       }
     },
     {
-      "guid": "f080cca9c7e878fc",
+      "guid": "2954bfff375175ec",
       "name": "Slice_a_6",
       "transform": {
         "position": [
@@ -1033,7 +1033,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         0.42,
@@ -1046,7 +1046,7 @@
       }
     },
     {
-      "guid": "be546384e977462c",
+      "guid": "9ba0e62fb11ea974",
       "name": "Lane_a_1",
       "transform": {
         "position": [
@@ -1065,7 +1065,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -1078,7 +1078,7 @@
       }
     },
     {
-      "guid": "83805783d3458d8f",
+      "guid": "5c286b3344249e41",
       "name": "Post_a_1",
       "transform": {
         "position": [
@@ -1097,7 +1097,7 @@
           0.16
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -1110,7 +1110,7 @@
       }
     },
     {
-      "guid": "1cb9e4a3bdb8eaaf",
+      "guid": "35b8bccf6255ca9f",
       "name": "Lane_a_2",
       "transform": {
         "position": [
@@ -1129,7 +1129,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -1142,7 +1142,7 @@
       }
     },
     {
-      "guid": "22597212f45b3b40",
+      "guid": "fcab3a7f983bf34c",
       "name": "Post_a_2",
       "transform": {
         "position": [
@@ -1161,7 +1161,7 @@
           0.16
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -1174,7 +1174,7 @@
       }
     },
     {
-      "guid": "7fd8914b96b9b0a8",
+      "guid": "be8984afa84172f5",
       "name": "Lane_a_3",
       "transform": {
         "position": [
@@ -1193,7 +1193,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -1206,7 +1206,7 @@
       }
     },
     {
-      "guid": "379b91c755c93034",
+      "guid": "5fa9144c46207d4b",
       "name": "Post_a_3",
       "transform": {
         "position": [
@@ -1225,7 +1225,7 @@
           0.16
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -1238,7 +1238,7 @@
       }
     },
     {
-      "guid": "b25c66a30f1d0e76",
+      "guid": "6330f269e2eba311",
       "name": "Lane_a_4",
       "transform": {
         "position": [
@@ -1257,7 +1257,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -1270,7 +1270,7 @@
       }
     },
     {
-      "guid": "e861b975012902f7",
+      "guid": "f05babbd288a83ce",
       "name": "Post_a_4",
       "transform": {
         "position": [
@@ -1289,7 +1289,7 @@
           0.16
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -1302,7 +1302,7 @@
       }
     },
     {
-      "guid": "d7be754a637ec7a5",
+      "guid": "cf889c73d5e1b74c",
       "name": "Lane_a_5",
       "transform": {
         "position": [
@@ -1321,7 +1321,7 @@
           1.0
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -1334,7 +1334,7 @@
       }
     },
     {
-      "guid": "5efb4101a3de436f",
+      "guid": "09f7adc3893b80e4",
       "name": "Post_a_5",
       "transform": {
         "position": [
@@ -1353,7 +1353,7 @@
           0.16
         ]
       },
-      "parentGuid": "cb9e4f4b5553eab6",
+      "parentGuid": "3f3f88df4f87cd9f",
       "primitive": "box",
       "color": [
         1.0,
@@ -1366,7 +1366,7 @@
       }
     },
     {
-      "guid": "bde5321267eab6bf",
+      "guid": "4bad091215d6d2f3",
       "name": "S_WallM_S",
       "transform": {
         "position": [
@@ -1385,13 +1385,13 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/wall.gltf"
       }
     },
     {
-      "guid": "5abf143f5ab6313d",
+      "guid": "9bd02301683b2922",
       "name": "S_Wall_S",
       "transform": {
         "position": [
@@ -1410,7 +1410,7 @@
           0.3
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "primitive": "box",
       "color": [
         0.62,
@@ -1445,7 +1445,7 @@
       }
     },
     {
-      "guid": "60c7749f732e29dc",
+      "guid": "5f31f850c928e4b7",
       "name": "S_WallM_E",
       "transform": {
         "position": [
@@ -1464,13 +1464,13 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/wall.gltf"
       }
     },
     {
-      "guid": "5c508aa85b5d6ae4",
+      "guid": "7ae3ce8657065443",
       "name": "S_Wall_E",
       "transform": {
         "position": [
@@ -1489,7 +1489,7 @@
           12.3
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "primitive": "box",
       "color": [
         0.62,
@@ -1524,7 +1524,7 @@
       }
     },
     {
-      "guid": "57485ac3fe8bb50b",
+      "guid": "deedafe64c4f1a71",
       "name": "S_WallM_W",
       "transform": {
         "position": [
@@ -1543,13 +1543,13 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/wall.gltf"
       }
     },
     {
-      "guid": "23c7d7c0baf8eeba",
+      "guid": "6e6747099b6dad53",
       "name": "S_Wall_W",
       "transform": {
         "position": [
@@ -1568,7 +1568,7 @@
           12.3
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "primitive": "box",
       "color": [
         0.62,
@@ -1603,7 +1603,7 @@
       }
     },
     {
-      "guid": "101c5a9903a1b748",
+      "guid": "f6725d0bc9fc24af",
       "name": "S_Troffer_0",
       "transform": {
         "position": [
@@ -1622,13 +1622,13 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "b72e77f6f1608647",
+      "guid": "3b4adbb256aa13da",
       "name": "S_Light_0",
       "transform": {
         "position": [
@@ -1647,7 +1647,7 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -1660,7 +1660,7 @@
       }
     },
     {
-      "guid": "3af798c03f183a3a",
+      "guid": "d2ec8b2112ecd88e",
       "name": "S_Troffer_1",
       "transform": {
         "position": [
@@ -1679,13 +1679,13 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "1f5ab29fa65cd3b3",
+      "guid": "d738193ec6165f53",
       "name": "S_Light_1",
       "transform": {
         "position": [
@@ -1704,7 +1704,7 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -1717,7 +1717,7 @@
       }
     },
     {
-      "guid": "f2d6d179a15a8283",
+      "guid": "b87a8647ba0635bb",
       "name": "S_Troffer_2",
       "transform": {
         "position": [
@@ -1736,13 +1736,13 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "1a4e4e7450831738",
+      "guid": "f8aef6ae11c6f315",
       "name": "S_Light_2",
       "transform": {
         "position": [
@@ -1761,7 +1761,7 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -1774,7 +1774,7 @@
       }
     },
     {
-      "guid": "3297a7c402fd6918",
+      "guid": "e7efc5bebdac2a69",
       "name": "S_Troffer_3",
       "transform": {
         "position": [
@@ -1793,13 +1793,13 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "e77c22180ae3fed3",
+      "guid": "d0010d10c4e85a75",
       "name": "S_Light_3",
       "transform": {
         "position": [
@@ -1818,7 +1818,7 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -1831,17 +1831,17 @@
       }
     },
     {
-      "guid": "ce3d49c445fff763",
-      "name": "S_Vent_0",
+      "guid": "dad6b2aecdce84e0",
+      "name": "S_bench_0",
       "transform": {
         "position": [
-          5.98,
-          2.6,
-          0.0
+          -4.2,
+          0.0,
+          3.4
         ],
         "rotation": [
           0.0,
-          270.0,
+          12.0,
           0.0
         ],
         "scale": [
@@ -1850,13 +1850,38 @@
           1.0
         ]
       },
-      "parentGuid": "abcfb90cfef33df1",
+      "parentGuid": "cab9d964998049c5",
+      "meshRenderer": {
+        "modelPath": "models/bench.gltf"
+      }
+    },
+    {
+      "guid": "32f9d470a1c3985b",
+      "name": "S_Vent_1",
+      "transform": {
+        "position": [
+          0.0,
+          2.6,
+          -5.98
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "cab9d964998049c5",
       "meshRenderer": {
         "modelPath": "models/vent.gltf"
       }
     },
     {
-      "guid": "5838696803d0cbed",
+      "guid": "d54aa17d7501fe01",
       "name": "Room A",
       "transform": {
         "position": [
@@ -1875,14 +1900,14 @@
           1.0
         ]
       },
-      "parentGuid": "bcce9b1acd97a835"
+      "parentGuid": "4f4b76f96f6158bf"
     },
     {
-      "guid": "6a6467e2dc31a391",
+      "guid": "3bb5fe0ccfdec3a8",
       "name": "A_Floor",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -0.15,
           52.0
         ],
@@ -1897,7 +1922,7 @@
           12.3
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "primitive": "box",
       "color": [
         0.24,
@@ -1932,11 +1957,11 @@
       }
     },
     {
-      "guid": "b048ab6c11f26f13",
+      "guid": "f4f85bcbdf0f11e6",
       "name": "A_Ceil",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           4.15,
           52.0
         ],
@@ -1951,7 +1976,7 @@
           12.3
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "primitive": "box",
       "color": [
         0.72,
@@ -1986,11 +2011,11 @@
       }
     },
     {
-      "guid": "14c55413d48361a9",
+      "guid": "1ef07fcd2c9f0787",
       "name": "A_FloorM",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           0.005,
           52.0
         ],
@@ -2005,17 +2030,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/floor.gltf"
       }
     },
     {
-      "guid": "8ad6697985108652",
+      "guid": "0329345c64221567",
       "name": "A_CeilM",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           3.995,
           52.0
         ],
@@ -2030,17 +2055,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/ceiling.gltf"
       }
     },
     {
-      "guid": "3ebd69e2cac539d9",
+      "guid": "330c7aa481792589",
       "name": "A_WallM_N",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           0.0,
           57.995
         ],
@@ -2055,17 +2080,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/wall.gltf"
       }
     },
     {
-      "guid": "66e37da52cf1550e",
+      "guid": "3bd59b51c9854a5a",
       "name": "A_Wall_N",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           2.0,
           58.15
         ],
@@ -2080,7 +2105,7 @@
           0.3
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "primitive": "box",
       "color": [
         0.62,
@@ -2115,11 +2140,11 @@
       }
     },
     {
-      "guid": "91dfc3a8e6a9f19e",
+      "guid": "f43a9f8641a3dc2e",
       "name": "A_WallM_S",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           0.0,
           46.005
         ],
@@ -2134,17 +2159,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/wall_door.gltf"
       }
     },
     {
-      "guid": "579b521ac50f17b1",
+      "guid": "914770a0c1fa9ed2",
       "name": "A_Wall_S_n",
       "transform": {
         "position": [
-          -3.45,
+          -55.45,
           2.0,
           45.85
         ],
@@ -2159,7 +2184,7 @@
           0.3
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "primitive": "box",
       "color": [
         0.62,
@@ -2194,11 +2219,11 @@
       }
     },
     {
-      "guid": "4bdffdad2dd13528",
+      "guid": "22cfd956c10b4f98",
       "name": "A_Wall_S_p",
       "transform": {
         "position": [
-          3.45,
+          -48.55,
           2.0,
           45.85
         ],
@@ -2213,7 +2238,7 @@
           0.3
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "primitive": "box",
       "color": [
         0.62,
@@ -2248,11 +2273,11 @@
       }
     },
     {
-      "guid": "71fecd51fbd6c9a2",
+      "guid": "efb592aac1036585",
       "name": "A_Lintel_S",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           3.3,
           45.85
         ],
@@ -2267,7 +2292,7 @@
           0.3
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "primitive": "box",
       "color": [
         0.62,
@@ -2302,8 +2327,8 @@
       }
     },
     {
-      "guid": "f494af139c569ad5",
-      "name": "Door b",
+      "guid": "f481f5b7627fa0aa",
+      "name": "Door d",
       "transform": {
         "position": [
           0.0,
@@ -2321,14 +2346,14 @@
           1.0
         ]
       },
-      "parentGuid": "4319d8b3f34c3b99"
+      "parentGuid": "4ee8d623a2dc0245"
     },
     {
-      "guid": "63df5fa9467ddad3",
-      "name": "Door_b",
+      "guid": "16a530814718b241",
+      "name": "Door_d",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           0.0,
           45.85
         ],
@@ -2343,14 +2368,14 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5"
+      "parentGuid": "f481f5b7627fa0aa"
     },
     {
-      "guid": "0382b7dec34163b7",
-      "name": "Void_b",
+      "guid": "b6b51386e5a9bc2b",
+      "name": "Void_d",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           1.3,
           45.85
         ],
@@ -2365,7 +2390,7 @@
           0.1
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -2400,11 +2425,11 @@
       }
     },
     {
-      "guid": "a09584640fb7219c",
-      "name": "VoidLight_b",
+      "guid": "7cb44bdbbc466abc",
+      "name": "VoidLight_d",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           1.35,
           46.4
         ],
@@ -2419,7 +2444,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -2432,11 +2457,11 @@
       }
     },
     {
-      "guid": "18c40513ddda1b30",
-      "name": "Frame_b_-1",
+      "guid": "8dc3ce84583902a3",
+      "name": "Frame_d_-1",
       "transform": {
         "position": [
-          -0.93,
+          -52.93,
           1.35,
           46.035000000000004
         ],
@@ -2451,12 +2476,12 @@
           0.12
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
-        1.0,
-        0.55,
-        0.12
+        0.3,
+        0.6,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
@@ -2464,11 +2489,11 @@
       }
     },
     {
-      "guid": "26bf26b44a4d012a",
-      "name": "Frame_b_1",
+      "guid": "17eb1928f8f4fefd",
+      "name": "Frame_d_1",
       "transform": {
         "position": [
-          0.93,
+          -51.07,
           1.35,
           46.035000000000004
         ],
@@ -2483,12 +2508,12 @@
           0.12
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
-        1.0,
-        0.55,
-        0.12
+        0.3,
+        0.6,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
@@ -2496,11 +2521,11 @@
       }
     },
     {
-      "guid": "ed339e738a176d9e",
-      "name": "Frame_b_top",
+      "guid": "b7153be98a686b3c",
+      "name": "Frame_d_top",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           2.78,
           46.035000000000004
         ],
@@ -2515,12 +2540,12 @@
           0.12
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
-        1.0,
-        0.55,
-        0.12
+        0.3,
+        0.6,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
@@ -2528,11 +2553,11 @@
       }
     },
     {
-      "guid": "f6ea4bb5c68ddc40",
-      "name": "Mark_b_1",
+      "guid": "d687e453b1c5ebf2",
+      "name": "Mark_d_1",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2547,12 +2572,12 @@
           0.06
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
-        1.0,
-        0.55,
-        0.12
+        0.3,
+        0.6,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
@@ -2560,11 +2585,11 @@
       }
     },
     {
-      "guid": "9dc0d610a50becb0",
-      "name": "Mark_b_2",
+      "guid": "c4bbeb6885ef62ca",
+      "name": "Mark_d_2",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2579,12 +2604,12 @@
           0.06
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
-        1.0,
-        0.55,
-        0.12
+        0.3,
+        0.6,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
@@ -2592,11 +2617,11 @@
       }
     },
     {
-      "guid": "27358651e9ea987f",
-      "name": "Mark_b_3",
+      "guid": "a2f5b7c7b6d025e6",
+      "name": "Mark_d_3",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2611,12 +2636,12 @@
           0.06
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
-        1.0,
-        0.55,
-        0.12
+        0.3,
+        0.6,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
@@ -2624,11 +2649,11 @@
       }
     },
     {
-      "guid": "d048471dae0b77b6",
-      "name": "Mark_b_4",
+      "guid": "e9911aa12b5f7780",
+      "name": "Mark_d_4",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2643,12 +2668,12 @@
           0.06
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
-        1.0,
-        0.55,
-        0.12
+        0.3,
+        0.6,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
@@ -2656,11 +2681,11 @@
       }
     },
     {
-      "guid": "3df83af5b1bb3b30",
-      "name": "Mark_b_5",
+      "guid": "3c3910932c710d61",
+      "name": "Mark_d_5",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2675,12 +2700,12 @@
           0.06
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
-        1.0,
-        0.55,
-        0.12
+        0.3,
+        0.6,
+        1.0
       ],
       "material": {
         "metallic": 0.0,
@@ -2688,11 +2713,11 @@
       }
     },
     {
-      "guid": "0356891ace5908a6",
-      "name": "Slice_b_1",
+      "guid": "17600e506c4ae74e",
+      "name": "Slice_d_1",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2707,7 +2732,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         0.42,
@@ -2720,11 +2745,11 @@
       }
     },
     {
-      "guid": "d67dd7ad755b066f",
-      "name": "Slice_b_2",
+      "guid": "c91036f31c0fa016",
+      "name": "Slice_d_2",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2739,7 +2764,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         0.42,
@@ -2752,11 +2777,11 @@
       }
     },
     {
-      "guid": "fa0545ffe0446201",
-      "name": "Slice_b_3",
+      "guid": "ccd269837f6112e4",
+      "name": "Slice_d_3",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2771,7 +2796,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         0.42,
@@ -2784,11 +2809,11 @@
       }
     },
     {
-      "guid": "c1c4eaceeb9d780d",
-      "name": "Slice_b_4",
+      "guid": "9f95457be15a26a2",
+      "name": "Slice_d_4",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2803,7 +2828,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         0.42,
@@ -2816,11 +2841,11 @@
       }
     },
     {
-      "guid": "8bdb01a13b4d0c8c",
-      "name": "Slice_b_5",
+      "guid": "5bdbabfe75e404e8",
+      "name": "Slice_d_5",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2835,7 +2860,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         0.42,
@@ -2848,11 +2873,11 @@
       }
     },
     {
-      "guid": "6ee348b4ed349ef9",
-      "name": "Slice_b_6",
+      "guid": "40a50559b6fff7eb",
+      "name": "Slice_d_6",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2867,7 +2892,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         0.42,
@@ -2880,11 +2905,11 @@
       }
     },
     {
-      "guid": "0c140a407c025571",
-      "name": "Lane_b_1",
+      "guid": "51812336b4da0af0",
+      "name": "Lane_d_1",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2899,7 +2924,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -2912,11 +2937,11 @@
       }
     },
     {
-      "guid": "c3dc92e7d1018ebc",
-      "name": "Post_b_1",
+      "guid": "6b755c336b993c37",
+      "name": "Post_d_1",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2931,7 +2956,7 @@
           0.16
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -2944,11 +2969,11 @@
       }
     },
     {
-      "guid": "84d34dc0d12211d2",
-      "name": "Lane_b_2",
+      "guid": "3a773b94586058c2",
+      "name": "Lane_d_2",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2963,7 +2988,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -2976,11 +3001,11 @@
       }
     },
     {
-      "guid": "e5f4f75e3c408892",
-      "name": "Post_b_2",
+      "guid": "efb8a7941152395f",
+      "name": "Post_d_2",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -2995,7 +3020,7 @@
           0.16
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -3008,11 +3033,11 @@
       }
     },
     {
-      "guid": "45589b84033bbab6",
-      "name": "Lane_b_3",
+      "guid": "9209a68e28f99e04",
+      "name": "Lane_d_3",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -3027,7 +3052,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -3040,11 +3065,11 @@
       }
     },
     {
-      "guid": "c725cd67e2b91c1f",
-      "name": "Post_b_3",
+      "guid": "67628b4e016b851f",
+      "name": "Post_d_3",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -3059,7 +3084,7 @@
           0.16
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -3072,11 +3097,11 @@
       }
     },
     {
-      "guid": "bab68923cad77e77",
-      "name": "Lane_b_4",
+      "guid": "315212e4fc8834f0",
+      "name": "Lane_d_4",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -3091,7 +3116,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -3104,11 +3129,11 @@
       }
     },
     {
-      "guid": "47d744af6267f10b",
-      "name": "Post_b_4",
+      "guid": "d1b4cf3c9fae5f29",
+      "name": "Post_d_4",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -3123,7 +3148,7 @@
           0.16
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -3136,11 +3161,11 @@
       }
     },
     {
-      "guid": "7324f94e8ee7ed18",
-      "name": "Lane_b_5",
+      "guid": "112b0129b828f894",
+      "name": "Lane_d_5",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -3155,7 +3180,7 @@
           1.0
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -3168,11 +3193,11 @@
       }
     },
     {
-      "guid": "fed1dcc1a81e42b6",
-      "name": "Post_b_5",
+      "guid": "433e7328b7a05fd7",
+      "name": "Post_d_5",
       "transform": {
         "position": [
-          0.0,
+          -52.0,
           -200.0,
           45.85
         ],
@@ -3187,7 +3212,7 @@
           0.16
         ]
       },
-      "parentGuid": "f494af139c569ad5",
+      "parentGuid": "f481f5b7627fa0aa",
       "primitive": "box",
       "color": [
         1.0,
@@ -3200,11 +3225,11 @@
       }
     },
     {
-      "guid": "355fb8647513d357",
+      "guid": "3d1747f04f9bad36",
       "name": "A_WallM_E",
       "transform": {
         "position": [
-          5.995,
+          -46.005,
           0.0,
           52.0
         ],
@@ -3219,17 +3244,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/wall.gltf"
       }
     },
     {
-      "guid": "fb6e7dbd79453a7d",
+      "guid": "2dfefe511b5a16a8",
       "name": "A_Wall_E",
       "transform": {
         "position": [
-          6.15,
+          -45.85,
           2.0,
           52.0
         ],
@@ -3244,7 +3269,7 @@
           12.3
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "primitive": "box",
       "color": [
         0.62,
@@ -3279,11 +3304,11 @@
       }
     },
     {
-      "guid": "a07e94ede2491fe5",
+      "guid": "1aa4775db829a7b1",
       "name": "A_WallM_W",
       "transform": {
         "position": [
-          -5.995,
+          -57.995,
           0.0,
           52.0
         ],
@@ -3298,17 +3323,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/wall.gltf"
       }
     },
     {
-      "guid": "be7c0c4916e63947",
+      "guid": "1d538c877c049422",
       "name": "A_Wall_W",
       "transform": {
         "position": [
-          -6.15,
+          -58.15,
           2.0,
           52.0
         ],
@@ -3323,7 +3348,7 @@
           12.3
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "primitive": "box",
       "color": [
         0.62,
@@ -3358,11 +3383,11 @@
       }
     },
     {
-      "guid": "3302ad4dc5237ddb",
+      "guid": "0338683958529e02",
       "name": "A_Troffer_0",
       "transform": {
         "position": [
-          -3.1,
+          -55.1,
           3.99,
           48.9
         ],
@@ -3377,17 +3402,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "bb692583045dcb8f",
+      "guid": "8a75d290eb9892f4",
       "name": "A_Light_0",
       "transform": {
         "position": [
-          -3.1,
+          -55.1,
           3.55,
           48.9
         ],
@@ -3402,7 +3427,7 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -3415,11 +3440,11 @@
       }
     },
     {
-      "guid": "4b77ba40355ce487",
+      "guid": "f8417956f5289adf",
       "name": "A_Troffer_1",
       "transform": {
         "position": [
-          3.1,
+          -48.9,
           3.99,
           48.9
         ],
@@ -3434,17 +3459,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "23f6e90addf9914f",
+      "guid": "63a52a2e9c98f474",
       "name": "A_Light_1",
       "transform": {
         "position": [
-          3.1,
+          -48.9,
           3.55,
           48.9
         ],
@@ -3459,7 +3484,7 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -3472,11 +3497,11 @@
       }
     },
     {
-      "guid": "a26c8838c14b9792",
+      "guid": "d22bea0b81b2b79f",
       "name": "A_Troffer_2",
       "transform": {
         "position": [
-          -3.1,
+          -55.1,
           3.99,
           55.1
         ],
@@ -3491,17 +3516,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "f6ed7505b9c3f255",
+      "guid": "fd0c8f118270af7c",
       "name": "A_Light_2",
       "transform": {
         "position": [
-          -3.1,
+          -55.1,
           3.55,
           55.1
         ],
@@ -3516,7 +3541,7 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -3529,11 +3554,11 @@
       }
     },
     {
-      "guid": "0d7794a7b335c466",
+      "guid": "ec890f28190a3372",
       "name": "A_Troffer_3",
       "transform": {
         "position": [
-          3.1,
+          -48.9,
           3.99,
           55.1
         ],
@@ -3548,17 +3573,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "46094678cf46198d",
+      "guid": "30b83db6d342e309",
       "name": "A_Light_3",
       "transform": {
         "position": [
-          3.1,
+          -48.9,
           3.55,
           55.1
         ],
@@ -3573,7 +3598,7 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -3586,11 +3611,11 @@
       }
     },
     {
-      "guid": "885ef5794c2dad75",
+      "guid": "f236cfa7fab7679d",
       "name": "A_column_0",
       "transform": {
         "position": [
-          -3.4,
+          -55.4,
           0.0,
           48.6
         ],
@@ -3605,17 +3630,17 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/column.gltf"
       }
     },
     {
-      "guid": "d5032f0f29f30683",
+      "guid": "d133aaf1575ee367",
       "name": "A_column_1",
       "transform": {
         "position": [
-          3.4,
+          -48.6,
           0.0,
           55.4
         ],
@@ -3630,13 +3655,13 @@
           1.0
         ]
       },
-      "parentGuid": "5838696803d0cbed",
+      "parentGuid": "d54aa17d7501fe01",
       "meshRenderer": {
         "modelPath": "models/column.gltf"
       }
     },
     {
-      "guid": "5fb71d79ef180e9f",
+      "guid": "7ac8966bf852cefa",
       "name": "Room G",
       "transform": {
         "position": [
@@ -3655,10 +3680,10 @@
           1.0
         ]
       },
-      "parentGuid": "bcce9b1acd97a835"
+      "parentGuid": "4f4b76f96f6158bf"
     },
     {
-      "guid": "080299f4a25294ad",
+      "guid": "38f02b09f0210c20",
       "name": "G_Floor",
       "transform": {
         "position": [
@@ -3677,7 +3702,7 @@
           12.3
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "primitive": "box",
       "color": [
         0.24,
@@ -3712,7 +3737,7 @@
       }
     },
     {
-      "guid": "2975eebb4fa60fb8",
+      "guid": "8b04cc0a25306dc5",
       "name": "G_Ceil",
       "transform": {
         "position": [
@@ -3731,7 +3756,7 @@
           12.3
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "primitive": "box",
       "color": [
         0.72,
@@ -3766,7 +3791,7 @@
       }
     },
     {
-      "guid": "a341ebb65fafdb33",
+      "guid": "8afd53dff4a73460",
       "name": "G_FloorM",
       "transform": {
         "position": [
@@ -3785,13 +3810,13 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "meshRenderer": {
         "modelPath": "models/floor.gltf"
       }
     },
     {
-      "guid": "cca808f22f7e3e62",
+      "guid": "7fbc8220c07905b7",
       "name": "G_CeilM",
       "transform": {
         "position": [
@@ -3810,13 +3835,13 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "meshRenderer": {
         "modelPath": "models/ceiling.gltf"
       }
     },
     {
-      "guid": "efaa7e848b57ebeb",
+      "guid": "96329dcb1bfa5989",
       "name": "G_WallM_N",
       "transform": {
         "position": [
@@ -3835,13 +3860,13 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "meshRenderer": {
         "modelPath": "models/wall.gltf"
       }
     },
     {
-      "guid": "0a05122f6ae71b6d",
+      "guid": "1d6343be811dc75b",
       "name": "G_Wall_N",
       "transform": {
         "position": [
@@ -3860,7 +3885,7 @@
           0.3
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "primitive": "box",
       "color": [
         0.62,
@@ -3895,7 +3920,7 @@
       }
     },
     {
-      "guid": "a3dfe4459f6e1eba",
+      "guid": "96a72a6ddc785f79",
       "name": "G_WallM_S",
       "transform": {
         "position": [
@@ -3914,13 +3939,13 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "meshRenderer": {
         "modelPath": "models/wall_door.gltf"
       }
     },
     {
-      "guid": "0808ccbc19ceedf4",
+      "guid": "11a24655eef8ca79",
       "name": "G_Wall_S_n",
       "transform": {
         "position": [
@@ -3939,7 +3964,7 @@
           0.3
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "primitive": "box",
       "color": [
         0.62,
@@ -3974,7 +3999,7 @@
       }
     },
     {
-      "guid": "a97b89ca74d5c4f7",
+      "guid": "69f3284bf324f387",
       "name": "G_Wall_S_p",
       "transform": {
         "position": [
@@ -3993,7 +4018,7 @@
           0.3
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "primitive": "box",
       "color": [
         0.62,
@@ -4028,7 +4053,7 @@
       }
     },
     {
-      "guid": "404b174fa9bf9f3c",
+      "guid": "50042dcd95c4a8aa",
       "name": "G_Lintel_S",
       "transform": {
         "position": [
@@ -4047,7 +4072,7 @@
           0.3
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "primitive": "box",
       "color": [
         0.62,
@@ -4082,7 +4107,7 @@
       }
     },
     {
-      "guid": "cccc6d4656484499",
+      "guid": "d8437fa210ead414",
       "name": "Door g",
       "transform": {
         "position": [
@@ -4101,10 +4126,10 @@
           1.0
         ]
       },
-      "parentGuid": "4319d8b3f34c3b99"
+      "parentGuid": "4ee8d623a2dc0245"
     },
     {
-      "guid": "7a16055bb0737050",
+      "guid": "ca990c1fa6d5da0b",
       "name": "Door_g",
       "transform": {
         "position": [
@@ -4123,10 +4148,10 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499"
+      "parentGuid": "d8437fa210ead414"
     },
     {
-      "guid": "8aa9a5c587b5e491",
+      "guid": "3490c2b87edb2d21",
       "name": "Void_g",
       "transform": {
         "position": [
@@ -4145,7 +4170,7 @@
           0.1
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4180,7 +4205,7 @@
       }
     },
     {
-      "guid": "bbe5873fa37ee0ff",
+      "guid": "047b3fbf09f942d0",
       "name": "VoidLight_g",
       "transform": {
         "position": [
@@ -4199,7 +4224,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -4212,7 +4237,7 @@
       }
     },
     {
-      "guid": "f28344f1b1bfb3ab",
+      "guid": "59253513b4c31f3f",
       "name": "Frame_g_-1",
       "transform": {
         "position": [
@@ -4231,7 +4256,7 @@
           0.12
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4244,7 +4269,7 @@
       }
     },
     {
-      "guid": "682f346a05ea0208",
+      "guid": "b4907611dad5de89",
       "name": "Frame_g_1",
       "transform": {
         "position": [
@@ -4263,7 +4288,7 @@
           0.12
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4276,7 +4301,7 @@
       }
     },
     {
-      "guid": "af81db69c2962c11",
+      "guid": "d20355a4f1844e38",
       "name": "Frame_g_top",
       "transform": {
         "position": [
@@ -4295,7 +4320,7 @@
           0.12
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4308,7 +4333,7 @@
       }
     },
     {
-      "guid": "a41d7a200512194a",
+      "guid": "10fd4bca725aa6ca",
       "name": "Mark_g_1",
       "transform": {
         "position": [
@@ -4327,7 +4352,7 @@
           0.06
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4340,7 +4365,7 @@
       }
     },
     {
-      "guid": "871591188a962887",
+      "guid": "92a2b0f136508d4d",
       "name": "Mark_g_2",
       "transform": {
         "position": [
@@ -4359,7 +4384,7 @@
           0.06
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4372,7 +4397,7 @@
       }
     },
     {
-      "guid": "002cef2ca7539a66",
+      "guid": "ee539410c8631362",
       "name": "Mark_g_3",
       "transform": {
         "position": [
@@ -4391,7 +4416,7 @@
           0.06
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4404,7 +4429,7 @@
       }
     },
     {
-      "guid": "171cfb2e9c71bc84",
+      "guid": "64dabef1be5712b9",
       "name": "Mark_g_4",
       "transform": {
         "position": [
@@ -4423,7 +4448,7 @@
           0.06
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4436,7 +4461,7 @@
       }
     },
     {
-      "guid": "343d4ecbeadac4d6",
+      "guid": "0a7f62b99a35eb22",
       "name": "Mark_g_5",
       "transform": {
         "position": [
@@ -4455,7 +4480,7 @@
           0.06
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4468,7 +4493,7 @@
       }
     },
     {
-      "guid": "76ce5daa89182bef",
+      "guid": "7b9db8f2126d5cc5",
       "name": "Slice_g_1",
       "transform": {
         "position": [
@@ -4487,7 +4512,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         0.42,
@@ -4500,7 +4525,7 @@
       }
     },
     {
-      "guid": "17bae6cb183c3a2e",
+      "guid": "1c7df2786c447e0b",
       "name": "Slice_g_2",
       "transform": {
         "position": [
@@ -4519,7 +4544,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         0.42,
@@ -4532,7 +4557,7 @@
       }
     },
     {
-      "guid": "ebd341001393f722",
+      "guid": "aa9f6e35f3b260ea",
       "name": "Slice_g_3",
       "transform": {
         "position": [
@@ -4551,7 +4576,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         0.42,
@@ -4564,7 +4589,7 @@
       }
     },
     {
-      "guid": "f2768970b7fe6061",
+      "guid": "f3745e2fc246be8d",
       "name": "Slice_g_4",
       "transform": {
         "position": [
@@ -4583,7 +4608,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         0.42,
@@ -4596,7 +4621,7 @@
       }
     },
     {
-      "guid": "79c516e9765cad1e",
+      "guid": "70c3e32a0a6ce07c",
       "name": "Slice_g_5",
       "transform": {
         "position": [
@@ -4615,7 +4640,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         0.42,
@@ -4628,7 +4653,7 @@
       }
     },
     {
-      "guid": "d88f221776a14886",
+      "guid": "5e1ea4b4404a4de8",
       "name": "Slice_g_6",
       "transform": {
         "position": [
@@ -4647,7 +4672,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         0.42,
@@ -4660,7 +4685,7 @@
       }
     },
     {
-      "guid": "083d38fca2b39b66",
+      "guid": "9b5db446a0007311",
       "name": "Lane_g_1",
       "transform": {
         "position": [
@@ -4679,7 +4704,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4692,7 +4717,7 @@
       }
     },
     {
-      "guid": "115d97bb33cda287",
+      "guid": "8550c6197cab1d11",
       "name": "Post_g_1",
       "transform": {
         "position": [
@@ -4711,7 +4736,7 @@
           0.16
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4724,7 +4749,7 @@
       }
     },
     {
-      "guid": "75a920b92c37ed73",
+      "guid": "934b339be692f5ce",
       "name": "Lane_g_2",
       "transform": {
         "position": [
@@ -4743,7 +4768,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4756,7 +4781,7 @@
       }
     },
     {
-      "guid": "832affb13cc5ec5f",
+      "guid": "7dc481e1739d6412",
       "name": "Post_g_2",
       "transform": {
         "position": [
@@ -4775,7 +4800,7 @@
           0.16
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4788,7 +4813,7 @@
       }
     },
     {
-      "guid": "196f78b1e163cfff",
+      "guid": "50548510af0aaf86",
       "name": "Lane_g_3",
       "transform": {
         "position": [
@@ -4807,7 +4832,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4820,7 +4845,7 @@
       }
     },
     {
-      "guid": "0a18a4ad446e2243",
+      "guid": "222e914252fa98f6",
       "name": "Post_g_3",
       "transform": {
         "position": [
@@ -4839,7 +4864,7 @@
           0.16
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4852,7 +4877,7 @@
       }
     },
     {
-      "guid": "9fdc19ff20d0e26e",
+      "guid": "36068c7356f04c2d",
       "name": "Lane_g_4",
       "transform": {
         "position": [
@@ -4871,7 +4896,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4884,7 +4909,7 @@
       }
     },
     {
-      "guid": "15e69bd16d5c0f25",
+      "guid": "c2dafa529ee409df",
       "name": "Post_g_4",
       "transform": {
         "position": [
@@ -4903,7 +4928,7 @@
           0.16
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4916,7 +4941,7 @@
       }
     },
     {
-      "guid": "2b4cd98639b3fe87",
+      "guid": "8333d5858d9511a5",
       "name": "Lane_g_5",
       "transform": {
         "position": [
@@ -4935,7 +4960,7 @@
           1.0
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4948,7 +4973,7 @@
       }
     },
     {
-      "guid": "bc76cebeeac0b37c",
+      "guid": "f1e747b0be6a86ee",
       "name": "Post_g_5",
       "transform": {
         "position": [
@@ -4967,7 +4992,7 @@
           0.16
         ]
       },
-      "parentGuid": "cccc6d4656484499",
+      "parentGuid": "d8437fa210ead414",
       "primitive": "box",
       "color": [
         1.0,
@@ -4980,7 +5005,7 @@
       }
     },
     {
-      "guid": "8b65a25451a2f05a",
+      "guid": "f13aaaac72c239a9",
       "name": "G_WallM_E",
       "transform": {
         "position": [
@@ -4999,13 +5024,13 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "meshRenderer": {
         "modelPath": "models/wall.gltf"
       }
     },
     {
-      "guid": "b251df4ee14567e8",
+      "guid": "7110ef68345ec9f4",
       "name": "G_Wall_E",
       "transform": {
         "position": [
@@ -5024,7 +5049,7 @@
           12.3
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "primitive": "box",
       "color": [
         0.62,
@@ -5059,7 +5084,7 @@
       }
     },
     {
-      "guid": "d25c5ada106ed32a",
+      "guid": "72bf4ffcacfb7eb4",
       "name": "G_WallM_W",
       "transform": {
         "position": [
@@ -5078,13 +5103,13 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "meshRenderer": {
         "modelPath": "models/wall.gltf"
       }
     },
     {
-      "guid": "b57b5b1ae3bf76c4",
+      "guid": "f99b4a7d30b0860b",
       "name": "G_Wall_W",
       "transform": {
         "position": [
@@ -5103,7 +5128,7 @@
           12.3
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "primitive": "box",
       "color": [
         0.62,
@@ -5138,7 +5163,7 @@
       }
     },
     {
-      "guid": "6440747448672bda",
+      "guid": "3308bf4fc1d4f222",
       "name": "G_Troffer_0",
       "transform": {
         "position": [
@@ -5157,13 +5182,13 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "25e0afd8d57cbdbf",
+      "guid": "a8bf4e7288f41999",
       "name": "G_Light_0",
       "transform": {
         "position": [
@@ -5182,7 +5207,7 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -5195,7 +5220,7 @@
       }
     },
     {
-      "guid": "24d8d6423bbf5894",
+      "guid": "e1d20cda3e01cbfb",
       "name": "G_Troffer_1",
       "transform": {
         "position": [
@@ -5214,13 +5239,13 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "fcb023a7d1e1fe58",
+      "guid": "3115e268b169d2d0",
       "name": "G_Light_1",
       "transform": {
         "position": [
@@ -5239,7 +5264,7 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -5252,7 +5277,7 @@
       }
     },
     {
-      "guid": "9c854633b67f44d8",
+      "guid": "3930a852d5d766fe",
       "name": "G_Troffer_2",
       "transform": {
         "position": [
@@ -5271,13 +5296,13 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "576457c4df9a4b20",
+      "guid": "edada03abe5c7024",
       "name": "G_Light_2",
       "transform": {
         "position": [
@@ -5296,7 +5321,7 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -5309,7 +5334,7 @@
       }
     },
     {
-      "guid": "79d1c17d2985cb91",
+      "guid": "b0d86bf7d8ab2d61",
       "name": "G_Troffer_3",
       "transform": {
         "position": [
@@ -5328,13 +5353,13 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "meshRenderer": {
         "modelPath": "models/troffer.gltf"
       }
     },
     {
-      "guid": "5c673fc2d27b9146",
+      "guid": "72bd0c376f47eae8",
       "name": "G_Light_3",
       "transform": {
         "position": [
@@ -5353,7 +5378,7 @@
           1.0
         ]
       },
-      "parentGuid": "5fb71d79ef180e9f",
+      "parentGuid": "7ac8966bf852cefa",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -5366,7 +5391,32 @@
       }
     },
     {
-      "guid": "28e0edfb42338d1f",
+      "guid": "9ad0f398ea4e83a8",
+      "name": "G_Vent_0",
+      "transform": {
+        "position": [
+          57.980000000000004,
+          2.6,
+          52.0
+        ],
+        "rotation": [
+          0.0,
+          270.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "7ac8966bf852cefa",
+      "meshRenderer": {
+        "modelPath": "models/vent.gltf"
+      }
+    },
+    {
+      "guid": "56ed65ce09197bd3",
       "name": "Goal",
       "transform": {
         "position": [
@@ -5385,7 +5435,7 @@
           0.42
         ]
       },
-      "parentGuid": "36f39bdc93bd7dd4",
+      "parentGuid": "f700cd71fec30628",
       "primitive": "box",
       "color": [
         0.1,
@@ -5398,7 +5448,7 @@
       }
     },
     {
-      "guid": "880e4d8be169ea76",
+      "guid": "6dcccb42fa0f60d6",
       "name": "GoalBase",
       "transform": {
         "position": [
@@ -5417,7 +5467,7 @@
           1.5
         ]
       },
-      "parentGuid": "36f39bdc93bd7dd4",
+      "parentGuid": "f700cd71fec30628",
       "primitive": "box",
       "color": [
         0.1,
@@ -5430,7 +5480,7 @@
       }
     },
     {
-      "guid": "eaaebf4b34f7adcb",
+      "guid": "1d42adcd6398e313",
       "name": "GoalLight",
       "transform": {
         "position": [
@@ -5449,7 +5499,7 @@
           1.0
         ]
       },
-      "parentGuid": "36f39bdc93bd7dd4",
+      "parentGuid": "f700cd71fec30628",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -5462,7 +5512,7 @@
       }
     },
     {
-      "guid": "27b008d8860d85ab",
+      "guid": "6c2507afe7a7bc2e",
       "name": "GoalFx",
       "transform": {
         "position": [
@@ -5481,7 +5531,7 @@
           1.0
         ]
       },
-      "parentGuid": "36f39bdc93bd7dd4",
+      "parentGuid": "f700cd71fec30628",
       "particleEmitter": {
         "kind": 0,
         "blend": 0,
@@ -5518,7 +5568,7 @@
       }
     },
     {
-      "guid": "94fd4d075adbd25c",
+      "guid": "d69fe4419db032e5",
       "name": "Proxies",
       "transform": {
         "position": [
@@ -5537,10 +5587,10 @@
           1.0
         ]
       },
-      "parentGuid": "36f39bdc93bd7dd4"
+      "parentGuid": "f700cd71fec30628"
     },
     {
-      "guid": "5d4e288704c4fea1",
+      "guid": "d41f5cb4bad375c9",
       "name": "Proxy_1",
       "transform": {
         "position": [
@@ -5559,7 +5609,7 @@
           0.08
         ]
       },
-      "parentGuid": "94fd4d075adbd25c",
+      "parentGuid": "d69fe4419db032e5",
       "primitive": "box",
       "color": [
         1.0,
@@ -5572,7 +5622,7 @@
       }
     },
     {
-      "guid": "3610de023a9256d3",
+      "guid": "4102798670393e63",
       "name": "Proxy_2",
       "transform": {
         "position": [
@@ -5591,7 +5641,7 @@
           0.08
         ]
       },
-      "parentGuid": "94fd4d075adbd25c",
+      "parentGuid": "d69fe4419db032e5",
       "primitive": "box",
       "color": [
         1.0,
@@ -5604,7 +5654,7 @@
       }
     },
     {
-      "guid": "c7f878a75ec89e70",
+      "guid": "49984d45adc8f35b",
       "name": "Proxy_3",
       "transform": {
         "position": [
@@ -5623,7 +5673,7 @@
           0.08
         ]
       },
-      "parentGuid": "94fd4d075adbd25c",
+      "parentGuid": "d69fe4419db032e5",
       "primitive": "box",
       "color": [
         1.0,
@@ -5636,7 +5686,7 @@
       }
     },
     {
-      "guid": "990233b4d60b9a83",
+      "guid": "68add5693fa27119",
       "name": "Proxy_4",
       "transform": {
         "position": [
@@ -5655,7 +5705,7 @@
           0.08
         ]
       },
-      "parentGuid": "94fd4d075adbd25c",
+      "parentGuid": "d69fe4419db032e5",
       "primitive": "box",
       "color": [
         1.0,
@@ -5668,7 +5718,7 @@
       }
     },
     {
-      "guid": "54675b156b0f5d92",
+      "guid": "30cf8ab632b20e11",
       "name": "Proxy_5",
       "transform": {
         "position": [
@@ -5687,7 +5737,7 @@
           0.08
         ]
       },
-      "parentGuid": "94fd4d075adbd25c",
+      "parentGuid": "d69fe4419db032e5",
       "primitive": "box",
       "color": [
         1.0,
@@ -5700,7 +5750,7 @@
       }
     },
     {
-      "guid": "b0ef85509c24f134",
+      "guid": "768ff87db5596d07",
       "name": "Proxy_6",
       "transform": {
         "position": [
@@ -5719,7 +5769,7 @@
           0.08
         ]
       },
-      "parentGuid": "94fd4d075adbd25c",
+      "parentGuid": "d69fe4419db032e5",
       "primitive": "box",
       "color": [
         1.0,
@@ -5732,7 +5782,7 @@
       }
     },
     {
-      "guid": "15b87752cb1e19e0",
+      "guid": "aff6de2b6325aba9",
       "name": "Proxy_7",
       "transform": {
         "position": [
@@ -5751,7 +5801,7 @@
           0.08
         ]
       },
-      "parentGuid": "94fd4d075adbd25c",
+      "parentGuid": "d69fe4419db032e5",
       "primitive": "box",
       "color": [
         1.0,
@@ -5764,7 +5814,7 @@
       }
     },
     {
-      "guid": "b35154c1101545ba",
+      "guid": "b0ae92971f31aae1",
       "name": "Proxy_8",
       "transform": {
         "position": [
@@ -5783,7 +5833,7 @@
           0.08
         ]
       },
-      "parentGuid": "94fd4d075adbd25c",
+      "parentGuid": "d69fe4419db032e5",
       "primitive": "box",
       "color": [
         1.0,
@@ -5796,7 +5846,7 @@
       }
     },
     {
-      "guid": "7832b35943762ee9",
+      "guid": "1e290a533c2e82c0",
       "name": "Pilot",
       "transform": {
         "position": [
@@ -5815,7 +5865,7 @@
           0.22
         ]
       },
-      "parentGuid": "36f39bdc93bd7dd4",
+      "parentGuid": "f700cd71fec30628",
       "primitive": "sphere",
       "color": [
         0.55,
@@ -5828,7 +5878,7 @@
       }
     },
     {
-      "guid": "d559eea8a8b96517",
+      "guid": "466daeff823dc99d",
       "name": "PilotLight",
       "transform": {
         "position": [
@@ -5847,7 +5897,7 @@
           1.0
         ]
       },
-      "parentGuid": "36f39bdc93bd7dd4",
+      "parentGuid": "f700cd71fec30628",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -5860,7 +5910,7 @@
       }
     },
     {
-      "guid": "4178385265eff5c5",
+      "guid": "73b7c644da98d66b",
       "name": "MainCamera",
       "camera": {
         "farClip": 300.0,
@@ -5907,8 +5957,8 @@
       }
     },
     {
-      "guid": "125d59aba374de0e",
-      "name": "Logic_Stage_3",
+      "guid": "8bec9b3e21cacead",
+      "name": "Logic_Stage_2",
       "transform": {
         "position": [
           0.0,
@@ -5926,7 +5976,7 @@
           1.0
         ]
       },
-      "parentGuid": "36f39bdc93bd7dd4",
+      "parentGuid": "f700cd71fec30628",
       "luaScript": {
         "enabled": true,
         "scriptPath": "components/Junction.lua"
