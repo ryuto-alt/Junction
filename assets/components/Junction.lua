@@ -157,6 +157,32 @@ local function tint(name, c, k)
     end
 end
 
+-- ---------------------------------------------------------------- 段階チュートリアル
+-- ★キーの表示は「まだ覚えていない操作」だけ。規定回数やったら二度と出さない。
+--   saveNum はメモリのみ = 面をまたいで持ち越し、アプリを閉じると忘れる
+--   (次に遊ぶ人には、また最初の数回だけ出る)。
+local NEED = { move = 1, touch = 2, pick = 2, cancel = 1 }
+
+local function learned(name)
+    return loadNum("jx_lv_" .. name, 0) >= (NEED[name] or 1)
+end
+
+local function learn(name)
+    if not learned(name) then
+        saveNum("jx_lv_" .. name, loadNum("jx_lv_" .. name, 0) + 1)
+    end
+end
+
+-- UI の出入り。id ごとに 0..1 を持って want へ寄せるだけ。
+-- ★ぱっと出て ぱっと消えるのが一番しつこく見えるので、必ずこれを通して描く。
+local function uiAnim(self, id, want, dt, speed)
+    local a = self.ui[id] or 0
+    a = a + ((want and 1 or 0) - a) * (1 - math.exp(-(speed or 9) * dt))
+    if a < 0.002 then a = 0 elseif a > 0.998 then a = 1 end
+    self.ui[id] = a
+    return a
+end
+
 -- ---------------------------------------------------------------- カメラ演出
 -- 演出中は self.cam(位置と向き)が正。OnUpdate が毎フレーム押し込む。
 
@@ -240,7 +266,9 @@ local function resetRun(self)
     self.cool = 0.35
     self.moveX, self.moveZ = 0, 1
     self.taught = false
-    self.showKeys = 7.0      -- 開幕だけ操作キーを出す秒数
+    self.ui = self.ui or {}  -- UI の出入りアニメの現在値
+    self.walkT = 0           -- 歩いた累計(WASD を覚えたかの判定)
+    self.noAct = 0           -- 何も操作していない時間(詰まった人への出し直し)
     self.hint = 0
     -- ★残り30秒で落とした照明を戻す。ここを忘れると [R] で再開した面が暗いままになる
     scene:setAmbient(0.035)
@@ -374,6 +402,74 @@ local function exitsOf(self, id)
     return out
 end
 
+-- ---------------------------------------------------------------- 動きの演出
+-- ★合流点ができた瞬間、床のレーンがドアから【伸びて】柱が【床から生えて】くる。
+--   いきなり完成形が現れると「元からあった模様」に見えて、
+--   自分の接続の結果だと分からない。動きが因果を伝える。
+local function growLanes(self, id)
+    local exits = exitsOf(self, id)
+    if #exits < 1 then return end
+    local d = self.doors[id]
+    local w = (FAN_DEG * 2) / #exits
+    task.spawn(function()
+        local t = 0
+        while t < 0.45 do
+            t = t + time.dt()
+            local k = math.min(1, t / 0.45)
+            local e = 1 - (1 - k) * (1 - k)          -- outQuad
+            for i = 1, #exits do
+                local ang = FAN_DEG - w * (i - 0.5)
+                local dx, dz = rot2(d.outX, d.outZ, ang)
+                local len = math.max(0.02, LINE_LEN * e)
+                local yaw = math.deg(atan2(dx, dz))
+                place("Lane_" .. id .. "_" .. i,
+                      d.x - dx * len * 0.5, 0.02, d.z - dz * len * 0.5,
+                      yaw, 0.13, 0.02, len)
+                place("Post_" .. id .. "_" .. i,
+                      d.x - dx * POST_DIST, -0.60 + 1.18 * e, d.z - dz * POST_DIST,
+                      yaw, 0.15, 1.15, 0.15)
+            end
+            wait(0)
+        end
+    end)
+end
+
+-- 繋がったドアの色枠を一瞬焚く(どのドアと繋がったのかを色で名乗らせる)
+local function flashFrame(self, id)
+    local c = DOOR_COLOR[id] or { 1, 1, 1 }
+    task.spawn(function()
+        local t = 0
+        while t < 0.6 do
+            t = t + time.dt()
+            local k = 1.0 + 1.4 * math.sin(math.pi * math.min(1, t / 0.6))
+            tint("Frame_" .. id .. "_-1", c, k)
+            tint("Frame_" .. id .. "_1", c, k)
+            tint("Frame_" .. id .. "_top", c, k)
+            wait(0)
+        end
+        tint("Frame_" .. id .. "_-1", c); tint("Frame_" .. id .. "_1", c)
+        tint("Frame_" .. id .. "_top", c)
+    end)
+end
+
+-- 通過した瞬間の画角の突き上げ。白フェードだけだと「切り替わった」だけで
+-- 「くぐった」感じが出ない
+local function fovKick()
+    task.spawn(function()
+        local t = 0
+        while t < 0.34 do
+            t = t + time.dt()
+            local pl = scene:findEntity("MainCamera")
+            if pl and pl:isValid() then
+                pl:setFov(74 + 10 * math.sin(math.pi * math.min(1, t / 0.34)))
+            end
+            wait(0)
+        end
+        local pl = scene:findEntity("MainCamera")
+        if pl and pl:isValid() then pl:setFov(74) end
+    end)
+end
+
 -- ---------------------------------------------------------------- 演出本体
 
 -- 開幕: 出口の部屋を見せてから、開始の部屋のドアへ寄る。
@@ -465,6 +561,7 @@ local function connect(self, from, to)
         return
     end
     self.budget = self.budget - 1
+    self.pipFlash = 0.45
 
     local gid = self.group[from]
     if not gid then
@@ -490,11 +587,17 @@ local function connect(self, from, to)
     table.insert(list, to)
     self.group[to] = gid
     self.cool = 0.5   -- 繋いだ直後の 1 歩で通過しない猶予
+    self.noAct = 0
+    learn("pick")
     local td = self.doors[to]
     local c = DOOR_COLOR[to] or { 1, 1, 1 }
     fx:burst{ x = td.x, y = 1.4, z = td.z, kind = "glow", count = 14, size = 0.35,
               r = c[1], g = c[2], b = c[3] }
     refreshDoors(self)
+    -- ★合流点に属する全ドアのレーンを伸ばし直す(自分のいる部屋以外も後で見に行く)
+    for _, m in ipairs(list) do growLanes(self, m) end
+    flashFrame(self, to)
+    flashFrame(self, from)
 
     -- ★角度の授業は「3 枚合流が初めてできた瞬間」に 1 回だけ
     if not self.taught and #list >= 3 and self.cfg.teach == "angle" then
@@ -543,6 +646,10 @@ local function openConnect(self, id)
     self.cand = cand
     self.aim = nil
     self.holdE = 0.28   -- 開いた同じ E で確定しないための不感時間
+    self.pxT = 0        -- 候補が順番に現れる演出の時計
+    self.pxS = {}       -- 候補の基準スケール(毎フレームここから作る)
+    self.noAct = 0
+    learn("touch")
 
     -- 白板を奥へ飛ばして「虚無の背景」にする。11x8 だと開口の縁から部屋の外(素の黒)が
     -- 覗いて白い虚無が黒い額縁に見えるので、±70° を覆う大きさが要る
@@ -565,9 +672,10 @@ local function openConnect(self, id)
         -- 見かけの大きさは実距離で決まる(条1の錯覚)。ただし遠い物が点になると
         -- 「選べない」だけになるので sqrt で潰し、下限を切ってある
         local s = math.max(0.42, math.min(1.10, 4.5 / math.sqrt(dist)))
+        self.pxS[i] = { 0.85 * s, 1.75 * s }
         place("Proxy_" .. i,
               d.x + d.outX * 2.25 + prX * (t * span), 1.42,
-              d.z + d.outZ * 2.25 + prZ * (t * span), d.yaw, 0.85 * s, 1.75 * s, 0.07)
+              d.z + d.outZ * 2.25 + prZ * (t * span), d.yaw, 0.001, 0.001, 0.07)
         tint("Proxy_" .. i, vivid(DOOR_COLOR[o] or { 1, 1, 1 }), 0.62)
     end
     for i = #cand + 1, 8 do hide("Proxy_" .. i) end
@@ -626,6 +734,7 @@ local function traverse(self, id, theta)
     self.room = self.cfg.room[out]
     self.cool = 0.45
     self.fade = FADE_TIME
+    fovKick()
     -- 出た先のドア色を一瞬焚く(どのドアから出たかを色で名乗らせる)
     local c = DOOR_COLOR[out] or { 1, 1, 1 }
     fx:burst{ x = od.x + od.inX * 0.5, y = 1.5, z = od.z + od.inZ * 0.5, kind = "glow",
@@ -655,31 +764,47 @@ local function pilot(self, t)
     end
     if not tx then hide("Pilot"); hide("PilotLight"); return end
     local y = ty + math.sin(t * 2.1) * 0.16
-    place("Pilot", tx, y, tz)
+    local s = 0.20 + 0.035 * math.sin(t * 4.3)      -- 呼吸するように脈打つ
+    local e = place("Pilot", tx, y, tz, nil, s, s, s)
     place("PilotLight", tx, y, tz)
+    local pl = ent("PilotLight")
+    if pl then
+        local L = pl:light()
+        if L then L.intensity = 2.2 + 1.1 * (0.5 + 0.5 * math.sin(t * 4.3)) end
+    end
 end
 
 -- ---------------------------------------------------------------- HUD
 -- ★出す文字は操作キーだけ。ルールの説明文は 1 行も出さない。
 
-local function keyCap(x, y, s, size, hot)
-    -- キーの見た目(角丸の箱 + 文字)。size は文字の高さ
-    local w = #s * size * 0.62 + size * 0.7
-    local h = size * 1.45
-    ui:rect(x, y, w, h, 0.03, 0.06, 0.04, hot and 0.85 or 0.55, 5)
-    ui:rect(x + 1, y + 1, w - 2, h - 2, 0.55, 0.62, 0.56, hot and 0.5 or 0.22, 5)
-    local c = hot and C_KEY or C_DIM
-    ui:text(x + size * 0.35, y + size * 0.22, s, size, c[1], c[2], c[3], 1)
-    return w
+local function capW(s, size)
+    return #s * size * 0.62 + size * 0.7
 end
 
-local function worldKey(self, wx, wy, wz, s)
-    -- ワールド座標の上にキーを出す。camera.project は画面外だと visible=false
+-- a=0..1 で出入りする。中心 x 指定・ふわっと上下する。
+local function keyCap(cx, y, s, size, a, bob)
+    if a <= 0.02 then return end
+    local sz = size * (0.80 + 0.20 * a)
+    local w, h = capW(s, sz), sz * 1.45
+    local x = cx - w * 0.5
+    local yy = y + (bob and math.sin(time.now() * 4.0) * 2.6 or 0) + (1 - a) * 8
+    ui:rect(x, yy, w, h, 0.03, 0.06, 0.04, 0.74 * a, 5)
+    ui:rect(x + 1, yy + 1, w - 2, h - 2, 0.60, 0.68, 0.62, 0.30 * a, 5)
+    ui:text(x + sz * 0.35, yy + sz * 0.22, s, sz, C_KEY[1], C_KEY[2], C_KEY[3], a)
+end
+
+local function worldKey(W, H, wx, wy, wz, s, a)
+    -- ワールド座標の上にキーを出す。
     -- ★ camera:project は「:」で呼ぶ(Camera の userdata メソッド)。「.」だと
-    --   第1引数が数値になって "expected userdata" で OnUpdate ごと落ちる
+    --   第1引数が数値になって "expected userdata" で OnUpdate ごと落ちる。
+    -- ★ドアに張り付くと的が画面の外へ出る(ドアの上端は目線より遥か上)。
+    --   その時は照準の少し上へ逃がす。出ないのが一番困る。
+    if a <= 0.02 then return end
     local u, v, vis = camera:project(wx, wy, wz)
-    if not vis then return end
-    keyCap(u - 16, v - 18, s, 24, true)
+    if not vis or u < 70 or u > W - 70 or v < 60 or v > H - 90 then
+        u, v = W * 0.5, H * 0.5 - 62
+    end
+    keyCap(u, v - 18, s, 24, a, true)
 end
 
 -- ---------------------------------------------------------------- 毎フレーム
@@ -723,7 +848,12 @@ function OnUpdate(self, dt)
     if self.fade > 0 then self.fade = self.fade - dt end
     if self.cool > 0 then self.cool = self.cool - dt end
     if self.hint > 0 then self.hint = self.hint - dt end
-    if self.showKeys > 0 then self.showKeys = self.showKeys - dt end
+    -- 段階チュートリアルの計測。歩き続けたら「歩き方は覚えた」
+    if loadNum("moving", 0) > 0.5 then
+        self.walkT = self.walkT + dt
+        if self.walkT > 1.2 then learn("move") end
+    end
+    self.noAct = self.noAct + dt
 
     if loadNum("moving", 0) > 0.5 then
         self.moveX, self.moveZ = loadNum("moveX", 0), loadNum("moveZ", 1)
@@ -808,26 +938,29 @@ function OnUpdate(self, dt)
                 end
             end
         end
-        -- ★狙っている候補は【色の明るさだけ】では見分けが付かない(白い虚無の中では
-        --   どれも同じくらい明るく見える)。少し大きくして輪郭を変える
-        if best ~= self.aim then
-            for i = 1, #self.cand do
-                local e = ent("Proxy_" .. i)
-                if e then
-                    local sc = e.transform.scale
-                    local k = (i == best) and 1.18 or 1.0
-                    local bs = (i == self.aim) and (1 / 1.18) or 1.0
-                    e.transform.scale = Vec3.new(sc.x * bs * k, sc.y * bs * k, sc.z)
-                end
-            end
-        end
+        -- ★候補は【基準スケールから毎フレーム作り直す】。
+        --   以前は狙いが変わるたびに現在値へ 1.18 を掛けたり割ったりしていて、
+        --   丸め誤差が溜まって少しずつ痩せていった。
+        --   ・開いた瞬間は左から順にポンと現れる(自分が開けた、という因果)
+        --   ・狙っている 1 枚だけ大きく、ゆっくり脈打つ
+        --     (白い虚無の中では色の明るさだけでは見分けが付かない)
+        self.pxT = (self.pxT or 0) + dt
         for i = 1, #self.cand do
+            local e = ent("Proxy_" .. i)
+            local bs = self.pxS and self.pxS[i]
+            if e and bs then
+                local pop = math.max(0, math.min(1, (self.pxT - (i - 1) * 0.055) / 0.20))
+                pop = 1 - (1 - pop) * (1 - pop)
+                local k = pop * ((i == best)
+                          and (1.18 + 0.05 * math.sin(t * 5.0)) or 1.0)
+                e.transform.scale = Vec3.new(bs[1] * k, bs[2] * k, 0.07)
+            end
             tint("Proxy_" .. i, vivid(DOOR_COLOR[self.cand[i]] or { 1, 1, 1 }),
                  (i == best) and 1.15 or 0.55)
         end
         self.aim = best
 
-        if keyPressed("Q") then closeConnect(self) end
+        if keyPressed("Q") then learn("cancel"); closeConnect(self) end
         if self.holdE <= 0 and keyPressed("E") then
             if best then
                 local to, from = self.cand[best], self.connectDoor
@@ -885,7 +1018,20 @@ function OnUpdate(self, dt)
     end
 
     -- ================================ HUD ================================
-    -- 照準点。白い虚無の上でも見えるように、暗い縁を敷いてから白い点を打つ
+    -- 照準点。白い虚無の上でも見えるように、暗い縁を敷いてから白い点を打つ。
+    -- ★触れるドアが射程に入ると、点のまわりに輪が開く。これが「E が押せる」の
+    --   常設の合図で、文字の [E] は覚えるまでの補助輪でしかない。
+    do
+        local reach = (self.mode ~= "connect") and near and nearD < REACH
+        local r = uiAnim(self, "ring", reach or self.mode == "connect", dt, 12)
+        if r > 0.02 then
+            local rad, a = 5 + 9 * r, 0.6 * r
+            ui:rect(W * 0.5 - rad - 6, H * 0.5 - 1, 6, 2, 1, 1, 1, a, 1)
+            ui:rect(W * 0.5 + rad,     H * 0.5 - 1, 6, 2, 1, 1, 1, a, 1)
+            ui:rect(W * 0.5 - 1, H * 0.5 - rad - 6, 2, 6, 1, 1, 1, a, 1)
+            ui:rect(W * 0.5 - 1, H * 0.5 + rad,     2, 6, 1, 1, 1, a, 1)
+        end
+    end
     ui:rect(W * 0.5 - 4, H * 0.5 - 4, 8, 8, 0, 0, 0, 0.5, 4)
     ui:rect(W * 0.5 - 2, H * 0.5 - 2, 4, 4, 1, 1, 1, 0.95, 2)
 
@@ -905,44 +1051,63 @@ function OnUpdate(self, dt)
         local n = self.cfg.budget
         local cw, gap = 22, 8
         local x0 = W - 26 - (n * cw + (n - 1) * gap)
+        -- ★使った 1 個は「消える」のではなく、白く弾けてから灰になる。
+        --   静かに消えるだけだと、予算が減ったことに気づかない。
+        if self.pipFlash and self.pipFlash > 0 then self.pipFlash = self.pipFlash - dt end
         for i = 1, n do
             local on = i <= self.budget
             local a = self.hint > 0 and (0.4 + 0.6 * math.abs(math.sin(t * 22))) or 1
-            ui:rect(x0 + (i - 1) * (cw + gap), 22, cw, 11,
+            local x, y, w2, h2 = x0 + (i - 1) * (cw + gap), 22, cw, 11
+            if (not on) and i == self.budget + 1 and (self.pipFlash or 0) > 0 then
+                local k = self.pipFlash / 0.45
+                local g = 6 * k
+                ui:rect(x - g, y - g, w2 + g * 2, h2 + g * 2, 1, 1, 1, 0.85 * k, 3)
+            end
+            ui:rect(x, y, w2, h2,
                     on and 0.25 or 0.30, on and 0.92 or 0.32, on and 0.62 or 0.30,
                     (on and 0.95 or 0.35) * a, 3)
         end
     end
 
-    -- ---- 世界の上に出るキー(操作方法のみ) ----
+    -- ================================ 段階チュートリアル ================================
+    -- ★出すのは【まだ覚えていない操作 1 つだけ】。規定回数やったら二度と出さない。
+    --   ただし 20 秒何もしていない人には、覚えた事でも 1 回だけ出し直す(詰まり救済)。
+    --   [H] を押している間はいつでも全部見られるので、忘れても困らない。
+    local help = keyDown("H")
+    local stuck = self.noAct > 20
+    local canTouch = near and nearD < REACH
+    local nearExits = canTouch and #exitsOf(self, near) or 0
+    local canJoin = canTouch and (nearExits == 0
+                    or (self.budget > 0 and nearExits < MAX_JUNCTION - 1))
+
     if self.mode == "connect" then
-        if self.aim then
+        -- ② 候補を狙って決める
+        local a = uiAnim(self, "pick", self.aim ~= nil
+                         and (help or stuck or not learned("pick")), dt, 11)
+        if a > 0 and self.aim then
             local e = ent("Proxy_" .. self.aim)
             if e then
                 local q = e.transform.position
-                worldKey(self, q.x, q.y + 1.15, q.z, "E")
+                worldKey(W, H, q.x, q.y + 1.15, q.z, "E", a)
             end
         end
-        keyCap(W * 0.5 - 90, H - 78, "Q", 22, false)
-    elseif near and nearD < REACH then
-        local d = self.doors[near]
-        local exits = exitsOf(self, near)
-        if #exits == 0 or (self.budget > 0 and #exits < MAX_JUNCTION - 1) then
-            worldKey(self, d.x + d.inX * 0.25, 3.05, d.z + d.inZ * 0.25, "E")
+        -- ③ やめる
+        keyCap(W * 0.5, H - 96, "Q", 22,
+               uiAnim(self, "cancel", help or stuck or not learned("cancel"), dt, 8))
+    else
+        self.ui.pick, self.ui.cancel = 0, 0
+        -- ① ドアに触れる
+        local a = uiAnim(self, "touch", canJoin
+                         and (help or stuck or not learned("touch")), dt, 11)
+        if a > 0 and near then
+            local d = self.doors[near]
+            worldKey(W, H, d.x + d.inX * 0.25, 3.05, d.z + d.inZ * 0.25, "E", a)
         end
     end
 
-    -- ---- 開幕だけ操作キーを並べる。ルール説明は一切しない ----
-    if self.showKeys > 0 or keyDown("H") then
-        local a = math.min(1, self.showKeys > 0 and self.showKeys or 1)
-        local x, y = 30, H - 62
-        if a > 0.05 then
-            x = x + keyCap(x, y, "W A S D", 20, false) + 14
-            x = x + keyCap(x, y, "E", 20, false) + 14
-            x = x + keyCap(x, y, "Q", 20, false) + 14
-            keyCap(x, y, "R", 20, false)
-        end
-    end
+    -- ⓪ 歩く。歩き出したら消えて、二度と出ない
+    keyCap(W * 0.5, H - 62, "W A S D", 22,
+           uiAnim(self, "move", help or not learned("move"), dt, 6))
 
     -- ---- 通過フェード(白) ----
     if self.fade > 0 then
