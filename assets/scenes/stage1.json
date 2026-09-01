@@ -310,7 +310,7 @@
       "name": "S_Wall_N_n",
       "transform": {
         "position": [
-          -3.45,
+          -3.575,
           2.0,
           6.15
         ],
@@ -320,7 +320,7 @@
           0.0
         ],
         "scale": [
-          5.4,
+          5.15,
           4.0,
           0.3
         ]
@@ -364,7 +364,7 @@
       "name": "S_Wall_N_p",
       "transform": {
         "position": [
-          3.45,
+          3.575,
           2.0,
           6.15
         ],
@@ -374,7 +374,7 @@
           0.0
         ],
         "scale": [
-          5.4,
+          5.15,
           4.0,
           0.3
         ]
@@ -428,7 +428,7 @@
           0.0
         ],
         "scale": [
-          1.5,
+          2.0,
           1.4,
           0.3
         ]
@@ -526,7 +526,7 @@
           0.0
         ],
         "scale": [
-          1.5,
+          2.0,
           2.6,
           0.1
         ]
@@ -602,7 +602,7 @@
       "name": "Frame_a_-1",
       "transform": {
         "position": [
-          -0.93,
+          -1.18,
           1.35,
           5.965000000000001
         ],
@@ -634,7 +634,7 @@
       "name": "Frame_a_1",
       "transform": {
         "position": [
-          0.93,
+          1.18,
           1.35,
           5.965000000000001
         ],
@@ -676,7 +676,7 @@
           0.0
         ],
         "scale": [
-          1.96,
+          2.46,
           0.1,
           0.12
         ]
@@ -1580,7 +1580,7 @@
       "name": "G_Wall_N_n",
       "transform": {
         "position": [
-          9.149999999999999,
+          9.024999999999999,
           2.0,
           6.15
         ],
@@ -1590,7 +1590,7 @@
           0.0
         ],
         "scale": [
-          5.4,
+          5.15,
           4.0,
           0.3
         ]
@@ -1634,7 +1634,7 @@
       "name": "G_Wall_N_p",
       "transform": {
         "position": [
-          16.05,
+          16.175,
           2.0,
           6.15
         ],
@@ -1644,7 +1644,7 @@
           0.0
         ],
         "scale": [
-          5.4,
+          5.15,
           4.0,
           0.3
         ]
@@ -1698,7 +1698,7 @@
           0.0
         ],
         "scale": [
-          1.5,
+          2.0,
           1.4,
           0.3
         ]
@@ -1796,7 +1796,7 @@
           0.0
         ],
         "scale": [
-          1.5,
+          2.0,
           2.6,
           0.1
         ]
@@ -1872,7 +1872,7 @@
       "name": "Frame_g_-1",
       "transform": {
         "position": [
-          11.67,
+          11.42,
           1.35,
           5.965000000000001
         ],
@@ -1904,7 +1904,7 @@
       "name": "Frame_g_1",
       "transform": {
         "position": [
-          13.53,
+          13.78,
           1.35,
           5.965000000000001
         ],
@@ -1946,7 +1946,7 @@
           0.0
         ],
         "scale": [
-          1.96,
+          2.46,
           0.1,
           0.12
         ]
@@ -2639,7 +2639,7 @@
     },
     {
       "guid": "997df7369627ed21",
-      "name": "Preload_Wedge120",
+      "name": "Preload_Band",
       "transform": {
         "position": [
           0.0,
@@ -2659,12 +2659,12 @@
       },
       "parentGuid": "3c9212209ca4be07",
       "meshRenderer": {
-        "modelPath": "models/wedge120.gltf"
+        "modelPath": "models/band.gltf"
       }
     },
     {
       "guid": "4eeb5ffc286e23e6",
-      "name": "Preload_Wedge60",
+      "name": "Preload_Lane",
       "transform": {
         "position": [
           0.0,
@@ -2684,86 +2684,11 @@
       },
       "parentGuid": "3c9212209ca4be07",
       "meshRenderer": {
-        "modelPath": "models/wedge60.gltf"
+        "modelPath": "models/lane.gltf"
       }
     },
     {
       "guid": "4291121a6215d781",
-      "name": "Preload_Wedge40",
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "3c9212209ca4be07",
-      "meshRenderer": {
-        "modelPath": "models/wedge40.gltf"
-      }
-    },
-    {
-      "guid": "2fd95c49d2df1138",
-      "name": "Preload_Wedge30",
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "3c9212209ca4be07",
-      "meshRenderer": {
-        "modelPath": "models/wedge30.gltf"
-      }
-    },
-    {
-      "guid": "e43ef1a6a1560f19",
-      "name": "Preload_Needle",
-      "transform": {
-        "position": [
-          0.0,
-          -200.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "3c9212209ca4be07",
-      "meshRenderer": {
-        "modelPath": "models/needle.gltf"
-      }
-    },
-    {
-      "guid": "66c3e16f7954eccb",
       "name": "Preload_Pin",
       "transform": {
         "position": [
@@ -2788,7 +2713,7 @@
       }
     },
     {
-      "guid": "ca15f3948f8da39e",
+      "guid": "2fd95c49d2df1138",
       "name": "Goal",
       "transform": {
         "position": [
@@ -2820,7 +2745,7 @@
       }
     },
     {
-      "guid": "4d2af0d5a8f954f9",
+      "guid": "e43ef1a6a1560f19",
       "name": "GoalBase",
       "transform": {
         "position": [
@@ -2852,7 +2777,7 @@
       }
     },
     {
-      "guid": "85cd3cb8c1e7d877",
+      "guid": "66c3e16f7954eccb",
       "name": "GoalLight",
       "transform": {
         "position": [
@@ -2884,7 +2809,7 @@
       }
     },
     {
-      "guid": "d6588e29d18de3a3",
+      "guid": "ca15f3948f8da39e",
       "name": "GoalFx",
       "transform": {
         "position": [
@@ -2940,7 +2865,7 @@
       }
     },
     {
-      "guid": "fc8c726f62983cee",
+      "guid": "4d2af0d5a8f954f9",
       "name": "Proxies",
       "transform": {
         "position": [
@@ -2962,7 +2887,7 @@
       "parentGuid": "75f0734ccd124d13"
     },
     {
-      "guid": "fd114b4f8fd029ed",
+      "guid": "85cd3cb8c1e7d877",
       "name": "Proxy_1",
       "transform": {
         "position": [
@@ -2981,7 +2906,7 @@
           0.08
         ]
       },
-      "parentGuid": "fc8c726f62983cee",
+      "parentGuid": "4d2af0d5a8f954f9",
       "primitive": "box",
       "color": [
         1.0,
@@ -2994,7 +2919,7 @@
       }
     },
     {
-      "guid": "3c905445de3d28cf",
+      "guid": "d6588e29d18de3a3",
       "name": "Proxy_2",
       "transform": {
         "position": [
@@ -3013,7 +2938,7 @@
           0.08
         ]
       },
-      "parentGuid": "fc8c726f62983cee",
+      "parentGuid": "4d2af0d5a8f954f9",
       "primitive": "box",
       "color": [
         1.0,
@@ -3026,7 +2951,7 @@
       }
     },
     {
-      "guid": "3bb8208f0e773605",
+      "guid": "fc8c726f62983cee",
       "name": "Proxy_3",
       "transform": {
         "position": [
@@ -3045,7 +2970,7 @@
           0.08
         ]
       },
-      "parentGuid": "fc8c726f62983cee",
+      "parentGuid": "4d2af0d5a8f954f9",
       "primitive": "box",
       "color": [
         1.0,
@@ -3058,7 +2983,7 @@
       }
     },
     {
-      "guid": "1630d08995972a6f",
+      "guid": "fd114b4f8fd029ed",
       "name": "Proxy_4",
       "transform": {
         "position": [
@@ -3077,7 +3002,7 @@
           0.08
         ]
       },
-      "parentGuid": "fc8c726f62983cee",
+      "parentGuid": "4d2af0d5a8f954f9",
       "primitive": "box",
       "color": [
         1.0,
@@ -3090,7 +3015,7 @@
       }
     },
     {
-      "guid": "d0bcb5bdb98d5d60",
+      "guid": "3c905445de3d28cf",
       "name": "Proxy_5",
       "transform": {
         "position": [
@@ -3109,7 +3034,7 @@
           0.08
         ]
       },
-      "parentGuid": "fc8c726f62983cee",
+      "parentGuid": "4d2af0d5a8f954f9",
       "primitive": "box",
       "color": [
         1.0,
@@ -3122,7 +3047,7 @@
       }
     },
     {
-      "guid": "7c5eb392565c13f0",
+      "guid": "3bb8208f0e773605",
       "name": "Proxy_6",
       "transform": {
         "position": [
@@ -3141,7 +3066,7 @@
           0.08
         ]
       },
-      "parentGuid": "fc8c726f62983cee",
+      "parentGuid": "4d2af0d5a8f954f9",
       "primitive": "box",
       "color": [
         1.0,
@@ -3154,7 +3079,7 @@
       }
     },
     {
-      "guid": "7948efdf1ca68274",
+      "guid": "1630d08995972a6f",
       "name": "Proxy_7",
       "transform": {
         "position": [
@@ -3173,7 +3098,7 @@
           0.08
         ]
       },
-      "parentGuid": "fc8c726f62983cee",
+      "parentGuid": "4d2af0d5a8f954f9",
       "primitive": "box",
       "color": [
         1.0,
@@ -3186,7 +3111,7 @@
       }
     },
     {
-      "guid": "1ab9c0b24a0b0145",
+      "guid": "d0bcb5bdb98d5d60",
       "name": "Proxy_8",
       "transform": {
         "position": [
@@ -3205,7 +3130,7 @@
           0.08
         ]
       },
-      "parentGuid": "fc8c726f62983cee",
+      "parentGuid": "4d2af0d5a8f954f9",
       "primitive": "box",
       "color": [
         1.0,
@@ -3218,7 +3143,7 @@
       }
     },
     {
-      "guid": "cbbba49285702349",
+      "guid": "7c5eb392565c13f0",
       "name": "Pilot",
       "transform": {
         "position": [
@@ -3250,7 +3175,7 @@
       }
     },
     {
-      "guid": "79033f3f18b6eb8d",
+      "guid": "7948efdf1ca68274",
       "name": "PilotLight",
       "transform": {
         "position": [
@@ -3282,7 +3207,7 @@
       }
     },
     {
-      "guid": "726c628c95ce4121",
+      "guid": "1ab9c0b24a0b0145",
       "name": "MainCamera",
       "camera": {
         "farClip": 300.0,
@@ -3329,7 +3254,7 @@
       }
     },
     {
-      "guid": "aec5b5bd61c105c5",
+      "guid": "cbbba49285702349",
       "name": "Logic_Stage_1",
       "transform": {
         "position": [

@@ -20,12 +20,21 @@
   2. 湧き位置・ドアの壁・開幕カメラを面ごとに変えた。
   3. カメラ(cine)は【部屋ローカル座標】で書き、ここでワールドへ直して Junction.lua へ
      流し込む。刺さるカメラは assert で落とす(下の check_cine)。
-  4. Mark_/Slice_/Lane_/Post_ の生成をやめた(扇 W_/針 Needle に置き換わった)。
+  4. Mark_/Slice_/Lane_/Post_ の生成をやめた。
   5. ★Preload グループ。エンジンは【シーンを開いた時点で読み込まれていないモデルは
      scene:spawn しても描画しない】(entity は valid、MeshRenderer も付く、AABB も正しい、
      Lua もエラーを出さない。ただ出ない)。Lua が実行時に出す扇・針・ピンを出すには、
      シーン JSON がそのモデルを 1 個は参照している必要がある。床下 y=-200 のダミーがそれ。
-     ★これを消すと扇も針もピンも【無言で】出なくなる。
+     ★これを消すと帯もレーンもピンも【無言で】出なくなる。
+
+★2026-09-01(5) 「角度」から「通った場所」へ(docs/GATE.md):
+  6. DOORW 1.5 -> 2.0。開口を行き先の数だけ縦の帯に割るので、袖壁・まぐさ・Void_・
+     Frame_ の見た目と当たり判定を全部追従させた(定数 1 個から出ている)。
+  7. Preload を wedge*/needle から band/lane/pin へ差し替えた。モデルはもう存在しない。
+  8. 第2面の 4m 仕切り(divider)を捨て、ドアの正面だけを塞ぐ衝立(blocker)にした。
+     仕切りはドアの中心線上に立っていて【真ん中しか通れない】形だった。
+  9. check_lanes / check_blockers を足した。レーンの上に什器が刺さる配置と、
+     体が回り込めない衝立を【コミットできないようにする】。
 
 ★階層: エンティティは [Rooms]/[Doors]/[System] の下にグループ分けしてある。
   グループ node は原点・無回転・スケール1なので、子の transform は world と一致する。
@@ -41,7 +50,12 @@ random.seed(20260901)
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "scenes")
 
 WALLT  = 0.3    # 壁の厚み
-DOORW  = 1.5    # ドアの開口幅(全形共通)
+DOORW  = 2.0    # ★ドアの開口幅(全形共通)。1.5 -> 2.0 に拡張した(docs/GATE.md)。
+                #   開口を行き先の数だけ縦の帯に割るので、4 出口でも 1 帯 0.5m 要る
+                #   (1.5 だと 0.375m でプレイヤー直径 0.7m に対して狙いが厳しすぎた)。
+                #   ★blender_kit.py の DOORW と【必ず一致】。片方だけ直すと
+                #   「見た目は開いているのに見えない壁がある」「壁の中を歩ける」になる。
+                #   袖壁 segw / まぐさ / Void_ / Frame_ は全部この定数から出ている。
 DOORH  = 2.6    # ドアの開口高(全形共通)
 WINW   = 6.0    # 窓の開口幅
 WINY0  = 1.0    # 窓の下端。★腰壁が 1.0m 残るので stepHeight 0.3 では乗り越えられない
@@ -108,12 +122,9 @@ HIDE_Y = -200.0   # 隠す時に飛ばす高さ。scale=0 は退化三角形に�
 # ★Lua が実行時に scene:spawn するモデル。シーンが 1 個も参照していないと
 #   「spawn は成功するのに描画されない」に化ける(冒頭の注記)。床下に置いて先読みさせる。
 PRELOAD = [
-    ("Preload_Wedge120", "models/wedge120.gltf"),
-    ("Preload_Wedge60",  "models/wedge60.gltf"),
-    ("Preload_Wedge40",  "models/wedge40.gltf"),
-    ("Preload_Wedge30",  "models/wedge30.gltf"),
-    ("Preload_Needle",   "models/needle.gltf"),
-    ("Preload_Pin",      "models/pin.gltf"),
+    ("Preload_Band", "models/band.gltf"),
+    ("Preload_Lane", "models/lane.gltf"),
+    ("Preload_Pin",  "models/pin.gltf"),
 ]
 
 
@@ -187,8 +198,8 @@ def inward(yaw):
 
 def door_entities(ents, did, wc, info, parent):
     """ドア 1 枚ぶんの実体一式。名前の規約は Junction.lua と対。
-    ★Mark_/Slice_/Lane_/Post_ は廃止した(床の扇 W_<id>_<k> と針 Needle に置き換え)。
-      1 面あたり数十個の使われないエンティティが消えている。"""
+    ★Mark_/Slice_/Lane_/Post_ は廃止した。開口の帯 Band_<id>_<k> と床のレーン
+      Lane_<id>_<k> は Junction.lua が実行時に spawn する(Preload のダミーが要る)。"""
     g = group(ents, "Door %s" % did, parent)
     yaw = info["yaw"]
     dx, dz = wc[0], wc[2]
@@ -248,7 +259,7 @@ PROPS = {
 def props(ents, rid, cx, cz, ch, spec, parent, fixtures):
     """spec: [(種類, x, z, yaw), ...] 部屋ローカル座標。部屋の識別性を上げる小物。
     ★どれも当たり判定を持たない(通り抜ける)。行き先の判断を邪魔しないため。
-      当たり判定を持つのは仕切り(divider)だけ = 通り抜けられたら意味が無いから。"""
+      当たり判定を持つのは衝立(blocker)だけ = 通り抜けられたら意味が無いから。"""
     for i, (kind, lx, lz, yaw) in enumerate(spec):
         P = PROPS[kind]
         y = P["y"]
@@ -264,32 +275,32 @@ def props(ents, rid, cx, cz, ch, spec, parent, fixtures):
             fixtures.setdefault(rid, []).append((cx + lx, cz + lz, P["r"], top))
 
 
-DIV_LEN, DIV_H, DIV_T = 4.0, 1.15, 0.14     # divider.gltf の実寸(長さは X 方向)
+BLK_LEN, BLK_H, BLK_T = 1.2, 1.15, 0.14   # blocker.gltf の実寸(長さは X 方向、面は ±Z)
 
 
-def dividers(ents, rid, cx, cz, spec, parent, fixtures):
-    """仕切り(第2面)。x = 一定、z0..z1 に立つ腰高の板。
+def blockers(ents, rid, cx, cz, spec, parent, fixtures):
+    """衝立。ドアの【正面だけ】を塞ぐ短い板(spec: [(x, z, yaw), ...] 部屋ローカル)。
+
+    ★(4) までは 4m の仕切り divider をドアの中心線上に立てていた。あれは
+      「塞ぐべき中央を開け、開けるべき左右を塞ぐ」の真逆で、ドアの手前 1.15m が
+      袋小路になり横歩きでしか入れず、入れても 2 つの帯のちょうど境目にしか立てなかった。
+      衝立は開口(2.0)より狭い 1.2 なので、左右に体(直径 0.7)が回り込む隙間が必ず残る。
+      真っ直ぐは入れないので【どちらの帯を通るかを必ず選ぶ】ことになる。
+
     ★これだけは【当たり判定を持たせる】。他の什器と違い、通り抜けられたら
-      「左からか右からしか入れない」という幾何の強制そのものが成立しない。
-      判定箱はモデルより一回り小さくして、板の中に完全に隠す。"""
-    for i, (lx, z0, z1) in enumerate(spec):
-        L = z1 - z0
-        n = max(1, int(math.ceil(L / DIV_LEN)))
-        for k in range(n):
-            # n 枚を端から端まで並べる(足りないぶんは重ねる。DIV_LEN より短くはしない)
-            c = (z0 + DIV_LEN * 0.5) if n == 1 else \
-                (z0 + DIV_LEN * 0.5 + k * (L - DIV_LEN) / (n - 1))
-            # yaw 90 で長さ方向(X)が Z 向きになる
-            ents.append(model("%s_Divider_%d_%d" % (rid, i, k), "models/divider.gltf",
-                              (cx + lx, 0.0, cz + c), 90.0, parent))
-        ents.append(box("%s_DividerCol_%d" % (rid, i),
-                        (cx + lx, DIV_H * 0.5 - 0.03, cz + (z0 + z1) * 0.5),
-                        (DIV_T - 0.03, DIV_H - 0.06, L), C_DIV, rough=0.6, parent=parent))
-        # assert 用。板は長いので 1m ごとに点を撒く
-        m = max(2, int(L) + 1)
-        for k in range(m):
-            fixtures.setdefault(rid, []).append(
-                (cx + lx, cz + z0 + L * k / (m - 1), 0.20, DIV_H))
+      幾何の強制そのものが成立しない。判定箱は板の中に完全に隠す。"""
+    for i, (lx, lz, yaw) in enumerate(spec):
+        ents.append(model("%s_Blocker_%d" % (rid, i), "models/blocker.gltf",
+                          (cx + lx, 0.0, cz + lz), yaw, parent))
+        # yaw 0 で長さ方向が X、90 で Z。斜めには置かない(判定箱が板からはみ出す)
+        along_x = abs(math.cos(math.radians(yaw))) > 0.5
+        sx = BLK_LEN if along_x else BLK_T
+        sz = BLK_T if along_x else BLK_LEN
+        ents.append(box("%s_BlockerCol_%d" % (rid, i),
+                        (cx + lx, BLK_H * 0.5 - 0.03, cz + lz),
+                        (sx - 0.03, BLK_H - 0.06, sz - 0.03), C_DIV, rough=0.6,
+                        parent=parent))
+        fixtures.setdefault(rid, []).append((cx + lx, cz + lz, BLK_LEN * 0.5, BLK_H))
 
 
 # ---------------------------------------------------------------- 部屋
@@ -381,7 +392,7 @@ def room(ents, r, doors_parent, rooms_parent, lightcol, intensity, dimhalf, fixt
                            lightcol, it, S["lrange"], g))
 
     props(ents, rid, cx, cz, ch, r.get("props", ()), g, fixtures)
-    dividers(ents, rid, cx, cz, r.get("divs", ()), g, fixtures)
+    blockers(ents, rid, cx, cz, r.get("blocks", ()), g, fixtures)
 
 
 # ---------------------------------------------------------------- カメラの掟
@@ -434,6 +445,73 @@ def check_cine(st, centers, fixtures):
                     raise SystemExit(
                         "%s: 什器に刺さる room=%s fixture=(%.1f,%.1f) 距離=%.2f"
                         % (tag, rid, fx, fz, d))
+
+
+# ---------------------------------------------------------------- レーンと衝立の掟
+LANE_LEN = 3.5   # Junction.lua の LANE_LEN と対。レーンが開口から手前へ伸びる長さ
+RUNUP    = 4.0   # ★助走路。ここに物があるとレーンが読めない(docs/GATE.md)
+BODY_R   = 0.35  # プレイヤーの半径(characterController.radius)。直径 0.7
+
+
+def door_axes(r, w):
+    """壁 w のドアの (中心 x, 中心 z, 部屋の内側を向く単位ベクトル)。room() と同じ式。"""
+    S = SHAPES[r["shape"]]
+    cx, cz = r["at"]
+    hx, hz = S["ix"] * 0.5, S["iz"] * 0.5
+    info = WALLS[w]
+    ix, iz = inward(info["yaw"])
+    if info["axis"] == "z":
+        return cx, cz + info["sign"] * (hz + WALLT * 0.5), ix, iz
+    return cx + info["sign"] * (hx + WALLT * 0.5), cz, ix, iz
+
+
+def check_lanes(st, pfx):
+    """★ドアの手前 RUNUP に什器を置けなくする。
+    レーンは開口から手前へ LANE_LEN 伸び、その先も助走路。ここに机や柱が刺さると
+    「レーンと帯が地続きに見える」が崩れ、機構そのものが伝わらなくなる。
+    目で見て気づくのでは遅いので生成時に落とす(衝立は【意図して】ここに立てるので対象外)。"""
+    for r in st["rooms"]:
+        for w in r.get("doors", {}):
+            dx, dz, ix, iz = door_axes(r, w)
+            for (fx, fz, fr, ftop) in pfx.get(r["id"], ()):
+                fwd = (fx - dx) * ix + (fz - dz) * iz
+                lat = abs(-(fx - dx) * iz + (fz - dz) * ix)
+                if -0.5 < fwd <= RUNUP and lat < DOORW * 0.5 + fr:
+                    raise SystemExit(
+                        "%s: ドア %s%s の助走路に什器 local前方=%.2f 横=%.2f (許容 横>=%.2f)"
+                        % (st["name"], r["id"], w, fwd, lat, DOORW * 0.5 + fr))
+
+
+def check_blockers(st):
+    """★衝立の左右に体が通る隙間が残っているかを数える。
+    衝立は「正面だけ塞ぐ」物なので、開口より狭くなければならない。ここを満たさない
+    衝立は (4) の仕切りと同じ「真ん中しか通れない」失敗の再来になる。"""
+    for r in st["rooms"]:
+        for (lx, lz, yaw) in r.get("blocks", ()):
+            S = SHAPES[r["shape"]]
+            hx, hz = S["ix"] * 0.5, S["iz"] * 0.5
+            if BLK_LEN >= DOORW:
+                raise SystemExit("%s: 衝立(%.2f)が開口(%.2f)より狭くない"
+                                 % (st["name"], BLK_LEN, DOORW))
+            # 衝立の脇から部屋の壁までの空き。ここが体の直径より広ければ回り込める
+            gapL = (lx - BLK_LEN * 0.5) - (-hx)
+            gapR = hx - (lx + BLK_LEN * 0.5)
+            if min(gapL, gapR) < BODY_R * 2 + 0.2:
+                raise SystemExit("%s: 衝立の脇が狭すぎる 左=%.2f 右=%.2f"
+                                 % (st["name"], gapL, gapR))
+            # 衝立はドアの正面・手前 1.2〜3.0m。近すぎると袋小路、遠いと避けずに済む
+            ok = False
+            for w, _did in r.get("doors", {}).items():
+                dx, dz, ix, iz = door_axes(r, w)
+                cx, cz = r["at"]
+                fwd = (cx + lx - dx) * ix + (cz + lz - dz) * iz
+                lat = abs(-(cx + lx - dx) * iz + (cz + lz - dz) * ix)
+                if 1.2 <= fwd <= 3.0 and lat < 0.05:
+                    ok = True
+            if not ok:
+                raise SystemExit("%s: 衝立がドアの正面・手前 1.2〜3.0m に無い" % st["name"])
+            if abs(lz) > hz - 1.0:
+                raise SystemExit("%s: 衝立が壁に近すぎる" % st["name"])
 
 
 def cine_world(st, centers):
@@ -595,7 +673,9 @@ STAGES = [
     dict(name="stage2", tag="Stage_2", title=2,
          rooms=[R("S", "box12", (P(0), P(0)), {"N": "a"}, props=BENCH),
                 R("A", "box12", (P(0), P(1)), {"S": "d"},
-                  divs=[(0.0, -5.0, 1.0)], props=[("bench", 4.4, 4.0, 200.0)]),
+                  # ★衝立はドアの正面・手前 2.0m。ドア d は壁の中心なので x=0。
+                  #   幅 1.2 < 開口 2.0 なので左右に回り込む隙間が残る(check_blockers)。
+                  blocks=[(0.0, -4.15, 0.0)], props=[("bench", 4.4, 4.0, 200.0)]),
                 R("G", "box12", (P(1), P(1)), {"S": "g"}, props=VENT)],
          spawn=(-3.0, -3.6, 15.0), goal=(P(1), P(1) + 2.6),
          doors=["a", "d", "g"], room_of=dict(a="S", d="A", g="G"),
@@ -738,11 +818,18 @@ if __name__ == "__main__":
             if rid not in centers:
                 raise SystemExit("%s: ドア %s の部屋 %s が無い" % (st["name"], did, rid))
         d = scene(st)
-        fx = {}
-        for r in st["rooms"]:                       # assert 用に什器だけ拾い直す
+        # assert 用に拾い直す。★pfx は【什器だけ】。衝立は意図して助走路に立てるので
+        #   check_lanes の対象から外し、check_blockers の方で別の掟を当てる。
+        pfx, fx = {}, {}
+        for r in st["rooms"]:
             props([], r["id"], r["at"][0], r["at"][1], SHAPES[r["shape"]]["h"],
-                  r.get("props", ()), None, fx)
-            dividers([], r["id"], r["at"][0], r["at"][1], r.get("divs", ()), None, fx)
+                  r.get("props", ()), None, pfx)
+        for rid, v in pfx.items():
+            fx[rid] = list(v)
+        for r in st["rooms"]:
+            blockers([], r["id"], r["at"][0], r["at"][1], r.get("blocks", ()), None, fx)
+        check_lanes(st, pfx)
+        check_blockers(st)
         check_cine(st, centers, fx)
         st["_cine"] = cine_world(st, centers)
         p = os.path.normpath(os.path.join(OUT, st["name"] + ".json"))
