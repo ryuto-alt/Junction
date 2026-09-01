@@ -165,7 +165,16 @@ local FAN_R        = 3.6    -- 扇の半径。wedge*.gltf は半径 1.0 に正�
 local WEDGE_MODEL  = { "models/wedge120.gltf", "models/wedge60.gltf",
                        "models/wedge40.gltf",  "models/wedge30.gltf" }
 
+-- 針の寸法。needle.gltf は 長さ1.0 / 軸の半幅0.06 / 厚み0.03 に正規化されている。
+-- ★扇の半径 FAN_R に見合う大きさでないと、一人称の目線から【見えない】。
+--   長さは扇の外周の少し内側で止める(3.10 < 3.60)。
+local NEEDLE_LEN  = 3.10   -- 実寸の長さ [m]
+local NEEDLE_W    = 3.2    -- 幅の倍率。軸 0.38m / 矢じり 0.70m。細い線は床の模様に負ける
+local NEEDLE_T    = 4.0    -- 厚みの倍率 = 0.12m。低い視点では【側面】が効く
+local NEEDLE_Y    = 0.11   -- 扇(板 0.015..0.035 / 縁 0.019..0.059)より確実に上
+
 local C_WHITE     = { 1.0, 1.0, 1.0 }
+local C_EDGE      = { 0.05, 0.06, 0.05 }   -- 針の縁取り
 local C_KEY       = { 0.95, 0.99, 0.94 }
 
 -- ---------------------------------------------------------------- 小道具
@@ -594,16 +603,42 @@ end
 
 -- 針。シーンに 1 本だけ spawn して、アクティブなドアの足元へ移す。
 -- ★向きは【今の WASD の押し方向】。カメラの向きでも実速度でもない(README の掟)。
+-- ★長さ 1.0 のまま置いていたら、半径 3.6m の扇の要にへばりつく線にしかならず、
+--   一人称の目線(y=1.7・扇まで数 m)からは【存在が認識できなかった】。
+--   扇の外周の少し内側まで届く長さへ伸ばし、白い本体の下に一回り大きい暗い針を
+--   敷いて縁取りにしてある(彩度の高い扇の上でも白が沈まない)。
 local function needle(self, id)
     if self.hasNeedle == nil then
-        local e = scene:spawn("Needle", "models/needle.gltf",
+        -- ★必ず先に名前で探す。Lua のホットリロードや OnStart のやり直しで self が
+        --   作り直されるたびに spawn すると、同名の針が何本も積み上がる(実際に踏んだ)。
+        local e = ent("Needle") or scene:spawn("Needle", "models/needle.gltf",
                               Vec3.new(0, HIDE_Y, 0), Vec3.new(0, 0, 0), Vec3.new(1, 1, 1))
         self.hasNeedle = (e ~= nil and e:isValid())
+        local o = ent("NeedleEdge") or scene:spawn("NeedleEdge", "models/needle.gltf",
+                              Vec3.new(0, HIDE_Y, 0), Vec3.new(0, 0, 0), Vec3.new(1, 1, 1))
+        self.hasEdge = (o ~= nil and o:isValid())
     end
     if not self.hasNeedle then return end
-    if not id then hide("Needle"); return end
+    if not id then hide("Needle"); hide("NeedleEdge"); return end
     local d = self.doors[id]
-    place("Needle", d.x, 0.05, d.z, math.deg(atan2(self.moveX, self.moveZ)))
+    local yaw = math.deg(atan2(self.moveX, self.moveZ))
+    -- ★支点をドアに置いたまま伸ばすと、針は【進行方向 = 壁の中】へ突き刺さって
+    --   一本も見えない(扇はドアから部屋の中へ開いているので向きが逆)。
+    --   矢じりがドアに、尾が部屋の中に来るよう、助走の分だけ後ろへずらして置く。
+    --   = 針は扇の上に乗り、いま自分が走っている線がそのまま床に描かれる。
+    local tipGap = 0.18
+    local bx = d.x - self.moveX * (NEEDLE_LEN + tipGap)
+    local bz = d.z - self.moveZ * (NEEDLE_LEN + tipGap)
+    if self.hasEdge then
+        local ex = d.x - self.moveX * (NEEDLE_LEN * 1.05 + tipGap)
+        local ez = d.z - self.moveZ * (NEEDLE_LEN * 1.05 + tipGap)
+        place("NeedleEdge", ex, NEEDLE_Y - 0.030, ez, yaw,
+              NEEDLE_W * 1.34, NEEDLE_T * 0.62, NEEDLE_LEN * 1.05)
+        tint("NeedleEdge", C_EDGE)
+    end
+    place("Needle", bx, NEEDLE_Y, bz, yaw, NEEDLE_W, NEEDLE_T, NEEDLE_LEN)
+    -- 脈打ち。うるさくしないため明度だけを ±6% 動かす(形も色も変えない)
+    tint("Needle", C_WHITE, 0.94 + 0.06 * math.sin(time.now() * 3.4))
 end
 
 -- ★決定打: ドアの中の虚無を、いま狙っている行き先のドア色に染める。
@@ -852,7 +887,11 @@ local function openConnect(self, id)
     if vl then
         vl.transform.position = Vec3.new(d.x + d.outX * 4.2, 1.9, d.z + d.outZ * 4.2)
         local L = vl:light()
-        if L then L.intensity = 90.0; L.range = 22.0 end
+        -- ★90 まで上げていたら【候補の板ごと白飛び】していた。板は光源から 2m、
+        --   背景の白板は 9m なので、逆二乗で板だけが 20 倍焼かれ、さらにブルームが
+        --   白い霞をかけて「白地に淡い水色とクリーム」になっていた(青と黄が判別不能)。
+        --   虚無の白は白のまま欲しいので、暗くするのではなく【焼かない光量】へ落とす。
+        if L then L.intensity = 26.0; L.range = 24.0 end
     end
 
     -- ★横並びは【プレイヤーから見た左右】で置く。ドアの right はドア自身の
@@ -865,12 +904,12 @@ local function openConnect(self, id)
         local dist = math.sqrt((od.x - d.x) ^ 2 + (od.z - d.z) ^ 2)
         -- 見かけの大きさは実距離で決まる(条1の錯覚)。ただし遠い物が点になると
         -- 「選べない」だけになるので sqrt で潰し、下限を切ってある
-        local s = math.max(0.42, math.min(1.10, 4.5 / math.sqrt(dist)))
-        self.pxS[i] = { 0.85 * s, 1.75 * s }
+        local s = math.max(0.50, math.min(1.15, 4.5 / math.sqrt(dist)))
+        self.pxS[i] = { 1.05 * s, 2.05 * s }
         place("Proxy_" .. i,
               d.x + d.outX * 2.25 + prX * (t * span), 1.42,
               d.z + d.outZ * 2.25 + prZ * (t * span), d.yaw, 0.001, 0.001, 0.07)
-        tint("Proxy_" .. i, vivid(DOOR_COLOR[o] or { 1, 1, 1 }), 0.62)
+        tint("Proxy_" .. i, vivid(DOOR_COLOR[o] or { 1, 1, 1 }), 0.85)
     end
     for i = #cand + 1, 8 do hide("Proxy_" .. i) end
 end
@@ -1014,16 +1053,39 @@ end
 -- ★文字・数字は 1 つも置かない(REDESIGN の原則)。
 local function drawGraph(self, W, H, a, t)
     if a <= 0.02 or not self.rooms then return end
-    ui:rect(0, 0, W, H, 0.02, 0.03, 0.02, 0.60 * a)
 
     local gw = math.min(W, H) * 0.52
     local cx, cy = W * 0.5, H * 0.44
-    local hw, hh = 42, 28
+    local hw, hh = 46, 31
     local function P(x, z)
         local u = (x - self.gmin.x) / self.gspan.x - 0.5
         local v = (z - self.gmin.z) / self.gspan.z - 0.5
         return cx + u * gw, cy - v * gw            -- +Z を画面の上へ
     end
+    -- ---- 暗幕。★グラフの外接矩形＋余白【だけ】に敷く ----
+    -- 白い部屋の中では線も枠も白に溶けて読めない。画面全体を暗くすると
+    -- 「虚無が白い」という世界観の核まで潰れるので、グラフの下だけを沈ませる。
+    do
+        local x0, y0, x1, y1
+        for _, rp in pairs(self.rooms) do
+            local bx, by = P(rp.x, rp.z)
+            if not x0 then x0, y0, x1, y1 = bx, by, bx, by end
+            x0, y0 = math.min(x0, bx), math.min(y0, by)
+            x1, y1 = math.max(x1, bx), math.max(y1, by)
+        end
+        if x0 then
+            local mx, my = hw + 26, hh + 26
+            x0, y0, x1, y1 = x0 - mx, y0 - my, x1 + mx, y1 + my
+            -- ピン置き場(H*0.84)まで含めて 1 枚の幕にする
+            local pinR = H * 0.84 + 16
+            local pw2  = math.max(x1 - x0, self.cfg.budget * 30 + 60)
+            local mid  = (x0 + x1) * 0.5
+            x0, x1 = mid - pw2 * 0.5, mid + pw2 * 0.5
+            y1 = math.max(y1, pinR)
+            ui:rect(x0, y0, x1 - x0, y1 - y0, 0.03, 0.045, 0.03, 0.72 * a, 16)
+        end
+    end
+
     -- ドアの点は「部屋の箱の縁」に置く。どっち側のドアかが形で分かる
     local function doorPt(id)
         local d, rp = self.doors[id], self.rooms[self.cfg.room[id]]
@@ -1045,14 +1107,14 @@ local function drawGraph(self, W, H, a, t)
         if isHere then
             ui:rect(bx - hw, by - hh, hw * 2, hh * 2, 0.93, 0.97, 0.93, 0.90 * a, 8)
         end
-        local c = isGoal and { 0.28, 0.95, 0.55 } or { 0.60, 0.66, 0.60 }
-        local bw = isGoal and 3 or 2
+        local c = isGoal and { 0.36, 1.00, 0.62 } or { 0.80, 0.86, 0.80 }
+        local bw = isGoal and 5 or 3
         ui:rect(bx - hw, by - hh, hw * 2, bw, c[1], c[2], c[3], 0.9 * a, 1)
         ui:rect(bx - hw, by + hh - bw, hw * 2, bw, c[1], c[2], c[3], 0.9 * a, 1)
         ui:rect(bx - hw, by - hh, bw, hh * 2, c[1], c[2], c[3], 0.9 * a, 1)
         ui:rect(bx + hw - bw, by - hh, bw, hh * 2, c[1], c[2], c[3], 0.9 * a, 1)
         if isGoal then
-            ui:rect(bx - 5, by - 5, 10, 10, 0.28, 0.95, 0.55, 0.95 * a, 5)
+            ui:rect(bx - 7, by - 7, 14, 14, 0.36, 1.00, 0.62, 0.95 * a, 7)
         end
     end
 
@@ -1066,14 +1128,16 @@ local function drawGraph(self, W, H, a, t)
                     local ca = DOOR_COLOR[list[i]] or C_WHITE
                     local cb = DOOR_COLOR[list[j]] or C_WHITE
                     local L = math.sqrt((bx - ax) ^ 2 + (by - ay) ^ 2)
-                    local n = math.max(3, math.floor(L / 12))
+                    local n = math.max(3, math.floor(L / 14))
                     local ph = (t * 0.5) % 1
                     for k = 0, n do
                         local u = (k + ph) / (n + 1)
                         if u <= 1 then
                             local c = (u < 0.5) and ca or cb
-                            ui:rect(ax + (bx - ax) * u - 2, ay + (by - ay) * u - 2,
-                                    4, 4, c[1], c[2], c[3], 0.85 * a, 2)
+                            local px = ax + (bx - ax) * u
+                            local py = ay + (by - ay) * u
+                            ui:rect(px - 5, py - 5, 10, 10, 0, 0, 0, 0.55 * a, 5)
+                            ui:rect(px - 3.5, py - 3.5, 7, 7, c[1], c[2], c[3], a, 4)
                         end
                     end
                 end
@@ -1087,14 +1151,14 @@ local function drawGraph(self, W, H, a, t)
         if x then
             local c = DOOR_COLOR[id] or C_WHITE
             local on = self.group[id] ~= nil
-            ui:rect(x - 6, y - 6, 12, 12, 0, 0, 0, 0.55 * a, 6)
-            ui:rect(x - 4, y - 4, 8, 8, c[1], c[2], c[3], (on and 1.0 or 0.45) * a, 4)
+            ui:rect(x - 8, y - 8, 16, 16, 0, 0, 0, 0.65 * a, 8)
+            ui:rect(x - 5.5, y - 5.5, 11, 11, c[1], c[2], c[3], (on and 1.0 or 0.55) * a, 6)
         end
     end
 
     -- ---- 未使用の接続予算をピンの形で並べる(右上の錠剤 HUD は廃止した) ----
     local n = self.cfg.budget
-    local pw, gap = 10, 18
+    local pw, gap = 13, 17
     local x0 = W * 0.5 - (n * pw + (n - 1) * gap) * 0.5
     local py = H * 0.84                     -- グラフと重ならないよう画面下に固定
     local dn = self.pinDeny or 0
@@ -1109,8 +1173,8 @@ local function drawGraph(self, W, H, a, t)
             al = a * (0.45 + 0.55 * math.abs(math.sin(t * 30)))
             g  = 7 * (dn / 0.55)
         end
-        ui:rect(x - g * 0.5, py - 12 - g, pw + g, pw + g, c[1], c[2], c[3], al, 3)
-        ui:rect(x + pw * 0.5 - 1.5, py - 2, 3, 19, c[1], c[2], c[3], al * 0.85, 1)
+        ui:rect(x - g * 0.5, py - 14 - g, pw + g, pw + g, c[1], c[2], c[3], al, 4)
+        ui:rect(x + pw * 0.5 - 2, py - 3, 4, 21, c[1], c[2], c[3], al * 0.85, 2)
     end
 end
 
@@ -1273,8 +1337,10 @@ function OnUpdate(self, dt)
                           and (1.18 + 0.05 * math.sin(t * 5.0)) or 1.0)
                 e.transform.scale = Vec3.new(bs[1] * k, bs[2] * k, 0.07)
             end
+            -- ★狙っていない候補も【色が読める明るさ】で塗る。0.55 まで落とすと
+            --   白い虚無の上で色が抜けて、選ぶ前に見分けが付かなかった。
             tint("Proxy_" .. i, vivid(DOOR_COLOR[self.cand[i]] or { 1, 1, 1 }),
-                 (i == best) and 1.15 or 0.55)
+                 (i == best) and 1.25 or 0.85)
         end
         self.aim = best
 
