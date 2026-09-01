@@ -2,16 +2,32 @@
 -- JUNCTION / 継ぎ目 — ゲームロジック本体。シーンに 1 つだけ置く空エンティティに付ける。
 -- エンティティ名 "Logic_Stage_1" .. "Logic_Stage_8" でステージ設定を引く。
 --
--- ★2026-09-01(4) 作り直し: 【条件と角度を "撃つ前に" 見せる】
---   前回(文字を消してカメラと色で教える)は「条件が全く分からない/角度の説明が無い」で
---   失敗した。原因は docs/REDESIGN.md 冒頭。今回はこの 4 本で直している:
---     A 結線ビュー(TAB)  … このゲームはグラフパズルなのにグラフが一度も見えなかった
---     B 羅針(床の扇+針)  … 今の入射角がどの出口を指しているかの【実時間表示】。
---                          ★決定打は「ドアの中の虚無が行き先の色に染まる」。
---                            ストレイフすると目の前のドアの色が変わる = 通る前に分かる
---     C 接続ピン         … 予算を画面の隅の錠剤ではなく【世界に残る物】で示す
---     E 音               … 因果を伝える最速の channel(触れた/開いた/カチッ/繋いだ/通った)
---   角度の授業カメラ(teachAngle)は廃止した。角度は幾何とレベルデザインで教える。
+-- ★2026-09-01(5) 作り直し: 【選択装置を「向き」から「場所」へ】(docs/GATE.md が契約)
+--   (4) は床の扇・入射角の針・ドアの色染めまで作ったが【それでも伝わらなかった】:
+--     「矢印の位置が意味わからない。ADWS押すたびに変わる」
+--     「入射角の概念が意味わからん。何をしようとしてるのか」
+--   診断: 矢印が指していたのは行き先ではなく【WASD の押し方向 = 入力そのもの】。
+--   一人称のプレイヤーにとって「自分が今どの向きに動いているか」は見えない量で、
+--   見えない物を選択装置にした以上、どう表示しても「表示を読む作業」にしかならない。
+--   おまけに「ドアに入る角度で行き先が変わる物」は現実に比喩が無い。
+--   一方【どのゲートを通ったかで行き先が決まる】は改札・料金所・分岐器で誰でも知っている。
+--
+--   → ドアの開口を行き先の数だけ縦の色帯(band)に割り、【通った帯の色のドアから出る】。
+--     ・帯   Band_<id>_<k> … 開口の中に立つ色板。遠くからでも「あの扉は3つに割れている」
+--     ・レーン Lane_<id>_<k> … 帯と同じ幅・同じ横位置で手前へ伸びる床板。
+--       ★帯と地続きに見えることが全て。扇のように角度で開かない
+--     ・近づくと「今そのまま歩けばどの帯を通るか」が明るくなり、
+--       ★ドアの中の虚無がその色に染まる((4)で唯一効いていた仕掛けなので残した)
+--   角度の条件は撤廃した。残っているのは「ドアへ向かって歩いている」だけで、
+--   横から壁ズリしながら滑り込んでも【通った場所が正】。
+--   C 接続ピン / E 音 / A 結線ビュー(TAB) は (4) のまま。
+--
+--   ★繋がった瞬間の演出(合計 2.2 秒・任意のキーで飛ばせる)を足した。
+--     (4) は「ピンが刺さって光るだけ」で【部屋を選んで終わり】に見えていた:
+--       1 光の糸(0.4s)      虚無の中を繋いだ先のドアへ fx:beam が伸びる
+--       2 向こうの部屋(0.8s) カメラが飛んで戻る。★同じ部屋へは 1 回だけ
+--       3 結線ビュー(1.0s)   TAB のグラフが勝手に開き、新しい辺が引かれるのを見せる
+--     3 が本命。【接続 = グラフに辺が 1 本増えること】を、自分で TAB を押す前に見せる。
 --
 -- ★教え方の設計(1 面につき新しい事は 1 つだけ):
 --   1 触れて繋いで通る(候補1枚・失敗しようがない) / 2 3枚合流と角度 /
@@ -23,19 +39,21 @@
 --   physics:setPosition で毎フレーム押し込む(スクリプトは物理より前に走るので
 --   transform へ書くだけでは CharacterController の同期に上書きされる)。
 --
--- ★角度は【WASD の押し方向】で測る。カメラの向きでも実速度でもない:
---   ・カメラの向き … 歩きながら見回すだけで行き先が変わってしまう
---   ・実速度       … ドア際で壁ズリすると自分の意図と違う向きになる
---   FreeLook.lua が saveNum("moveX"/"moveZ") へ書く。書き手はあそこ 1 箇所。
+-- ★行き先は【ドア平面を横切った横位置 lat】だけで決まる(角度は一切見ない)。
+--   lat は「プレイヤーから見た左右」で測る。★ドアの right(d.rgX/rgZ)は
+--   ドア自身の forward(部屋の内側)基準なので、向き合うプレイヤーからは左右が反転する。
+--   符号を間違えると帯とレーンが鏡像になり、通った色と出る色がひっくり返る。
+--   WASD の押し方向(saveNum("moveX"/"moveZ"))は【ドアへ向かって歩いているか】の
+--   判定にしか使わない。針も扇も無い。
 --
 -- ★エンティティ名の規約(source/gen_stages.py と対。片方だけ変えると無言で壊れる):
 --     Door_<id> / Void_<id> / VoidLight_<id> / Frame_<id>_*
 --     Proxy_1..8       虚無に浮かぶ候補。全ドアで使い回す
 --     Pilot / PilotLight  案内の光
---   ★Lua が実行時に scene:spawn する物(生成側は置かない。Mark_/Slice_/Lane_/Post_ の後継):
---     W_<id>_<k>  扇のスライス板 models/wedge120|60|40|30.gltf
---     Needle      入射角の針     models/needle.gltf (シーンに 1 本だけ)
---     Pin_<n>     刺さった接続ピン models/pin.gltf
+--   ★Lua が実行時に scene:spawn する物(生成側は置かない。W_/Needle の後継):
+--     Band_<id>_<k>  開口の色帯 models/band.gltf (原点=底面中心、+Y へ立つ板、幅1/高さ1)
+--     Lane_<id>_<k>  床のレーン models/lane.gltf (原点=手前端の中心、+Z へ伸びる平板、幅1/長さ1)
+--     Pin_<n>        刺さった接続ピン models/pin.gltf
 --   ★scene:spawn / scene:remove は Play 中でも効く(2026-09-01 に実測で確認済み)。
 --     モデルが無い時は spawn が【無効な entity を返すだけ】で落ちない = 揃うまで出ないだけ。
 --   ★★ただしエンジンの落とし穴が 1 つある(実測):
@@ -44,9 +62,9 @@
 --     Lua 側は一切エラーにならず、原因が絶対に分からない類のやつ。
 --     (dx12_reload_assets を撃つと一斉に出る = GPU へのアップロードがシーン読み込み時にしか
 --      走っていない。Editor でも Play でも同じなので Lua 側では回避できない。)
---     → wedge120/60/40/30 / needle / pin は【シーン JSON がどこかで 1 個参照している】必要がある。
+--     → band / lane / pin は【シーン JSON がどこかで 1 個参照している】必要がある。
 --       gen_stages.py 側で床下(y=-200)にダミーを 1 個ずつ置いてもらうこと。
---       置かれるまでは扇・針・ピンだけが無言で出ない(それ以外は全部動く)。
+--       置かれるまでは帯・レーン・ピンだけが無言で出ない(判定も色染めも全部動く)。
 -- ============================================================================
 
 local STAGES = {
@@ -151,42 +169,31 @@ local DOOR_COLOR = {
 }
 
 local MAX_JUNCTION = 5      -- 合流点の上限。6 枚目で崩壊
-local FAN_DEG      = 60.0   -- ドア正面 ±この角度を等分する
 local TIME_LIMIT   = 180.0
 local REACH        = 3.2    -- ドアに触れられる距離
 local ENTER_DIST   = 1.05
-local ENTER_LAT    = 0.85
 local ENTER_DOT    = 0.30
 local HIDE_Y       = -200.0
 local FADE_TIME    = 0.20
-local COMPASS_DIST = 7.0    -- 羅針(扇と針)が床に出る距離
-local FAN_R        = 3.6    -- 扇の半径。wedge*.gltf は半径 1.0 に正規化されている
--- 出口数 1..4 に対する開き角。FAN_DEG*2 / nex と必ず一致する(120/60/40/30)
-local WEDGE_MODEL  = { "models/wedge120.gltf", "models/wedge60.gltf",
-                       "models/wedge40.gltf",  "models/wedge30.gltf" }
+local COMPASS_DIST = 7.0    -- 「今どの帯を通るか」の強調が効き始める距離
 
--- 針の寸法。needle.gltf は 長さ1.0 / 軸の半幅0.06 / 厚み0.03 に正規化されている。
--- ★扇の半径 FAN_R に見合う大きさでないと、一人称の目線から【見えない】。
---   長さは扇の外周の少し内側で止める(3.10 < 3.60)。
-local NEEDLE_LEN  = 3.10   -- 実寸の長さ [m]
-local NEEDLE_W    = 3.2    -- 幅の倍率。軸 0.38m / 矢じり 0.70m。細い線は床の模様に負ける
-local NEEDLE_T    = 4.0    -- 厚みの倍率 = 0.12m。低い視点では【側面】が効く
-local NEEDLE_Y    = 0.11   -- 扇(板 0.015..0.035 / 縁 0.019..0.059)より確実に上
+-- ★開口の幅。モデル担当が 1.5 → 2.0 に広げている(docs/GATE.md)。
+--   1.5 のままだと 4 出口で 1 帯 0.375m になり、体の直径 0.7m に対して狙いが厳しすぎた。
+--   2.0 なら最小 0.5m。ついでに「人が通る扉」ではなく【門・ゲート】に見えるのも狙い。
+--   ★この 1 個の定数から、帯の幅・レーンの幅・虚無の板の幅・壁の判定が全部出る。
+local DOORW       = 2.0
+local BAND_H      = 2.6    -- 帯の高さ = 開口の高さいっぱい
+local BAND_Y      = 0.02   -- band.gltf の原点は底面中心。床にめり込ませない
+local BAND_Z      = 0.09   -- 虚無の板(ドア平面)と z ファイトしないぶんだけ手前へ
+local LANE_LEN    = 3.5    -- レーンが開口から手前へ伸びる長さ
+local LANE_Y      = 0.015
 
 local C_WHITE     = { 1.0, 1.0, 1.0 }
-local C_EDGE      = { 0.05, 0.06, 0.05 }   -- 針の縁取り
 local C_KEY       = { 0.95, 0.99, 0.94 }
 
 -- ---------------------------------------------------------------- 小道具
 
 local atan2 = math.atan2 or function(y, x) return math.atan(y, x) end
-
-local function rot2(vx, vz, deg)
-    -- (x,z) 平面の回転。正の deg = プレイヤーから見て【左】
-    -- 検算: rot((0,1), -90) = (1,0) = yaw0 の右。これが崩れると左右が入れ替わる
-    local c, s = math.cos(math.rad(deg)), math.sin(math.rad(deg))
-    return vx * c - vz * s, vx * s + vz * c
-end
 
 local function signedAngle(ox, oz, dx, dz)
     return math.deg(atan2(ox * dz - oz * dx, ox * dx + oz * dz))
@@ -213,6 +220,59 @@ local function place(name, x, y, z, yaw, sx, sy, sz)
     if yaw then e.transform.rotation = Vec3.new(0, yaw, 0) end
     if sx then e.transform.scale = Vec3.new(sx, sy, sz) end
     return e
+end
+
+-- ============================ 帯(band)の幾何 — ここが機構の心臓 ============================
+-- ★表示(帯・レーン・虚無の色)と判定(どのドアから出るか)は【必ずこの 2 つを通す】。
+--   片方だけ触ると「明るい帯と違う色のドアから出る」= 嘘の照準になり、
+--   (4) の失敗(表示を読んでも体で分からない)がそのまま再発する。
+
+-- プレイヤーから見た左右の単位ベクトル。
+-- ★d.rgX/rgZ は【ドア自身の forward(部屋の内側)基準の right】。向き合うプレイヤーからは
+--   左右が反転しているので、必ず符号を裏返す。ここを間違えると帯とレーンが鏡像になる。
+--   検算: yaw=0 のドアは in=(0,1)/out=(0,-1)/rg=(1,0)。部屋側(z>0)に立って
+--   ドアを向くプレイヤーの forward=(0,-1)、その right=(fz,-fx)=(-1,0) = -rg。
+local function playerRight(d)
+    return -d.rgX, -d.rgZ
+end
+
+-- ドア中心からの横ずれ [m]。正 = プレイヤーから見て右
+local function lateralOf(d, x, z)
+    local rx, rz = playerRight(d)
+    return (x - d.x) * rx + (z - d.z) * rz
+end
+
+-- 横ずれ lat が n 本のうち何番目の帯か。k=1 が【プレイヤーから見て一番左】
+local function bandIndex(lat, n)
+    if n <= 1 then return 1 end
+    local k = math.floor((lat + DOORW * 0.5) / (DOORW / n)) + 1
+    if k < 1 then return 1 elseif k > n then return n end
+    return k
+end
+
+-- 帯 k の中心の横ずれ(表示側。bandIndex の逆関数)
+local function bandCenter(k, n)
+    return -DOORW * 0.5 + (k - 0.5) * (DOORW / n)
+end
+
+-- ---------------------------------------------------------------- 演出の早送り
+-- ★接続の演出は【どのキーでも飛ばせる】のが契約(docs/GATE.md)。
+--   isKeyDown だと W を握ったままの人には演出が一度も出ないので、必ず【押した瞬間】で見る。
+local SKIP_KEYS = {}
+do
+    for v = 0x41, 0x5A do SKIP_KEYS[#SKIP_KEYS + 1] = v end   -- A..Z
+    for v = 0x30, 0x39 do SKIP_KEYS[#SKIP_KEYS + 1] = v end   -- 0..9
+    for v = 0x25, 0x28 do SKIP_KEYS[#SKIP_KEYS + 1] = v end   -- ←↑→↓
+    for _, v in ipairs({ 0x20, 0x0D, 0x09, 0x10, 0x01, 0x02 }) do
+        SKIP_KEYS[#SKIP_KEYS + 1] = v                          -- Space/Enter/Tab/Shift/左右クリック
+    end
+end
+
+local function anyKey()
+    for _, v in ipairs(SKIP_KEYS) do
+        if input:isKeyPressed(v) then return true end
+    end
+    return false
 end
 
 -- ★白い虚無の上では淡い色が全部おなじ「くすんだ黄土」に見える(橙と黄が判別不能だった)。
@@ -243,7 +303,7 @@ end
 -- ★キーの表示は「まだ覚えていない操作」だけ。規定回数やったら二度と出さない。
 --   saveNum はメモリのみ = 面をまたいで持ち越し、アプリを閉じると忘れる
 --   (次に遊ぶ人には、また最初の数回だけ出る)。
-local NEED = { move = 1, touch = 2, pick = 2, cancel = 1, map = 1 }
+local NEED = { move = 1, touch = 2, pick = 2, map = 1 }
 
 local function learned(name)
     return loadNum("jx_lv_" .. name, 0) >= (NEED[name] or 1)
@@ -401,6 +461,11 @@ local function resetRun(self)
     self.pinDeny = 0
     self.mapKeyT = 0
     self.endSfx = false
+    -- 接続演出。★「向こうの部屋を見せる」は同じ部屋へ 1 回だけ(毎回だとテンポが死ぬ)
+    self.peeked   = {}
+    self.mapForce = 0        -- 結線ビューを勝手に開いている残り時間
+    self.newEdge  = nil      -- いま引かれている最中の辺 { from, to }
+    self.edgeT    = 0        -- その辺の描画進捗 0..1
     -- 刺したピンを全部抜く([R] でやり直したのに前回のピンが残っていると嘘になる)。
     -- 扇と同じ理由で名前の総当たり(self を作り直されても置き去りにしない)
     for i = 1, 64 do
@@ -459,15 +524,19 @@ function OnStart(self)
     end
     self.goal = ent("Goal")
 
-    -- ★過渡期の後始末: 廃止した Mark_/Slice_/Lane_/Post_ は gen_stages.py 側が
-    --   出力をやめるまでシーンに残っている。参照はしないが、床に置き去りの棒が
-    --   散らかったままだと扇が読めないので、開幕で 1 回だけ床下へ落としておく。
-    --   生成側が消したあとは hide() が空振りするだけなので、そのまま置いていて害はない。
+    -- ★過渡期の後始末: 廃止した Mark_/Slice_/Post_(細い線と柱)と W_(扇)/Needle(針)は、
+    --   gen_stages.py 側や前回の Play の spawn が残していることがある。床に置き去りの
+    --   棒や扇が散らかっていると帯とレーンが読めないので、開幕で 1 回だけ片付ける。
+    --   ★Lane_ は【今回から Lua が spawn する物】なのでここでは触らない(触ると自分で消す)。
     for _, id in ipairs(self.cfg.doors) do
         for k = 1, 6 do
             hide("Mark_" .. id .. "_" .. k);  hide("Slice_" .. id .. "_" .. k)
-            hide("Lane_" .. id .. "_" .. k);  hide("Post_" .. id .. "_" .. k)
+            hide("Post_" .. id .. "_" .. k)
+            local w = ent("W_" .. id .. "_" .. k); if w then scene:remove(w) end
         end
+    end
+    for _, nm in ipairs({ "Needle", "NeedleEdge" }) do
+        local e = ent(nm); if e then scene:remove(e) end
     end
 
     -- ★BGM(蛍光灯のハム)はシーンをまたいで鳴らし続ける。playBGM は同じパスでも
@@ -535,110 +604,82 @@ local function exitsOf(self, id)
     return out
 end
 
--- ---------------------------------------------------------------- 羅針(扇と針)
--- 合流点の扇(スライス板)を全ドアぶん作り直す。
+-- ---------------------------------------------------------------- 帯とレーン
+-- 合流点のドアの開口を、行き先の数だけ縦の色帯に割る。床のレーンはその帯へ
+-- 【地続きに】まっすぐ手前へ伸びる(扇のように角度で開かない。開くと角度の話に戻る)。
 -- ★接続/崩壊/リセットの直後にだけ呼ぶ。毎フレーム spawn しない(spawn は安くない)。
--- ★以前の Mark_/Slice_/Lane_/Post_(細い線と柱)は廃止した。線では「今どの出口を
---   指しているか」が読めず、角度ルールがまったく伝わっていなかったので、
---   出口ごとに【面で塗った扇】を出して、狙っている 1 枚だけを明るくする。
 function refreshDoors(self)
-    -- 前の扇を消す。scene:remove は Play 中でも効く(実測済み)。
+    -- 前の帯とレーンを消す。scene:remove は Play 中でも効く(実測済み)。
     -- ★消す対象は self に覚えた名前ではなく【名前を総当たり】する。Lua のホットリロードや
     --   OnStart のやり直しで self が作り直されると、覚えていた名前が消えて
-    --   床に扇が置き去りになる(実際に踏んだ)。名前は規約なので総当たりで足りる。
+    --   開口に帯が置き去りになる(扇の頃に実際に踏んだ)。名前は規約なので総当たりで足りる。
     for _, id in ipairs(self.cfg.doors) do
-        for k = 1, 4 do
-            local e = ent("W_" .. id .. "_" .. k)
-            if e then scene:remove(e) end
+        for k = 1, MAX_JUNCTION do
+            local e = ent("Band_" .. id .. "_" .. k); if e then scene:remove(e) end
+            local f = ent("Lane_" .. id .. "_" .. k); if f then scene:remove(f) end
         end
     end
-    self.fan = {}
+    self.bands = {}
     self.shownDoor = nil
 
     for _, id in ipairs(self.cfg.doors) do
         local d = self.doors[id]
         local exits = exitsOf(self, id)
-        local nex = #exits
-        if nex >= 1 then
-            local w = (FAN_DEG * 2) / nex
-            local model = WEDGE_MODEL[nex]
-            local slices = {}
-            for k = 1, nex do
-                -- スライス k の中心角。判定(sliceIndex)と同じ式であることが命
-                local ang = FAN_DEG - w * (k - 0.5)
-                local dx, dz = rot2(d.outX, d.outZ, ang)
-                -- 扇は【助走してくる向き】へ開く = ドアから部屋の中へ伸びる
-                local yaw = math.deg(atan2(-dx, -dz))
-                local nm  = "W_" .. id .. "_" .. k
+        local n = #exits
+        if n >= 1 then
+            -- 出口が 1 つ(2枚合流)なら割らない = 1 枚の帯が開口いっぱい
+            local bw = DOORW / n
+            local rx, rz = playerRight(d)
+            local list = {}
+            for k = 1, n do
                 local col = vivid(DOOR_COLOR[exits[k]] or { 1, 1, 1 })
-                if model then
-                    -- 出るまでは床下に置いておく(近づいた時に place で持ち上げる)
-                    local e = scene:spawn(nm, model, Vec3.new(d.x, HIDE_Y, d.z),
-                                          Vec3.new(0, yaw, 0), Vec3.new(FAN_R, 1.0, FAN_R))
-                    if e and e:isValid() then scene:setColor(e, col[1], col[2], col[3]) end
-                end
-                slices[k] = { yaw = yaw, col = col, name = nm }
+                local off = bandCenter(k, n)
+                -- 帯: 開口の中に立てる。yaw = ドアの yaw で、板のローカル X が
+                --     ドアの right(= 開口の幅方向)に一致する
+                local bx = d.x + rx * off + d.inX * BAND_Z
+                local bz = d.z + rz * off + d.inZ * BAND_Z
+                scene:spawn("Band_" .. id .. "_" .. k, "models/band.gltf",
+                            Vec3.new(bx, HIDE_Y, bz), Vec3.new(0, d.yaw, 0),
+                            Vec3.new(bw * 0.97, BAND_H, 1.0))
+                -- レーン: 原点が【手前端】で +Z へ伸びるので、手前端を部屋の中に置き、
+                --        +Z がドアを向くよう yaw+180 で寝かせる(= out の向き)
+                local lx = d.x + rx * off + d.inX * LANE_LEN
+                local lz = d.z + rz * off + d.inZ * LANE_LEN
+                scene:spawn("Lane_" .. id .. "_" .. k, "models/lane.gltf",
+                            Vec3.new(lx, HIDE_Y, lz), Vec3.new(0, d.yaw + 180, 0),
+                            Vec3.new(bw * 0.92, 1.0, LANE_LEN))
+                list[k] = { col = col, off = off, w = bw,
+                            bx = bx, bz = bz, lx = lx, lz = lz }
             end
-            self.fan[id] = slices
+            self.bands[id] = list
         end
     end
 end
 
--- 扇を床へ出す。狙っている 1 枚だけ明るく、他は 0.35 倍に落とす
-local function showFan(self, id, hot)
-    local slices = self.fan and self.fan[id]
-    if not slices then return end
+-- 帯とレーンを出す。hot(今そのまま歩けば通る帯)だけ明るく、他は 0.35 倍に落とす。
+-- ★hot は【プレイヤーの横位置】だけで決まる。WASD の押し方向は一切見ない
+--   ((4) の失敗は、A/D を押すたびに照準が飛ぶ = 情報ではなくノイズだったこと)。
+local function showBands(self, id, hot)
+    local list = self.bands and self.bands[id]
+    if not list then return end
     local d = self.doors[id]
-    for k, sl in ipairs(slices) do
-        place(sl.name, d.x, 0.015, d.z, sl.yaw, FAN_R, 1.0, FAN_R)
-        tint(sl.name, sl.col, (k == hot) and 1.0 or 0.35)
+    for k, b in ipairs(list) do
+        place("Band_" .. id .. "_" .. k, b.bx, BAND_Y, b.bz, d.yaw,
+              b.w * 0.97, BAND_H, 1.0)
+        tint("Band_" .. id .. "_" .. k, b.col, (k == hot) and 1.35 or 0.35)
+        place("Lane_" .. id .. "_" .. k, b.lx, LANE_Y, b.lz, d.yaw + 180,
+              b.w * 0.92, 1.0, LANE_LEN)
+        tint("Lane_" .. id .. "_" .. k, b.col, (k == hot) and 1.20 or 0.30)
     end
 end
 
-local function hideFan(self, id)
-    local slices = self.fan and self.fan[id]
-    if not slices then return end
-    for _, sl in ipairs(slices) do hide(sl.name) end
-end
-
--- 針。シーンに 1 本だけ spawn して、アクティブなドアの足元へ移す。
--- ★向きは【今の WASD の押し方向】。カメラの向きでも実速度でもない(README の掟)。
--- ★長さ 1.0 のまま置いていたら、半径 3.6m の扇の要にへばりつく線にしかならず、
---   一人称の目線(y=1.7・扇まで数 m)からは【存在が認識できなかった】。
---   扇の外周の少し内側まで届く長さへ伸ばし、白い本体の下に一回り大きい暗い針を
---   敷いて縁取りにしてある(彩度の高い扇の上でも白が沈まない)。
-local function needle(self, id)
-    if self.hasNeedle == nil then
-        -- ★必ず先に名前で探す。Lua のホットリロードや OnStart のやり直しで self が
-        --   作り直されるたびに spawn すると、同名の針が何本も積み上がる(実際に踏んだ)。
-        local e = ent("Needle") or scene:spawn("Needle", "models/needle.gltf",
-                              Vec3.new(0, HIDE_Y, 0), Vec3.new(0, 0, 0), Vec3.new(1, 1, 1))
-        self.hasNeedle = (e ~= nil and e:isValid())
-        local o = ent("NeedleEdge") or scene:spawn("NeedleEdge", "models/needle.gltf",
-                              Vec3.new(0, HIDE_Y, 0), Vec3.new(0, 0, 0), Vec3.new(1, 1, 1))
-        self.hasEdge = (o ~= nil and o:isValid())
+local function hideBands(self, id)
+    local list = self.bands and self.bands[id]
+    if not list then return end
+    for k = 1, #list do
+        hide("Band_" .. id .. "_" .. k)
+        hide("Lane_" .. id .. "_" .. k)
     end
-    if not self.hasNeedle then return end
-    if not id then hide("Needle"); hide("NeedleEdge"); return end
-    local d = self.doors[id]
-    local yaw = math.deg(atan2(self.moveX, self.moveZ))
-    -- ★支点をドアに置いたまま伸ばすと、針は【進行方向 = 壁の中】へ突き刺さって
-    --   一本も見えない(扇はドアから部屋の中へ開いているので向きが逆)。
-    --   矢じりがドアに、尾が部屋の中に来るよう、助走の分だけ後ろへずらして置く。
-    --   = 針は扇の上に乗り、いま自分が走っている線がそのまま床に描かれる。
-    local tipGap = 0.18
-    local bx = d.x - self.moveX * (NEEDLE_LEN + tipGap)
-    local bz = d.z - self.moveZ * (NEEDLE_LEN + tipGap)
-    if self.hasEdge then
-        local ex = d.x - self.moveX * (NEEDLE_LEN * 1.05 + tipGap)
-        local ez = d.z - self.moveZ * (NEEDLE_LEN * 1.05 + tipGap)
-        place("NeedleEdge", ex, NEEDLE_Y - 0.030, ez, yaw,
-              NEEDLE_W * 1.34, NEEDLE_T * 0.62, NEEDLE_LEN * 1.05)
-        tint("NeedleEdge", C_EDGE)
-    end
-    place("Needle", bx, NEEDLE_Y, bz, yaw, NEEDLE_W, NEEDLE_T, NEEDLE_LEN)
-    -- 脈打ち。うるさくしないため明度だけを ±6% 動かす(形も色も変えない)
-    tint("Needle", C_WHITE, 0.94 + 0.06 * math.sin(time.now() * 3.4))
 end
 
 -- ★決定打: ドアの中の虚無を、いま狙っている行き先のドア色に染める。
@@ -774,6 +815,79 @@ local function stickPin(self, id)
     sfx("pin")
 end
 
+-- ---------------------------------------------------------------- 繋がった瞬間の演出
+-- ★(4) は「ピンが刺さって光るだけ」で【部屋を選んで終わり】に見えていた。
+--   繋ぐという行為が世界に何をしたのかを、その場で 3 段で見せる(合計 2.2 秒)。
+--   1 光の糸(0.4s)  … 距離があること・物理的に結ばれたことを画で
+--   2 覗き(0.8s)    … 向こうの部屋。★同じ部屋へは 1 回だけ
+--   3 結線ビュー(1.0s) … 本命。【接続 = グラフに辺が 1 本増えること】を、
+--                        プレイヤーが自分で TAB を押す前に、勝手に見せてしまう
+-- ★どの段も任意のキーで飛ばせる。飛ばしたら残りは全部やらない。
+local function celebrate(self, from, to)
+    local fd, td = self.doors[from], self.doors[to]
+    if not (fd and td) then return end
+    local pl = ent("MainCamera")
+    if not pl then return end
+    local p0   = pl.transform.position
+    local x0, z0 = p0.x, p0.z
+    local yaw0 = loadNum("camYaw", self.cam.yaw)
+    local room = self.cfg.room[to]
+    self.peeked = self.peeked or {}
+    local peek = (room ~= nil) and (not self.peeked[room])
+    if peek then self.peeked[room] = true end
+    local col = vivid(DOOR_COLOR[to] or { 1, 1, 1 })
+
+    self.task = task.spawn(function()
+        cineBegin(self)
+        camSet(self, x0, 1.7, z0, yaw0, 0)
+        -- ★確定に使った E がこのフレームもまだ「押された」ままなので、
+        --   すぐ anyKey() を見ると自分で自分を飛ばす。2 フレーム待ってから見る。
+        waitFrames(2)
+        local skip = false
+
+        -- ---- 1 光の糸。虚無の中を、繋いだ先のドアへ伸びていく ----
+        local t = 0
+        while t < 0.40 do
+            if anyKey() then skip = true; break end
+            t = t + time.dt()
+            local k = math.min(1, t / 0.40)
+            fx:beam{ x0 = fd.x + fd.outX * 0.35, y0 = 1.55, z0 = fd.z + fd.outZ * 0.35,
+                     x1 = fd.x + (td.x - fd.x) * k, y1 = 1.55,
+                     z1 = fd.z + (td.z - fd.z) * k,
+                     width = 0.24, r = col[1], g = col[2], b = col[3],
+                     intensity = 3.0, life = 0.12, kind = "energy" }
+            wait(0)
+        end
+
+        -- ---- 2 繋いだ先の部屋を一瞬だけ見せる ----
+        if not skip and peek then
+            camSetAt(self, td.x + td.inX * 1.8, 2.05, td.z + td.inZ * 1.8,
+                           td.x + td.inX * 7.0, 1.35, td.z + td.inZ * 7.0)
+            self.flash = 1.0
+            local u = 0
+            while u < 0.80 do
+                if anyKey() then skip = true; break end
+                u = u + time.dt()
+                wait(0)
+            end
+        end
+
+        -- 元の立ち位置へ戻す(cineEnd が向きも目の高さも直してくれる)
+        camSet(self, x0, 1.7, z0, yaw0, 0)
+        if peek then self.flash = 1.0 end
+        cineEnd(self)
+
+        -- ---- 3 結線ビューが勝手に開き、新しい辺が引かれる ----
+        -- ★ここは cine を抜けてから。cine 中の OnUpdate は HUD を描く前に return する
+        if not skip then
+            self.newEdge  = { from, to }
+            self.edgeT    = 0
+            self.mapForce = 1.0
+            learn("map")          -- 見せた以上、TAB のキーキャップはもう要らない
+        end
+    end)
+end
+
 local function connect(self, from, to)
     if self.budget <= 0 then
         self.hint = 0.8
@@ -824,12 +938,10 @@ local function connect(self, from, to)
     stickPin(self, from)
     stickPin(self, to)
 
-    -- ★TAB(結線ビュー)のキーキャップは、第1面で初めて接続が成立した瞬間に 1 回だけ。
-    --   繋いだ直後こそ「今どこが繋がったのか」を見たい瞬間なので、ここで教える。
-    if not learned("map") then
-        learn("map")
-        self.mapKeyT = 5.0
-    end
+    -- ★繋がった瞬間の演出(光の糸 → 向こうの部屋 → 結線ビュー)。
+    --   結線ビューを勝手に開いて【辺が 1 本増えた】ことを見せるので、
+    --   (4) にあった「TAB のキーキャップを 1 回出す」誘導はもう要らない。
+    celebrate(self, from, to)
 end
 
 -- 出口までの到達可能性(孤立の即時判定)。部屋 -> 部屋を合流点で辿るだけ
@@ -877,6 +989,8 @@ local function openConnect(self, id)
     self.noAct = 0
     learn("touch")
     sfx("open")
+    -- ★開口に立っている帯は虚無の候補を隠すので、接続モードの間だけ引っ込める
+    hideBands(self, id)
     -- 虚無を飛ばす前に色を白へ戻す(羅針の染めが残ると候補の色が読めない)
     clearVoidTint(self)
 
@@ -919,8 +1033,10 @@ local function closeConnect(self)
     if id then
         local d = self.doors[id]
         local zAxis = math.abs(d.inZ) > 0.5
+        -- ★開口の幅は DOORW(2.0)。ここを 1.5 のままにすると開口の左右 0.25m ずつが
+        --   素通しになり、白い虚無に黒い隙間が入る
         place("Void_" .. id, d.x, 1.3, d.z, nil,
-              zAxis and 1.5 or 0.10, 2.6, zAxis and 0.10 or 1.5)
+              zAxis and DOORW or 0.10, 2.6, zAxis and 0.10 or DOORW)
         local vl = ent("VoidLight_" .. id)
         if vl then
             vl.transform.position = Vec3.new(d.x + d.inX * 0.55, 1.35, d.z + d.inZ * 0.55)
@@ -939,33 +1055,32 @@ end
 
 -- ---------------------------------------------------------------- 通過
 
--- 入射角 theta から何番目の出口に出るか。表示と判定でズレないよう 1 箇所に集約する
-local function sliceIndex(theta, nex)
-    if nex <= 1 then return 1 end
-    local w = (FAN_DEG * 2) / nex
-    local t = math.max(-FAN_DEG + 0.001, math.min(FAN_DEG - 0.001, theta))
-    local k = math.floor((FAN_DEG - t) / w) + 1
-    if k < 1 then return 1 elseif k > nex then return nex end
-    return k
-end
-
-local function traverse(self, id, theta)
+-- ★lat(横位置)から出口を引く。表示(showBands の hot)と完全に同じ bandIndex を通す。
+--   ここで別の式を書いた瞬間に「明るい帯と違う色のドアから出る」= 嘘の照準になる。
+local function traverse(self, id, lat)
     local exits = exitsOf(self, id)
-    local out = exits[sliceIndex(theta, #exits)]
+    local band = bandIndex(lat, #exits)
+    local out = exits[band]
     local od = self.doors[out]
+    local outYaw = math.deg(atan2(od.inX, od.inZ))   -- 出た先は部屋の中を向く
 
-    -- 入射角を鏡映して射出。勢いと向きが素直に繋がる
-    local dx, dz = rot2(od.inX, od.inZ, theta)
+    -- ★通った横位置は出口でも保つ。左の帯を通れば出口の左寄りから出てくるので、
+    --   「同じ場所を通り抜けた」感じが切れない(角度の鏡映はもう要らない)
+    local orx, orz = playerRight(od)
+    local ox = od.x + od.inX * 1.55 + orx * lat * 0.5
+    local oz = od.z + od.inZ * 1.55 + orz * lat * 0.5
+
     local pl = ent("MainCamera")
     if pl then
-        physics:setPosition(pl, Vec3.new(od.x + od.inX * 1.55, 1.7, od.z + od.inZ * 1.55))
+        physics:setPosition(pl, Vec3.new(ox, 1.7, oz))
         self.tpSeq = (self.tpSeq or 0) + 1
-        saveNum("tpYaw", math.deg(atan2(dx, dz)))
+        saveNum("tpYaw", outYaw)
         saveNum("tpPitch", 0)
         saveNum("tpSeq", self.tpSeq)
     end
-    camSet(self, od.x + od.inX * 1.55, 1.7, od.z + od.inZ * 1.55,
-           math.deg(atan2(dx, dz)), 0)
+    camSet(self, ox, 1.7, oz, outYaw, 0)
+    log(string.format("JUNCTION pass: door=%s lat=%.2f band=%d/%d -> exit=%s",
+                      tostring(id), lat, band, #exits, tostring(out)))
     self.room = self.cfg.room[out]
     self.cool = 0.45
     self.fade = FADE_TIME
@@ -1127,17 +1242,26 @@ local function drawGraph(self, W, H, a, t)
                 if ax and bx then
                     local ca = DOOR_COLOR[list[i]] or C_WHITE
                     local cb = DOOR_COLOR[list[j]] or C_WHITE
+                    -- ★いま繋いだばかりの辺は【引かれていく途中】を見せる。
+                    --   接続 = グラフに辺が 1 本増えること、を目で分からせるのが狙い
+                    local ne  = self.newEdge
+                    local isNew = ne and ((ne[1] == list[i] and ne[2] == list[j])
+                                       or (ne[1] == list[j] and ne[2] == list[i]))
+                    local lim = isNew and (self.edgeT or 0) or 1
                     local L = math.sqrt((bx - ax) ^ 2 + (by - ay) ^ 2)
                     local n = math.max(3, math.floor(L / 14))
                     local ph = (t * 0.5) % 1
                     for k = 0, n do
                         local u = (k + ph) / (n + 1)
-                        if u <= 1 then
+                        if u <= lim then
                             local c = (u < 0.5) and ca or cb
                             local px = ax + (bx - ax) * u
                             local py = ay + (by - ay) * u
-                            ui:rect(px - 5, py - 5, 10, 10, 0, 0, 0, 0.55 * a, 5)
-                            ui:rect(px - 3.5, py - 3.5, 7, 7, c[1], c[2], c[3], a, 4)
+                            local g = (isNew and lim < 1 and u > lim - 0.12) and 3 or 0
+                            ui:rect(px - 5 - g, py - 5 - g, 10 + g * 2, 10 + g * 2,
+                                    0, 0, 0, 0.55 * a, 5)
+                            ui:rect(px - 3.5 - g, py - 3.5 - g, 7 + g * 2, 7 + g * 2,
+                                    c[1], c[2], c[3], a, 4)
                         end
                     end
                 end
@@ -1285,12 +1409,13 @@ function OnUpdate(self, dt)
         local d = self.doors[id]
         local vx, vz = p.x - d.x, p.z - d.z
         local s = vx * d.outX + vz * d.outZ            -- 外向きの符号付き距離(部屋の中は負)
-        local lat = vx * d.rgX + vz * d.rgZ
+        -- ★横ずれは【プレイヤーから見た左右】。ドア自身の right ではない(符号が逆)
+        local lat = lateralOf(d, p.x, p.z)
         local dist = math.sqrt(vx * vx + vz * vz)
         if dist < nearD then near, nearD, nearS, nearLat = id, dist, s, lat end
     end
 
-    local hotExit = nil
+    local hotBand = nil
 
     -- ドアが射程に入った瞬間だけ鳴らす(入りっぱなしで鳴り続けない)
     do
@@ -1344,8 +1469,11 @@ function OnUpdate(self, dt)
         end
         self.aim = best
 
-        if keyPressed("Q") then learn("cancel"); closeConnect(self) end
-        if self.holdE <= 0 and keyPressed("E") then
+        -- ★接続をやめるのに専用キーは要らない(Q は廃止した。「Q の必要性がわからない」)。
+        --   右クリック か、ドアから離れる のどちらでも閉じる。
+        if input:isRightMouseDown() then
+            closeConnect(self)
+        elseif self.holdE <= 0 and keyPressed("E") then
             if best then
                 local to, from = self.cand[best], self.connectDoor
                 closeConnect(self)
@@ -1353,63 +1481,74 @@ function OnUpdate(self, dt)
             else
                 self.hint = 0.6
             end
+        elseif nearD > REACH + 2.0 or near ~= self.connectDoor then
+            closeConnect(self)
         end
-        if nearD > REACH + 2.0 or near ~= self.connectDoor then closeConnect(self) end
 
     -- ================================ 通常 ================================
     else
         if near and nearD < REACH and keyPressed("E") then openConnect(self, near) end
 
-        -- ================================ 羅針 ================================
-        -- ★合流点のドアへ 7m 以内で近づいたら、床に扇と針を出す。
-        --   判定(通過先)と表示(明るいスライス)は sliceIndex に一本化してあるので、
-        --   ここを触る時も必ず sliceIndex を通すこと(ズレたら嘘の照準になる)。
+        -- ================================ 帯とレーン ================================
+        -- ★帯は【合流点のドアなら常に出しっぱなし】。遠くからでも「あの扉は 3 つに
+        --   割れている」と分かるのが狙い(近づいてから出すと、また "表示を読む作業" になる)。
+        --   近づいた 1 枚のドアだけ、今そのまま歩けば通る帯を明るくする。
+        -- ★hot は bandIndex(= 判定と同じ関数)を通す。ここを別の式にしたら嘘の照準になる。
         local shown = nil
-        if near and nearD < COMPASS_DIST then
-            local exits = exitsOf(self, near)
-            if #exits >= 1 then
-                local d = self.doors[near]
-                local th = signedAngle(d.outX, d.outZ, self.moveX, self.moveZ)
-                hotExit = sliceIndex(th, #exits)
-                shown = near
-                showFan(self, near, hotExit)
-                needle(self, near)
-                -- ★決定打。目の前のドアの中の白が、今の入り方で出る先の色になる
-                if self.tinted and self.tinted ~= near then clearVoidTint(self) end
-                tintVoid(self, near, vivid(DOOR_COLOR[exits[hotExit]] or { 1, 1, 1 }))
-                self.tinted = near
+        for _, id in ipairs(self.cfg.doors) do
+            if self.bands and self.bands[id] then
+                local n = #self.bands[id]
+                local hk = nil
+                if id == near and nearD < COMPASS_DIST then
+                    hk = bandIndex(nearLat, n)
+                    shown = id
+                end
+                showBands(self, id, hk)
             end
         end
-        if self.shownDoor and self.shownDoor ~= shown then hideFan(self, self.shownDoor) end
-        self.shownDoor = shown
-        if not shown then
-            needle(self, nil)
+        if shown then
+            hotBand = bandIndex(nearLat, #self.bands[shown])
+            -- ★(4) で唯一効いていた仕掛け。目の前のドアの中の白が、
+            --   今そこを通ったら出る先の色になる = 通る前に行き先が分かる
+            local exits = exitsOf(self, shown)
+            if self.tinted and self.tinted ~= shown then clearVoidTint(self) end
+            tintVoid(self, shown, vivid(DOOR_COLOR[exits[hotBand]] or { 1, 1, 1 }))
+            self.tinted = shown
+        else
             clearVoidTint(self)
         end
+        self.shownDoor = shown
 
-        -- ★スライスの境界をまたいだフレームだけ「カチッ」と鳴らす(ダイヤルの手応え)。
-        --   これが無いと境界がどこか分からない。毎フレーム鳴らさないこと。
+        -- ★帯の境目をまたいだフレームだけ「カチッ」と鳴らす(改札を歩いて渡る手応え)。
+        --   これが無いと境目がどこか分からない。毎フレーム鳴らさないこと。
         if shown then
-            if self.lastHotDoor == shown and self.lastHot and self.lastHot ~= hotExit then
+            if self.lastHotDoor == shown and self.lastHot and self.lastHot ~= hotBand then
                 sfx("detent")
+                -- ★横位置と帯番号の対応は目で見ても検算できないので、境目をまたいだ
+                --   フレームだけログに残す(x を振って帯が切り替わるのを数値で確かめる用)
+                log(string.format("JUNCTION band: door=%s lat=%+.3f -> %d/%d",
+                                  tostring(shown), nearLat, hotBand, #self.bands[shown]))
             end
-            self.lastHot, self.lastHotDoor = hotExit, shown
+            self.lastHot, self.lastHotDoor = hotBand, shown
         else
             self.lastHot, self.lastHotDoor = nil, nil
         end
 
         -- ---- 通過判定 ----
-        -- ★「いま歩いている」ことを必須にする。直前の向きだけで見ると、ドアに
-        --   張り付いたまま接続した瞬間に(まだ歩いていないのに)吸い込まれる
+        -- ★角度の条件は撤廃した。残っているのは【ドアへ向かって歩いている】だけで、
+        --   横から壁ズリしながら滑り込んでも "通った場所" が正。
+        -- ★「いま歩いている」ことは必須。直前の向きだけで見ると、ドアに張り付いたまま
+        --   接続した瞬間に(まだ歩いていないのに)吸い込まれる。
+        -- ★|lat| >= DOORW/2 は壁。そもそも開口を通っていない。
         if self.cool <= 0 and near then
             local d = self.doors[near]
             local list = groupOf(self, near)
             if list and #list >= 2
                and loadNum("moving", 0) > 0.5
                and nearS > -ENTER_DIST and nearS < 0.4
-               and math.abs(nearLat) < ENTER_LAT
+               and math.abs(nearLat) < DOORW * 0.5
                and (self.moveX * d.outX + self.moveZ * d.outZ) > ENTER_DOT then
-                traverse(self, near, signedAngle(d.outX, d.outZ, self.moveX, self.moveZ))
+                traverse(self, near, nearLat)
             end
         end
 
@@ -1428,7 +1567,19 @@ function OnUpdate(self, dt)
         if on then self.mapKeyT = 0; self.noAct = 0 end
         if (self.mapKeyT or 0) > 0 then self.mapKeyT = self.mapKeyT - dt end
         if (self.pinDeny or 0) > 0 then self.pinDeny = self.pinDeny - dt end
-        drawGraph(self, W, H, uiAnim(self, "map", on, dt, 14), t)
+        -- ★接続演出の 3 段目。繋いだ直後、TAB を押していなくてもグラフが勝手に開き、
+        --   新しい辺が引かれていくのを 1.0 秒だけ見せて閉じる。任意のキーで飛ばせる。
+        if (self.mapForce or 0) > 0 then
+            if anyKey() then
+                self.mapForce, self.newEdge = 0, nil
+            else
+                self.mapForce = self.mapForce - dt
+                self.edgeT = math.min(1, (self.edgeT or 0) + dt * 2.2)
+                if self.mapForce <= 0 then self.mapForce, self.newEdge = 0, nil end
+            end
+        end
+        drawGraph(self, W, H,
+                  uiAnim(self, "map", on or (self.mapForce or 0) > 0, dt, 14), t)
     end
 
     -- 照準点。白い虚無の上でも見えるように、暗い縁を敷いてから白い点を打つ。
@@ -1484,11 +1635,10 @@ function OnUpdate(self, dt)
                 worldKey(W, H, q.x, q.y + 1.15, q.z, "E", a)
             end
         end
-        -- ③ やめる
-        keyCap(W * 0.5, H - 96, "Q", 22,
-               uiAnim(self, "cancel", help or stuck or not learned("cancel"), dt, 8))
+        -- ★「やめる」の [Q] は廃止した。専用キーの必要性が伝わらなかったうえ、
+        --   ドアから離れれば勝手に閉じる(＋右クリック)ので、そもそも覚える物が要らない。
     else
-        self.ui.pick, self.ui.cancel = 0, 0
+        self.ui.pick = 0
         -- ① ドアに触れる
         local a = uiAnim(self, "touch", canJoin
                          and (help or stuck or not learned("touch")), dt, 11)
