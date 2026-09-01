@@ -9,6 +9,16 @@
 
 ★numpy は Blender 同梱の python にしか無い。実行(Blender のバージョンは環境で読み替える):
   "C:/Program Files/Blender Foundation/Blender 5.2/5.2/python/bin/python.exe" gen_textures.py
+
+★★【テクスチャを新しく足したら、エディタで必ず dx12_reload_assets を撃つこと】
+  エンジンはテクスチャを【パスをキーに、プロセス起動から一生キャッシュする】。
+  そして【読めなかった結果も同じようにキャッシュする】。
+  つまり、まだ存在しないファイルを一度でも参照してしまったエディタは、
+  あとからそのファイルを置いても【真っ黒のまま】になる。scene:setColor は乗算なので
+  黒に何を掛けても黒 = 「モデルが壊れている」ようにしか見えない。
+  band/lane で実際にこれを踏んだ。切り分け方(推測せずにこれで確定できる):
+    同じ PNG のバイト列を【別名でコピー】して参照させる。それで直るなら
+    中身ではなくキャッシュ = dx12_reload_assets{force:true} で直る。中身の問題ではない。
 """
 import os, zlib, struct
 import numpy as np
