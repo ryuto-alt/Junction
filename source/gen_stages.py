@@ -76,6 +76,7 @@ GRAV = 14.0      # ★エンジン(Jolt)の重力は 9.8 ではなく 14。実�
 JD_K = 1.3       # FreeLook.lua の FAST(走り)
 
 # 絶対寸法の物
+CARRY_TOP = 0.70  # 運べる木箱の天端。踏み台にすると climb_h に足される
 BAR_H = 1.70     # 柵。登れる高さ climb_h: 1 -> 1.15 / 2 -> 2.30
 EAVE_GAP = 1.00  # 隙間。体高 1.8*S < 1.0 = 0.5 以下
 PIT_W = 4.6      # 溝。走り跳び: 1 -> 3.7 / 歩き跳び 2 -> 5.8
@@ -797,6 +798,28 @@ class World:
             self.sizegates.append(dict(id=sg["id"], x=gx, z=gz, nx=n[0], nz=n[1],
                                        hw=0.5 * m + 0.2, sf=sg["sf"], sb=sg["sb"]))
 
+        # ---- 角度固定の門(anchors)。★近づいても画面上の大きさが変わらない物 ----
+        #   Lua が毎フレーム scale = k x (カメラからの距離) / d0 に書き換える。
+        #   当たり判定は持たせない(絵だけ)。触れないので伸縮しても破綻しない。
+        self.anchors = []
+        for i, (ax, az, ayaw, k, d0) in enumerate(st.get("anchors", ())):
+            nm = "Anchor_%d" % i
+            ents.append(model(nm, mdl("goal"), (ax, 0.0, az), ayaw, g_sys))
+            ents.append(plight("AnchorL_%d" % i, (ax, 0.55, az),
+                               (0.25, 1.0, 0.62), 4.0, 9.0, g_sys))
+            self.anchors.append(dict(ent=nm, x=ax, z=az, k=k, d0=d0))
+
+        # ---- 運べる物(carries)。木箱 + それに付いて回る動かせる当たり判定 ----
+        #   ★什器(props)は当たり判定を持たない飾りだが、これは【乗れる】必要があるので
+        #     kinematic な箱を重ねる(motionType 0 の静止体は実行時に動かせない)。
+        self.carries = []
+        for i, (cx0, cz0, cyaw) in enumerate(st.get("carries", ())):
+            nm, cl = "Carry_%d" % i, "CarryC_%d" % i
+            ents.append(model(nm, mdl("crate"), (cx0, 0.0, cz0), cyaw, g_sys))
+            ents.append(box(cl, (cx0, CARRY_TOP * 0.5, cz0), (0.80, CARRY_TOP, 0.80), C_WALL,
+                            parent=g_sys, kinematic=True, visible=False))
+            self.carries.append(dict(ent=nm, col=cl, x=cx0, z=cz0, yaw=cyaw, h=CARRY_TOP))
+
         # 出口(絶対寸法)。縮尺 2 の部屋では小さく、0.5 では巨大に見える = 唯一の物差し
         gx, gz = st["goal"]
         gyaw = st.get("goalYaw", 0.0)
@@ -924,17 +947,26 @@ def _zone_edges(r):
     return e
 
 
-def _scales_of(st, room_scale):
-    """その部屋で【取りうる体の大きさ】。既定は部屋の縮尺そのもの(v8 までの世界)。
-    ★bodyScales を宣言した面は、大きさが部屋から切り離されている(warp / 大きさの門で
-    変えられる)ので、関門はどれか 1 つの大きさで通れれば通れる。"""
-    return st.get("bodyScales") or [room_scale]
+def _scales_of(st, room, sc):
+    """その部屋で【取りうる体の大きさ】。既定は今の大きさそのもの。
+    ★bodyScales が効くのは【大きさの門(sizegate)がその部屋にある】時だけ。
+      面全体に効かせると「どの部屋でも x2 になれる」と甘く見て、
+      解けないはずの関門を通れることにしてしまう(実際 demo2 で踏んだ)。"""
+    if room in st.get("_sgrooms", ()):
+        return st.get("bodyScales") or [sc]
+    return [sc]
 
 
-def _pass_gate(gate, s):
+def _pass_gate(gate, s, aid=0.0):
+    """aid = 手元にある踏み台の天端(運べる木箱)。0 なら素手。
+    ★踏み台が効くのは【その上に登れる時だけ】。climb_h(0.5)=0.575 < 0.70 なので
+      小さいと木箱には登れず、道具として成立しない。"""
     kind, arg = gate
     if kind == "big":
-        return climb_h(s) >= BAR_H - 1e-6
+        if climb_h(s) >= BAR_H - 1e-6:
+            return True
+        return (aid > 0.0 and climb_h(s) >= aid - 1e-6
+                and aid + climb_h(s) >= BAR_H - 1e-6)
     if kind == "small":
         return BODY_H * s < EAVE_GAP - 1e-6
     if kind == "pit":
@@ -959,7 +991,17 @@ def simulate(st, W, want_seen=False, start_state=None):
     goal_zone = _zone_of(gr, gx - gr["at"][0], gz - gr["at"][1])
     sr = rooms[st["start"]]
     s0 = st.get("startScale", sr["scale"])
-    start = start_state or (st["start"], _zone_of(sr, st["spawn"][0], st["spawn"][1]), s0)
+    # ★運べる木箱がどの部屋・区画に置いてあるか。そこへ一度でも行けば以後は
+    #   踏み台として使える、と見なす(置き直しは自由なので十分に安全側)。
+    st["_sgrooms"] = {g["room"] for g in st.get("sizegates", ())}
+    boxes = set()
+    for (bx, bz, _yaw) in st.get("carries", ()):
+        for rid, r in rooms.items():
+            hx, hz, _ch, _k = dims(r)
+            if abs(bx - r["at"][0]) <= hx and abs(bz - r["at"][1]) <= hz:
+                boxes.add((rid, _zone_of(r, bx - r["at"][0], bz - r["at"][1])))
+    has0 = (st["start"], _zone_of(sr, st["spawn"][0], st["spawn"][1])) in boxes
+    start = start_state or (st["start"], _zone_of(sr, st["spawn"][0], st["spawn"][1]), s0, has0)
     edges = {rid: _zone_edges(rooms[rid]) for rid in rooms}
     seen = {start: 0}
     prev = {start: None}
@@ -968,17 +1010,18 @@ def simulate(st, W, want_seen=False, start_state=None):
     while frontier:
         nxt = []
         for stt in frontier:
-            room, zone, sc = stt
+            room, zone, sc, hasbox = stt
+            aid = CARRY_TOP if hasbox else 0.0
             hops = seen[stt]
             if room == st["goalRoom"] and zone == goal_zone:
                 if best is None or hops < best:
                     best, bestState = hops, stt
                 continue
             r = rooms[room]
-            scs = _scales_of(st, sc)
+            scs = _scales_of(st, room, sc)
             for (za, zb), div in edges[room].items():
-                if za == zone and any(_pass_gate(div[2], q) for q in scs):
-                    n = (room, zb, sc)
+                if za == zone and any(_pass_gate(div[2], q, aid) for q in scs):
+                    n = (room, zb, sc, hasbox or ((room, zb) in boxes))
                     if n not in seen:
                         axis, c, gate = div
                         wp = (r["at"][0], r["at"][1] + c) if axis == "z" else (r["at"][0] + c, r["at"][1])
@@ -995,7 +1038,7 @@ def simulate(st, W, want_seen=False, start_state=None):
                 # ★体の大きさは【出る側の口】で決まる(Junction.lua と対)。
                 #   両端が同じなら結果として大きさは変わらない = 小さいまま帰れる。
                 ns = mt["size"]
-                n = (mt["room"], mt["zone"], ns)
+                n = (mt["room"], mt["zone"], ns, hasbox or ((mt["room"], mt["zone"]) in boxes))
                 if n not in seen:
                     seen[n] = hops + 1
                     prev[n] = (stt, "%s→%s(x%.2g)" % (mid, to, ns), m["pos"])
@@ -1368,6 +1411,72 @@ STAGES = [
                ("A", (2.0, 1.7, 4.5), "A", (0.0, 1.2, -4.8), 1.6)]),
 
 
+    # ================ stagedemo2「まわり道」 トンネルだけで騙す ================
+    # ★demo1 と同じ顔にならないよう、部屋の形を全部変えた。
+    #   H = hall20(20x20x7 の大広間) / L = corr18(18x8x3.2 の低くて長い部屋)
+    #   S = box12 x0.5(6m の小部屋)  / G = box12 x2(24m の巨大な部屋)
+    #   柵も溝も使わない。関門は【隔間 1.0m】一つだけで、跳ぶ必要が無い。
+    #
+    # ★【騙しは全部トンネルの設定だけで作る】。使っている手は 6 つ:
+    #
+    #   (1) 【大きい口に入ると巨人になる】 t5: H側 4.0m / G側 4.0m。
+    #       体の大きさは『出る側の口』で決まるので、x1 で入ると x2 で出る。
+    #       しかも G は x2 の部屋なので【着いても普通の部屋にしか見えない】。
+    #       置いてあるベンチ(0.95m 絶対寸法)だけが脇の高さ = 唯一の手掛かり。
+    #
+    #   (2) 【小さな穴から出ると小人になる】 t3: H側 1.0m / G側 4.0m。
+    #       ★(1) のちょうど逆。G(x2)から見れば t3 も t5 も【同じ 4.0m の口】で、
+    #       見分けがつかない。片方は大きさが変わらず、片方は四分の一になる。
+    #
+    #   (3) 【行きと帰りで結果が違う戸】 t2: H側 2.0m / S側 1.0m。
+    #       行きは縮むが、帰りは元に戻る。S は x0.5 の部屋なので着いても普通。
+    #       ここは【行き止まり】= 縮んだだけでは何も解けない、という餅。
+    #
+    #   (4) 【両端同じ大きさの戸】 t1: H側も L 側も 2.0m。抜けても大きさが変わらない。
+    #       【変わる戸と変わらない戸が同じ顔で並んでいる】のがこの面の核。
+    #
+    #   (5) 【通れないのに見える】 窓(H ↔ L)。低い部屋の中が見えるが入れない。
+    #
+    #   (6) 【奥に緑の門が見える偽の廊下】 L の北壁。3 歩で壁。
+    #
+    # ★解き筋(検査器もこの道を確認している):
+    #   H(x1)。隔間 1.0m の向こうに出口が見えているが 1.8m の体ではくぐれない。
+    #   → t5(大きい口)で G へ。x2 になっているが部屋も x2 なので気づかない。
+    #   → G の壁には同じ顔の口が 2 つ。t3 を抜けると【x0.5 で H へ戻る】。
+    #   → 小人になって隔間をくぐり、出口へ。
+    dict(name="stagedemo2", tag="Demo_2", title=2,
+         rooms=[R("H", "hall20", (0.0, 0.0), 1.0,
+                  LAY1(eaves=[("z", -4.0)],
+                       props=[("locker", 7.50, 9.40, 180.0),
+                              ("bench", 9.50, 5.00, 270.0)])),
+                R("L", "corr18", (0.0, 18.0), 1.0,
+                  LAY1(props=[("bench", -5.00, 0.00, 0.0)])),
+                R("S", "box12", (17.0, 0.0), 0.5, LAY1(props=[])),
+                R("G", "box12", (-26.0, 0.0), 2.0,
+                  LAY1(props=[("bench", 2.00, -3.00, 0.0)]))],
+         seams=[SEAM("t1", "H", "N", 0.0, osize=1.0),                 # 大きさ変わらず
+                SEAM("t2", "H", "E", 0.0, osize=1.0, osizeB=0.5),     # 行きだけ縮む
+                SEAM("t5", "H", "W", 5.0, osize=2.0),                 # 入ると巨人
+                SEAM("t3", "H", "W", 0.0, osize=0.5, osizeB=2.0)],    # 出ると小人
+         windows=[WIN("H", "N", 5.0)],
+         fakes=[FAKE("f1", "L", "N", 0.0)],
+         carries=[(3.0, 18.0, 0.0)],
+         # ★(1) 角度固定の門。L(18x8x3.2 の低い部屋)の西端に置く。
+         #   歩いて近づいても画面上の大きさが 1px も変わらないので【永遠に着かない】。
+         #   d0=14 は「L の東端から見たときが等倍」。k=0.55 で天井(3.2m)に当たらない大きさに。
+         anchors=[(-7.0, 18.0, 90.0, 0.55, 14.0)],
+         # ★(2) 連続スケール場。L の中を西へ歩くほど連続的に縮む。
+         #   トンネルのような【変化点が無い】ので、どこで変わったのか指させない。
+         #   入口(x=0)で等倍、西端(x=-9)で半分。東側は clamp されるso行き来で自然に戻る。
+         field=dict(axis="x", a=0.0, b=-9.0, s0=1.0, s1=0.5,
+                    x0=-9.5, x1=0.5, z0=13.5, z1=22.5),
+         # ★(3) ドリーズーム。隙間をくぐる直前で FOV を絞る = 自分は動いていないのに部屋が伸びる。
+         dolly=[(0.0, -5.0, 5.5, 52.0)],
+         spawn=(4.0, 3.0, 180.0), goal=(0.0, -8.0), goalYaw=0.0,
+         start="H", goalRoom="H", minHops=2, teach="walk",
+         cine=[("H", (4.0, 2.6, 5.0), "H", (-2.0, 1.4, -2.0), 2.4),
+               ("H", (4.0, 1.7, 3.0), "H", (-2.0, 1.3, -2.0), 1.6)]),
+
 ]
 
 
@@ -1434,6 +1543,26 @@ def main():
             L.append('            { id = "%s", x = %.3f, y = %.3f, z = %.3f, mode = "%s", delay = %.1f, auto = %s },'
                      % (pg["id"], pg["x"], pg["y"], pg["z"], pg["mode"], pg["delay"],
                         "true" if pg["auto"] else "false"))
+        L.append('        },')
+        L.append('        anchors = {')
+        for a in W.anchors:
+            L.append('            { ent = "%s", x = %.3f, z = %.3f, k = %.3f, d0 = %.3f },'
+                     % (a["ent"], a["x"], a["z"], a["k"], a["d0"]))
+        L.append('        },')
+        fd = st.get("field")
+        if fd:
+            L.append('        field = { axis = "%s", a = %.2f, b = %.2f, s0 = %.3f, s1 = %.3f, '
+                     'x0 = %.2f, x1 = %.2f, z0 = %.2f, z1 = %.2f },'
+                     % (fd["axis"], fd["a"], fd["b"], fd["s0"], fd["s1"],
+                        fd["x0"], fd["x1"], fd["z0"], fd["z1"]))
+        L.append('        dolly = {')
+        for d in st.get("dolly", ()):
+            L.append('            { x = %.3f, z = %.3f, r = %.2f, fov = %.1f },' % d)
+        L.append('        },')
+        L.append('        carries = {')
+        for c in W.carries:
+            L.append('            { ent = "%s", col = "%s", x = %.3f, z = %.3f, yaw = %.1f, h = %.2f },'
+                     % (c["ent"], c["col"], c["x"], c["z"], c["yaw"], c["h"]))
         L.append('        },')
         L.append('        sizegates = {')
         for g in W.sizegates:

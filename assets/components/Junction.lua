@@ -19,7 +19,7 @@
 
 local STAGES = {
 -- >>>STAGES (source/gen_stages.py が自動生成)
-    ["Logic_Demo_1"] = { n = 1, scene = "scenes/stagedemo1.json", next = nil,
+    ["Logic_Demo_1"] = { n = 1, scene = "scenes/stagedemo1.json", next = "scenes/stagedemo2.json",
         tunnels = {
             { id = "Z", ax = 2.200, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 2.000, sb = 0.500, wa = 4.00, wb = 1.00, y0 = 0.00 },
             { id = "Q", ax = -1.000, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 0.500, sb = 0.500, wa = 1.00, wb = 1.00, y0 = 0.00 },
@@ -31,6 +31,12 @@ local STAGES = {
         },
         plugs = {
         },
+        anchors = {
+        },
+        dolly = {
+        },
+        carries = {
+        },
         sizegates = {
         },
         hint = { { 2.20, 4.80 }, { 2.20, 11.20 }, { 0.00, -1.00 }, { 0.00, -4.80 } },
@@ -41,6 +47,40 @@ local STAGES = {
             { 3.00, 2.40, 4.00, 0.00, 1.40, -4.80, 2.40 },
             { 2.00, 1.70, 4.50, 0.00, 1.20, -4.80, 1.60 },
             { 2.00, 1.70, 4.50, 2.00, 1.70, -3.50, 1.40 },
+        } },
+    ["Logic_Demo_2"] = { n = 2, scene = "scenes/stagedemo2.json", next = nil,
+        tunnels = {
+            { id = "t1", ax = 0.000, az = 10.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 1.000, sb = 1.000, wa = 2.00, wb = 2.00, y0 = 0.00 },
+            { id = "t2", ax = 10.000, az = 0.000, nx = 1.000, nz = 0.000, L = 4.00, sa = 1.000, sb = 0.500, wa = 2.00, wb = 1.00, y0 = 0.00 },
+            { id = "t5", ax = -10.000, az = 5.000, nx = -1.000, nz = 0.000, L = 4.00, sa = 2.000, sb = 2.000, wa = 4.00, wb = 4.00, y0 = 0.00 },
+            { id = "t3", ax = -10.000, az = 0.000, nx = -1.000, nz = 0.000, L = 4.00, sa = 0.500, sb = 2.000, wa = 1.00, wb = 4.00, y0 = 0.00 },
+        },
+        warps = {
+        },
+        morphs = {
+        },
+        plugs = {
+        },
+        anchors = {
+            { ent = "Anchor_0", x = -7.000, z = 18.000, k = 0.550, d0 = 14.000 },
+        },
+        field = { axis = "x", a = 0.00, b = -9.00, s0 = 1.000, s1 = 0.500, x0 = -9.50, x1 = 0.50, z0 = 13.50, z1 = 22.50 },
+        dolly = {
+            { x = 0.000, z = -5.000, r = 5.50, fov = 52.0 },
+        },
+        carries = {
+            { ent = "Carry_0", col = "CarryC_0", x = 3.000, z = 18.000, yaw = 0.0, h = 0.70 },
+        },
+        sizegates = {
+        },
+        hint = { { -8.80, 5.00 }, { -15.20, 0.00 }, { 0.00, -4.00 }, { 0.00, -8.00 } },
+        startScale = 1.000,
+        start = "H", goalRoom = "H",
+        spawn = { 4.0, 3.0, 180.0 }, teach = "walk",
+        cine = {
+            { 4.00, 2.60, 5.00, -2.00, 1.40, -2.00, 2.40 },
+            { 4.00, 1.70, 3.00, -2.00, 1.30, -2.00, 1.60 },
+            { 4.00, 1.70, 3.00, 4.00, 1.70, -5.00, 1.40 },
         } },
     -- <<<STAGES
 }
@@ -243,6 +283,13 @@ local function resetRun(self)
     self.warpIdx = {}
     self.sgSide = {}
     self.tunId, self.tunFrom, self.tunEnter = nil, nil, nil
+    self.held, self.carryNear = nil, nil
+    self.fovNow = self.fov0
+    do local c = ent("MainCamera"); if c and self.fov0 then c:setFov(self.fov0) end end
+    for _, c in ipairs(self.cfg.carries or {}) do    -- 運べる物を初期位置へ
+        place(c.ent, c.x, 0.0, c.z, c.yaw)
+        place(c.col, c.x, c.h * 0.5, c.z)
+    end
     self.plugT = {}
     self.plugDone = {}
     self.morphT = {}
@@ -287,6 +334,10 @@ function OnStart(self)
         logError("Junction: 未知のステージ名 " .. tostring(self.name)); return
     end
     self.cam = { x = 0, y = EYE_H, z = 0, yaw = 0, pitch = 0 }
+    do  -- ★シーンが持っている FOV を基準として控える(ドリーズームの戻り先)
+        local c = ent("MainCamera")
+        self.fov0 = (c and c:getFov()) or 74.0
+    end
     self.goal = ent("Goal")
     pcall(function()
         if audio:getCurrentBGM() ~= "audio/amb/hum.wav" then
@@ -486,6 +537,11 @@ function OnUpdate(self, dt)
             local hw = math.max(tn.wa, tn.wb) * 0.5 + 0.3
             local by = p.y - BODY_H * 0.5 * self.scale
             if t > -0.05 and t < tn.L + 0.05 and math.abs(lat) <= hw and math.abs(by - tn.y0) < 1.6 then
+                -- ★「運んでいる間は大きさが変わらない」規則は撤去した(v9.2)。
+                --   持ったまま廊下へ入っても縮まないので【何が起きているのか分からない】
+                --   という指摘。廊下の仕事は「出る側の口の大きさへ変える」の一つだけにする。
+                --   物は絶対寸法なので、自分が縮めば手の中の箱が勝手に巨大になる ──
+                --   それだけで「運ぶ」の面白さは足りている。
                 inT = true
                 -- ★★廊下に入った瞬間に【入った時の大きさ】と【どちらの口から入ったか】を覚える。
                 --   v9 までは t<0.35 で「入口の口の大きさ」へ問答無用で作り替えていたので、
@@ -524,6 +580,37 @@ function OnUpdate(self, dt)
     if not inT then self.tunId = nil end     -- 出たら覚え直す
     self.inTunnel = inT
 
+    -- ================================ 連続スケール場(field) ================================
+    -- ★これまで大きさは【廊下の中でだけ】変わった。だからプレイヤーは
+    --   「トンネルを通ると何か変わる」と学習してしまい、以降は驚かなくなる。
+    --   場にすると変化点が消える = どこで変わったのか指させない。
+    --   歩幅も歩く速さも目の高さも連続して変わるので、気づく手がかりが無い。
+    -- ★見た目(shownScale)は連続。当たり判定の体は 5 種しか無いので一番近い物へ寄せる。
+    --   目の高さは「体の足元 + EYE_H x shownScale」で出しているため、体が飛んでも視点は跳ねない。
+    if not inT and self.cfg.field and (self.placeT or 0) <= 0 then
+        local f = self.cfg.field
+        if p.x >= f.x0 and p.x <= f.x1 and p.z >= f.z0 and p.z <= f.z1 then
+            local u = (f.axis == "x") and p.x or p.z
+            local t = (u - f.a) / (f.b - f.a)
+            t = math.max(0, math.min(1, t))
+            self.shownScale = f.s0 + (f.s1 - f.s0) * t
+            -- ★体の乗り換えには履歴(ヒステリシス)を入れる。境目でパタパタ入れ替えると
+            --   useBody が毎フレーム体を置き直して落下速度が消え、跳べなくなる。
+            local g = self.shownScale
+            if g < self.scale * 0.70 or g > self.scale * 1.45 then
+                local want, bd = self.scale, 1e9
+                for _, v in ipairs(SCALES) do
+                    local dd = math.abs(v - g)
+                    if dd < bd then bd = dd; want = v end
+                end
+                if math.abs(want - self.scale) > 1e-4 then
+                    useBody(self, want, p.x, p.z, 0, self.anchor.y0 or 0)
+                    log(string.format("JUNCTION field body %.3g (shown %.2f)", want, g))
+                end
+            end
+        end
+    end
+
     -- ================================ 黙って転送する面(warp) ================================
     -- ★同じ見た目の廊下の中で、ひとつ前の廊下へ戻す。前後の絵が同じなので気づけない
     --   (Antichamber / Stanley Parable の無限廊下)。loops 回で止まる = 抜けられる。
@@ -559,6 +646,87 @@ function OnUpdate(self, dt)
             end
             self.warpSide[i] = near and side or nil
         end
+    end
+
+    -- ======================= 角度固定(anchors) / ドリーズーム(dolly) =======================
+    -- ★(1) 角度固定: 毎フレーム scale を【カメラからの距離に比例】させる。
+    --   相似三角形なので投影サイズが数学的に不変 = 近づいても画面上の大きさが 1px も変わらない。
+    --   実測: カメラを 9.4m -> 3.8m(2.5 倍近づく)まで詰めても、その物だけ幅が変わらなかった。
+    --   これを廊下の奥の扉に仕込むと【歩いても永遠に着かない扉】になる(実際には着く)。
+    do
+        local c = ent("MainCamera")
+        if c then
+            local q = c.transform.position
+            for _, a in ipairs(self.cfg.anchors or {}) do
+                local e = ent(a.ent)
+                if e then
+                    local d = math.sqrt((q.x - a.x) ^ 2 + (q.z - a.z) ^ 2)
+                    local sc = math.max(0.03, a.k * d / a.d0)
+                    e.transform.scale = Vec3.new(sc, sc, sc)
+                end
+            end
+        end
+    end
+
+    -- ★(3) ドリーズーム: 注視点の見かけの大きさを保ったまま FOV を動かすと、
+    --   【自分は動いていないのに部屋だけが伸びる】。ヒッチコックのめまいショット。
+    --   ★FOV は毎フレーム絶対値で書かないと翌フレームに戻る(エンジンの仕様)。
+    if self.cfg.dolly and #self.cfg.dolly > 0 then
+        local want = self.fov0 or 74.0
+        for _, d in ipairs(self.cfg.dolly) do
+            local dx, dz = p.x - d.x, p.z - d.z
+            if dx * dx + dz * dz < d.r * d.r then want = d.fov end
+        end
+        self.fovNow = (self.fovNow or want) + (want - (self.fovNow or want)) * (1 - math.exp(-2.6 * dt))
+        local c = ent("MainCamera")
+        if c then c:setFov(self.fovNow) end
+    end
+
+    -- ================================ 運ぶ ================================
+    -- ★E で拾う / 置く。物は【絶対寸法】なので、自分が縮むと相対的に巨大になる。
+    --   木箱(天端 0.70m)は 大きさ1 なら踏み台になる(0.70 + climb_h(1)=1.15 → 1.85 > 柵1.7)が、
+    --   大きさ0.5 では climb_h=0.575 < 0.70 なので【箱に登れない】= 役に立たない。
+    --   「同じ箱なのに、自分の大きさで道具になったりガラクタになったりする」。
+    self.carryNear = nil
+    if (self.placeT or 0) <= 0 and self.mode == "play" then
+        local yaw = math.rad(loadNum("camYaw", 0))
+        local fx, fz = math.sin(yaw), math.cos(yaw)
+        if not self.held then                      -- 近くの物を探す(拾える印を出すため)
+            local bd = 1.6 + 1.4 * self.scale
+            for i, c in ipairs(self.cfg.carries or {}) do
+                local e = ent(c.ent)
+                if e and e.transform.position.y > HIDE_Y + 50 then
+                    local q = e.transform.position
+                    local d = math.sqrt((q.x - p.x) ^ 2 + (q.z - p.z) ^ 2)
+                    if d < bd then bd = d; self.carryNear = i end
+                end
+            end
+        end
+        if keyPressed("E") then
+            if self.held then
+                local c = self.cfg.carries[self.held]
+                local d = 0.75 * self.scale + 0.55
+                local gy = self.anchor.y0 or 0
+                place(c.ent, p.x + fx * d, gy, p.z + fz * d)
+                place(c.col, p.x + fx * d, gy + c.h * 0.5, p.z + fz * d)
+                self.held = nil
+                sfx("detent", 0.9, 0.5)
+            elseif self.carryNear then
+                self.held = self.carryNear
+                self.carryNear = nil
+                sfx("touch", 1.1, 0.5)
+            end
+        end
+        if self.held then                          -- 目の前に抱える。当たり判定は消す
+            local c = self.cfg.carries[self.held]
+            local d = 0.50 * self.scale + 0.50
+            local hy = (p.y - BODY_H * 0.5 * self.scale) + 0.80 * self.scale
+            place(c.ent, p.x + fx * d, hy, p.z + fz * d)
+            place(c.col, 0, HIDE_Y, 0)
+        end
+    end
+    if (self.carryNear or self.held) and not self.cine then
+        keyCap(W * 0.5, H * 0.70, "E", math.floor(H * 0.028), 1.0)
     end
 
     -- ================================ 大きさの門(sizegates) ================================
