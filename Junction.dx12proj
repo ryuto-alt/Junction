@@ -1,6 +1,6 @@
 {
   "assetsDir": "assets",
-  "defaultScene": "scenes/stage1.json",
+  "defaultScene": "scenes/stagedemo1.json",
   "lastOpenedScene": "",
   "name": "Junction",
   "scriptsDir": "scripts",
