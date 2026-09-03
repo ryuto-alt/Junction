@@ -16,6 +16,41 @@ local function direction(yaw, pitch)
     return math.sin(y) * cp, math.sin(p), math.cos(y) * cp
 end
 
+local function quatFromYaw(yaw)
+    local half = math.rad(yaw) * 0.5
+    return { x = 0, y = math.sin(half), z = 0, w = math.cos(half) }
+end
+
+local function quatSlerp(a, b, t)
+    local dot = a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w
+    if dot < 0 then
+        dot = -dot
+        b = { x = -b.x, y = -b.y, z = -b.z, w = -b.w }
+    end
+
+    if dot > 0.9995 then
+        local q = {
+            x = a.x + (b.x - a.x) * t, y = a.y + (b.y - a.y) * t,
+            z = a.z + (b.z - a.z) * t, w = a.w + (b.w - a.w) * t
+        }
+        local length = math.sqrt(q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w)
+        return { x = q.x / length, y = q.y / length, z = q.z / length, w = q.w / length }
+    end
+
+    local theta = math.acos(math.max(-1, math.min(1, dot)))
+    local sinTheta = math.sin(theta)
+    local wa = math.sin((1 - t) * theta) / sinTheta
+    local wb = math.sin(t * theta) / sinTheta
+    return { x = a.x * wa + b.x * wb, y = a.y * wa + b.y * wb,
+             z = a.z * wa + b.z * wb, w = a.w * wa + b.w * wb }
+end
+
+local function yawFromQuat(q)
+    local sinYaw = 2 * (q.w * q.y + q.x * q.z)
+    local cosYaw = 1 - 2 * (q.y * q.y + q.z * q.z)
+    return math.deg(math.atan(sinYaw, cosYaw))
+end
+
 local function isTarget(self)
     local cam = scene:findEntity("MainCamera")
     if not (cam and cam:isValid()) then return false end
@@ -43,32 +78,10 @@ local function isTarget(self)
     return true
 end
 
-local ROOM_INTERIOR = {
-    A_Leaf_s1a = { 0, 0 },
-    A_Leaf_f1 = { 0, 0 },
-    A_Leaf_s2a = { 0, 0 },
-    P_Leaf_s1b = { 0, 22 },
-    Q_Leaf_s2b = { 13, 0 }
-}
-
 local function openingAngleTowardRoom(self)
-    local room = ROOM_INTERIOR[self.name]
-    if not room then return -90 end
-
-    local closed = math.rad(self.closedYaw)
-    local cx = self.hingeX - math.cos(closed) * self.halfWidth
-    local cz = self.hingeZ + math.sin(closed) * self.halfWidth
-    local toRoomX, toRoomZ = room[1] - cx, room[2] - cz
-
-    local function score(angle)
-        local yaw = math.rad(self.closedYaw + angle)
-        local x = self.hingeX - math.cos(yaw) * self.halfWidth
-        local z = self.hingeZ + math.sin(yaw) * self.halfWidth
-        return (x - cx) * toRoomX + (z - cz) * toRoomZ
-    end
-
-    -- トンネル側の側壁を避け、必ず所属する部屋の内側へ開く。
-    return score(90) >= score(-90) and 90 or -90
+    -- 全扉でノブをローカル -X、蝶番をローカル +X に統一している。
+    -- この向きでは -90 度が各部屋の内側へ開く方向になる。
+    return -90
 end
 
 function OnStart(self)
@@ -78,6 +91,8 @@ function OnStart(self)
     self.baseY = self.transform.position.y
     self.closedYaw = self.transform.rotation.y
     self.openAngle = 90
+    self.closedQuat = quatFromYaw(self.closedYaw)
+    self.openQuat = self.closedQuat
 
     local yaw = math.rad(self.closedYaw)
     -- door.gltf の原点は中央。蝶番はローカル +X 側にある。
@@ -98,6 +113,7 @@ function OnUpdate(self, dt)
     if mouseDown and not self.mouseWasDown and targeted then
         if not self.open then
             self.openAngle = openingAngleTowardRoom(self)
+            self.openQuat = quatFromYaw(self.closedYaw + self.openAngle)
         end
         self.open = not self.open
     end
@@ -105,7 +121,8 @@ function OnUpdate(self, dt)
 
     local target = self.open and 1 or 0
     self.amount = self.amount + (target - self.amount) * math.min(1, dt * OPEN_SPEED)
-    local yaw = self.closedYaw + self.openAngle * self.amount
+    local rotation = quatSlerp(self.closedQuat, self.openQuat, self.amount)
+    local yaw = yawFromQuat(rotation)
     local rad = math.rad(yaw)
     self.currentYaw = yaw
     self.transform.position = Vec3.new(self.hingeX - math.cos(rad) * self.halfWidth, self.baseY,

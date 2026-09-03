@@ -5352,17 +5352,43 @@
       }
     },
     {
+      "boxCollider": {
+        "halfExtents": [
+          0.949999988079071,
+          1.2599999904632568,
+          0.10000000149011612
+        ],
+        "offset": [
+          0.0,
+          2.012732982635498,
+          0.0
+        ]
+      },
       "guid": "579985410858fc9a",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/Door.lua"
+      },
       "material": {
         "metallic": 0.0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
+        "modelPath": "models/door.gltf"
       },
       "name": "S_Leaf_f1",
       "parent": 119,
       "parentGuid": "b9cff3bb7ab04b82",
+      "rigidBody": {
+        "angularDamping": 0.009999999776482582,
+        "continuousCollision": false,
+        "friction": 0.6000000238418579,
+        "linearDamping": 0.019999999552965164,
+        "mass": 1.0,
+        "motionType": 1,
+        "restitution": 0.0,
+        "useGravity": false
+      },
       "transform": {
         "position": [
           -1.0,
@@ -5371,13 +5397,13 @@
         ],
         "rotation": [
           0.0,
-          105.0,
+          0.0,
           0.0
         ],
         "scale": [
           1.0,
-          1.0,
-          1.0
+          0.6458879709243774,
+          0.5351496934890747
         ]
       }
     },
@@ -5662,32 +5688,58 @@
       }
     },
     {
+      "boxCollider": {
+        "halfExtents": [
+          0.949999988079071,
+          1.2599999904632568,
+          0.10000000149011612
+        ],
+        "offset": [
+          0.0,
+          2.012732982635498,
+          0.0
+        ]
+      },
       "guid": "d8a236e9494bee15",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/Door.lua"
+      },
       "material": {
         "metallic": 0.0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
+        "modelPath": "models/door.gltf"
       },
       "name": "S_Leaf_t1a",
       "parent": 119,
       "parentGuid": "b9cff3bb7ab04b82",
+      "rigidBody": {
+        "angularDamping": 0.009999999776482582,
+        "continuousCollision": false,
+        "friction": 0.6000000238418579,
+        "linearDamping": 0.019999999552965164,
+        "mass": 1.0,
+        "motionType": 1,
+        "restitution": 0.0,
+        "useGravity": false
+      },
       "transform": {
         "position": [
           5.985000133514404,
           0.0,
-          -3.0
+          -2.0
         ],
         "rotation": [
           0.0,
-          165.0,
+          90.0,
           0.0
         ],
         "scale": [
           1.0,
-          1.0,
-          1.0
+          0.6458879709243774,
+          0.5351496934890747
         ]
       }
     },
@@ -6658,32 +6710,58 @@
       }
     },
     {
+      "boxCollider": {
+        "halfExtents": [
+          0.949999988079071,
+          1.2599999904632568,
+          0.10000000149011612
+        ],
+        "offset": [
+          0.0,
+          2.012732982635498,
+          0.0
+        ]
+      },
       "guid": "6981418f814e5933",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/Door.lua"
+      },
       "material": {
         "metallic": 0.0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
+        "modelPath": "models/door.gltf"
       },
       "name": "B_Leaf_t2a",
       "parent": 151,
       "parentGuid": "73fdd6686c1e4a87",
+      "rigidBody": {
+        "angularDamping": 0.009999999776482582,
+        "continuousCollision": false,
+        "friction": 0.6000000238418579,
+        "linearDamping": 0.019999999552965164,
+        "mass": 1.0,
+        "motionType": 1,
+        "restitution": 0.0,
+        "useGravity": false
+      },
       "transform": {
         "position": [
-          14.5,
+          15.0,
           0.0,
           2.992500066757202
         ],
         "rotation": [
           0.0,
-          105.0,
+          0.0,
           0.0
         ],
         "scale": [
           0.5,
-          0.5,
-          0.5
+          0.3229439854621887,
+          0.26757484674453735
         ]
       }
     },
@@ -7053,32 +7131,58 @@
       }
     },
     {
+      "boxCollider": {
+        "halfExtents": [
+          0.949999988079071,
+          1.2599999904632568,
+          0.10000000149011612
+        ],
+        "offset": [
+          0.0,
+          2.012732982635498,
+          0.0
+        ]
+      },
       "guid": "75f53f24eeea65db",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/Door.lua"
+      },
       "material": {
         "metallic": 0.0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
+        "modelPath": "models/door.gltf"
       },
       "name": "B_Leaf_t1b",
       "parent": 151,
       "parentGuid": "73fdd6686c1e4a87",
+      "rigidBody": {
+        "angularDamping": 0.009999999776482582,
+        "continuousCollision": false,
+        "friction": 0.6000000238418579,
+        "linearDamping": 0.019999999552965164,
+        "mass": 1.0,
+        "motionType": 1,
+        "restitution": 0.0,
+        "useGravity": false
+      },
       "transform": {
         "position": [
           10.007499694824219,
           0.0,
-          -2.5
+          -2.0
         ],
         "rotation": [
           0.0,
-          15.0,
+          270.0,
           0.0
         ],
         "scale": [
           0.5,
-          0.5,
-          0.5
+          0.3229439854621887,
+          0.26757484674453735
         ]
       }
     },
@@ -7964,32 +8068,58 @@
       }
     },
     {
+      "boxCollider": {
+        "halfExtents": [
+          0.949999988079071,
+          1.2599999904632568,
+          0.10000000149011612
+        ],
+        "offset": [
+          0.0,
+          2.012732982635498,
+          0.0
+        ]
+      },
       "guid": "877d8048673e43e9",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/Door.lua"
+      },
       "material": {
         "metallic": 0.0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
+        "modelPath": "models/door.gltf"
       },
       "name": "C_Leaf_t2b",
       "parent": 181,
       "parentGuid": "30b1bf523be2052e",
+      "rigidBody": {
+        "angularDamping": 0.009999999776482582,
+        "continuousCollision": false,
+        "friction": 0.6000000238418579,
+        "linearDamping": 0.019999999552965164,
+        "mass": 1.0,
+        "motionType": 1,
+        "restitution": 0.0,
+        "useGravity": false
+      },
       "transform": {
         "position": [
-          13.0,
+          15.0,
           0.0,
           7.03000020980835
         ],
         "rotation": [
           0.0,
-          -105.0,
+          180.0,
           0.0
         ],
         "scale": [
           2.0,
-          2.0,
-          2.0
+          1.2917759418487549,
+          1.0702993869781494
         ]
       }
     },
