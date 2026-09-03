@@ -21,75 +21,102 @@ local STAGES = {
 -- >>>STAGES (source/gen_stages.py が自動生成)
     ["Logic_Stage_1"] = { n = 1, scene = "scenes/stage1.json", next = "scenes/stage2.json",
         tunnels = {
-            { id = "t1", ax = 6.000, az = -2.000, nx = 1.000, nz = 0.000, L = 4.00, sa = 1.000, sb = 0.500, wa = 2.00, wb = 1.00, y0 = 0.00 },
-            { id = "t2", ax = 15.000, az = 3.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 0.500, sb = 2.000, wa = 1.00, wb = 4.00, y0 = 0.00 },
+            { id = "s1", ax = 0.000, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 1.000, sb = 0.500, wa = 2.00, wb = 1.00, y0 = 0.00 },
+            { id = "s2", ax = 0.000, az = 16.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 0.500, sb = 1.000, wa = 1.00, wb = 2.00, y0 = 0.00 },
+            { id = "s3", ax = 0.000, az = 32.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 1.000, sb = 2.000, wa = 2.00, wb = 4.00, y0 = 0.00 },
         },
         warps = {
         },
         morphs = {
-            { id = "m1", x = 0.000, z = 7.600, wx = 0.000, wz = 0.000, r = 2.60, delay = 0.5, light = { 1.00, 0.62, 0.30 }, light0 = { 0.98, 0.96, 0.88 },
-              room = "S", seal = {  }, unseal = { "t1a" },
-              rows = { { "MorphA_m1_0", 5.40, 0.00, 2.60, "A" }, { "MorphB_m1_0", -5.20, 0.00, 3.00, "B" }, { "MorphB_m1_1", 4.60, 0.00, 1.00, "B" } } },
-            { id = "m2", x = 14.300, z = 1.100, wx = 13.000, wz = 0.000, r = 3.00, delay = 0.8, light = { 0.62, 0.80, 1.00 }, light0 = { 0.98, 0.96, 0.88 },
-              room = "B", seal = { "t1b" }, unseal = {  },
-              rows = { { "MorphA_m2_0", 14.70, 0.00, -2.30, "A" }, { "MorphB_m2_0", 11.50, 0.00, 1.70, "B" } } },
+            { id = "mA", x = -4.000, z = 0.000, wx = 0.000, wz = 0.000, r = 2.80, delay = 0.6, light = nil, light0 = { 0.98, 0.96, 0.88 },
+              room = "A", seal = {  }, unseal = { "s1a" },
+              rows = { { "A_Leaf_s1a", -1.00, 0.00, 5.99, "B" } } },
+            { id = "mB", x = -2.000, z = 13.000, wx = 0.000, wz = 13.000, r = 1.60, delay = 0.6, light = nil, light0 = { 0.98, 0.96, 0.88 },
+              room = "B", seal = { "s1b" }, unseal = { "s2a" },
+              rows = { { "B_Leaf_s2a", -0.50, 0.00, 15.99, "B" }, { "B_Leaf_s1b", 0.00, 0.00, 0.00, "A" } } },
+            { id = "mC", x = -4.000, z = 26.000, wx = 0.000, wz = 26.000, r = 2.80, delay = 0.6, light = nil, light0 = { 0.98, 0.96, 0.88 },
+              room = "C", seal = { "s2b" }, unseal = { "s3a" },
+              rows = { { "C_Leaf_s3a", -1.00, 0.00, 31.98, "B" }, { "C_Leaf_s2b", 0.00, 0.00, 0.00, "A" } } },
+            { id = "mD", x = -8.000, z = 48.000, wx = 0.000, wz = 48.000, r = 5.00, delay = 0.6, light = nil, light0 = { 0.98, 0.96, 0.88 },
+              room = "D", seal = { "s3b" }, unseal = {  },
+              rows = { { "D_Leaf_s3b", 0.00, 0.00, 0.00, "A" } } },
         },
         plugs = {
-            { id = "t1a", x = 6.500, y = 1.300, z = -2.000, mode = "appear", delay = 2.0, auto = true },
-            { id = "t1b", x = 9.500, y = 0.650, z = -2.000, mode = "seal", delay = 2.0, auto = true },
+            { id = "s1a", x = 0.000, y = 1.300, z = 6.500, mode = "appear", delay = 2.0, auto = true },
+            { id = "s1b", x = 0.000, y = 0.650, z = 9.500, mode = "seal", delay = 2.0, auto = true },
+            { id = "s2a", x = 0.000, y = 0.650, z = 16.500, mode = "appear", delay = 2.0, auto = true },
+            { id = "s2b", x = 0.000, y = 1.300, z = 19.500, mode = "seal", delay = 2.0, auto = true },
+            { id = "s3a", x = 0.000, y = 1.300, z = 32.500, mode = "appear", delay = 2.0, auto = true },
+            { id = "s3b", x = 0.000, y = 2.600, z = 35.500, mode = "seal", delay = 2.0, auto = true },
         },
-        hint = { { 4.80, -2.00 }, { 15.00, 1.80 }, { 11.00, 19.00 }, { 5.00, 19.00 } },
-        start = "S", goalRoom = "C",
-        spawn = { 2.0, -4.6, 0.0 }, teach = "walk",
+        sizegates = {
+        },
+        hint = { { -1.80, 0.00 }, { 0.00, 4.80 }, { -0.90, 13.00 }, { 0.00, 15.40 }, { -1.80, 26.00 }, { 0.00, 30.80 }, { -3.60, 48.00 }, { -8.80, 48.00 } },
+        startScale = 1.000,
+        start = "A", goalRoom = "D",
+        spawn = { 0.0, -4.6, 0.0 }, teach = "walk",
         cine = {
-            { 4.00, 2.20, -4.50, 0.00, 1.60, 5.80, 2.40 },
-            { 2.00, 1.70, -4.60, 2.00, 1.60, 5.00, 1.40 },
-            { 2.00, 1.70, -4.60, 2.00, 1.70, 3.40, 1.40 },
+            { 3.00, 2.60, -4.00, -4.40, 2.20, 0.00, 2.40 },
+            { 0.00, 1.70, -4.60, -4.40, 2.20, 0.00, 1.60 },
+            { 0.00, 1.70, -4.60, 0.00, 1.70, 3.40, 1.40 },
         } },
     ["Logic_Stage_2"] = { n = 2, scene = "scenes/stage2.json", next = "scenes/stage3.json",
         tunnels = {
-            { id = "s1", ax = 4.000, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 1.000, sb = 2.000, wa = 2.00, wb = 4.00, y0 = 0.00 },
-            { id = "s2", ax = 6.000, az = -2.000, nx = 1.000, nz = 0.000, L = 4.00, sa = 1.000, sb = 0.500, wa = 2.00, wb = 1.00, y0 = 0.00 },
+            { id = "s1", ax = 6.000, az = -2.200, nx = 1.000, nz = 0.000, L = 4.00, sa = 1.000, sb = 0.500, wa = 2.00, wb = 1.00, y0 = 0.00 },
+            { id = "s2", ax = 13.000, az = 3.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 0.500, sb = 1.000, wa = 1.00, wb = 2.00, y0 = 0.00 },
+            { id = "s3", ax = 13.000, az = 19.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 1.000, sb = 2.000, wa = 2.00, wb = 4.00, y0 = 0.00 },
         },
         warps = {
         },
         morphs = {
+            { id = "m1", x = 11.000, z = 13.000, wx = 13.000, wz = 13.000, r = 3.20, delay = 0.7, light = { 0.62, 0.80, 1.00 }, light0 = { 0.98, 0.96, 0.88 },
+              room = "C", seal = {  }, unseal = {  },
+              rows = { { "MorphA_m1_0", 15.00, 0.00, 16.60, "A" }, { "MorphB_m1_0", 16.00, 0.00, 15.40, "B" }, { "MorphB_m1_1", 13.60, 0.00, 9.40, "B" } } },
+            { id = "m2", x = 9.000, z = 35.000, wx = 13.000, wz = 35.000, r = 4.00, delay = 0.6, light = { 1.00, 0.62, 0.30 }, light0 = { 0.98, 0.96, 0.88 },
+              room = "D", seal = { "s3b" }, unseal = {  },
+              rows = { { "MorphA_m2_0", 15.40, 0.00, 40.20, "A" }, { "MorphB_m2_0", 21.80, 0.00, 32.20, "B" }, { "D_Leaf_s3b", 0.00, 0.00, 0.00, "A" } } },
         },
         plugs = {
+            { id = "s3b", x = 13.000, y = 2.600, z = 22.500, mode = "seal", delay = 2.0, auto = true },
         },
-        hint = { { 4.00, 4.80 }, { -5.00, 22.00 }, { -9.00, 22.00 } },
-        start = "A", goalRoom = "P",
-        spawn = { 3.0, -4.0, 0.0 }, teach = "jump",
+        sizegates = {
+        },
+        hint = { { 4.80, -2.20 }, { 13.00, 0.60 }, { 13.00, 1.80 }, { 13.00, 17.80 }, { 8.00, 35.00 }, { 4.20, 35.00 } },
+        startScale = 1.000,
+        start = "A", goalRoom = "D",
+        spawn = { 2.0, -4.6, 0.0 }, teach = nil,
         cine = {
-            { 7.00, 5.00, 13.00, -9.00, 1.20, 22.00, 2.40 },
-            { 3.00, 1.70, -4.00, 2.00, 1.60, 6.00, 0.02 },
-            { 3.00, 1.70, -4.00, 2.00, 1.60, 6.00, 1.60 },
-            { 3.00, 1.70, -4.00, 3.00, 1.70, 4.00, 1.40 },
+            { 19.00, 5.00, 35.00, 4.20, 2.20, 35.00, 2.40 },
+            { 3.00, 2.60, -4.00, -4.40, 2.20, 0.00, 0.02 },
+            { 3.00, 2.60, -4.00, -4.40, 2.20, 0.00, 1.80 },
+            { 2.00, 1.70, -4.60, -4.40, 2.20, 0.00, 1.40 },
+            { 2.00, 1.70, -4.60, 2.00, 1.70, 3.40, 1.40 },
         } },
     ["Logic_Stage_3"] = { n = 3, scene = "scenes/stage3.json", next = "scenes/stage4.json",
         tunnels = {
-            { id = "s1", ax = 0.000, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 1.000, sb = 0.500, wa = 2.00, wb = 1.00, y0 = 0.90 },
+            { id = "s1", ax = 0.000, az = 12.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 2.000, sb = 1.000, wa = 4.00, wb = 2.00, y0 = 0.00 },
+            { id = "s2", ax = 0.000, az = 28.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 1.000, sb = 0.500, wa = 2.00, wb = 1.00, y0 = 0.90 },
+            { id = "s3", ax = 6.000, az = 22.000, nx = 1.000, nz = 0.000, L = 4.00, sa = 1.000, sb = 2.000, wa = 2.00, wb = 4.00, y0 = 0.00 },
         },
         warps = {
         },
         morphs = {
-            { id = "m1", x = -7.900, z = 0.000, wx = 0.000, wz = 0.000, r = 2.80, delay = 0.6, light = { 0.72, 0.78, 0.98 }, light0 = { 0.98, 0.96, 0.88 },
-              room = "A", seal = {  }, unseal = {  },
-              rows = { { "MorphA_m1_0", 3.40, 0.00, -4.60, "A" }, { "MorphB_m1_0", -3.00, 0.00, 3.40, "B" }, { "MorphB_m1_1", -4.20, 0.00, -2.00, "B" } } },
-            { id = "m2", x = 0.000, z = 14.500, wx = 0.000, wz = 13.000, r = 2.40, delay = 0.9, light = { 1.00, 0.66, 0.34 }, light0 = { 0.98, 0.96, 0.88 },
-              room = "B", seal = { "s1b" }, unseal = {  },
-              rows = { { "MorphA_m2_0", 0.80, 0.00, 12.50, "A" }, { "MorphB_m2_0", -0.50, 0.00, 11.50, "B" } } },
+            { id = "m1", x = 0.000, z = 26.000, wx = 0.000, wz = 22.000, r = 3.00, delay = 0.9, light = { 0.72, 0.78, 0.98 }, light0 = { 0.98, 0.96, 0.88 },
+              room = "B", seal = {  }, unseal = {  },
+              rows = { { "MorphA_m1_0", -3.00, 0.00, 24.60, "A" }, { "MorphB_m1_0", -3.40, 0.00, 22.60, "B" } } },
         },
         plugs = {
-            { id = "s1b", x = 0.000, y = 1.550, z = 9.500, mode = "seal", delay = 2.0, auto = true },
         },
-        hint = { { 0.00, 4.80 }, { 0.00, 12.00 }, { -1.40, 15.00 } },
-        start = "A", goalRoom = "B",
-        spawn = { 0.0, 1.0, 0.0 }, teach = nil,
+        sizegates = {
+        },
+        hint = { { 0.00, 10.80 }, { 0.00, 26.80 }, { 0.00, 35.50 }, { 0.00, 36.80 } },
+        startScale = 2.000,
+        start = "A", goalRoom = "C",
+        spawn = { 0.0, -9.0, 0.0 }, teach = "jump",
         cine = {
-            { 0.00, 2.40, -1.00, 0.00, 1.40, 6.00, 2.40 },
-            { 0.00, 1.70, 0.60, 0.00, 1.50, 6.00, 1.60 },
-            { 0.00, 1.70, 1.00, 0.00, 1.70, 9.00, 1.40 },
+            { 0.00, 3.40, -10.00, 0.00, 3.00, 12.00, 2.60 },
+            { 0.00, 3.40, -9.00, 0.00, 3.00, 12.00, 1.60 },
+            { 0.00, 3.40, -9.00, 0.00, 3.40, -1.00, 1.40 },
         } },
     ["Logic_Stage_4"] = { n = 4, scene = "scenes/stage4.json", next = "scenes/stage5.json",
         tunnels = {
@@ -100,16 +127,19 @@ local STAGES = {
         morphs = {
             { id = "m1", x = 7.900, z = 0.000, wx = 0.000, wz = 0.000, r = 2.80, delay = 0.5, light = { 1.00, 0.60, 0.28 }, light0 = { 0.98, 0.96, 0.88 },
               room = "A", seal = {  }, unseal = { "s1a" },
-              rows = { { "MorphA_m1_0", 5.40, 0.00, 2.60, "A" }, { "MorphB_m1_0", -5.20, 0.00, 3.00, "B" }, { "MorphB_m1_1", 4.60, 0.00, 1.00, "B" } } },
+              rows = { { "MorphA_m1_0", 5.40, 0.00, 2.60, "A" }, { "MorphB_m1_0", -5.20, 0.00, 3.00, "B" }, { "MorphB_m1_1", 4.60, 0.00, 1.00, "B" }, { "A_Leaf_s1a", -1.00, 0.00, 5.99, "B" } } },
             { id = "m2", x = -7.900, z = 0.000, wx = 0.000, wz = 0.000, r = 2.80, delay = 0.5, light = { 0.55, 0.72, 1.00 }, light0 = { 0.98, 0.96, 0.88 },
               room = "A", seal = { "f1" }, unseal = {  },
-              rows = { { "MorphA_m2_0", 1.60, 0.00, -1.00, "A" }, { "MorphB_m2_0", -2.00, 0.00, -4.40, "B" } } },
+              rows = { { "MorphA_m2_0", 1.60, 0.00, -1.00, "A" }, { "MorphB_m2_0", -2.00, 0.00, -4.40, "B" }, { "A_Leaf_f1", 0.00, 0.00, 0.00, "A" } } },
         },
         plugs = {
             { id = "s1a", x = 0.000, y = 1.300, z = 6.500, mode = "appear", delay = 2.0, auto = true },
             { id = "f1", x = 6.500, y = 1.300, z = 0.000, mode = "seal", delay = 2.0, auto = true },
         },
+        sizegates = {
+        },
         hint = { { 0.00, 4.80 }, { -5.00, 22.00 }, { -9.00, 22.00 } },
+        startScale = 1.000,
         start = "A", goalRoom = "C",
         spawn = { 0.0, -4.0, 90.0 }, teach = nil,
         cine = {
@@ -128,7 +158,10 @@ local STAGES = {
         },
         plugs = {
         },
+        sizegates = {
+        },
         hint = { { -6.00, -8.80 }, { 0.00, -30.00 }, { 0.00, -52.80 }, { 1.25, -61.00 }, { 2.30, -62.50 } },
+        startScale = 1.000,
         start = "H", goalRoom = "T",
         spawn = { -6.0, -6.0, 180.0 }, teach = nil,
         cine = {
@@ -152,7 +185,10 @@ local STAGES = {
         },
         plugs = {
         },
+        sizegates = {
+        },
         hint = { { 4.80, 0.00 }, { 22.00, 10.80 }, { 26.80, 22.00 }, { 36.25, 22.00 }, { 37.30, 23.50 } },
+        startScale = 1.000,
         start = "A", goalRoom = "D",
         spawn = { 3.0, -3.0, 0.0 }, teach = nil,
         cine = {
@@ -176,7 +212,10 @@ local STAGES = {
         },
         plugs = {
         },
+        sizegates = {
+        },
         hint = { { 0.00, 4.80 }, { -7.00, 22.00 }, { -8.80, 32.80 }, { -7.55, 41.00 }, { -7.30, 42.80 }, { -14.30, 60.00 }, { -16.30, 60.00 } },
+        startScale = 1.000,
         start = "A", goalRoom = "E",
         spawn = { 0.0, -4.0, 0.0 }, teach = nil,
         cine = {
@@ -185,7 +224,7 @@ local STAGES = {
             { 0.00, 1.70, -4.40, 0.00, 1.60, 6.00, 1.60 },
             { 0.00, 1.70, -4.00, 0.00, 1.70, 4.00, 1.40 },
         } },
-    ["Logic_Stage_8"] = { n = 8, scene = "scenes/stage8.json", next = nil,
+    ["Logic_Stage_8"] = { n = 8, scene = "scenes/stage8.json", next = "scenes/stagedemo1.json",
         tunnels = {
             { id = "s1", ax = 0.000, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 1.000, sb = 2.000, wa = 2.00, wb = 4.00, y0 = 0.00 },
             { id = "s2", ax = 12.000, az = 22.000, nx = 1.000, nz = 0.000, L = 4.00, sa = 2.000, sb = 0.500, wa = 4.00, wb = 1.00, y0 = 0.90 },
@@ -199,19 +238,91 @@ local STAGES = {
               rows = { { "MorphA_m1_0", 5.40, 0.00, 2.60, "A" }, { "MorphB_m1_0", -5.20, 0.00, 3.00, "B" }, { "MorphB_m1_1", 4.60, 0.00, 1.00, "B" } } },
             { id = "m2", x = 19.000, z = 20.900, wx = 19.000, wz = 22.000, r = 2.40, delay = 0.9, light = { 0.58, 0.74, 1.00 }, light0 = { 0.98, 0.96, 0.88 },
               room = "C", seal = { "s2b" }, unseal = {  },
-              rows = { { "MorphA_m2_0", 20.70, 0.00, 19.70, "A" }, { "MorphB_m2_0", 18.00, 0.00, 23.50, "B" } } },
+              rows = { { "MorphA_m2_0", 20.70, 0.00, 19.70, "A" }, { "MorphB_m2_0", 18.00, 0.00, 23.50, "B" }, { "C_Leaf_s2b", 0.00, 0.00, 0.00, "A" } } },
         },
         plugs = {
             { id = "s2b", x = 15.500, y = 1.550, z = 22.000, mode = "seal", delay = 2.0, auto = true },
         },
-        hint = { { 0.00, 4.80 }, { 5.00, 22.00 }, { 10.80, 22.00 }, { 20.25, 22.00 }, { 20.50, 23.80 }, { 25.50, 41.00 }, { 29.00, 41.00 } },
+        sizegates = {
+        },
+        hint = { { 0.00, 4.80 }, { 5.00, 22.00 }, { 10.80, 22.00 }, { 20.25, 22.00 }, { 20.50, 23.80 }, { 31.00, 41.00 }, { 34.50, 41.00 } },
+        startScale = 1.000,
         start = "A", goalRoom = "D",
         spawn = { 0.0, -4.0, 0.0 }, teach = nil,
         cine = {
-            { 22.50, 5.00, 33.00, 29.00, 1.00, 41.00, 2.40 },
+            { 28.00, 5.00, 33.00, 34.50, 1.00, 41.00, 2.40 },
             { 0.00, 1.70, -4.40, 0.00, 1.60, 6.00, 0.02 },
             { 0.00, 1.70, -4.40, 0.00, 1.60, 6.00, 1.60 },
             { 0.00, 1.70, -4.00, 0.00, 1.70, 4.00, 1.40 },
+        } },
+    ["Logic_Demo_1"] = { n = 1, scene = "scenes/stagedemo1.json", next = "scenes/stagedemo2.json",
+        tunnels = {
+            { id = "Z", ax = 2.200, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 2.000, sb = 0.500, wa = 4.00, wb = 1.00, y0 = 0.00 },
+            { id = "Q", ax = -1.000, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 0.500, sb = 0.500, wa = 1.00, wb = 1.00, y0 = 0.00 },
+            { id = "R", ax = -3.500, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 0.500, sb = 0.500, wa = 1.00, wb = 1.00, y0 = 0.00 },
+        },
+        warps = {
+        },
+        morphs = {
+        },
+        plugs = {
+        },
+        sizegates = {
+        },
+        hint = { { 2.20, 4.80 }, { 2.20, 11.20 }, { 0.00, -1.00 }, { 0.00, -4.80 } },
+        startScale = 1.000,
+        start = "A", goalRoom = "A",
+        spawn = { 2.0, 4.5, 180.0 }, teach = "walk",
+        cine = {
+            { 3.00, 2.40, 4.00, 0.00, 1.40, -4.80, 2.40 },
+            { 2.00, 1.70, 4.50, 0.00, 1.20, -4.80, 1.60 },
+            { 2.00, 1.70, 4.50, 2.00, 1.70, -3.50, 1.40 },
+        } },
+    ["Logic_Demo_2"] = { n = 2, scene = "scenes/stagedemo2.json", next = "scenes/stagedemo3.json",
+        tunnels = {
+        },
+        warps = {
+        },
+        morphs = {
+        },
+        plugs = {
+        },
+        sizegates = {
+            { id = "g1", x = 4.600, z = 2.000, nx = 0.000, nz = 1.000, hw = 1.00, sf = 0.500, sb = 1.000 },
+            { id = "g2", x = 0.000, z = 3.600, nx = 0.000, nz = 1.000, hw = 1.80, sf = 2.000, sb = 1.000 },
+        },
+        hint = { { -2.50, 0.00 }, { -4.40, 0.00 } },
+        startScale = 1.000,
+        start = "A", goalRoom = "A",
+        spawn = { 2.0, -4.4, 0.0 }, teach = "walk",
+        cine = {
+            { 4.60, 2.60, -4.40, -4.40, 2.20, 0.00, 2.40 },
+            { 3.60, 1.70, -4.40, -4.40, 2.20, 0.00, 1.60 },
+            { 2.00, 1.70, -4.40, 2.00, 1.70, 3.60, 1.40 },
+        } },
+    ["Logic_Demo_3"] = { n = 3, scene = "scenes/stagedemo3.json", next = nil,
+        tunnels = {
+            { id = "v1", ax = 0.000, az = 12.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 2.000, sb = 2.000, wa = 4.00, wb = 4.00, y0 = 0.00 },
+            { id = "v2", ax = 0.000, az = -16.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 2.000, sb = 2.000, wa = 4.00, wb = 4.00, y0 = 0.00 },
+        },
+        warps = {
+        },
+        morphs = {
+        },
+        plugs = {
+        },
+        sizegates = {
+            { id = "s1", x = 0.000, z = 10.400, nx = 0.000, nz = -1.000, hw = 2.20, sf = 0.500, sb = 0.500 },
+            { id = "s2", x = 0.000, z = -10.400, nx = 0.000, nz = 1.000, hw = 2.20, sf = 2.000, sb = 2.000 },
+        },
+        hint = { { -5.00, 0.00 }, { -8.80, 0.00 } },
+        startScale = 1.000,
+        start = "A", goalRoom = "A",
+        spawn = { 3.0, -9.0, 0.0 }, teach = "walk",
+        cine = {
+            { 6.00, 2.60, -8.00, -8.80, 2.20, 0.00, 2.40 },
+            { 3.00, 1.70, -9.00, -8.80, 2.20, 0.00, 1.60 },
+            { 3.00, 1.70, -9.00, 3.00, 1.70, -1.00, 1.40 },
         } },
     -- <<<STAGES
 }
@@ -405,12 +516,15 @@ local function resetRun(self)
     self.walkT, self.noAct = 0, 0
     self.mode = "play"
     self.endSfx = false
-    self.shownScale = 1.0
+    self.shownScale = self.cfg.startScale or 1.0
     self.side = {}
     self.hintIdx = 1
     self.warpLeft = {}
     for i, w in ipairs(self.cfg.warps or {}) do self.warpLeft[i] = w.loops end
     self.warpSide = {}
+    self.warpIdx = {}
+    self.sgSide = {}
+    self.tunId, self.tunFrom, self.tunEnter = nil, nil, nil
     self.plugT = {}
     self.plugDone = {}
     self.morphT = {}
@@ -430,12 +544,20 @@ local function resetRun(self)
     self.falls = 0
     self.fallT = 0
     local p = self.cfg.spawn
-    self.checkpoint = { x = p[1], z = p[2], s = 1.0, yaw = p[3], y0 = 0.0 }
+    -- ★始まりの部屋の縮尺。v8 は「1 面目は必ず x1 の部屋から」という前提で 1.0 を直書きして
+    --   いたので、x2 の大広間から始める面(第3面)では 3.6m の部屋に 1.8m の体で立ってしまい、
+    --   柵も溝も敷居も判定が全部ずれた。gen_stages.py が部屋から出す。
+    local s0 = self.cfg.startScale or 1.0
+    self.checkpoint = { x = p[1], z = p[2], s = s0, yaw = p[3], y0 = 0.0 }
     hide("Pilot"); hide("PilotLight")
-    scene:setAmbient(0.035)
-    useBody(self, 1.0, p[1], p[2], 1.0)
-    saveNum("pscale", 1.0)
-    camSet(self, p[1], EYE_H, p[2], p[3], 0)
+    -- ★環境光。ここが 0.035 のままだったせいで、v8 で 0.16 に上げたはずの値が
+    --   【Play のたびに上書きで戻されて】いた(シーン JSON の 0.16 が効くのは Editor だけ)。
+    --   点光源は castShadows=false なので、灯りと平行な面(全開の扉板の裏)が真っ黒になる。
+    scene:setAmbient(0.16)
+    useBody(self, s0, p[1], p[2], 1.0)
+    saveNum("pscale", s0)
+    self.shownScale = s0
+    camSet(self, p[1], EYE_H * s0, p[2], p[3], 0)
     self.tpSeq = (self.tpSeq or 0) + 1
     saveNum("tpYaw", p[3]); saveNum("tpPitch", 0); saveNum("tpSeq", self.tpSeq)
     self.pendingIntro = true
@@ -550,10 +672,16 @@ function OnUpdate(self, dt)
             self.shownScale = ds
         end
     end
-    for i = 1, 9 do
-        if keyPressed(tostring(i)) then
-            local s = STAGES["Logic_Stage_" .. i]
-            if s and s.scene and self.cfg.n ~= i then loadScene(s.scene); return end
+    -- ★数字キーは【今いる系統の中で】面を選ぶ。本編なら Logic_Stage_i、
+    --   実験台(stagedemo)なら Logic_Demo_i。デモを見比べるのに毎回シーンを
+    --   開き直さなくて済む。
+    do
+        local pre = self.name:match("^(Logic_%a+_)") or "Logic_Stage_"
+        for i = 1, 9 do
+            if keyPressed(tostring(i)) then
+                local s = STAGES[pre .. i]
+                if s and s.scene and self.cfg.n ~= i then loadScene(s.scene); return end
+            end
         end
     end
 
@@ -639,15 +767,32 @@ function OnUpdate(self, dt)
             local by = p.y - BODY_H * 0.5 * self.scale
             if t > -0.05 and t < tn.L + 0.05 and math.abs(lat) <= hw and math.abs(by - tn.y0) < 1.6 then
                 inT = true
+                -- ★★廊下に入った瞬間に【入った時の大きさ】と【どちらの口から入ったか】を覚える。
+                --   v9 までは t<0.35 で「入口の口の大きさ」へ問答無用で作り替えていたので、
+                --   小さいまま大きい口へ入り直すと元の大きさへ戻され、仕掛けが消えていた。
+                --   正しい規則は【出る側の口の大きさへ、今の大きさから連続で変える】。
+                --   これで「同じ戸でも行きと帰りで結果が違う」= 仕掛けそのものになる。
+                if self.tunId ~= tn.id then
+                    self.tunId = tn.id
+                    self.tunFrom = (t < tn.L * 0.5) and 1 or 0   -- 1 = a 側から入った
+                    self.tunEnter = self.scale
+                end
+                local e = self.tunEnter or tn.sa
+                local far = (self.tunFrom == 1) and tn.sb or tn.sa
                 local k = math.max(0, math.min(1, t / tn.L))
-                self.shownScale = tn.sa + (tn.sb - tn.sa) * k
+                if self.tunFrom == 0 then k = 1 - k end          -- 入った口からの進み具合
+                self.shownScale = e + (far - e) * k
                 local want
-                if t < 0.35 then want = tn.sa
-                elseif t > tn.L - 0.35 then want = tn.sb
-                else want = math.min(tn.sa, tn.sb) end
+                if k < 0.10 then want = e
+                elseif k > 0.90 then want = far
+                else want = math.min(e, far) end                 -- 途中は細い方に合わせる
                 if math.abs(want - self.scale) > 1e-4 then
-                    useBody(self, want, p.x, p.z, 0.05, tn.y0)
-                    if t > tn.L * 0.5 then
+                    -- ★押し込み(placeT)は 0。ここを 0.05 にしていたせいで、体を入れ替えた
+                    --   直後の数フレームだけ【この廊下の走査そのものが飛ばされ】(下の
+                    --   placeT ガード)、inTunnel が false に落ちて shownScale が体の縮尺へ
+                    --   飛ぶ = 目の高さが一瞬跳ねていた。廊下の中では 1 回置けば足りる。
+                    useBody(self, want, p.x, p.z, 0, tn.y0)
+                    if k > 0.5 then
                         self.checkpoint = { x = p.x, z = p.z, s = want, yaw = loadNum("camYaw", 0), y0 = tn.y0 }
                     end
                     log(string.format("JUNCTION body %.3g at tunnel %s t=%.2f", want, tn.id, t))
@@ -656,6 +801,7 @@ function OnUpdate(self, dt)
             end
         end
     end
+    if not inT then self.tunId = nil end     -- 出たら覚え直す
     self.inTunnel = inT
 
     -- ================================ 黙って転送する面(warp) ================================
@@ -670,21 +816,52 @@ function OnUpdate(self, dt)
             local prev = self.warpSide[i]
             if near and prev == -1 and side == 1 and (self.warpLeft[i] or 0) > 0 then
                 self.warpLeft[i] = self.warpLeft[i] - 1
-                local b = bodyEnt(self)
-                if b then
-                    local q = Vec3.new(p.x + w.dx, p.y + w.dy, p.z + w.dz)
-                    physics:setPosition(b, q)
-                    b.transform.position = q
-                    self.anchor = { x = q.x, z = q.z, y0 = (self.anchor.y0 or 0) + w.dy }
-                    self.checkpoint = { x = q.x, z = q.z, s = self.scale, yaw = loadNum("camYaw", 0),
-                                        y0 = (self.checkpoint.y0 or 0) + w.dy }
-                    self.side = {}
-                    log(string.format("JUNCTION warp %s (%d left)", w.id, self.warpLeft[i]))
+                local qx, qz = p.x + w.dx, p.z + w.dz
+                local y0 = (self.anchor.y0 or 0) + w.dy
+                -- ★★ここが「つなぎを使うと世界が変わる」の本体。
+                --   運ぶ先は【同じ部屋の反対側の口】なので、プレイヤーは同じ部屋へ戻る。
+                --   戻った時に体の大きさだけが変わっているので、部屋そのものが
+                --   大きくなった / 小さくなったようにしか見えない。
+                --   scales は巡回する(1 周ぶんの手順を輪にする)。
+                local ns = self.scale
+                if w.scales and #w.scales > 0 then
+                    self.warpIdx = self.warpIdx or {}
+                    self.warpIdx[i] = ((self.warpIdx[i] or 0) % #w.scales) + 1
+                    ns = w.scales[self.warpIdx[i]]
                 end
+                -- hold=0。廊下の中なので押し込むと横移動が止まって「がくん」と見える
+                useBody(self, ns, qx, qz, 0, y0)
+                self.checkpoint = { x = qx, z = qz, s = ns, yaw = loadNum("camYaw", 0), y0 = y0 }
+                self.side = {}
+                log(string.format("JUNCTION warp %s -> size %.3g (%d left)", w.id, ns, self.warpLeft[i]))
                 self.warpSide[i] = nil
                 break
             end
             self.warpSide[i] = near and side or nil
+        end
+    end
+
+    -- ================================ 大きさの門(sizegates) ================================
+    -- ★床に立った枠(seam.gltf)。くぐると【その場で】大きさが変わる。移動は一切しない。
+    --   「同じ部屋・同じ場所なのに、つなぎを通ると世界の見え方が変わる」を、
+    --   移動を挟まずに直接見せるための装置。前から入れば sf、後ろから入れば sb。
+    if (self.placeT or 0) <= 0 then
+        self.sgSide = self.sgSide or {}
+        for i, g in ipairs(self.cfg.sizegates or {}) do
+            local fwd = (p.x - g.x) * g.nx + (p.z - g.z) * g.nz
+            local lat = -(p.x - g.x) * g.nz + (p.z - g.z) * g.nx
+            local near = math.abs(fwd) < 2.5 and math.abs(lat) <= g.hw
+            local side = fwd >= 0 and 1 or -1
+            local prev = self.sgSide[i]
+            if near and prev ~= nil and prev ~= side then
+                local ns = (side == 1) and g.sf or g.sb
+                if ns > 0 and math.abs(ns - self.scale) > 1e-4 then
+                    useBody(self, ns, p.x, p.z, 0, self.anchor.y0 or 0)
+                    sfx("grow", 1.0, 0.45)
+                    log(string.format("JUNCTION sizegate %s -> %.3g", g.id, ns))
+                end
+            end
+            self.sgSide[i] = near and side or nil
         end
     end
 

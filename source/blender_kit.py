@@ -11,7 +11,7 @@ BlenderMCP の execute_blender_code から
 ★エクスポータは use_selection=False だと .blend の【全シーン】を書き出す。
   毎回 全部 deselect → 対象だけ select → use_selection=True。
 """
-import bpy, os, math, shutil, tempfile
+import bpy, os, re, math, shutil, tempfile
 
 # ★リポジトリの場所は機械によって違う。exec で叩くので __file__ が無い =
 #   実在する方を選ぶ。JX_ROOT をグローバルに入れてから exec すれば上書きできる。
@@ -20,6 +20,38 @@ ROOT = globals().get("JX_ROOT") or next(
                 r"C:\Users\GSuser\Documents\10days\Junction") if os.path.isdir(p))
 TEX = os.path.join(ROOT, "assets", "models", "tex")
 OUT = os.path.join(ROOT, "assets", "models")
+MANIFEST = os.path.join(OUT, "gen", "manifest.json")
+
+# ---------------------------------------------------------------- 置き場所(assets/models/ 以下)
+# ★gen_stages.py の同名関数と【必ず一致】させること。片方だけ直すとシーンが
+#   参照するパスと実ファイルの場所がずれて、モデルが丸ごと出なくなる。
+#   新しいモデルを足したら、ここにも足す(知らない名前は例外で落とす = 直下に散らかさない)。
+_TRIM = ("column", "doorleaf", "eave", "seam", "divider", "blocker", "barrier", "railing")
+_PROPS = ("bench", "locker", "crate", "vent", "pipes", "troffer")
+_GAME = ("goal", "pin", "band", "lane", "figure", "hand")
+
+
+def dest_of(name):
+    """モデル名(拡張子なし)から assets/models/ 以下の置き場所を返す。"""
+    if name.startswith("fm_"):
+        return "gen/floor"
+    if name.startswith("cm_"):
+        return "gen/ceil"
+    if name.startswith("tn_"):
+        return "gen/tunnel"
+    if name.startswith("wm_"):
+        return "gen/wall"
+    if name.startswith("wall"):
+        return "arch/wall"
+    if name.startswith("floor") or name.startswith("ceiling"):
+        return "arch/slab"
+    if name in _TRIM:
+        return "arch/trim"
+    if name in _PROPS:
+        return "props"
+    if name in _GAME:
+        return "game"
+    raise KeyError("置き場所が決まっていないモデル名: %s (dest_of に足すこと)" % name)
 
 # ---- 寸法。gen_stages.py と【必ず一致】させる。★変えるな、増やせ ----
 WALLT = 0.3     # 壁の厚み(gen_stages.py の WALLT)
@@ -275,7 +307,9 @@ def export(ob, fname):
     自前で【再エンコードして上書き】するので、assets/models へ直接書くと
     gen_textures.py が描いた tex/*.png が Blender の再圧縮版に化ける
     (ノーマルマップが Non-Color のまま焼き直されるので実害がある)。
-    欲しいのは .gltf と .bin だけ。uri は "tex/xxx.png" の相対なのでそのまま通る。"""
+    欲しいのは .gltf と .bin だけ。
+    ★書き出し先は dest_of() のサブフォルダ。エクスポータが吐く uri は必ず "tex/xxx.png"
+      (export_texture_dir='tex' 固定)なので、深さぶんの "../" を足して貼り直す。"""
     for sc in bpy.data.scenes:
         for o in sc.objects:
             o.select_set(False)
@@ -289,11 +323,25 @@ def export(ob, fname):
                               export_format='GLTF_SEPARATE',
                               use_selection=True, export_texture_dir='tex',
                               export_yup=True, export_apply=True)
+    stem = fname[:-5]
+    sub = dest_of(stem)
+    dstdir = os.path.join(OUT, *sub.split("/"))
+    os.makedirs(dstdir, exist_ok=True)
+    up = "../" * (sub.count("/") + 1)
     for ext in (".gltf", ".bin"):
-        src = os.path.join(tmp, fname[:-5] + ext)
-        if os.path.exists(src):
-            shutil.copyfile(src, os.path.join(OUT, fname[:-5] + ext))
-    print("exported", os.path.join(OUT, fname))
+        src = os.path.join(tmp, stem + ext)
+        if not os.path.exists(src):
+            continue
+        dst = os.path.join(dstdir, stem + ext)
+        if ext == ".gltf":
+            with open(src, encoding="utf-8") as f:
+                txt = f.read()
+            txt = re.sub(r'("uri"\s*:\s*")tex/', r"\g<1>" + up + "tex/", txt)
+            with open(dst, "w", encoding="utf-8") as f:
+                f.write(txt)
+        else:
+            shutil.copyfile(src, dst)
+    print("exported", os.path.join(dstdir, fname))
 
 
 # ---------------------------------------------------------------- 壁(寸法パラメータ化)
@@ -755,18 +803,18 @@ def wall_mesh_multi(L, H, ops):
 
 
 def build_manifest():
-    """assets/models/manifest.json(gen_stages.py が書く)にある壁と床を全部出す。"""
+    """assets/models/gen/manifest.json(gen_stages.py が書く)にある壁と床を全部出す。"""
     import json
     M_WALL = mat("jx_wall", "wall_col.png", 0.88, 0.0, "wall_nrm.png")
     M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
     M_CARPET = mat("jx_carpet", "carpet_col.png", 0.95, 0.0, "carpet_nrm.png")
-    path = os.path.join(OUT, "manifest.json")
+    path = MANIFEST
     with open(path, encoding="utf-8") as f:
         man = json.load(f)
     n = 0
     M_TUN = mat("jx_tunnel", "paint_col.png", 0.92)
     for name, spec in sorted(man.items()):
-        if spec.get("tunnel") and spec.get("v") == 2:
+        if spec.get("tunnel") and spec.get("v", 1) >= 2:
             # ★v7 の廊下。床=カーペット / 天井=天井板 / 壁=塗装。白い筒をやめる。
             #   UV は実寸から出す(2m で 1 タイル)。偽の廊下もこれで作るので、
             #   【短くて細い箱が、長い廊下に見える】
@@ -789,9 +837,13 @@ def build_manifest():
                     [(0, ya * K), (0, (ya + ha) * K), (L * K, (yb + hb) * K), (L * K, yb * K)], 2)
             b.eface([(wa / 2, ya, 0), (wb / 2, yb, L), (wb / 2, yb + hb, L), (wa / 2, ya + ha, 0)],
                     [(0, ya * K), (L * K, yb * K), (L * K, (yb + hb) * K), (0, (ya + ha) * K)], 2)
-            # 奥の壁(偽の廊下の突き当り。実物の廊下では部屋の壁に隠れて見えない)
-            b.eface([(-wb / 2, yb, L), (-wb / 2, yb + hb, L), (wb / 2, yb + hb, L), (wb / 2, yb, L)],
-                    [(0, 0), (0, hb * K), (wb * K, hb * K), (wb * K, 0)], 2)
+            # ★突き当りの壁は【偽の廊下だけ】(spec["cap"])。
+            #   v8 まで本物の継ぎ目にも同じ板が付いていて、向こうの部屋の開口を白く塞ぎ、
+            #   「部屋と部屋の間に白い壁がある」= 進めないと思う、という指摘の真犯人だった。
+            #   当たり判定が無いので歩けば通り抜けられてしまい、余計に質が悪い。
+            if spec.get("cap"):
+                b.eface([(-wb / 2, yb, L), (-wb / 2, yb + hb, L), (wb / 2, yb + hb, L), (wb / 2, yb, L)],
+                        [(0, 0), (0, hb * K), (wb * K, hb * K), (wb * K, 0)], 2)
             export(b.make("jx_" + name, [M_C2, M_CE, M_WA]), name + ".gltf")
         elif spec.get("tunnel"):
             # ★先細りの廊下(v6)。原点 = 口 a の中心・床、+Z が口 b の向き。材質は模様の無い塗装

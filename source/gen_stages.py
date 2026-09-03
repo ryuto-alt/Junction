@@ -2,7 +2,7 @@
 """JUNCTION / 継ぎ目 v6 のステージを生成する。シーン JSON はここが唯一の正。契約書は docs/V6.md。
 
 実行:
-  python source/gen_stages.py     # scenes/*.json, Junction.lua の STAGES, models/manifest.json
+  python source/gen_stages.py     # scenes/*.json, Junction.lua の STAGES, models/gen/manifest.json
   壁/廊下のモデルが足りない時は BlenderMCP から blender_kit.py(JX_MANIFEST_ONLY=True)を実行する。
 
 ★v6 の世界(2026-09-03): 【比較できる物を一切見せない】
@@ -22,6 +22,44 @@ random.seed(20260903)
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(HERE, "..", "assets", "scenes")
 MODELS = os.path.join(HERE, "..", "assets", "models")
+MANIFEST = os.path.join(MODELS, "gen", "manifest.json")
+
+# ---------------------------------------------------------------- 置き場所(assets/models/ 以下)
+# ★source/blender_kit.py の同名関数と【必ず一致】させること。片方だけ直すと
+#   シーンが参照するパスと実ファイルの場所がずれて、モデルが丸ごと出なくなる。
+#   新しいモデルを足したら、ここにも足す(知らない名前は例外で落とす = 直下に散らかさない)。
+_TRIM = ("column", "doorleaf", "eave", "seam", "divider", "blocker", "barrier", "railing")
+_PROPS = ("bench", "locker", "crate", "vent", "pipes", "troffer")
+_GAME = ("goal", "pin", "band", "lane", "figure", "hand")
+
+
+def dest_of(name):
+    """モデル名(拡張子なし)から assets/models/ 以下の置き場所を返す。"""
+    if name.startswith("fm_"):
+        return "gen/floor"
+    if name.startswith("cm_"):
+        return "gen/ceil"
+    if name.startswith("tn_"):
+        return "gen/tunnel"
+    if name.startswith("wm_"):
+        return "gen/wall"
+    if name.startswith("wall"):
+        return "arch/wall"
+    if name.startswith("floor") or name.startswith("ceiling"):
+        return "arch/slab"
+    if name in _TRIM:
+        return "arch/trim"
+    if name in _PROPS:
+        return "props"
+    if name in _GAME:
+        return "game"
+    raise KeyError("置き場所が決まっていないモデル名: %s (dest_of に足すこと)" % name)
+
+
+def mdl(name):
+    """モデル名 -> シーン JSON に書く assets 相対パス。★パスを直書きせず
+    必ずここを通すこと(フォルダ構成を変えてもここ 1 箇所で済む)。"""
+    return "models/%s/%s.gltf" % (dest_of(name), name)
 
 WALLT = 0.3      # 壁モデルの厚み(単位寸法。部屋の縮尺が掛かる)
 GAP = 4.0        # 隣り合う部屋の内寸の面と面の距離 = 廊下の長さ(絶対)
@@ -64,15 +102,15 @@ def body_cc(s):
 
 
 SHAPES = {
-    "box12": dict(ix=12.0, iz=12.0, h=6.0, tag="", floor="models/floor.gltf",
-                  ceil="models/ceiling.gltf",
+    "box12": dict(ix=12.0, iz=12.0, h=6.0, tag="", floor=mdl("floor"),
+                  ceil=mdl("ceiling"),
                   lights=[(-3.2, -3.2), (3.2, -3.2), (-3.2, 3.2), (3.2, 3.2)], lrange=22.0),
-    "hall20": dict(ix=20.0, iz=20.0, h=7.0, tag="20", floor="models/floor20.gltf",
-                   ceil="models/ceiling20.gltf",
+    "hall20": dict(ix=20.0, iz=20.0, h=7.0, tag="20", floor=mdl("floor20"),
+                   ceil=mdl("ceiling20"),
                    lights=[(x, z) for z in (-6.4, 0.0, 6.4) for x in (-6.4, 0.0, 6.4)],
                    lrange=24.0),
-    "corr18": dict(ix=18.0, iz=8.0, h=3.2, tag="18", floor="models/floor18x8.gltf",
-                   ceil="models/ceiling18x8.gltf",
+    "corr18": dict(ix=18.0, iz=8.0, h=3.2, tag="18", floor=mdl("floor18x8"),
+                   ceil=mdl("ceiling18x8"),
                    lights=[(-6.0, 0.0), (0.0, 0.0), (6.0, 0.0)], lrange=15.0),
     # ★v6.1 回廊用。壁・床・天井を manifest(Blender)で出す
     "corr12": dict(ix=3.0, iz=12.0, h=3.2, tag="", floor=None, ceil=None, mf=True,
@@ -207,16 +245,21 @@ class World:
         self.ents = []
 
     # ---- 口。off は部屋の【単位】座標(縮尺前)。世界では off*k ----
-    def add_opening(self, rid, wall, off_u, kind, sill, oid):
+    def add_opening(self, rid, wall, off_u, kind, sill, oid, osize=None):
+        """★osize = その口だけの縮尺。省略すると部屋の縮尺。
+        部屋の縮尺と違う大きさの口を開けられる = 【大きい部屋に小さな戸】が作れる。
+        口の大きさは廊下の sa/sb にもなるので、両端を同じ osize にすると
+        先細りしない廊下 = 通っても体の大きさが変わらない道になる。"""
         r = self.rooms[rid]
         fr = wall_frame(r, wall)
         k = fr["k"]
+        ok = k if osize is None else float(osize)
         fy = floor_y(r, wall)
         if kind == "door":
-            w, h = DOOR_W * k, DOOR_H * k
+            w, h = DOOR_W * ok, DOOR_H * ok
             y0 = fy + sill
         else:
-            w, h, y0 = WIN_W * k, WIN_H * k, fy + WIN_SILL * k
+            w, h, y0 = WIN_W * ok, WIN_H * ok, fy + WIN_SILL * ok
         off = off_u * k
         if abs(off) + w * 0.5 > fr["L"] * 0.5 - 0.6 * k:
             raise SystemExit("%s: %s.%s の口 %s が壁からはみ出す(off=%.1f)" % (self.st["name"], rid, wall, oid, off_u))
@@ -226,7 +269,7 @@ class World:
                 raise SystemExit("%s: %s.%s で口 %s と %s が重なる" % (self.st["name"], rid, wall, o["id"], oid))
         lst.append(dict(off=off, w=w, h=h, y0=y0, kind=kind, id=oid))
         pos = (fr["face"][0] + fr["along"][0] * off, fr["face"][1] + fr["along"][1] * off)
-        m = dict(room=rid, wall=wall, off=off, size=k, sill=y0, sillRel=(y0 - fy), pos=pos, w=w, h=h, n=fr["n"],
+        m = dict(room=rid, wall=wall, off=off, size=ok, sill=y0, sillRel=(y0 - fy), pos=pos, w=w, h=h, n=fr["n"],
                  along=fr["along"], kind=kind)
         self.mouths[oid] = m
         return m
@@ -253,22 +296,36 @@ class World:
         raise SystemExit("%s: %s.%s の向かい(4m 先)に部屋が無い pos=%s" % (self.st["name"], rid, wall, pos))
 
     # ---- 廊下(先細り)。a = 部屋側の口、b = 向こう ----
-    def frustum(self, g, name, ma, mb, glass=False, L=None, solid=False):
+    def frustum(self, g, name, ma, mb, glass=False, L=None, solid=False, cap=False):
         """口 a から口 b へ 4m の先細り廊下。見た目は Blender の台形メッシュ、
-        当たり判定は 8 段の見えない箱。★中に灯りは置かない(部屋の光が差し込むだけ)。"""
+        当たり判定は【面ごとに 1 枚の傾けた板】。
+
+        ★v9-1「部屋と部屋の間に白い壁がある」の真犯人は cap だった。
+          台形メッシュは【突き当りの壁】を必ず持っていて、偽の廊下ではそれが落ちだが、
+          本物の継ぎ目でも同じメッシュを使っていたので、向こうの部屋の開口を
+          白い板が【完全に塞いでいた】。当たり判定は無いので歩けば通り抜けるが、
+          絵は「部屋と部屋の間の白い壁」。→ cap は偽の廊下だけ True。
+          本物は突き当りが無い = 向こうの部屋がそのまま見える。
+
+        ★v9-2「坂道でがくんと視点が跳ねる」の真犯人もここ。当たり判定を 8 段の箱で
+          刻んでいたので、床が傾いている廊下(偽の廊下は強制遠近法で床が上がる)を歩くと
+          1 段 0.14m の階段を 8 回登ることになり、CharacterController の段差登りが
+          そのつどカメラを跳ね上げていた。床も天井も側壁も【平面】なので、
+          傾けた板 1 枚ずつで厳密に置き換えられる。段差ゼロ = 跳ねない。
+        """
         n, al = ma["n"], ma["along"]
         zax = abs(n[1]) > 0.5
         L = L or GAP
         wa, ha, ya = ma["w"], ma["h"], ma["sill"]
         wb, hb, yb = mb["w"], mb["h"], mb["sill"]
         spec = dict(tunnel=True, wa=round(wa, 3), ha=round(ha, 3), ya=round(ya, 3),
-                    wb=round(wb, 3), hb=round(hb, 3), yb=round(yb, 3), L=round(L, 3), v=2)
+                    wb=round(wb, 3), hb=round(hb, 3), yb=round(yb, 3), L=round(L, 3),
+                    cap=1 if cap else 0, v=3)
         mname = "tn_%s" % key_of(spec)
         self.manifest[mname] = spec
         yaw = math.degrees(math.atan2(n[0], n[1]))
-        self.ents.append(model("TunM_%s" % name, "models/%s.gltf" % mname,
+        self.ents.append(model("TunM_%s" % name, mdl(mname),
                                (ma["pos"][0], 0.0, ma["pos"][1]), yaw, g))
-        N = 8
 
         def at(t, lat):
             return (ma["pos"][0] + n[0] * t + al[0] * lat, ma["pos"][1] + n[1] * t + al[1] * lat)
@@ -276,26 +333,35 @@ class World:
         def S3(w, h, dp):
             return (w, h, dp) if zax else (dp, h, w)
 
-        for i in range(N):
-            t0, t1 = L * i / N, L * (i + 1) / N
-            k0, k1 = i / N, (i + 1) / N
-            # 区間の【狭い方】に合わせる = メッシュより内側に当たり判定(壁に食い込まない)
-            w = min(wa + (wb - wa) * k0, wa + (wb - wa) * k1)
-            y0 = max(ya + (yb - ya) * k0, ya + (yb - ya) * k1)
-            ytop = min(ya + ha + (yb + hb - ya - ha) * k0, ya + ha + (yb + hb - ya - ha) * k1)
-            tm = (t0 + t1) * 0.5
-            # ★区間の長さは seg。ここを L という名前にすると外側の L(廊下の全長)を潰してしまい、
-            #   2 個目以降の判定箱が全部入口に折り重なる(実測で「扉に入れない」になった)
-            seg = t1 - t0 + 0.02
-            x, z = at(tm, 0)
-            self.ents.append(box("Tun_%s_%d_F" % (name, i), (x, y0 - 0.15, z), S3(w + 0.6, 0.3, seg),
-                                 C_WALL, parent=g, visible=False))
-            self.ents.append(box("Tun_%s_%d_C" % (name, i), (x, ytop + 0.15, z), S3(w + 0.6, 0.3, seg),
-                                 C_WALL, parent=g, visible=False))
-            for j, sg in enumerate((-1, 1)):
-                x2, z2 = at(tm, sg * (w * 0.5 + 0.15))
-                self.ents.append(box("Tun_%s_%d_S%d" % (name, i, j), (x2, (y0 + ytop) * 0.5, z2),
-                                     S3(0.3, ytop - y0 + 0.6, seg), C_WALL, parent=g, visible=False))
+        T, MG = 0.3, 0.6                       # 板の厚み / 幅の余裕
+        wmax = max(wa, wb) + MG
+        cx, cz = at(L * 0.5, 0.0)
+
+        def plate(nm, ymid, dy):
+            """進行方向に沿って dy だけ上がる板。1 枚で坂を作る。
+            ★回転の符号は build_room のスロープ床と同じ規約(右手系)。"""
+            ang = math.degrees(math.atan2(dy, L))
+            ln = math.hypot(L, dy)
+            if zax:
+                sc, rot = (wmax, T, ln), (-ang * n[1], 0.0, 0.0)
+            else:
+                sc, rot = (ln, T, wmax), (0.0, 0.0, ang * n[0])
+            self.ents.append(box(nm, (cx, ymid, cz), sc, C_WALL, rot=rot, parent=g, visible=False))
+
+        # 床(上面が ya→yb)と天井(下面が ya+ha→yb+hb)
+        plate("Tun_%s_F" % name, (ya + yb) * 0.5 - T * 0.5, yb - ya)
+        plate("Tun_%s_C" % name, (ya + ha + yb + hb) * 0.5 + T * 0.5, (yb + hb) - (ya + ha))
+        # 側壁。すぼまる向きへ yaw で寝かせた板 1 枚(ここも 8 段だと横に引っかかっていた)
+        ylo = min(ya, yb) - MG * 0.5
+        yhi = max(ya + ha, yb + hb) + MG * 0.5
+        for j, sg in enumerate((-1, 1)):
+            dxw = n[0] * L + al[0] * sg * (wb - wa) * 0.5
+            dzw = n[1] * L + al[1] * sg * (wb - wa) * 0.5
+            x2, z2 = at(L * 0.5, sg * ((wa + wb) * 0.25 + T * 0.5))
+            self.ents.append(box("Tun_%s_S%d" % (name, j), (x2, (ylo + yhi) * 0.5, z2),
+                                 (T, yhi - ylo, math.hypot(dxw, dzw)), C_WALL,
+                                 rot=(0.0, math.degrees(math.atan2(dxw, dzw)), 0.0),
+                                 parent=g, visible=False))
         if solid:   # 偽の廊下: 一番奥に蓋をする
             x, z = at(L + 0.15, 0)
             self.ents.append(box("Back_%s" % name, (x, yb + hb * 0.5, z),
@@ -310,9 +376,10 @@ class World:
     def seam(self, sp):
         sid = sp["id"]
         sill = sp.get("sill", 0.0)
-        ma = self.add_opening(sp["room"], sp["wall"], sp["off"], "door", sill, sid + "a")
+        ma = self.add_opening(sp["room"], sp["wall"], sp["off"], "door", sill, sid + "a",
+                              sp.get("osize"))
         rid2, w2, off2 = self.partner_room(sp["room"], sp["wall"], ma["pos"])
-        mb = self.add_opening(rid2, w2, off2, "door", sill, sid + "b")
+        mb = self.add_opening(rid2, w2, off2, "door", sill, sid + "b", sp.get("osizeB"))
         self.links[sid + "a"] = sid + "b"
         self.links[sid + "b"] = sid + "a"
         g = group(self.ents, "Seam %s" % sid, self.g_seams)
@@ -346,7 +413,7 @@ class World:
         mb = dict(w=ma["w"] * r, h=ma["h"] * r, sill=ma["sill"] + ma["h"] * 0.5 * (1 - r),
                   n=ma["n"], along=ma["along"], pos=ma["pos"])
         g = group(self.ents, "Fake %s" % fid, self.g_seams)
-        self.frustum(g, fid, ma, mb, L=D, solid=True)
+        self.frustum(g, fid, ma, mb, L=D, solid=True, cap=True)
         n, al = ma["n"], ma["along"]
         zax = abs(n[1]) > 0.5
 
@@ -359,7 +426,7 @@ class World:
             rr = 1.0 - (dz / LOOK) * (1 - r)
             x, z = at(t, 0)
             hh = ma["sill"] + ma["h"] * 0.5 + (ma["h"] * 0.5 - 0.02) * rr
-            self.ents.append(model("FakeT_%s_%d" % (fid, i), "models/troffer.gltf", (x, hh, z), 0.0, g,
+            self.ents.append(model("FakeT_%s_%d" % (fid, i), mdl("troffer"), (x, hh, z), 0.0, g,
                                    (rr, rr, rr)))
             self.ents.append(plight("FakeL_%s_%d" % (fid, i), (x, hh - 0.1 * rr, z),
                                     (0.98, 0.96, 0.90), 3.0 * rr * rr + 0.3, 3.0 * rr + 0.4, g))
@@ -368,7 +435,7 @@ class World:
         x, z = at(D - 0.06, 0)
         yaw = math.degrees(math.atan2(-n[0], -n[1]))
         gk = r * 2.0
-        self.ents.append(model("FakeD_%s" % fid, "models/goal.gltf", (x, mb["sill"], z), yaw, g,
+        self.ents.append(model("FakeD_%s" % fid, mdl("goal"), (x, mb["sill"], z), yaw, g,
                                (gk, gk, gk)))
         bx2, bz2 = n[0], n[1]
         self.ents.append(plight("FakeGL_%s" % fid, (x - bx2 * 0.9 * gk, mb["sill"] + 1.25 * gk, z - bz2 * 0.9 * gk),
@@ -389,7 +456,7 @@ class World:
         ops = self.openings.get((rid, wall), [])
         r = self.rooms[rid]
         if not ops and not SHAPES[r["shape"]].get("mf"):
-            return "models/wall%s.gltf" % fr["tag"]
+            return mdl("wall%s" % fr["tag"])
         al, rg = fr["along"], fr["right"]
         kk = al[0] * rg[0] + al[1] * rg[1]
         k = fr["k"]
@@ -399,7 +466,7 @@ class World:
         spec = dict(L=round(fr["Lu"], 3), H=round(fr["Hu"], 3), ops=loc)
         name = "wm_%s_%s" % (fr["tag"] or "12", key_of(spec))
         self.manifest[name] = spec
-        return "models/%s.gltf" % name
+        return mdl(name)
 
     def build_room(self, r):
         st = self.st
@@ -424,20 +491,20 @@ class World:
                             rot=(ang, 0, 0), rough=0.95, parent=g))
             fs = dict(floor=True, sx=round(spanx / k, 3), sz=round(ln / k, 3))
             nm = "fm_%s" % key_of(fs); self.manifest[nm] = fs
-            ents.append(model("%s_FloorM" % rid, "models/%s.gltf" % nm, (cx, fy + rise * 0.5 + 0.005, cz), 0.0, g, sc3))
+            ents.append(model("%s_FloorM" % rid, mdl(nm), (cx, fy + rise * 0.5 + 0.005, cz), 0.0, g, sc3))
             ents[-1]["transform"]["rotation"] = [ang, 0.0, 0.0]
             ents.append(box("%s_Ceil" % rid, (cx, fy + rise * 0.5 + ch + 0.15 * k, cz), (spanx, 0.3 * k, ln), C_CEIL,
                             rot=(ang, 0, 0), parent=g))
             cs = dict(ceil=True, sx=round(spanx / k, 3), sz=round(ln / k, 3))
             nm = "cm_%s" % key_of(cs); self.manifest[nm] = cs
-            ents.append(model("%s_CeilM" % rid, "models/%s.gltf" % nm, (cx, fy + rise * 0.5 + ch - 0.005, cz), 0.0, g, sc3))
+            ents.append(model("%s_CeilM" % rid, mdl(nm), (cx, fy + rise * 0.5 + ch - 0.005, cz), 0.0, g, sc3))
             ents[-1]["transform"]["rotation"] = [ang, 0.0, 0.0]
         elif not pits:
             ents.append(box("%s_Floor" % rid, (cx, fy - 0.15, cz), (spanx, 0.3, spanz), C_FLOOR, rough=0.95, parent=g))
             if S.get("mf"):
                 fs = dict(floor=True, sx=round(spanx / k, 3), sz=round(spanz / k, 3))
                 nm = "fm_%s" % key_of(fs); self.manifest[nm] = fs
-                ents.append(model("%s_FloorM" % rid, "models/%s.gltf" % nm, (cx, fy + 0.005, cz), 0.0, g, sc3))
+                ents.append(model("%s_FloorM" % rid, mdl(nm), (cx, fy + 0.005, cz), 0.0, g, sc3))
             else:
                 ents.append(model("%s_FloorM" % rid, S["floor"], (cx, fy + 0.005, cz), 0.0, g, sc3))
         else:
@@ -456,7 +523,7 @@ class World:
                 fs = dict(floor=True, sx=round(fspec["sx"] / k, 3), sz=round(fspec["sz"] / k, 3))
                 nm = "fm_%s" % key_of(fs)
                 self.manifest[nm] = fs
-                ents.append(model("%s_FloorM%d" % (rid, i), "models/%s.gltf" % nm, (pos[0], 0.005, pos[2]), 0.0, g, sc3))
+                ents.append(model("%s_FloorM%d" % (rid, i), mdl(nm), (pos[0], 0.005, pos[2]), 0.0, g, sc3))
             W = PIT_W
             if axis == "z":
                 for i, (zc, sgn) in enumerate(((c0, 1), (c1, -1))):
@@ -483,7 +550,7 @@ class World:
             if S.get("mf"):
                 cs = dict(ceil=True, sx=round(spanx / k, 3), sz=round(spanz / k, 3))
                 nm = "cm_%s" % key_of(cs); self.manifest[nm] = cs
-                ents.append(model("%s_CeilM" % rid, "models/%s.gltf" % nm, (cx, fy + ch - 0.005, cz), 0.0, g, sc3))
+                ents.append(model("%s_CeilM" % rid, mdl(nm), (cx, fy + ch - 0.005, cz), 0.0, g, sc3))
             else:
                 ents.append(model("%s_CeilM" % rid, S["ceil"], (cx, fy + ch - 0.005, cz), 0.0, g, sc3))
 
@@ -534,7 +601,7 @@ class World:
                           o["y0"],
                           wc[2] + al[1] * (o["off"] - o["w"] * 0.5) + inz * T * 0.55)
                     dk = o["w"] / DOOR_W
-                    ents.append(model("%s_Leaf_%s" % (rid, o["id"]), "models/doorleaf.gltf", lp,
+                    ents.append(model("%s_Leaf_%s" % (rid, o["id"]), mdl("doorleaf"), lp,
                                       lyaw, g, (dk, dk, dk)))
                 y1 = o["y0"] + o["h"]
                 lh = wy + ch - y1
@@ -549,7 +616,7 @@ class World:
         lightcol, intensity = st.get("lightcol", (0.98, 0.96, 0.88)), st.get("intensity", 9.0)
         for i, (ox, oz) in enumerate(S["lights"]):
             ly = fy + (rise * (0.5 + oz * k / spanz) if rise > 0 else 0.0)
-            ents.append(model("%s_Troffer_%d" % (rid, i + 1), "models/troffer.gltf", (cx + ox * k, ly + ch - 0.01 * k, cz + oz * k), 0.0, g, sc3))
+            ents.append(model("%s_Troffer_%d" % (rid, i + 1), mdl("troffer"), (cx + ox * k, ly + ch - 0.01 * k, cz + oz * k), 0.0, g, sc3))
             # ★エンジンの減衰は逆二乗ではなく range で窓掛けされる(実測: k^2 だと白飛び)。
             #   range を k 倍にすると同じ見え方になる。強さはそのまま
             ents.append(plight("%s_Light_%d" % (rid, i + 1), (cx + ox * k, ly + ch - 0.45 * k, cz + oz * k),
@@ -560,11 +627,14 @@ class World:
             cw = c * k
             along_x = (axis == "z")
             span = spanx if along_x else spanz
+            # ★eave.gltf は長さ 4.4m。ceil で並べると両端が壁を 0.45m 突き抜けていた。
+            #   間隔を span/nseg に詰めて、必ず壁の内側で終わらせる。
             nseg = int(math.ceil(span / 4.4))
+            step = span / nseg
             for i in range(nseg):
-                u = (i - (nseg - 1) * 0.5) * 4.4
+                u = (i - (nseg - 1) * 0.5) * step
                 lx, lz = (u, cw) if along_x else (cw, u)
-                ents.append(model("%s_Eave_%d" % (rid, i), "models/eave.gltf", (cx + lx, fy, cz + lz), 0.0 if along_x else 90.0, g))
+                ents.append(model("%s_Eave_%d" % (rid, i), mdl("eave"), (cx + lx, fy, cz + lz), 0.0 if along_x else 90.0, g))
             sx, sz = (span, 0.26) if along_x else (0.26, span)
             top = ch - EAVE_GAP
             lx, lz = (0.0, cw) if along_x else (cw, 0.0)
@@ -592,7 +662,7 @@ class World:
             along_x = (axis == "z")
             span = spanx if along_x else spanz
             lx, lz = (0.0, cw) if along_x else (cw, 0.0)
-            ents.append(model("%s_Bar_%d" % (rid, i), "models/barrier.gltf", (cx + lx, fy, cz + lz), 0.0 if along_x else 90.0, g,
+            ents.append(model("%s_Bar_%d" % (rid, i), mdl("barrier"), (cx + lx, fy, cz + lz), 0.0 if along_x else 90.0, g,
                               (span / 12.6, BAR_H / 1.35, 1.0)))
             sx = span if along_x else 0.14
             sz = 0.14 if along_x else span
@@ -630,7 +700,8 @@ class World:
             ma, mb = mid(ta), mid(tb)
             self.warps.append(dict(id=wp["id"], px=ma[0], pz=ma[1], nx=ta["nx"], nz=ta["nz"],
                                    dx=mb[0] - ma[0], dy=tb["y0"] - ta["y0"], dz=mb[1] - ma[1],
-                                   loops=wp.get("loops", 3), hw=max(ta["wa"], ta["wb"]) * 0.5 + 0.3))
+                                   loops=wp.get("loops", 3), hw=max(ta["wa"], ta["wb"]) * 0.5 + 0.3,
+                                   scales=list(wp.get("scales", ()))))
         # ---- 背後改変(morph)。★見ていない間に部屋そのものを書き換える ----
         #   P.T. の廊下と同じ。振り向いたら、来た扉が無い / 家具が違う / 光の色が違う。
         #   「今いる場所が確かだ」という感覚を壊すのが目的で、これはプレイヤーに【見える】。
@@ -653,6 +724,27 @@ class World:
                     px, pz = cx + lx * k, cz + lz * k
                     ents.append(model(nm, P["path"], (px, HIDE_Y if hidden else fy + y, pz), yaw, gm))
                     rows.append((nm, px, fy + y, pz, tag))
+            # ★開く口の扉板は【最初は隠しておく】。栓(mode="appear")で塗り潰された開口の
+            #   横に開いたままの扉板が立っていると、「壁なのに扉がある」という妙な絵になる。
+            #   tag "B" は morph で rw[2],rw[3],rw[4] へ出す = 板が現れる。
+            for mid in list(mo.get("unseal", ())):
+                mm = self.mouths.get(mid)
+                if not mm:
+                    continue
+                nm = "%s_Leaf_%s" % (mm["room"], mid)
+                for e in self.ents:
+                    if e["name"] == nm:
+                        q = e["transform"]["position"]
+                        rows.append((nm, q[0], q[1], q[2], "B"))
+                        q[1] = HIDE_Y
+                        break
+            # ★塞いだ口の扉板も一緒に消す。板は開口とは別のエンティティなので、栓だけ出すと
+            #   「塗り潰された開口の横に、開いたままの扉板が立っている」という妙な絵になる。
+            #   rows の tag "A" は【morph で HIDE_Y へ送る】ので、座標は使われない。
+            for mid in list(mo.get("seal", ())):
+                mm = self.mouths.get(mid)
+                if mm:
+                    rows.append(("%s_Leaf_%s" % (mm["room"], mid), 0.0, 0.0, 0.0, "A"))
             self.morphs.append(dict(id=mo["id"], room=rid, wx=cx, wz=cz,
                                     x=cx + mo.get("at", (0, 0))[0] * k,
                                     z=cz + mo.get("at", (0, 0))[1] * k, r=mo.get("r", 8.0),
@@ -666,7 +758,15 @@ class World:
 
         # ---- 栓(plug)。口を壁で塞ぐ箱。見ていない間に消える(appear)/現れる(seal) ----
         self.plugs = []
+        seen_plugs = set()
         for pg in list(st.get("plugs", ())) + list(st.get("_autoplugs", ())):
+            # ★同じ口に栓を 2 つ作らせない。morph の seal/unseal は栓を【自動で足す】ので、
+            #   同じ口を plugs にも書くと Plug_xxx が 2 体できる。名前引きは 1 体しか
+            #   掴めないので、もう 1 体が口を塞いだまま残る = 扉が永久に開かない。
+            if pg["mouth"] in seen_plugs:
+                raise SystemExit("%s: 口 %s の栓が二重に定義されている(morph の seal/unseal と plugs)"
+                                 % (st["name"], pg["mouth"]))
+            seen_plugs.add(pg["mouth"])
             m = self.mouths[pg["mouth"]]
             n = m["n"]
             zax = abs(n[1]) > 0.5
@@ -679,11 +779,29 @@ class World:
             self.plugs.append(dict(id=pg["mouth"], x=x, y=y, z=z, mode=pg["mode"], delay=pg.get("delay", 2.0),
                                    auto=pg.get("auto", False)))
 
+        # ---- 大きさの門(sizegates)。床に立った枠。くぐると大きさが変わる ----
+        self.sizegates = []
+        for sg in st.get("sizegates", ()):
+            r = self.rooms[sg["room"]]
+            k = r["scale"]
+            cx, cz = r["at"]
+            gx, gz = cx + sg["at"][0] * k, cz + sg["at"][1] * k
+            yaw = WALLS[sg["facing"]]["yaw"]
+            n = (math.sin(math.radians(yaw)), math.cos(math.radians(yaw)))
+            m = sg["size"]
+            self.ents.append(model("SGate_%s" % sg["id"], mdl("seam"), (gx, floor_y(r), gz),
+                                   yaw, self.g_seams, (m, m, m)))
+            # 枠が白い部屋で溶けないように、下から弱く照らす
+            self.ents.append(plight("SGateL_%s" % sg["id"], (gx, floor_y(r) + 0.35 * m, gz),
+                                    (0.72, 0.86, 1.00), 2.6, 4.0 * m, self.g_seams))
+            self.sizegates.append(dict(id=sg["id"], x=gx, z=gz, nx=n[0], nz=n[1],
+                                       hw=0.5 * m + 0.2, sf=sg["sf"], sb=sg["sb"]))
+
         # 出口(絶対寸法)。縮尺 2 の部屋では小さく、0.5 では巨大に見える = 唯一の物差し
         gx, gz = st["goal"]
         gyaw = st.get("goalYaw", 0.0)
         gy = floor_y(self.rooms[st["goalRoom"]])     # ★出口も部屋の標高に置く(9m 上の部屋なら 9m)
-        ents.append(model("GoalM", "models/goal.gltf", (gx, gy, gz), gyaw, g_sys))
+        ents.append(model("GoalM", mdl("goal"), (gx, gy, gz), gyaw, g_sys))
         bx, bz = -math.sin(math.radians(gyaw)), -math.cos(math.radians(gyaw))
         # ★v8: 緑の板はモデル本体が持つ(goal.gltf の敷居)。ここは【当たり判定の印】だけ。
         #   旧版は緑の箱を門の前に重ねていたので、扉板と z ファイトしてチラついていた。
@@ -704,6 +822,17 @@ class World:
                                  "color": [0.35, 1.0, 0.7], "colorEnd": [0.1, 0.6, 0.4],
                                  "intensity": 2.4, "gravity": 0.0, "drag": 0.6}
         ents.append(gp)
+        # ★見えるのに行けない門(decoy)。当たり判定も判定用の印も持たない【ただの絵】。
+        #   「出口はもう見えている。届かないのは自分の大きさのせいだ」を無言で言うための装置で、
+        #   v9 の 1〜3 面はこれを軸に組んである(柵の向こう / 隙間の向こうに置く)。
+        for i, (dx, dz, dyaw) in enumerate(st.get("decoys", ())):
+            ents.append(model("Decoy_%d" % i, mdl("goal"), (dx, 0.0, dz), dyaw, g_sys))
+            ux, uz = -math.sin(math.radians(dyaw)), -math.cos(math.radians(dyaw))
+            for sgn, nm in ((-1.0, "F"), (1.0, "B")):
+                ents.append(plight("DecoyLight%d%s" % (i, nm),
+                                   (dx + ux * 1.5 * sgn, 0.55, dz + uz * 1.5 * sgn),
+                                   (0.25, 1.0, 0.62), 5.0, 9.0, g_sys))
+
         ents.append(box("Pilot", (0.0, HIDE_Y, 0.0), (0.22, 0.22, 0.22), (0.55, 1.0, 0.85),
                         collide=False, rough=0.2, parent=g_sys, prim="sphere"))
         ents.append(plight("PilotLight", (0.0, HIDE_Y, 0.0), (0.35, 1.0, 0.80), 2.6, 5.0, g_sys))
@@ -745,13 +874,13 @@ class World:
 
 
 PROPS = {
-    "bench":   dict(path="models/bench.gltf",   y=0.0, r=0.90, top=0.95, block=True),
-    "column":  dict(path="models/column.gltf",  y=0.0, r=0.45, top=99.0, block=True),
-    "locker":  dict(path="models/locker.gltf",  y=0.0, r=0.85, top=1.95, block=True),
-    "crate":   dict(path="models/crate.gltf",   y=0.0, r=0.55, top=0.75, block=True),
-    "railing": dict(path="models/railing.gltf", y=0.0, r=1.55, top=1.10, block=True),
-    "vent":    dict(path="models/vent.gltf",    y=None, r=0.4, top=0.0, block=False),
-    "pipes":   dict(path="models/pipes.gltf",   y=None, r=3.0, top=0.0, block=False),
+    "bench":   dict(path=mdl("bench"),   y=0.0, r=0.90, top=0.95, block=True),
+    "column":  dict(path=mdl("column"),  y=0.0, r=0.45, top=99.0, block=True),
+    "locker":  dict(path=mdl("locker"),  y=0.0, r=0.85, top=1.95, block=True),
+    "crate":   dict(path=mdl("crate"),   y=0.0, r=0.55, top=0.75, block=True),
+    "railing": dict(path=mdl("railing"), y=0.0, r=1.55, top=1.10, block=True),
+    "vent":    dict(path=mdl("vent"),    y=None, r=0.4, top=0.0, block=False),
+    "pipes":   dict(path=mdl("pipes"),   y=None, r=3.0, top=0.0, block=False),
 }
 
 
@@ -795,6 +924,13 @@ def _zone_edges(r):
     return e
 
 
+def _scales_of(st, room_scale):
+    """その部屋で【取りうる体の大きさ】。既定は部屋の縮尺そのもの(v8 までの世界)。
+    ★bodyScales を宣言した面は、大きさが部屋から切り離されている(warp / 大きさの門で
+    変えられる)ので、関門はどれか 1 つの大きさで通れれば通れる。"""
+    return st.get("bodyScales") or [room_scale]
+
+
 def _pass_gate(gate, s):
     kind, arg = gate
     if kind == "big":
@@ -816,12 +952,14 @@ def simulate(st, W, want_seen=False, start_state=None):
         lx = m["pos"][0] - r["at"][0] - m["n"][0] * 0.5
         lz = m["pos"][1] - r["at"][1] - m["n"][1] * 0.5
         mouths[mid] = dict(room=m["room"], zone=_zone_of(r, lx, lz), sill=m["sillRel"],
+                           size=m["size"],
                            pos=(m["pos"][0] - m["n"][0] * 1.2, m["pos"][1] - m["n"][1] * 1.2))
     gr = rooms[st["goalRoom"]]
     gx, gz = st["goal"]
     goal_zone = _zone_of(gr, gx - gr["at"][0], gz - gr["at"][1])
     sr = rooms[st["start"]]
-    start = start_state or (st["start"], _zone_of(sr, st["spawn"][0], st["spawn"][1]))
+    s0 = st.get("startScale", sr["scale"])
+    start = start_state or (st["start"], _zone_of(sr, st["spawn"][0], st["spawn"][1]), s0)
     edges = {rid: _zone_edges(rooms[rid]) for rid in rooms}
     seen = {start: 0}
     prev = {start: None}
@@ -830,17 +968,17 @@ def simulate(st, W, want_seen=False, start_state=None):
     while frontier:
         nxt = []
         for stt in frontier:
-            room, zone = stt
-            sc = rooms[room]["scale"]
+            room, zone, sc = stt
             hops = seen[stt]
             if room == st["goalRoom"] and zone == goal_zone:
                 if best is None or hops < best:
                     best, bestState = hops, stt
                 continue
             r = rooms[room]
+            scs = _scales_of(st, sc)
             for (za, zb), div in edges[room].items():
-                if za == zone and _pass_gate(div[2], sc):
-                    n = (room, zb)
+                if za == zone and any(_pass_gate(div[2], q) for q in scs):
+                    n = (room, zb, sc)
                     if n not in seen:
                         axis, c, gate = div
                         wp = (r["at"][0], r["at"][1] + c) if axis == "z" else (r["at"][0] + c, r["at"][1])
@@ -850,14 +988,17 @@ def simulate(st, W, want_seen=False, start_state=None):
             for mid, m in mouths.items():
                 if m["room"] != room or m["zone"] != zone:
                     continue
-                if climb_h(sc) < m["sill"] - 1e-6:
+                if all(climb_h(q) < m["sill"] - 1e-6 for q in scs):
                     continue
                 to = W.links[mid]
                 mt = mouths[to]
-                n = (mt["room"], mt["zone"])
+                # ★体の大きさは【出る側の口】で決まる(Junction.lua と対)。
+                #   両端が同じなら結果として大きさは変わらない = 小さいまま帰れる。
+                ns = mt["size"]
+                n = (mt["room"], mt["zone"], ns)
                 if n not in seen:
                     seen[n] = hops + 1
-                    prev[n] = (stt, "%s→%s(x%.2g)" % (mid, to, rooms[mt["room"]]["scale"]), m["pos"])
+                    prev[n] = (stt, "%s→%s(x%.2g)" % (mid, to, ns), m["pos"])
                     nxt.append(n)
         frontier = nxt
     path, pts = [], []
@@ -874,11 +1015,70 @@ def simulate(st, W, want_seen=False, start_state=None):
     return best, len(seen), path, pts
 
 
+def check_layout(st):
+    """★部屋どうしが重なっていないかを見る(v9 で追加)。
+    縮尺が違う部屋を格子に並べると、角が 2m だけ噛み合う配置が簡単に作れてしまう。
+    生成は通り、絵も一見それらしいのに、壁が壁を貫いて中が見える。目で見つけるのは無理。"""
+    boxes = []
+    for r in st["rooms"]:
+        hx, hz, _ch, k = dims(r)
+        cx, cz = r["at"]
+        t = WALLT * k * 0.5
+        boxes.append((r["id"], cx - hx - t, cx + hx + t, cz - hz - t, cz + hz + t))
+    for i in range(len(boxes)):
+        for j in range(i + 1, len(boxes)):
+            a, b = boxes[i], boxes[j]
+            ox = min(a[2], b[2]) - max(a[1], b[1])
+            oz = min(a[4], b[4]) - max(a[3], b[3])
+            if ox > 1e-6 and oz > 1e-6:
+                raise SystemExit("%s: ★部屋 %s と %s が重なっている(x %.2f m / z %.2f m)"
+                                 % (st["name"], a[0], b[0], ox, oz))
+
+
+def check_corridors(st, W):
+    """★廊下(継ぎ目・偽の廊下)が【関係ない部屋】を貫いていないかを見る。
+    偽の廊下は部屋の壁から外へ 3.2m 突き出す箱なので、隣の部屋の角に刺さっていても
+    check_layout(部屋どうし)は通ってしまう。刺さると向こうの部屋に白い箱が生え、
+    しかも当たり判定だけはあるので「何も無い所で止まる」。v9 の第1面で実際に踏んだ。"""
+    rooms = []
+    for r in st["rooms"]:
+        hx, hz, _ch, k = dims(r)
+        cx, cz = r["at"]
+        t = WALLT * k * 0.5
+        rooms.append((r["id"], cx - hx - t, cx + hx + t, cz - hz - t, cz + hz + t))
+
+    def clash(name, x0, x1, z0, z1, skip):
+        for (rid, a0, a1, b0, b1) in rooms:
+            if rid in skip:
+                continue
+            ox = min(x1, a1) - max(x0, a0)
+            oz = min(z1, b1) - max(z0, b0)
+            if ox > 1e-6 and oz > 1e-6:
+                raise SystemExit("%s: ★廊下 %s が部屋 %s を貫いている(x %.2f m / z %.2f m)"
+                                 % (st["name"], name, rid, ox, oz))
+
+    def span(px, pz, n, L, hw):
+        xs = [px - hw * abs(n[1]), px + hw * abs(n[1]), px + n[0] * L]
+        zs = [pz - hw * abs(n[0]), pz + hw * abs(n[0]), pz + n[1] * L]
+        return min(xs), max(xs), min(zs), max(zs)
+
+    for sp in st.get("fakes", ()):
+        m = W.mouths[sp["id"]]
+        x0, x1, z0, z1 = span(m["pos"][0], m["pos"][1], m["n"], sp.get("depth", 3.2), m["w"] * 0.5)
+        clash("fake %s" % sp["id"], x0, x1, z0, z1, {m["room"]})
+
+    for t in W.tunnels:
+        x0, x1, z0, z1 = span(t["ax"], t["az"], (t["nx"], t["nz"]), t["L"],
+                              max(t["wa"], t["wb"]) * 0.5)
+        clash("seam %s" % t["id"], x0, x1, z0, z1,
+              {W.mouths[t["a"]]["room"], W.mouths[t["b"]]["room"]})
+
+
 def check_solvable(st, W):
     hops, states, path, pts = simulate(st, W)
     if hops is None:
         raise SystemExit("%s: ★出口に到達できない(全 %d 状態)" % (st["name"], states))
-    if hops == 0:
+    if hops == 0 and st.get("minHops", 1) > 0:
         raise SystemExit("%s: ★口を 1 つもくぐらずに出口へ着けてしまう" % st["name"])
     if hops < st.get("minHops", 1):
         raise SystemExit("%s: 想定(%d)より短い(%d 回) : %s" % (st["name"], st.get("minHops", 1), hops, " / ".join(path)))
@@ -905,7 +1105,7 @@ def check_fakes(st, W):
         lx = m["pos"][0] - r["at"][0] - m["n"][0] * 0.5
         lz = m["pos"][1] - r["at"][1] - m["n"][1] * 0.5
         z = _zone_of(r, lx, lz)
-        if (m["room"], z) not in seen:
+        if not any(k[0] == m["room"] and k[1] == z for k in seen):
             raise SystemExit("%s: ★偽の廊下 %s が到達できない区画にある(部屋 %s 区画 %s)"
                              % (st["name"], sp["id"], m["room"], z))
 
@@ -937,6 +1137,14 @@ def check_footholds(st, W):
             if not P["block"] or P["top"] >= 90.0:
                 continue
             if P["top"] < 0.35:
+                continue
+            # ★★そもそも【天端に登れない】物は踏み台にならない。ロッカー(1.95m)は
+            #   climb_h(1)=1.15 でも climb_h(0.5)=0.58 でも登れない。ここを見ていなかったので、
+            #   縮尺 0.5 の部屋(内寸 6m)では「ロッカーを柵から 3.85m 離す」が
+            #   【幾何的に不可能】になり、同じ間取りを 0.5 倍で置けなかった。
+            #   ★積み重ね(木箱→ロッカー)は見ていない。SET1 の 3 つではどの組み合わせも
+            #   届かない(0.75+1.15=1.90 < 1.95)ことを確かめてある。
+            if climb_h(k) < P["top"] - 1e-6:
                 continue
             # ★踏み台になるのは「天端 + その部屋での登れる高さ」が柵に届く時だけ。
             #   縮尺 0.5 の部屋ではベンチ(0.95)に乗っても 1.525m で 1.7m の柵に届かない。
@@ -991,7 +1199,7 @@ def check_cine(st, W):
     return centers
 
 
-def cine_world(st, centers):
+def cine_world(st, centers, eye=EYE_H):
     out, prev = [], None
     for (er, e, tr, t, dur) in st.get("cine", ()):
         ex, ey, ez = centers[er][0] + e[0], e[1], centers[er][1] + e[2]
@@ -1002,7 +1210,7 @@ def cine_world(st, centers):
         prev = er
     sx, sz, syaw = st["spawn"]
     fx, fz = math.sin(math.radians(syaw)), math.cos(math.radians(syaw))
-    out.append((sx, EYE_H, sz, sx + fx * 8.0, EYE_H, sz + fz * 8.0, 1.4))
+    out.append((sx, eye, sz, sx + fx * 8.0, eye, sz + fz * 8.0, 1.4))
     return out
 
 
@@ -1011,17 +1219,41 @@ def R(rid, shape, at, scale=1.0, layout=None):
     return dict(id=rid, shape=shape, at=at, scale=scale, layout=layout or {})
 
 
-def SEAM(sid, room, wall, off, sill=0.0):
-    return dict(id=sid, room=room, wall=wall, off=off, sill=sill)
+def SEAM(sid, room, wall, off, sill=0.0, osize=None, osizeB=None):
+    """osize = room 側の口の大きさ / osizeB = 向こう側の口の大きさ(省略で osize と同じ)。
+    ★体の大きさは【出る側の口】で決まる(Junction.lua)。だから左右で大きさを変えると、
+      同じ戸が【行きと帰りで違う結果】を出す = このゲームの仕掛けの本体になる。
+      例: A 側 4.0m / B 側 1.0m なら、B から入れば 2 倍で出てきて、A から入れば 0.5 倍で出る。"""
+    return dict(id=sid, room=room, wall=wall, off=off, sill=sill,
+                osize=osize, osizeB=osizeB if osizeB is not None else osize)
 
 
-def FAKE(fid, room, wall, off, depth=2.5, look=20.0):
+def FAKE(fid, room, wall, off, depth=3.2, look=16.0):
+    """偽の廊下。★奥行 2.5m / 見かけ 20m(v8)は縮み率 0.125 = 床が 2.5m で 1.14m 上がる
+    【24.5 度の坂】になっていた。当たり判定を平面にして段差は消えたが、2 歩で 1.1m 登るのは
+    それ自体が不自然。3.2m / 16m にすると縮み率 0.2 = 18 度。嘘の強さはほぼ変わらない。"""
     return dict(id=fid, room=room, wall=wall, off=off, depth=depth, look=look)
 
 
 def MORPH(mid, room, at=(0.0, 0.0), r=8.0, delay=1.2, org=(), alt=(), seal=(), unseal=(), light=None):
     return dict(id=mid, room=room, at=at, r=r, delay=delay, org=org, alt=alt,
                 seal=seal, unseal=unseal, light=light)
+
+
+def WARP(wid, fromTunnel, toTunnel, loops=30, scales=()):
+    """廊下の途中で黙って別の廊下へ運ぶ。★scales を付けると【運ぶと同時に体の大きさが変わる】。
+    運ぶ先を「同じ部屋の反対側の口」にすると、プレイヤーは同じ部屋へ戻ってくるのに
+    大きさだけが違う = 部屋そのものが伸び縮みしたようにしか見えない。"""
+    return dict(id=wid, fromTunnel=fromTunnel, toTunnel=toTunnel, loops=loops, scales=list(scales))
+
+
+def SGATE(gid, room, at, facing, sf, sb, size=3.2):
+    """大きさの門。床に立った枠(seam.gltf)。くぐると【その場で】大きさが変わる。
+    at は部屋の単位座標、facing は枠の正面("N"/"S"/"E"/"W")。
+    sf = 正面から入った時の大きさ / sb = 背面から入った時の大きさ。
+    ★size は seam.gltf(幅 1.0 / 高さ 1.3)の一様倍率。一番大きい体(1.8 x s)が
+      くぐれる高さが要る: size 3.2 なら開口 3.2 x 4.16 で s=2(3.6m)が通る。"""
+    return dict(id=gid, room=room, at=at, facing=facing, sf=sf, sb=sb, size=size)
 
 
 def WIN(room, wall, off):
@@ -1064,70 +1296,148 @@ L_HALL = dict(pits=[("z", 2.0)], props=[("column", -7.0, -7.0, 0.0), ("column", 
 ALT_A = [("locker", -5.2, 3.0, 90.0), ("crate", 4.6, 1.0, 40.0)]
 ALT_B = [("bench", -3.0, 3.4, 0.0), ("crate", -4.2, -2.0, 60.0)]
 
+# ================================ v9: 1〜3 面の語彙 ================================
+# ★什器の座標を引き直した。v8 の SET は
+#     ・ロッカー(5.4, 2.6)が東壁の窓の【真正面 0.6m】に立ち、向こうの部屋を隠す
+#     ・柵を z 軸に回すと、どこに置いても check_footholds が落ちる(踏み台になる)
+#   ので、1〜3 面は SET1 を使う。SET1 は次を全部満たす:
+#     ・全部 x >= 1.8(単位)。柵を x=-2.5 に置いても「柵から 3m + 半径」より遠い
+#     ・東西の壁の口の助走(2.5 x 縮尺)を潰さない
+#     ・窓(中心 z=+1.6 / 幅 3.6)の正面に何も無い
+#   ★4〜8 面は v8 のまま(SET)。物差しは【1 つの面の中で】揃っていればいい。
+SET1 = [("locker", 4.6, 4.6, 180.0), ("bench", 1.8, -1.0, 90.0), ("crate", 3.6, -4.4, 20.0)]
+
+
+def LAY1(bars=(), eaves=(), pits=(), props=None):
+    return dict(bars=list(bars), eaves=list(eaves), pits=list(pits),
+                props=list(props if props is not None else SET1))
+
+
+# 柵は部屋の【西 1/3】を切り離す。跨げるのは k=2 だけなので、
+# 西側に門を置くと「見えているのに行けない出口」がそのまま謎解きになる。
+L9_BAR = LAY1(bars=[("x", -2.5)])
+# 隙間は部屋を【南北】に割る。東西の壁に付けた扉と窓を潰さないため(v8 は x 軸で窓を殺していた)
+L9_EAVE = LAY1(eaves=[("z", 1.2)])
+L9_PLAIN = LAY1()
+# 第3面の出口の部屋(k=0.5)。門の側には何も置かない(v8 第3面はベンチが門を隠した)
+L9_GOAL_S = LAY1(eaves=[("z", 1.0)],
+                 props=[("bench", -1.8, -1.0, 90.0), ("crate", 3.6, -4.4, 20.0)])
+# 第3面の餌の部屋(k=2)。隙間の向こうに門。3.6m の体では絶対にくぐれない
+L9_TEASE = LAY1(eaves=[("x", 2.0)])
+
 STAGES = [
-    # ===================== 1「扉」 錯覚の道具を一通り見せる =====================
-    #   S(x1) 見慣れた部屋。ベンチは腰、ロッカーは自分より高い。柵 1.7m は絶対に越えられない。
-    #   北の開口の奥に【20m の廊下と突き当りの緑の扉】。行くしかない → 2 歩で壁だった(強制遠近法)。
-    #   振り返ると部屋が違う。光が橙に変わり、壁だった東に扉が開いている(変化盲)。
-    #   東 → B(x0.5) 同じ間取りなのにベンチが目の高さ。奥で振り返ると来た扉が無い。
-    #   北 → C(x2) 同じ間取りなのに、越えられなかった柵が膝の高さで転がっている。跨いで出口。
+    # ================ 1「おなじ部屋」 同じ部屋に、四度帰ってくる ================
+    # ★狙い: この面は【部屋を 1 つしか使わない】。A / B / C / D は間取りも
+    #   什器の座標も柵の位置も門の位置も、東の偽の廊下まで【完全に同じ】。
+    #   違うのは縮尺(1 → 0.5 → 1 → 2)だけ。
+    #
+    # ★【進んだのか戻ったのか分からなくする】ための仕掛け:
+    #   部屋に入った時点で、北の扉は【塗り潰されている】(栓 mode="appear")。
+    #   つまりどの部屋も、入った瞬間は【出口の無い閉じた部屋】に見える。
+    #   西の柵まで歩いて門を見ると(= 部屋の中心が背中になると)、背後で
+    #   北の扉が開き、同時に【来た南の扉が塞がる】(扉板ごと消える)。
+    #   振り返ると、そこは【最初の部屋と寸分違わない部屋】になっている。
+    #   ★北へ突っ切って見通せないので、部屋が 4 つあることに気づけない。
+    #
+    # ★伏線は【柵の向こうの緑の門】。門は縮尺を持たない絶対寸法なので、
+    #   部屋に入るたびに大きさが変わる。変わっているのは門ではなく【自分】なのだが、
+    #   部屋が同じなのでそうは見えない。毎回必ず柵の前まで歩かされるので、
+    #   四度とも同じ門を、違う大きさで見ることになる。
+    #
+    #   A(x1)   ベンチは腰。柵 1.7m は目の高さで、門の上半分だけ見える。
+    #   B(x0.5) 同じ部屋なのにベンチが目の高さ、ロッカーは見上げる壁。
+    #           柵は背丈の倍、門は天井まで届く。★ここで「縮んだ」と思う。
+    #   C(x1)   【A と寸分違わない】。★戻ってきたのか進んだのか分からなくなる。
+    #   D(x2)   また同じ部屋。ベンチが脇。三度越えられなかった柵が【膝】。
+    #
+    #   ★東の壁には毎回まったく同じ「16m の廊下」が見えるが、毎回 3 歩で壁。
     dict(name="stage1", tag="Stage_1", title=1,
-         rooms=[R("S", "box12", (0.0, 0.0), 1.0, L_BAR),
-                R("B", "box12", (13.0, 0.0), 0.5, L_PLAIN),
-                R("C", "box12", (13.0, 19.0), 2.0, LAY(bars=[("x", -1.0)]))],
-         seams=[SEAM("t1", "S", "E", -2.0), SEAM("t2", "B", "N", 4.0)],
-         fakes=[FAKE("f1", "S", "N", 0.0, depth=2.5, look=20.0)],
-         morphs=[MORPH("m1", "S", at=(0.0, 7.6), r=2.6, delay=0.5,
-                       org=[("locker", 5.4, 2.6, 270.0)], alt=ALT_A,
-                       unseal=["t1a"], light=(1.00, 0.62, 0.30)),
-                 MORPH("m2", "B", at=(2.6, 2.2), r=3.0, delay=0.8,
-                       org=[("crate", 3.4, -4.6, 20.0)], alt=[("bench", -3.0, 3.4, 0.0)],
-                       seal=["t1b"], light=(0.62, 0.80, 1.00))],
-         spawn=(2.0, -4.6, 0.0), goal=(5.0, 19.0), goalYaw=90.0,
-         start="S", goalRoom="C", minHops=2, teach="walk",
-         cine=[("S", (4.0, 2.2, -4.5), "S", (0.0, 1.6, 5.8), 2.4),
-               ("S", (2.0, 1.7, -4.6), "S", (2.0, 1.6, 5.0), 1.4)]),
+         rooms=[R("A", "box12", (0.0, 0.0), 1.0, L9_BAR),
+                R("B", "box12", (0.0, 13.0), 0.5, L9_BAR),
+                R("C", "box12", (0.0, 26.0), 1.0, L9_BAR),
+                R("D", "box12", (0.0, 48.0), 2.0, L9_BAR)],
+         # ★混ざった縮尺の部屋を同じ間取りに見せるには、口は壁の【真中】しか無い。
+         #   (世界座標の off は両方の部屋で共有されるので、
+         #    単位座標を全部の部屋で揃えようとすると off=0 以外に解が無い)
+         seams=[SEAM("s1", "A", "N", 0.0), SEAM("s2", "B", "N", 0.0), SEAM("s3", "C", "N", 0.0)],
+         fakes=[FAKE("f1", "A", "E", 0.0), FAKE("f2", "B", "E", 0.0),
+                FAKE("f3", "C", "E", 0.0), FAKE("f4", "D", "E", 0.0)],
+         # 見えているのに行けない門。単位座標 (-4.4, 0) = どの部屋でも同じ場所。
+         decoys=[(-4.4, 0.0, 90.0), (-2.2, 13.0, 90.0), (-4.4, 26.0, 90.0)],
+         # 柵の前(= 部屋の中心が背中)で、北の扉が開き南の扉が塞がる。
+         morphs=[MORPH("mA", "A", at=(-4.0, 0.0), r=2.8, delay=0.6, unseal=["s1a"]),
+                 MORPH("mB", "B", at=(-4.0, 0.0), r=1.6, delay=0.6, seal=["s1b"], unseal=["s2a"]),
+                 MORPH("mC", "C", at=(-4.0, 0.0), r=2.8, delay=0.6, seal=["s2b"], unseal=["s3a"]),
+                 MORPH("mD", "D", at=(-4.0, 0.0), r=5.0, delay=0.6, seal=["s3b"])],
+         # ★道順そのものを栓で作っているので、案内の光も手で書く。
+         #   どの部屋でも「まず柵を見、それから北の扉へ」の繰り返し。
+         hintPath=[(-1.8, 0.0), (0.0, 4.8),
+                   (-0.9, 13.0), (0.0, 15.4),
+                   (-1.8, 26.0), (0.0, 30.8),
+                   (-3.6, 48.0), (-8.8, 48.0)],
+         spawn=(0.0, -4.6, 0.0), goal=(-8.8, 48.0), goalYaw=90.0,
+         start="A", goalRoom="D", minHops=3, teach="walk",
+         cine=[("A", (3.0, 2.6, -4.0), "A", (-4.4, 2.2, 0.0), 2.4),
+               ("A", (0.0, 1.7, -4.6), "A", (-4.4, 2.2, 0.0), 1.6)]),
 
-    # ===================== 2「窓」 見比べる道具を渡す =====================
-    # ★狙い: 【窓は物差しだと教える】面。二択で、正解は窓の中の家具の大きさだけが教える。
-    #   A(x1) の北と東に扉。それぞれの隣に窓があり、向こうの部屋が見えている。
-    #   どちらも A と【まったく同じ間取り・同じ家具配置】。違うのは縮尺だけ。
-    #   北の窓: ベンチが脛、ロッカーが腰 = 大きい体になる部屋 → 柵を跨げる。
-    #   東の窓: ベンチが目の高さ、ロッカーが壁 = 小さい体になる部屋 → 柵は越えられない。
-    #   西には廊下が見えるが、これは偽物(2 歩で壁)。「見えている物を疑え」の予告編。
+    # ===================== 2「輪」 戻ってきた部屋が、戻ってきていない =====================
+    # ★狙い: 【同じ部屋に見えるものを疑わせる】。A と D は間取りも家具の座標も柵も門の位置も
+    #   完全に同じで、違うのは縮尺(x1 と x2)だけ。道は A→B(x0.5)→C(x1)→D(x2) と一周して、
+    #   D には A と同じ【南から入って北を向く】構図で出る。つまり最初の部屋の見え方そのもの。
+    #   違うのは家具が小さいことだけ。振り返ると来た扉は消えている(morph)。
+    #   東の壁には A と同じ位置に扉が「ある」が、それは偽の廊下 ── 戻ろうとすると嘘だと分かる。
+    #   C(x1)でも柵の向こうに門が見えていて、二度焦らしてから、三度目で跨がせる。
     dict(name="stage2", tag="Stage_2", title=2,
-         rooms=[R("A", "box12", (0.0, 0.0), 1.0, L_BAR),
-                R("P", "box12", (0.0, 22.0), 2.0, L_BAR),
-                R("Q", "box12", (13.0, 0.0), 0.5, L_BAR)],
-         seams=[SEAM("s1", "A", "N", 4.0), SEAM("s2", "A", "E", -2.0)],
-         windows=[WIN("A", "N", -3.5), WIN("A", "E", 1.5)],
-         fakes=[FAKE("f1", "A", "S", 0.0, depth=2.2, look=18.0)],
-         spawn=(3.0, -4.0, 0.0), goal=(-9.0, 22.0), goalYaw=90.0,
-         start="A", goalRoom="P", minHops=1, teach="jump",
-         cine=[("P", (7.0, 5.0, -9.0), "P", (-9.0, 1.2, 0.0), 2.4),
-               ("A", (3.0, 1.7, -4.0), "A", (2.0, 1.6, 6.0), 1.6)]),
+         rooms=[R("A", "box12", (0.0, 0.0), 1.0, L9_BAR),
+                R("B", "box12", (13.0, 0.0), 0.5, L9_EAVE),
+                R("C", "box12", (13.0, 13.0), 1.0, L9_BAR),
+                R("D", "box12", (13.0, 35.0), 2.0, L9_BAR)],
+         seams=[SEAM("s1", "A", "E", -2.2), SEAM("s2", "B", "N", 0.0), SEAM("s3", "C", "N", 0.0)],
+         fakes=[FAKE("f2", "D", "E", -2.2)],
+         decoys=[(-4.4, 0.0, 90.0), (8.6, 13.0, 90.0)],
+         morphs=[MORPH("m1", "C", at=(-2.0, 0.0), r=3.2, delay=0.7,
+                       org=[("crate", 2.0, 3.6, 15.0)],
+                       alt=[("bench", 3.0, 2.4, 70.0), ("crate", 0.6, -3.6, 40.0)],
+                       light=(0.62, 0.80, 1.00)),
+                 MORPH("m2", "D", at=(-2.0, 0.0), r=4.0, delay=0.6,
+                       org=[("crate", 1.2, 2.6, 15.0)],
+                       alt=[("crate", 4.4, -1.4, 40.0)],
+                       seal=["s3b"], light=(1.00, 0.62, 0.30))],
+         spawn=(2.0, -4.6, 0.0), goal=(4.2, 35.0), goalYaw=90.0,
+         start="A", goalRoom="D", minHops=3, teach=None,
+         cine=[("D", (6.0, 5.0, 0.0), "D", (-8.8, 2.2, 0.0), 2.4),
+               ("A", (3.0, 2.6, -4.0), "A", (-4.4, 2.2, 0.0), 1.8),
+               ("A", (2.0, 1.7, -4.6), "A", (-4.4, 2.2, 0.0), 1.4)]),
 
-    # ===================== 3「敷居」 入ったら戻れない =====================
-    # ★狙い: 【小さくなると損をする】を体で分かる形にする。
-    #   膝の高さの敷居(絶対 0.9m)を跨いで小さい部屋へ入る。入った先では自分が 0.9m なので、
-    #   同じ敷居が【胸の高さ】になり、二度と登れない。振り返ると来た扉が頭の上にある。
-    #   代わりに、A では絶対に通れなかった 1.0m の隙間が、ここでは立ったままくぐれる。
-    #   背を向けている間に来た扉は塞がれ、部屋には出口しか残らない(P.T.)。
+    # ===================== 3「並び」 歩いても絵が変わらない =====================
+    # ★狙い: 【廊下だと思っていたものが、部屋 3 つだった】。
+    #   A(x2) B(x1) C(x0.5) を一直線に並べ、扉を全部 off=0 で揃える。始まりの部屋から北を見ると、
+    #   だんだん小さくなる 3 つの戸口が【1 本の長い廊下】に見える。歩くと継ぎ目ごとに自分も
+    #   半分になるので、絵はいつまでも同じ = 進んでいる気がしない(遠近感の否定)。
+    #   B の北の口は敷居 0.9m。x1 なら登れて x0.5 では登れない = 【入ったら戻れない】。
+    #   B の東は餌の部屋 D(x2)。1.0m の隙間の向こうに門が見えているが、3.6m の体では入れない。
+    #   「小さくならないと通れない」と分かってから、一方通行の敷居を越える覚悟をさせる。
+    #   C(x0.5) 自分は 0.9m。ベンチが目の高さ。同じ 1.0m の隙間を立ったままくぐって門へ。
     dict(name="stage3", tag="Stage_3", title=3,
-         rooms=[R("A", "box12", (0.0, 0.0), 1.0, L_EAVE_N),
-                R("B", "box12", (0.0, 13.0), 0.5, L_EAVE_N)],
-         seams=[SEAM("s1", "A", "N", 0.0, sill=SILL_HI)],
-         fakes=[FAKE("f1", "A", "W", 0.0, depth=2.4, look=19.0)],
-         morphs=[MORPH("m1", "A", at=(-7.9, 0.0), r=2.8, delay=0.6,
-                       org=[("crate", 3.4, -4.6, 20.0)], alt=ALT_B,
-                       light=(0.72, 0.78, 0.98)),
-                 MORPH("m2", "B", at=(0.0, 3.0), r=2.4, delay=0.9,
-                       org=[("bench", 1.6, -1.0, 90.0)], alt=[("crate", -1.0, -3.0, 15.0)],
-                       seal=["s1b"], light=(1.00, 0.66, 0.34))],
-         spawn=(0.0, 1.0, 0.0), goal=(-1.4, 15.0), goalYaw=180.0,
-         start="A", goalRoom="B", minHops=1, teach=None,
-         cine=[("A", (0.0, 2.4, -1.0), "A", (0.0, 1.4, 6.0), 2.4),
-               ("A", (0.0, 1.7, 0.6), "A", (0.0, 1.5, 6.0), 1.6)]),
+         rooms=[R("A", "box12", (0.0, 0.0), 2.0, L9_PLAIN),
+                R("B", "box12", (0.0, 22.0), 1.0, L9_PLAIN),
+                R("C", "box12", (0.0, 35.0), 0.5, L9_GOAL_S),
+                R("D", "box12", (22.0, 26.0), 2.0, L9_TEASE)],
+         seams=[SEAM("s1", "A", "N", 0.0), SEAM("s2", "B", "N", 0.0, sill=SILL_HI),
+                SEAM("s3", "B", "E", 0.0)],
+         # ★門は隙間のすぐ向こう(2.5m)に置く。目の高さ 3.4m から 1.0m の隙間ごしに見える
+         #   範囲は【隙間の上端を通る視線より下】だけで、入口(16m 手前)からだと
+         #   隙間の 4m 先は y=0.4m までしか見えない。4m 先に置くと緑が一切見えず、
+         #   「行けない出口が見えている」という餌が成立しない。
+         decoys=[(28.5, 26.0, 270.0)],
+         morphs=[MORPH("m1", "B", at=(0.0, 4.0), r=3.0, delay=0.9,
+                       org=[("crate", -3.0, 2.6, 15.0)],
+                       alt=[("bench", -3.4, 0.6, 70.0)],
+                       light=(0.72, 0.78, 0.98))],
+         spawn=(0.0, -9.0, 0.0), goal=(0.0, 36.8), goalYaw=180.0,
+         start="A", goalRoom="C", minHops=2, teach="jump",
+         cine=[("A", (0.0, 3.4, -10.0), "A", (0.0, 3.0, 12.0), 2.6),
+               ("A", (0.0, 3.4, -9.0), "A", (0.0, 3.0, 12.0), 1.6)]),
 
     # ===================== 4「三つの廊下」 見えている物を疑う =====================
     # ★狙い: 強制遠近法を【自分で確かめさせる】面。東・西の開口の奥には、どう見ても
@@ -1220,7 +1530,10 @@ STAGES = [
          rooms=[R("A", "box12", (0.0, 0.0), 1.0, L_BOTH),
                 R("B", "box12", (0.0, 22.0), 2.0, L_BAR_B),
                 R("C", "box12", (19.0, 22.0), 0.5, L_EAVE),
-                R("D", "box12", (20.5, 41.0), 2.0, L_BAR_B)],
+                # ★D は x=20.5 に置かれていて、部屋 B(x2 = 一辺 24m)と
+                #   【角が 4.1m x 5.6m 重なっていた】(v9 で check_layout を足して発覚)。
+                #   z は継ぎ目(C.N から 4m)で固定なので、東へ逃がすしかない。
+                R("D", "box12", (26.0, 41.0), 2.0, L_BAR_B)],
          seams=[SEAM("s1", "A", "N", 0.0), SEAM("s2", "B", "E", 0.0, sill=SILL_HI),
                 SEAM("s3", "C", "N", 3.0)],
          fakes=[FAKE("f1", "A", "S", 0.0, depth=2.5, look=21.0)],
@@ -1230,10 +1543,99 @@ STAGES = [
                  MORPH("m2", "C", at=(0.0, -2.2), r=2.4, delay=0.9,
                        org=[("crate", 3.4, -4.6, 20.0)], alt=[("bench", -2.0, 3.0, 0.0)],
                        seal=["s2b"], light=(0.58, 0.74, 1.00))],
-         spawn=(0.0, -4.0, 0.0), goal=(29.0, 41.0), goalYaw=270.0,
+         spawn=(0.0, -4.0, 0.0), goal=(34.5, 41.0), goalYaw=270.0,
          start="A", goalRoom="D", minHops=3, teach=None,
          cine=[("D", (2.0, 5.0, -8.0), "D", (8.5, 1.0, 0.0), 2.4),
                ("A", (0.0, 1.7, -4.4), "A", (0.0, 1.6, 6.0), 1.6)]),
+    # =================================================================================
+    # ================================ 実験台(stagedemo) ================================
+    # ★どれも狙いは同じ:【同じ部屋・同じ場所のまま、つなぎを使うと世界の見え方が変わる】。
+    #   v8 までの世界は「体の大きさ = 今いる部屋の縮尺」だったので、同じ部屋にいる限り
+    #   見え方は絶対に変わらなかった(だから“そっくりな別の部屋”を建てるしかなかった)。
+    #   ここでは大きさを部屋から切り離し、【つなぎ】が大きさを決める。作りが 3 通りある。
+
+    # ---------------- demo1「四つの戸」完成版 ----------------
+    # ★部屋は A(本体) と B(東ねぐら) の 2 つだけ。写しは無い。
+    #
+    # ★仕掛けの核:【体の大きさは『出る側の口』で決まる】。
+    #   だから左右で大きさの違う口は、【同じ戸なのに行きと帰りで結果が違う】。
+    #   Z は A 側 4.0m / B 側 1.0m。A から入れば 0.5 倍になって B へ、
+    #   B から入れば 2 倍になって A へ戻る。行きと帰りで自分の寸法が反転する。
+    #
+    # ★B 側は四つとも 1.0m で【見分けがつかない】。しかも 1 つは偽の廊下。
+    #     Z → A の手前側へ【 2 倍】で出る。溝 4.6m を跳べるのはこれだけ = 正解。
+    #     Q → A の手前側へ【小さいまま】。溝は絶対に跳べない。
+    #     R → 【柵の向こう】へ小さいまま。壁を越えたのに、そこも行き止まり。
+    #     F → 奥に緑の門が見えるが 3 歩で壁(強制遠近法)。
+    #
+    # ★溝を使った理由: 【穴は視界を塞がない】。出口の門は最初の 3 秒から
+    #   溝の向こうに見えていて、最後までそこにある。庵(1.0m)だと壁で門が隠れてしまう。
+    #
+    # ★什器は壁に背をつけて軸に揃える。東の壁にロッカーとベンチを並べ、
+    #   木箱は溝の向こう(門の脂)に置いて、向こう岸の大きさの物差しにする。
+    dict(name="stagedemo1", tag="Demo_1", title=1,
+         rooms=[R("A", "box12", (0.0, 0.0), 1.0,
+                  LAY1(bars=[("x", -2.5)], pits=[("z", -1.0)],
+                       props=[("locker", 5.65, 4.80, 270.0),   # 東の壁
+                              ("bench", 5.55, 2.50, 270.0),    # 東の壁
+                              ("crate", 2.00, -4.80, 0.0)])),  # 溝の向こう
+                R("B", "hall20", (0.0, 15.0), 0.5, LAY1(props=[]))],
+         # ★Z だけが左右で大きさが違う。Q/R は両端 1.0m = 抜けても大きさが変わらない。
+         #   R の口は x=-4.0..-3.0 で、柵(x=-2.5)をまたいでいない(またぐと柵を迴回できる)。
+         seams=[SEAM("Z", "A", "N", 2.2, osize=2.0, osizeB=0.5),
+                SEAM("Q", "A", "N", -1.0, osize=0.5),
+                SEAM("R", "A", "N", -3.5, osize=0.5)],
+         # ★off は【その部屋の単位座標】。B は x0.5 なのでワールド -2.2 に置くには -4.4 と書く。
+         fakes=[FAKE("f2", "B", "S", -4.4)],
+         spawn=(2.0, 4.5, 180.0), goal=(0.0, -4.80), goalYaw=0.0,
+         start="A", goalRoom="A", minHops=2, teach="walk",
+         cine=[("A", (3.0, 2.4, 4.0), "A", (0.0, 1.4, -4.8), 2.4),
+               ("A", (2.0, 1.7, 4.5), "A", (0.0, 1.2, -4.8), 1.6)]),
+
+    # ---------------- demo2「門」 くぐるとその場で変わる ----------------
+    # ★移動が一切無い版。部屋は A ただ 1 つ、出口もその中。
+    #   床に立った枠(継ぎ目)を 2 つ置いてある。くぐると【その場で】大きさが変わる。
+    #   前から入れば sf、後ろから入れば sb。行って戻ればいつでも元に戻せる。
+    #   ・小さい枠: 1 <-> 0.5   ・大きい枠: 1 <-> 2
+    #   柵 1.7m を跨ぐには 2 倍が要る = 大きい枠を正面からくぐるのが解。
+    #   ★一番分かりやすいが、錯覚というより「道具」に見える。そこが好みの分かれ目。
+    dict(name="stagedemo2", tag="Demo_2", title=2,
+         rooms=[R("A", "box12", (0.0, 0.0), 1.0, L9_BAR)],
+         # ★facing は枠の法線。"S" は法線が +Z(北向き)なので、
+         #   北へくぐり抜けた側が sf、南へ戻った側が sb になる。
+         # ★2 つの枠は【出発点の正面から外す】。真っ直ぐ歩くだけで勝手に縮む/育つと、
+         #   「自分でくぐって選んだ」感覚が消える(実測: 出発点が g1 の正面だった)。
+         sizegates=[SGATE("g1", "A", (4.6, 2.0), "S", sf=0.5, sb=1.0, size=1.6),
+                    SGATE("g2", "A", (0.0, 3.6), "S", sf=2.0, sb=1.0, size=3.2)],
+         bodyScales=[1.0, 0.5, 2.0], startScale=1.0,
+         spawn=(2.0, -4.4, 0.0), goal=(-4.4, 0.0), goalYaw=90.0,
+         start="A", goalRoom="A", minHops=0, teach="walk",
+         cine=[("A", (4.6, 2.6, -4.4), "A", (-4.4, 2.2, 0.0), 2.4),
+               ("A", (3.6, 1.7, -4.4), "A", (-4.4, 2.2, 0.0), 1.6)]),
+
+    # ---------------- demo3「振り返る」 くぐった後、背後の部屋が変わっている ----------------
+    # ★A が本体。北と南に浅い間(V/W)があり、その【口が大きさを決める】。
+    #   V へ一歩入ると 0.5 になる。振り返って口ごしに A を見ると、
+    #   さっきまで立っていた部屋が倍の大きさになっている(口の枠が物差しになる)。
+    #   A へ戻っても 0.5 のまま = 部屋が大きくなったまま歩ける。
+    #   W の口は 2 倍にする。2 倍で A へ戻れば柵を跨げる。
+    #   ★「旧サイズと新サイズを口ごしに見比べられる」のがこの版だけの強み。
+    dict(name="stagedemo3", tag="Demo_3", title=3,
+         rooms=[R("W", "box12", (0.0, -28.0), 2.0, L9_PLAIN),
+                R("A", "box12", (0.0, 0.0), 2.0, L9_BAR),
+                R("V", "box12", (0.0, 28.0), 2.0, L9_PLAIN)],
+         seams=[SEAM("v1", "A", "N", 0.0), SEAM("v2", "W", "N", 0.0)],
+         # 口の【部屋側】に枠を立て、くぐった瞬間に大きさを決める
+         # ★size は口(4.0m 幅)より広く取る。枠が口より狭いと、口の端を通ったときに
+         #   判定の外を抜けてしまい【大きさが変わらないまま隣へ行ける】。
+         sizegates=[SGATE("s1", "A", (0.0, 5.2), "N", sf=0.5, sb=0.5, size=4.0),
+                    SGATE("s2", "A", (0.0, -5.2), "S", sf=2.0, sb=2.0, size=4.0)],
+         bodyScales=[1.0, 0.5, 2.0], startScale=1.0,
+         spawn=(3.0, -9.0, 0.0), goal=(-8.8, 0.0), goalYaw=90.0,
+         start="A", goalRoom="A", minHops=0, teach="walk",
+         cine=[("A", (6.0, 2.6, -8.0), "A", (-8.8, 2.2, 0.0), 2.4),
+               ("A", (3.0, 1.7, -9.0), "A", (-8.8, 2.2, 0.0), 1.6)]),
+
 ]
 
 
@@ -1241,12 +1643,21 @@ def main():
     lua = []
     manifest = {}
     for i, st in enumerate(STAGES):
+        check_layout(st)
         W = World(st)
         data = W.build()
         check_footholds(st, W)
+        check_corridors(st, W)
         check_runup(st, W)
         check_fakes(st, W)
         pts = check_solvable(st, W)
+        # ★案内の光の経路は simulate() が出すが、simulate は【栓(plug)を見ていない】。
+        #   morph で開くまで塞がっている扉へ最初から光が飛ぶと「案内が壁を指している」に
+        #   なる。栓で道順そのものを作る面(第1面)は hintPath で手で書く。
+        if st.get("hintPath"):
+            pts = [tuple(q) for q in st["hintPath"]]
+        else:
+            pts = [tuple(q) for q in st.get("hintPre", ())] + pts
         check_no_deadend(st, W)
         centers = check_cine(st, W)
         manifest.update(W.manifest)
@@ -1257,7 +1668,8 @@ def main():
         print("wrote", path)
 
         nxt = STAGES[i + 1]["name"] if i + 1 < len(STAGES) else None
-        cine = cine_world(st, centers)
+        cine = cine_world(st, centers,
+                          EYE_H * st.get("startScale", W.rooms[st["start"]]["scale"]))
         L = []
         L.append('    ["Logic_%s"] = { n = %d, scene = "scenes/%s.json", next = %s,'
                  % (st["tag"], st["title"], st["name"], ('"scenes/%s.json"' % nxt) if nxt else "nil"))
@@ -1269,8 +1681,9 @@ def main():
         L.append('        },')
         L.append('        warps = {')
         for w in W.warps:
-            L.append('            { id = "%s", px = %.3f, pz = %.3f, nx = %.3f, nz = %.3f, dx = %.3f, dy = %.3f, dz = %.3f, loops = %d, hw = %.2f },'
-                     % (w["id"], w["px"], w["pz"], w["nx"], w["nz"], w["dx"], w["dy"], w["dz"], w["loops"], w["hw"]))
+            L.append('            { id = "%s", px = %.3f, pz = %.3f, nx = %.3f, nz = %.3f, dx = %.3f, dy = %.3f, dz = %.3f, loops = %d, hw = %.2f, scales = { %s } },'
+                     % (w["id"], w["px"], w["pz"], w["nx"], w["nz"], w["dx"], w["dy"], w["dz"],
+                        w["loops"], w["hw"], ", ".join("%.3f" % q for q in w.get("scales", ()))))
         L.append('        },')
         L.append('        morphs = {')
         for mo in W.morphs:
@@ -1290,7 +1703,17 @@ def main():
                      % (pg["id"], pg["x"], pg["y"], pg["z"], pg["mode"], pg["delay"],
                         "true" if pg["auto"] else "false"))
         L.append('        },')
+        L.append('        sizegates = {')
+        for g in W.sizegates:
+            L.append('            { id = "%s", x = %.3f, z = %.3f, nx = %.3f, nz = %.3f, hw = %.2f, sf = %.3f, sb = %.3f },'
+                     % (g["id"], g["x"], g["z"], g["nx"], g["nz"], g["hw"], g["sf"], g["sb"]))
+        L.append('        },')
         L.append('        hint = { %s },' % ", ".join("{ %.2f, %.2f }" % (x, z) for (x, z) in pts))
+        # ★startScale: 始まりの部屋の縮尺。v8 は「必ず縮尺 1 の部屋から始まる」前提で
+        #   Junction.lua が体を 1.0 で置いていた。第3面は縮尺 2 の大広間から始めるので、
+        #   ここを渡さないと 3.6m の部屋に 1.8m の体で立つことになり、関門の判定が全部ずれる。
+        L.append('        startScale = %.3f,'
+                 % st.get("startScale", W.rooms[st["start"]]["scale"]))
         L.append('        start = "%s", goalRoom = "%s",' % (st["start"], st["goalRoom"]))
         L.append('        spawn = { %.1f, %.1f, %.1f }, teach = %s,'
                  % (st["spawn"][0], st["spawn"][1], st["spawn"][2], ('"%s"' % st["teach"]) if st.get("teach") else "nil"))
@@ -1300,10 +1723,10 @@ def main():
         L.append('        } },')
         lua.append("\n".join(L))
 
-    mpath = os.path.join(MODELS, "manifest.json")
+    mpath = MANIFEST
     with open(mpath, "w", encoding="utf-8") as f:
         json.dump(manifest, f, indent=1, sort_keys=True)
-    missing = [k for k in manifest if not os.path.exists(os.path.join(MODELS, k + ".gltf"))]
+    missing = [k for k in manifest if not os.path.exists(os.path.join(MODELS, dest_of(k), k + ".gltf"))]
     print("manifest: %d models, %d missing" % (len(manifest), len(missing)))
     if missing:
         print("  ★ BlenderMCP で blender_kit.py(JX_MANIFEST_ONLY=True)を実行して出すこと:", missing[:6], "...")

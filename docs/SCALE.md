@@ -53,7 +53,7 @@ GATE.md の教訓は「**一人称で、画面に存在しない量を選択装�
 ## 廃止する物
 
 `Band_*` / `Lane_*` / `bandIndex` / `DOORW` 単一定数 / 合流点(最大 5 枚) /
-`blocker`(帯を選ばせるための衝立) / 制限時間 / `models/band.gltf` / `models/lane.gltf`。
+`blocker`(帯を選ばせるための衝立) / 制限時間 / `models/game/band.gltf` / `models/game/lane.gltf`。
 
 `MAX_JUNCTION` は **2**(接続は 1 対 1)。`self.groups` は `self.link[id] = otherId` になる。
 
@@ -78,7 +78,7 @@ E で触れて虚無の候補を狙う操作 / 接続ピン / 結線ビュー(TA
 ```
 
 **同じ割合で埋まる** = ルール 4 そのもの。文字は 1 行も要らない。
-人型は `models/figure.gltf`(原点=足元・高さ 1.0 で作り、scale で伸ばす)。
+人型は `models/game/figure.gltf`(原点=足元・高さ 1.0 で作り、scale で伸ばす)。
 
 ### B. 通った瞬間
 

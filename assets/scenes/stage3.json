@@ -2,7 +2,7 @@
   "version": 1,
   "entities": [
     {
-      "guid": "4287fac4c01c410b",
+      "guid": "7bcfbefd1ab11b40",
       "name": "[System]",
       "transform": {
         "position": [
@@ -23,7 +23,7 @@
       }
     },
     {
-      "guid": "08d3e5023136ad49",
+      "guid": "cb4425a1af190a85",
       "name": "[Rooms]",
       "transform": {
         "position": [
@@ -44,7 +44,7 @@
       }
     },
     {
-      "guid": "dba17c322e27d977",
+      "guid": "21c8e68e0c596cfd",
       "name": "[Seams]",
       "transform": {
         "position": [
@@ -65,9 +65,9 @@
       }
     },
     {
-      "guid": "1d9f322a9c8b5a2b",
+      "guid": "ea04c01ba6524048",
       "name": "Ambient",
-      "parentGuid": "4287fac4c01c410b",
+      "parentGuid": "7bcfbefd1ab11b40",
       "directionalLight": {
         "ambient": 0.16,
         "color": [
@@ -101,7 +101,7 @@
       }
     },
     {
-      "guid": "34c1e518c89b0783",
+      "guid": "d054ce96fd229439",
       "name": "Seam s1",
       "transform": {
         "position": [
@@ -120,16 +120,16 @@
           1.0
         ]
       },
-      "parentGuid": "dba17c322e27d977"
+      "parentGuid": "21c8e68e0c596cfd"
     },
     {
-      "guid": "be1ccd477bff2843",
+      "guid": "3693a141c0c895f2",
       "name": "TunM_s1",
       "transform": {
         "position": [
           0.0,
           0.0,
-          6.0
+          12.0
         ],
         "rotation": [
           0.0,
@@ -142,19 +142,195 @@
           1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "d054ce96fd229439",
       "meshRenderer": {
-        "modelPath": "models/tn_d88f9c9d.gltf"
+        "modelPath": "models/gen/tunnel/tn_8ced71ab.gltf"
       }
     },
     {
-      "guid": "0811f25bfa3806ae",
-      "name": "Tun_s1_0_F",
+      "guid": "6933dc0a984eb678",
+      "name": "Tun_s1_F",
       "transform": {
         "position": [
           0.0,
-          0.75,
-          6.25
+          -0.15,
+          14.0
+        ],
+        "rotation": [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          4.6,
+          0.3,
+          4.0
+        ]
+      },
+      "parentGuid": "d054ce96fd229439",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "ea0295d5d9e717a3",
+      "name": "Tun_s1_C",
+      "transform": {
+        "position": [
+          0.0,
+          4.050000000000001,
+          14.0
+        ],
+        "rotation": [
+          33.02386755579665,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          4.6,
+          0.3,
+          4.770744176750625
+        ]
+      },
+      "parentGuid": "d054ce96fd229439",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "83d44347d2f9c862",
+      "name": "Tun_s1_S0",
+      "transform": {
+        "position": [
+          -1.65,
+          2.6,
+          14.0
+        ],
+        "rotation": [
+          0.0,
+          14.036243467926479,
+          0.0
+        ],
+        "scale": [
+          0.3,
+          5.8,
+          4.123105625617661
+        ]
+      },
+      "parentGuid": "d054ce96fd229439",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "1cccf9c725a9c448",
+      "name": "Tun_s1_S1",
+      "transform": {
+        "position": [
+          1.65,
+          2.6,
+          14.0
+        ],
+        "rotation": [
+          0.0,
+          -14.036243467926479,
+          0.0
+        ],
+        "scale": [
+          0.3,
+          5.8,
+          4.123105625617661
+        ]
+      },
+      "parentGuid": "d054ce96fd229439",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "a3be036f2ebd3d46",
+      "name": "SeamL_s1_0",
+      "transform": {
+        "position": [
+          0.0,
+          3.08568,
+          14.48
         ],
         "rotation": [
           0.0,
@@ -162,12 +338,3049 @@
           0.0
         ],
         "scale": [
-          2.475,
-          0.3,
-          0.52
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "d054ce96fd229439",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.9
+        ],
+        "intensity": 2.4,
+        "range": 7.52
+      }
+    },
+    {
+      "guid": "f9cfc48676a4b5a0",
+      "name": "SeamL_s1_1",
+      "transform": {
+        "position": [
+          0.0,
+          2.3478000000000003,
+          15.8
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "d054ce96fd229439",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.9
+        ],
+        "intensity": 4.0,
+        "range": 6.2
+      }
+    },
+    {
+      "guid": "ae80320f9132047f",
+      "name": "Seam s2",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "21c8e68e0c596cfd"
+    },
+    {
+      "guid": "1fe4eb7d6bb1a8e0",
+      "name": "TunM_s2",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          28.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "ae80320f9132047f",
+      "meshRenderer": {
+        "modelPath": "models/gen/tunnel/tn_10ff6f77.gltf"
+      }
+    },
+    {
+      "guid": "4298080634c61c45",
+      "name": "Tun_s2_F",
+      "transform": {
+        "position": [
+          0.0,
+          0.75,
+          30.0
+        ],
+        "rotation": [
+          -0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.6,
+          0.3,
+          4.0
+        ]
+      },
+      "parentGuid": "ae80320f9132047f",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "64e7ca7123af8a44",
+      "name": "Tun_s2_C",
+      "transform": {
+        "position": [
+          0.0,
+          3.0,
+          30.0
+        ],
+        "rotation": [
+          18.00416160591338,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.6,
+          0.3,
+          4.205948168962618
+        ]
+      },
+      "parentGuid": "ae80320f9132047f",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "012476884ae915a8",
+      "name": "Tun_s2_S0",
+      "transform": {
+        "position": [
+          -0.9,
+          2.2,
+          30.0
+        ],
+        "rotation": [
+          0.0,
+          7.125016348901798,
+          0.0
+        ],
+        "scale": [
+          0.3,
+          3.1999999999999997,
+          4.031128874149275
+        ]
+      },
+      "parentGuid": "ae80320f9132047f",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "94589461976cc782",
+      "name": "Tun_s2_S1",
+      "transform": {
+        "position": [
+          0.9,
+          2.2,
+          30.0
+        ],
+        "rotation": [
+          0.0,
+          -7.125016348901798,
+          0.0
+        ],
+        "scale": [
+          0.3,
+          3.1999999999999997,
+          4.031128874149275
+        ]
+      },
+      "parentGuid": "ae80320f9132047f",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "fd87b94b24e2f67c",
+      "name": "SeamL_s2_0",
+      "transform": {
+        "position": [
+          0.0,
+          2.44284,
+          30.48
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "ae80320f9132047f",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.9
+        ],
+        "intensity": 2.4,
+        "range": 4.76
+      }
+    },
+    {
+      "guid": "0df8bbab031a5323",
+      "name": "SeamL_s2_1",
+      "transform": {
+        "position": [
+          0.0,
+          2.0739,
+          31.8
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "ae80320f9132047f",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.9
+        ],
+        "intensity": 4.0,
+        "range": 4.1
+      }
+    },
+    {
+      "guid": "52ead7765582e87d",
+      "name": "Seam s3",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "21c8e68e0c596cfd"
+    },
+    {
+      "guid": "cbfc80ca5391b2e0",
+      "name": "TunM_s3",
+      "transform": {
+        "position": [
+          6.0,
+          0.0,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "52ead7765582e87d",
+      "meshRenderer": {
+        "modelPath": "models/gen/tunnel/tn_db656ff5.gltf"
+      }
+    },
+    {
+      "guid": "2cc90e37929eb7a3",
+      "name": "Tun_s3_F",
+      "transform": {
+        "position": [
+          8.0,
+          -0.15,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          4.0,
+          0.3,
+          4.6
+        ]
+      },
+      "parentGuid": "52ead7765582e87d",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "3b8cead65d04edc6",
+      "name": "Tun_s3_C",
+      "transform": {
+        "position": [
+          8.0,
+          4.050000000000001,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          33.02386755579665
+        ],
+        "scale": [
+          4.770744176750625,
+          0.3,
+          4.6
+        ]
+      },
+      "parentGuid": "52ead7765582e87d",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "010554c2bdd44eec",
+      "name": "Tun_s3_S0",
+      "transform": {
+        "position": [
+          8.0,
+          2.6,
+          20.35
+        ],
+        "rotation": [
+          0.0,
+          104.03624346792648,
+          0.0
+        ],
+        "scale": [
+          0.3,
+          5.8,
+          4.123105625617661
+        ]
+      },
+      "parentGuid": "52ead7765582e87d",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "be93388244a2fc29",
+      "name": "Tun_s3_S1",
+      "transform": {
+        "position": [
+          8.0,
+          2.6,
+          23.65
+        ],
+        "rotation": [
+          0.0,
+          75.96375653207353,
+          0.0
+        ],
+        "scale": [
+          0.3,
+          5.8,
+          4.123105625617661
+        ]
+      },
+      "parentGuid": "52ead7765582e87d",
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "19fee7afbcc8e38d",
+      "name": "SeamL_s3_0",
+      "transform": {
+        "position": [
+          8.48,
+          3.6223199999999998,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "52ead7765582e87d",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.9
+        ],
+        "intensity": 2.4,
+        "range": 8.48
+      }
+    },
+    {
+      "guid": "8578e8506ac9793f",
+      "name": "SeamL_s3_1",
+      "transform": {
+        "position": [
+          9.8,
+          4.3602,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "52ead7765582e87d",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.9
+        ],
+        "intensity": 4.0,
+        "range": 9.8
+      }
+    },
+    {
+      "guid": "dd956962f3b5b781",
+      "name": "Room A (x2)",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "cb4425a1af190a85"
+    },
+    {
+      "guid": "d1cfd23b3ef65ded",
+      "name": "A_Floor",
+      "transform": {
+        "position": [
+          0.0,
+          -0.15,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          24.6,
+          0.3,
+          24.6
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "primitive": "box",
+      "color": [
+        0.24,
+        0.2,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.95
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "dbf264b15747c6e4",
+      "name": "A_FloorM",
+      "transform": {
+        "position": [
+          0.0,
+          0.005,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/arch/slab/floor.gltf"
+      }
+    },
+    {
+      "guid": "c96e3ab516db6842",
+      "name": "A_Ceil",
+      "transform": {
+        "position": [
+          0.0,
+          12.3,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          24.6,
+          0.6,
+          24.6
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "primitive": "box",
+      "color": [
+        0.72,
+        0.72,
+        0.7
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "b5a7777f8ee15f61",
+      "name": "A_CeilM",
+      "transform": {
+        "position": [
+          0.0,
+          11.995,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/arch/slab/ceiling.gltf"
+      }
+    },
+    {
+      "guid": "3883ac4d982fc60e",
+      "name": "A_WallM_N",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          11.995
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/gen/wall/wm_12_6db635cc.gltf"
+      }
+    },
+    {
+      "guid": "3d151658cdd104eb",
+      "name": "A_Wall_N_0",
+      "transform": {
+        "position": [
+          -7.15,
+          6.0,
+          12.3
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          10.3,
+          12.0,
+          0.6
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "680dc8d7d0201a41",
+      "name": "A_Wall_N_1",
+      "transform": {
+        "position": [
+          7.15,
+          6.0,
+          12.3
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          10.3,
+          12.0,
+          0.6
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "5bc87c8c83eb6103",
+      "name": "A_Leaf_s1a",
+      "transform": {
+        "position": [
+          -2.0,
+          0.0,
+          11.97
+        ],
+        "rotation": [
+          0.0,
+          105.00000000000001,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/doorleaf.gltf"
+      }
+    },
+    {
+      "guid": "192c80f200e5bced",
+      "name": "A_Lintel_N_s1a",
+      "transform": {
+        "position": [
+          0.0,
+          8.6,
+          12.3
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          4.0,
+          6.8,
+          0.6
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "878e67389f2ceca0",
+      "name": "A_WallM_S",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          -11.995
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
+      }
+    },
+    {
+      "guid": "a5f8cb7761558de2",
+      "name": "A_Wall_S",
+      "transform": {
+        "position": [
+          0.0,
+          6.0,
+          -12.3
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          24.6,
+          12.0,
+          0.6
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "05dbeca89369d4bd",
+      "name": "A_WallM_E",
+      "transform": {
+        "position": [
+          11.995,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          270.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
+      }
+    },
+    {
+      "guid": "7572611ac18d4854",
+      "name": "A_Wall_E",
+      "transform": {
+        "position": [
+          12.3,
+          6.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.6,
+          12.0,
+          24.6
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "a1797212bdf2f7cb",
+      "name": "A_WallM_W",
+      "transform": {
+        "position": [
+          -11.995,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
+      }
+    },
+    {
+      "guid": "fc35cf14f796d364",
+      "name": "A_Wall_W",
+      "transform": {
+        "position": [
+          -12.3,
+          6.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.6,
+          12.0,
+          24.6
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "2054a438d8fd1ccd",
+      "name": "A_Troffer_1",
+      "transform": {
+        "position": [
+          -6.4,
+          11.98,
+          -6.4
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      }
+    },
+    {
+      "guid": "15bfa323b84418e2",
+      "name": "A_Light_1",
+      "transform": {
+        "position": [
+          -6.4,
+          11.1,
+          -6.4
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
+        ],
+        "intensity": 9.0,
+        "range": 44.0
+      }
+    },
+    {
+      "guid": "03df985e1265d6e8",
+      "name": "A_Troffer_2",
+      "transform": {
+        "position": [
+          6.4,
+          11.98,
+          -6.4
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      }
+    },
+    {
+      "guid": "4eed602c2731e4ed",
+      "name": "A_Light_2",
+      "transform": {
+        "position": [
+          6.4,
+          11.1,
+          -6.4
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
+        ],
+        "intensity": 9.0,
+        "range": 44.0
+      }
+    },
+    {
+      "guid": "cb5dbd81b5de19b3",
+      "name": "A_Troffer_3",
+      "transform": {
+        "position": [
+          -6.4,
+          11.98,
+          6.4
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      }
+    },
+    {
+      "guid": "f8877dd09579fdac",
+      "name": "A_Light_3",
+      "transform": {
+        "position": [
+          -6.4,
+          11.1,
+          6.4
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
+        ],
+        "intensity": 9.0,
+        "range": 44.0
+      }
+    },
+    {
+      "guid": "02f9c6ba49763f89",
+      "name": "A_Troffer_4",
+      "transform": {
+        "position": [
+          6.4,
+          11.98,
+          6.4
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.0,
+          2.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      }
+    },
+    {
+      "guid": "bc694b6089511455",
+      "name": "A_Light_4",
+      "transform": {
+        "position": [
+          6.4,
+          11.1,
+          6.4
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
+        ],
+        "intensity": 9.0,
+        "range": 44.0
+      }
+    },
+    {
+      "guid": "75e6aeac9dc40b79",
+      "name": "A_locker_0",
+      "transform": {
+        "position": [
+          9.2,
+          0.0,
+          9.2
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/props/locker.gltf"
+      }
+    },
+    {
+      "guid": "e26a2727e9fb792d",
+      "name": "A_bench_1",
+      "transform": {
+        "position": [
+          3.6,
+          0.0,
+          -2.0
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/props/bench.gltf"
+      }
+    },
+    {
+      "guid": "376590317ec86ac6",
+      "name": "A_crate_2",
+      "transform": {
+        "position": [
+          7.2,
+          0.0,
+          -8.8
+        ],
+        "rotation": [
+          0.0,
+          20.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "dd956962f3b5b781",
+      "meshRenderer": {
+        "modelPath": "models/props/crate.gltf"
+      }
+    },
+    {
+      "guid": "2595c5ee5751666f",
+      "name": "Room B (x1)",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "cb4425a1af190a85"
+    },
+    {
+      "guid": "4d28c3fe03e863ad",
+      "name": "B_Floor",
+      "transform": {
+        "position": [
+          0.0,
+          -0.15,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          12.3,
+          0.3,
+          12.3
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.24,
+        0.2,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.95
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "37890ef7e4952090",
+      "name": "B_FloorM",
+      "transform": {
+        "position": [
+          0.0,
+          0.005,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/arch/slab/floor.gltf"
+      }
+    },
+    {
+      "guid": "b8e23848b36c02e3",
+      "name": "B_Ceil",
+      "transform": {
+        "position": [
+          0.0,
+          6.15,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          12.3,
+          0.3,
+          12.3
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.72,
+        0.72,
+        0.7
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "991cb057d9f53c42",
+      "name": "B_CeilM",
+      "transform": {
+        "position": [
+          0.0,
+          5.995,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/arch/slab/ceiling.gltf"
+      }
+    },
+    {
+      "guid": "aa8d21206f47e44b",
+      "name": "B_WallM_N",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          27.995
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/gen/wall/wm_12_36756fb8.gltf"
+      }
+    },
+    {
+      "guid": "da911067b7815a78",
+      "name": "B_Wall_N_0",
+      "transform": {
+        "position": [
+          -3.575,
+          3.0,
+          28.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.15,
+          6.0,
+          0.3
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "858debd91647856c",
+      "name": "B_Wall_N_1",
+      "transform": {
+        "position": [
+          3.575,
+          3.0,
+          28.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.15,
+          6.0,
+          0.3
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "1792d6f10d33a564",
+      "name": "B_Leaf_s2a",
+      "transform": {
+        "position": [
+          -1.0,
+          0.9,
+          27.985
+        ],
+        "rotation": [
+          0.0,
+          105.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/doorleaf.gltf"
+      }
+    },
+    {
+      "guid": "9ea65602d6aa57ef",
+      "name": "B_Lintel_N_s2a",
+      "transform": {
+        "position": [
+          0.0,
+          4.75,
+          28.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          2.5,
+          0.3
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "7c4becae2c37f53d",
+      "name": "B_Sill_N_s2a",
+      "transform": {
+        "position": [
+          0.0,
+          0.45,
+          28.15
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          0.9,
+          0.3
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "8c4b78340087bee0",
+      "name": "B_WallM_S",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          16.005
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/gen/wall/wm_12_be7d6ad6.gltf"
+      }
+    },
+    {
+      "guid": "392b00de92ea6fb7",
+      "name": "B_Wall_S_0",
+      "transform": {
+        "position": [
+          -3.575,
+          3.0,
+          15.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.15,
+          6.0,
+          0.3
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "f2a42addd6e3749b",
+      "name": "B_Wall_S_1",
+      "transform": {
+        "position": [
+          3.575,
+          3.0,
+          15.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.15,
+          6.0,
+          0.3
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "d552af9361be7914",
+      "name": "B_Leaf_s1b",
+      "transform": {
+        "position": [
+          -1.0,
+          0.0,
+          16.015
+        ],
+        "rotation": [
+          0.0,
+          -105.00000000000001,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/doorleaf.gltf"
+      }
+    },
+    {
+      "guid": "9a2e0747f159cd4a",
+      "name": "B_Lintel_S_s1b",
+      "transform": {
+        "position": [
+          0.0,
+          4.3,
+          15.85
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          2.0,
+          3.4,
+          0.3
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "06ca389b21c0f5dd",
+      "name": "B_WallM_E",
+      "transform": {
+        "position": [
+          5.995,
+          0.0,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          270.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/gen/wall/wm_12_be7d6ad6.gltf"
+      }
+    },
+    {
+      "guid": "8106fd9f442de2c1",
+      "name": "B_Wall_E_0",
+      "transform": {
+        "position": [
+          6.15,
+          3.0,
+          18.425
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.3,
+          6.0,
+          5.15
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "5af2c57ae5da97fd",
+      "name": "B_Wall_E_1",
+      "transform": {
+        "position": [
+          6.15,
+          3.0,
+          25.575
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.3,
+          6.0,
+          5.15
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "99fdb34c08e77b71",
+      "name": "B_Leaf_s3a",
+      "transform": {
+        "position": [
+          5.985,
+          0.0,
+          21.0
+        ],
+        "rotation": [
+          0.0,
+          165.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/doorleaf.gltf"
+      }
+    },
+    {
+      "guid": "cd60b0cd87c28499",
+      "name": "B_Lintel_E_s3a",
+      "transform": {
+        "position": [
+          6.15,
+          4.3,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.3,
+          3.4,
+          2.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "850e0623a7a18cdb",
+      "name": "B_WallM_W",
+      "transform": {
+        "position": [
+          -5.995,
+          0.0,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
+      }
+    },
+    {
+      "guid": "e10374c5d4753ee9",
+      "name": "B_Wall_W",
+      "transform": {
+        "position": [
+          -6.15,
+          3.0,
+          22.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.3,
+          6.0,
+          12.3
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "be74d5a31e87c2ae",
+      "name": "B_Troffer_1",
+      "transform": {
+        "position": [
+          -3.2,
+          5.99,
+          18.8
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      }
+    },
+    {
+      "guid": "e4adfe2cec28693b",
+      "name": "B_Light_1",
+      "transform": {
+        "position": [
+          -3.2,
+          5.55,
+          18.8
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
+        ],
+        "intensity": 9.0,
+        "range": 22.0
+      }
+    },
+    {
+      "guid": "270efb9b76e575af",
+      "name": "B_Troffer_2",
+      "transform": {
+        "position": [
+          3.2,
+          5.99,
+          18.8
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      }
+    },
+    {
+      "guid": "f73ac121a4d517e4",
+      "name": "B_Light_2",
+      "transform": {
+        "position": [
+          3.2,
+          5.55,
+          18.8
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
+        ],
+        "intensity": 9.0,
+        "range": 22.0
+      }
+    },
+    {
+      "guid": "593b0986ce816329",
+      "name": "B_Troffer_3",
+      "transform": {
+        "position": [
+          -3.2,
+          5.99,
+          25.2
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      }
+    },
+    {
+      "guid": "2f6a3293448f1c0f",
+      "name": "B_Light_3",
+      "transform": {
+        "position": [
+          -3.2,
+          5.55,
+          25.2
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
+        ],
+        "intensity": 9.0,
+        "range": 22.0
+      }
+    },
+    {
+      "guid": "bae3fe13c7ce3560",
+      "name": "B_Troffer_4",
+      "transform": {
+        "position": [
+          3.2,
+          5.99,
+          25.2
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      }
+    },
+    {
+      "guid": "4f08f20d0b77c3d4",
+      "name": "B_Light_4",
+      "transform": {
+        "position": [
+          3.2,
+          5.55,
+          25.2
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
+        ],
+        "intensity": 9.0,
+        "range": 22.0
+      }
+    },
+    {
+      "guid": "58686de53e60f18c",
+      "name": "B_locker_0",
+      "transform": {
+        "position": [
+          4.6,
+          0.0,
+          26.6
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/props/locker.gltf"
+      }
+    },
+    {
+      "guid": "3488dafb0436a965",
+      "name": "B_bench_1",
+      "transform": {
+        "position": [
+          1.8,
+          0.0,
+          21.0
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/props/bench.gltf"
+      }
+    },
+    {
+      "guid": "de410807f5685e2d",
+      "name": "B_crate_2",
+      "transform": {
+        "position": [
+          3.6,
+          0.0,
+          17.6
+        ],
+        "rotation": [
+          0.0,
+          20.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "2595c5ee5751666f",
+      "meshRenderer": {
+        "modelPath": "models/props/crate.gltf"
+      }
+    },
+    {
+      "guid": "4287fac4c01c410b",
+      "name": "Room C (x0.5)",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "cb4425a1af190a85"
+    },
+    {
+      "guid": "08d3e5023136ad49",
+      "name": "C_Floor",
+      "transform": {
+        "position": [
+          0.0,
+          -0.15,
+          35.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          6.15,
+          0.3,
+          6.15
+        ]
+      },
+      "parentGuid": "4287fac4c01c410b",
+      "primitive": "box",
+      "color": [
+        0.24,
+        0.2,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.95
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "dba17c322e27d977",
+      "name": "C_FloorM",
+      "transform": {
+        "position": [
+          0.0,
+          0.005,
+          35.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/arch/slab/floor.gltf"
+      }
+    },
+    {
+      "guid": "1d9f322a9c8b5a2b",
+      "name": "C_Ceil",
+      "transform": {
+        "position": [
+          0.0,
+          3.075,
+          35.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          6.15,
+          0.15,
+          6.15
+        ]
+      },
+      "parentGuid": "4287fac4c01c410b",
+      "primitive": "box",
+      "color": [
+        0.72,
+        0.72,
+        0.7
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
+    },
+    {
+      "guid": "34c1e518c89b0783",
+      "name": "C_CeilM",
+      "transform": {
+        "position": [
+          0.0,
+          2.995,
+          35.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/arch/slab/ceiling.gltf"
+      }
+    },
+    {
+      "guid": "be1ccd477bff2843",
+      "name": "C_WallM_N",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          37.995
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
+      }
+    },
+    {
+      "guid": "0811f25bfa3806ae",
+      "name": "C_Wall_N",
+      "transform": {
+        "position": [
+          0.0,
+          1.5,
+          38.075
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          6.15,
+          3.0,
+          0.15
+        ]
+      },
+      "parentGuid": "4287fac4c01c410b",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -193,12 +3406,12 @@
     },
     {
       "guid": "9a5a20bf13e719fd",
-      "name": "Tun_s1_0_C",
+      "name": "C_WallM_S",
       "transform": {
         "position": [
           0.0,
-          3.4875,
-          6.25
+          0.0,
+          32.005
         ],
         "rotation": [
           0.0,
@@ -206,43 +3419,24 @@
           0.0
         ],
         "scale": [
-          2.475,
-          0.3,
-          0.52
-        ]
-      },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
           0.5,
           0.5,
           0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
         ]
       },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/gen/wall/wm_12_67140103.gltf"
       }
     },
     {
       "guid": "db0ddbbd1c0b52bc",
-      "name": "Tun_s1_0_S0",
+      "name": "C_Wall_S_0",
       "transform": {
         "position": [
-          -1.0875,
-          2.11875,
-          6.25
+          -1.7875,
+          1.5,
+          31.925
         ],
         "rotation": [
           0.0,
@@ -250,12 +3444,22 @@
           0.0
         ],
         "scale": [
-          0.3,
-          3.0375,
-          0.52
+          2.575,
+          3.0,
+          0.15
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "4287fac4c01c410b",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -281,12 +3485,12 @@
     },
     {
       "guid": "cbeb18e69375248b",
-      "name": "Tun_s1_0_S1",
+      "name": "C_Wall_S_1",
       "transform": {
         "position": [
-          1.0875,
-          2.11875,
-          6.25
+          1.7875,
+          1.5,
+          31.925
         ],
         "rotation": [
           0.0,
@@ -294,12 +3498,22 @@
           0.0
         ],
         "scale": [
-          0.3,
-          3.0375,
-          0.52
+          2.575,
+          3.0,
+          0.15
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "4287fac4c01c410b",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -325,56 +3539,37 @@
     },
     {
       "guid": "d0080e7fe666fe67",
-      "name": "Tun_s1_1_F",
+      "name": "C_Leaf_s2b",
       "transform": {
         "position": [
-          0.0,
-          0.75,
-          6.75
+          -0.5,
+          0.9,
+          32.0075
         ],
         "rotation": [
           0.0,
-          0.0,
+          -105.00000000000001,
           0.0
         ],
         "scale": [
-          2.35,
-          0.3,
-          0.52
-        ]
-      },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
           0.5,
           0.5,
           0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
         ]
       },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/doorleaf.gltf"
       }
     },
     {
       "guid": "67772d51515a74c1",
-      "name": "Tun_s1_1_C",
+      "name": "C_Lintel_S_s2b",
       "transform": {
         "position": [
           0.0,
-          3.3249999999999997,
-          6.75
+          2.6,
+          31.925
         ],
         "rotation": [
           0.0,
@@ -382,12 +3577,22 @@
           0.0
         ],
         "scale": [
-          2.35,
-          0.3,
-          0.52
+          1.0,
+          0.7999999999999998,
+          0.15
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "4287fac4c01c410b",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -413,12 +3618,12 @@
     },
     {
       "guid": "c88e8df419c16621",
-      "name": "Tun_s1_1_S0",
+      "name": "C_Sill_S_s2b",
       "transform": {
         "position": [
-          -1.025,
-          2.0375,
-          6.75
+          0.0,
+          0.45,
+          31.925
         ],
         "rotation": [
           0.0,
@@ -426,12 +3631,22 @@
           0.0
         ],
         "scale": [
-          0.3,
-          2.875,
-          0.52
+          1.0,
+          0.9,
+          0.15
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "4287fac4c01c410b",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -457,56 +3672,37 @@
     },
     {
       "guid": "4a133c4cb36c00a7",
-      "name": "Tun_s1_1_S1",
+      "name": "C_WallM_E",
       "transform": {
         "position": [
-          1.025,
-          2.0375,
-          6.75
+          2.995,
+          0.0,
+          35.0
         ],
         "rotation": [
           0.0,
-          0.0,
+          270.0,
           0.0
         ],
         "scale": [
-          0.3,
-          2.875,
-          0.52
-        ]
-      },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
           0.5,
           0.5,
           0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
         ]
       },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
       }
     },
     {
       "guid": "1faa6baeef1b1a75",
-      "name": "Tun_s1_2_F",
+      "name": "C_Wall_E",
       "transform": {
         "position": [
-          0.0,
-          0.75,
-          7.25
+          3.075,
+          1.5,
+          35.0
         ],
         "rotation": [
           0.0,
@@ -514,12 +3710,22 @@
           0.0
         ],
         "scale": [
-          2.225,
-          0.3,
-          0.52
+          0.15,
+          3.0,
+          6.15
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "4287fac4c01c410b",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -545,56 +3751,37 @@
     },
     {
       "guid": "4f15f8482e8fc412",
-      "name": "Tun_s1_2_C",
+      "name": "C_WallM_W",
       "transform": {
         "position": [
+          -2.995,
           0.0,
-          3.1625,
-          7.25
+          35.0
         ],
         "rotation": [
           0.0,
-          0.0,
+          90.0,
           0.0
         ],
         "scale": [
-          2.225,
-          0.3,
-          0.52
-        ]
-      },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
           0.5,
           0.5,
           0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
         ]
       },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
       }
     },
     {
       "guid": "17af8332e260ea11",
-      "name": "Tun_s1_2_S0",
+      "name": "C_Wall_W",
       "transform": {
         "position": [
-          -0.9625,
-          1.95625,
-          7.25
+          -3.075,
+          1.5,
+          35.0
         ],
         "rotation": [
           0.0,
@@ -602,12 +3789,22 @@
           0.0
         ],
         "scale": [
-          0.3,
-          2.7125000000000004,
-          0.52
+          0.15,
+          3.0,
+          6.15
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "4287fac4c01c410b",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -633,12 +3830,12 @@
     },
     {
       "guid": "a4e0dcf813c146a2",
-      "name": "Tun_s1_2_S1",
+      "name": "C_Troffer_1",
       "transform": {
         "position": [
-          0.9625,
-          1.95625,
-          7.25
+          -1.6,
+          2.995,
+          33.4
         ],
         "rotation": [
           0.0,
@@ -646,43 +3843,24 @@
           0.0
         ],
         "scale": [
-          0.3,
-          2.7125000000000004,
-          0.52
-        ]
-      },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
           0.5,
           0.5,
           0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
         ]
       },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
       }
     },
     {
       "guid": "32f96ba60a9467c7",
-      "name": "Tun_s1_3_F",
+      "name": "C_Light_1",
       "transform": {
         "position": [
-          0.0,
-          0.75,
-          7.75
+          -1.6,
+          2.775,
+          33.4
         ],
         "rotation": [
           0.0,
@@ -690,43 +3868,31 @@
           0.0
         ],
         "scale": [
-          2.1,
-          0.3,
-          0.52
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
+      "parentGuid": "4287fac4c01c410b",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
         ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+        "intensity": 5.1691425974866565,
+        "range": 11.0
       }
     },
     {
       "guid": "8178a3951fee8486",
-      "name": "Tun_s1_3_C",
+      "name": "C_Troffer_2",
       "transform": {
         "position": [
-          0.0,
-          3.0,
-          7.75
+          1.6,
+          2.995,
+          33.4
         ],
         "rotation": [
           0.0,
@@ -734,43 +3900,24 @@
           0.0
         ],
         "scale": [
-          2.1,
-          0.3,
-          0.52
-        ]
-      },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
           0.5,
           0.5,
           0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
         ]
       },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
       }
     },
     {
       "guid": "ef36f99cf1b487ab",
-      "name": "Tun_s1_3_S0",
+      "name": "C_Light_2",
       "transform": {
         "position": [
-          -0.9,
-          1.875,
-          7.75
+          1.6,
+          2.775,
+          33.4
         ],
         "rotation": [
           0.0,
@@ -778,43 +3925,31 @@
           0.0
         ],
         "scale": [
-          0.3,
-          2.5500000000000003,
-          0.52
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
+      "parentGuid": "4287fac4c01c410b",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
         ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+        "intensity": 5.1691425974866565,
+        "range": 11.0
       }
     },
     {
       "guid": "d9f0e54ce60323c6",
-      "name": "Tun_s1_3_S1",
+      "name": "C_Troffer_3",
       "transform": {
         "position": [
-          0.9,
-          1.875,
-          7.75
+          -1.6,
+          2.995,
+          36.6
         ],
         "rotation": [
           0.0,
@@ -822,43 +3957,24 @@
           0.0
         ],
         "scale": [
-          0.3,
-          2.5500000000000003,
-          0.52
-        ]
-      },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
           0.5,
           0.5,
           0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
         ]
       },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
       }
     },
     {
       "guid": "2b3bb7497f10f4ce",
-      "name": "Tun_s1_4_F",
+      "name": "C_Light_3",
       "transform": {
         "position": [
-          0.0,
-          0.75,
-          8.25
+          -1.6,
+          2.775,
+          36.6
         ],
         "rotation": [
           0.0,
@@ -866,43 +3982,31 @@
           0.0
         ],
         "scale": [
-          1.975,
-          0.3,
-          0.52
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
+      "parentGuid": "4287fac4c01c410b",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
         ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+        "intensity": 5.1691425974866565,
+        "range": 11.0
       }
     },
     {
       "guid": "ea757d26c880ed9e",
-      "name": "Tun_s1_4_C",
+      "name": "C_Troffer_4",
       "transform": {
         "position": [
-          0.0,
-          2.8375,
-          8.25
+          1.6,
+          2.995,
+          36.6
         ],
         "rotation": [
           0.0,
@@ -910,43 +4014,24 @@
           0.0
         ],
         "scale": [
-          1.975,
-          0.3,
-          0.52
-        ]
-      },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
           0.5,
           0.5,
           0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
         ]
       },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
       }
     },
     {
       "guid": "f1e72dee12be5102",
-      "name": "Tun_s1_4_S0",
+      "name": "C_Light_4",
       "transform": {
         "position": [
-          -0.8375,
-          1.79375,
-          8.25
+          1.6,
+          2.775,
+          36.6
         ],
         "rotation": [
           0.0,
@@ -954,43 +4039,31 @@
           0.0
         ],
         "scale": [
-          0.3,
-          2.3875,
-          0.52
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
+      "parentGuid": "4287fac4c01c410b",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
         ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+        "intensity": 5.1691425974866565,
+        "range": 11.0
       }
     },
     {
       "guid": "7e8c5714111b5439",
-      "name": "Tun_s1_4_S1",
+      "name": "C_Eave_0",
       "transform": {
         "position": [
-          0.8375,
-          1.79375,
-          8.25
+          -1.5375,
+          0.0,
+          35.5
         ],
         "rotation": [
           0.0,
@@ -998,43 +4071,24 @@
           0.0
         ],
         "scale": [
-          0.3,
-          2.3875,
-          0.52
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/eave.gltf"
       }
     },
     {
       "guid": "bbe200abff51f2ff",
-      "name": "Tun_s1_5_F",
+      "name": "C_Eave_1",
       "transform": {
         "position": [
+          1.5375,
           0.0,
-          0.75,
-          8.75
+          35.5
         ],
         "rotation": [
           0.0,
@@ -1042,43 +4096,24 @@
           0.0
         ],
         "scale": [
-          1.85,
-          0.3,
-          0.52
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/eave.gltf"
       }
     },
     {
       "guid": "2e4e4878c419728f",
-      "name": "Tun_s1_5_C",
+      "name": "C_EaveW",
       "transform": {
         "position": [
           0.0,
-          2.6750000000000003,
-          8.75
+          2.0,
+          35.5
         ],
         "rotation": [
           0.0,
@@ -1086,12 +4121,22 @@
           0.0
         ],
         "scale": [
-          1.85,
-          0.3,
-          0.52
+          6.15,
+          2.0,
+          0.26
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "4287fac4c01c410b",
+      "primitive": "box",
+      "color": [
+        0.9,
+        0.89,
+        0.86
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.6
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -1117,100 +4162,62 @@
     },
     {
       "guid": "2001f6b72a8633ac",
-      "name": "Tun_s1_5_S0",
+      "name": "C_bench_0",
       "transform": {
         "position": [
-          -0.775,
-          1.7125000000000001,
-          8.75
+          -0.9,
+          0.0,
+          34.5
         ],
         "rotation": [
           0.0,
-          0.0,
+          90.0,
           0.0
         ],
         "scale": [
-          0.3,
-          2.2250000000000005,
-          0.52
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/props/bench.gltf"
       }
     },
     {
       "guid": "2e7599184859beaa",
-      "name": "Tun_s1_5_S1",
+      "name": "C_crate_1",
       "transform": {
         "position": [
-          0.775,
-          1.7125000000000001,
-          8.75
+          1.8,
+          0.0,
+          32.8
         ],
         "rotation": [
           0.0,
-          0.0,
+          20.0,
           0.0
         ],
         "scale": [
-          0.3,
-          2.2250000000000005,
-          0.52
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "4287fac4c01c410b",
+      "meshRenderer": {
+        "modelPath": "models/props/crate.gltf"
       }
     },
     {
       "guid": "6e7a69b0709cb812",
-      "name": "Tun_s1_6_F",
+      "name": "Room D (x2)",
       "transform": {
         "position": [
           0.0,
-          0.75,
-          9.25
+          0.0,
+          0.0
         ],
         "rotation": [
           0.0,
@@ -1218,43 +4225,21 @@
           0.0
         ],
         "scale": [
-          1.725,
-          0.3,
-          0.52
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
+      "parentGuid": "cb4425a1af190a85"
     },
     {
       "guid": "5fce4e3be30519c1",
-      "name": "Tun_s1_6_C",
+      "name": "D_Floor",
       "transform": {
         "position": [
-          0.0,
-          2.5125,
-          9.25
+          22.0,
+          -0.15,
+          26.0
         ],
         "rotation": [
           0.0,
@@ -1262,12 +4247,22 @@
           0.0
         ],
         "scale": [
-          1.725,
+          24.6,
           0.3,
-          0.52
+          24.6
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "6e7a69b0709cb812",
+      "primitive": "box",
+      "color": [
+        0.24,
+        0.2,
+        0.12
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.95
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -1293,12 +4288,12 @@
     },
     {
       "guid": "c3a83d3ab63e208f",
-      "name": "Tun_s1_6_S0",
+      "name": "D_FloorM",
       "transform": {
         "position": [
-          -0.7125,
-          1.63125,
-          9.25
+          22.0,
+          0.005,
+          26.0
         ],
         "rotation": [
           0.0,
@@ -1306,43 +4301,24 @@
           0.0
         ],
         "scale": [
-          0.3,
-          2.0625000000000004,
-          0.52
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/slab/floor.gltf"
       }
     },
     {
       "guid": "cf75a3a45e74dbd0",
-      "name": "Tun_s1_6_S1",
+      "name": "D_Ceil",
       "transform": {
         "position": [
-          0.7125,
-          1.63125,
-          9.25
+          22.0,
+          12.3,
+          26.0
         ],
         "rotation": [
           0.0,
@@ -1350,12 +4326,22 @@
           0.0
         ],
         "scale": [
-          0.3,
-          2.0625000000000004,
-          0.52
+          24.6,
+          0.6,
+          24.6
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "6e7a69b0709cb812",
+      "primitive": "box",
+      "color": [
+        0.72,
+        0.72,
+        0.7
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -1381,12 +4367,12 @@
     },
     {
       "guid": "f18d627c2c66b5a8",
-      "name": "Tun_s1_7_F",
+      "name": "D_CeilM",
       "transform": {
         "position": [
-          0.0,
-          0.75,
-          9.75
+          22.0,
+          11.995,
+          26.0
         ],
         "rotation": [
           0.0,
@@ -1394,87 +4380,49 @@
           0.0
         ],
         "scale": [
-          1.6,
-          0.3,
-          0.52
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/slab/ceiling.gltf"
       }
     },
     {
       "guid": "63a598d1efefca02",
-      "name": "Tun_s1_7_C",
+      "name": "D_WallM_N",
       "transform": {
         "position": [
+          22.0,
           0.0,
-          2.35,
-          9.75
+          37.995
         ],
         "rotation": [
           0.0,
-          0.0,
+          180.0,
           0.0
         ],
         "scale": [
-          1.6,
-          0.3,
-          0.52
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
       }
     },
     {
       "guid": "d531024ad14c940e",
-      "name": "Tun_s1_7_S0",
+      "name": "D_Wall_N",
       "transform": {
         "position": [
-          -0.65,
-          1.55,
-          9.75
+          22.0,
+          6.0,
+          38.3
         ],
         "rotation": [
           0.0,
@@ -1482,12 +4430,22 @@
           0.0
         ],
         "scale": [
-          0.3,
-          1.9000000000000004,
-          0.52
+          24.6,
+          12.0,
+          0.6
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "6e7a69b0709cb812",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -1513,12 +4471,12 @@
     },
     {
       "guid": "3095ec5e41402692",
-      "name": "Tun_s1_7_S1",
+      "name": "D_WallM_S",
       "transform": {
         "position": [
-          0.65,
-          1.55,
-          9.75
+          22.0,
+          0.0,
+          14.005
         ],
         "rotation": [
           0.0,
@@ -1526,12 +4484,47 @@
           0.0
         ],
         "scale": [
-          0.3,
-          1.9000000000000004,
-          0.52
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
+      }
+    },
+    {
+      "guid": "356593b5ede58650",
+      "name": "D_Wall_S",
+      "transform": {
+        "position": [
+          22.0,
+          6.0,
+          13.7
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          24.6,
+          12.0,
+          0.6
+        ]
+      },
+      "parentGuid": "6e7a69b0709cb812",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -1556,77 +4549,38 @@
       }
     },
     {
-      "guid": "356593b5ede58650",
-      "name": "SeamL_s1_0",
-      "transform": {
-        "position": [
-          0.0,
-          2.44284,
-          8.48
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "34c1e518c89b0783",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.9
-        ],
-        "intensity": 2.4,
-        "range": 4.76
-      }
-    },
-    {
       "guid": "01600208bb8c3268",
-      "name": "SeamL_s1_1",
+      "name": "D_WallM_E",
       "transform": {
         "position": [
+          33.995,
           0.0,
-          2.0739,
-          9.8
+          26.0
         ],
         "rotation": [
           0.0,
-          0.0,
+          270.0,
           0.0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "34c1e518c89b0783",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.9
-        ],
-        "intensity": 4.0,
-        "range": 4.1
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
       }
     },
     {
       "guid": "5739e8c32d078054",
-      "name": "Fake f1",
+      "name": "D_Wall_E",
       "transform": {
         "position": [
-          0.0,
-          0.0,
-          0.0
+          34.3,
+          6.0,
+          26.0
         ],
         "rotation": [
           0.0,
@@ -1634,46 +4588,78 @@
           0.0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          0.6,
+          12.0,
+          24.6
         ]
       },
-      "parentGuid": "dba17c322e27d977"
+      "parentGuid": "6e7a69b0709cb812",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.5,
+          0.5,
+          0.5
+        ],
+        "offset": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.6,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.0,
+        "useGravity": false
+      }
     },
     {
       "guid": "8b7c91ac85cb10b0",
-      "name": "TunM_f1",
+      "name": "D_WallM_W",
       "transform": {
         "position": [
-          -6.0,
+          10.005,
           0.0,
-          0.0
+          26.0
         ],
         "rotation": [
           0.0,
-          -90.0,
+          90.0,
           0.0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
+      "parentGuid": "6e7a69b0709cb812",
       "meshRenderer": {
-        "modelPath": "models/tn_3b8aa516.gltf"
+        "modelPath": "models/gen/wall/wm_12_e3fde0ae.gltf"
       }
     },
     {
       "guid": "0c1623a4637fbd3b",
-      "name": "Tun_f1_0_F",
+      "name": "D_Wall_W_0",
       "transform": {
         "position": [
-          -6.15,
-          -0.00802631578947366,
-          0.0
+          9.7,
+          6.0,
+          16.85
         ],
         "rotation": [
           0.0,
@@ -1681,12 +4667,22 @@
           0.0
         ],
         "scale": [
-          0.32,
-          0.3,
-          2.3815789473684212
+          0.6,
+          12.0,
+          6.300000000000001
         ]
       },
-      "parentGuid": "5739e8c32d078054",
+      "parentGuid": "6e7a69b0709cb812",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -1712,12 +4708,12 @@
     },
     {
       "guid": "3425818452226973",
-      "name": "Tun_f1_0_C",
+      "name": "D_Wall_W_1",
       "transform": {
         "position": [
-          -6.15,
-          2.608026315789474,
-          0.0
+          9.7,
+          6.0,
+          31.15
         ],
         "rotation": [
           0.0,
@@ -1725,12 +4721,22 @@
           0.0
         ],
         "scale": [
-          0.32,
-          0.3,
-          2.3815789473684212
+          0.6,
+          12.0,
+          14.3
         ]
       },
-      "parentGuid": "5739e8c32d078054",
+      "parentGuid": "6e7a69b0709cb812",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -1756,56 +4762,37 @@
     },
     {
       "guid": "cea31d75f962cbfb",
-      "name": "Tun_f1_0_S0",
+      "name": "D_Leaf_s3b",
       "transform": {
         "position": [
-          -6.15,
-          1.3,
-          -1.0407894736842105
+          10.03,
+          0.0,
+          20.0
         ],
         "rotation": [
           0.0,
-          0.0,
+          15.000000000000005,
           0.0
         ],
         "scale": [
-          0.32,
-          2.916052631578948,
-          0.3
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/doorleaf.gltf"
       }
     },
     {
       "guid": "bcf5450a43853479",
-      "name": "Tun_f1_0_S1",
+      "name": "D_Lintel_W_s3b",
       "transform": {
         "position": [
-          -6.15,
-          1.3,
-          1.0407894736842105
+          9.7,
+          8.6,
+          22.0
         ],
         "rotation": [
           0.0,
@@ -1813,12 +4800,22 @@
           0.0
         ],
         "scale": [
-          0.32,
-          2.916052631578948,
-          0.3
+          0.6,
+          6.8,
+          4.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
+      "parentGuid": "6e7a69b0709cb812",
+      "primitive": "box",
+      "color": [
+        0.62,
+        0.6,
+        0.55
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.92
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -1844,12 +4841,12 @@
     },
     {
       "guid": "3800846091f4bd4a",
-      "name": "Tun_f1_1_F",
+      "name": "D_Troffer_1",
       "transform": {
         "position": [
-          -6.45,
-          0.13394736842105268,
-          0.0
+          15.6,
+          11.98,
+          19.6
         ],
         "rotation": [
           0.0,
@@ -1857,43 +4854,24 @@
           0.0
         ],
         "scale": [
-          0.32,
-          0.3,
-          2.163157894736842
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
       }
     },
     {
       "guid": "19bbffd8efa4e3ee",
-      "name": "Tun_f1_1_C",
+      "name": "D_Light_1",
       "transform": {
         "position": [
-          -6.45,
-          2.4660526315789473,
-          0.0
+          15.6,
+          11.1,
+          19.6
         ],
         "rotation": [
           0.0,
@@ -1901,43 +4879,31 @@
           0.0
         ],
         "scale": [
-          0.32,
-          0.3,
-          2.163157894736842
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
+      "parentGuid": "6e7a69b0709cb812",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
         ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+        "intensity": 9.0,
+        "range": 44.0
       }
     },
     {
       "guid": "c2e2a0e372347821",
-      "name": "Tun_f1_1_S0",
+      "name": "D_Troffer_2",
       "transform": {
         "position": [
-          -6.45,
-          1.3,
-          -0.9315789473684211
+          28.4,
+          11.98,
+          19.6
         ],
         "rotation": [
           0.0,
@@ -1945,43 +4911,24 @@
           0.0
         ],
         "scale": [
-          0.32,
-          2.6321052631578947,
-          0.3
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
       }
     },
     {
       "guid": "ed2e0d340c28059d",
-      "name": "Tun_f1_1_S1",
+      "name": "D_Light_2",
       "transform": {
         "position": [
-          -6.45,
-          1.3,
-          0.9315789473684211
+          28.4,
+          11.1,
+          19.6
         ],
         "rotation": [
           0.0,
@@ -1989,43 +4936,31 @@
           0.0
         ],
         "scale": [
-          0.32,
-          2.6321052631578947,
-          0.3
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
+      "parentGuid": "6e7a69b0709cb812",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
         ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+        "intensity": 9.0,
+        "range": 44.0
       }
     },
     {
       "guid": "4db2c2d68f3b6a48",
-      "name": "Tun_f1_2_F",
+      "name": "D_Troffer_3",
       "transform": {
         "position": [
-          -6.75,
-          0.27592105263157896,
-          0.0
+          15.6,
+          11.98,
+          32.4
         ],
         "rotation": [
           0.0,
@@ -2033,43 +4968,24 @@
           0.0
         ],
         "scale": [
-          0.31999999999999995,
-          0.3,
-          1.944736842105263
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
       }
     },
     {
       "guid": "38a8a712218b2634",
-      "name": "Tun_f1_2_C",
+      "name": "D_Light_3",
       "transform": {
         "position": [
-          -6.75,
-          2.324078947368421,
-          0.0
+          15.6,
+          11.1,
+          32.4
         ],
         "rotation": [
           0.0,
@@ -2077,43 +4993,31 @@
           0.0
         ],
         "scale": [
-          0.31999999999999995,
-          0.3,
-          1.944736842105263
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
+      "parentGuid": "6e7a69b0709cb812",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
         ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+        "intensity": 9.0,
+        "range": 44.0
       }
     },
     {
       "guid": "1ac9a4bb150595b7",
-      "name": "Tun_f1_2_S0",
+      "name": "D_Troffer_4",
       "transform": {
         "position": [
-          -6.75,
-          1.3,
-          -0.8223684210526315
+          28.4,
+          11.98,
+          32.4
         ],
         "rotation": [
           0.0,
@@ -2121,43 +5025,24 @@
           0.0
         ],
         "scale": [
-          0.31999999999999995,
-          2.3481578947368424,
-          0.3
+          2.0,
+          2.0,
+          2.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
       }
     },
     {
       "guid": "68d24545049f54cd",
-      "name": "Tun_f1_2_S1",
+      "name": "D_Light_4",
       "transform": {
         "position": [
-          -6.75,
-          1.3,
-          0.8223684210526315
+          28.4,
+          11.1,
+          32.4
         ],
         "rotation": [
           0.0,
@@ -2165,307 +5050,181 @@
           0.0
         ],
         "scale": [
-          0.31999999999999995,
-          2.3481578947368424,
-          0.3
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
+      "parentGuid": "6e7a69b0709cb812",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.98,
+          0.96,
+          0.88
         ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+        "intensity": 9.0,
+        "range": 44.0
       }
     },
     {
       "guid": "761300f5cbf55cc4",
-      "name": "Tun_f1_3_F",
+      "name": "D_Eave_0",
       "transform": {
         "position": [
-          -7.05,
-          0.4178947368421053,
-          0.0
+          26.0,
+          0.0,
+          15.749999999999998
         ],
         "rotation": [
           0.0,
-          0.0,
+          90.0,
           0.0
         ],
         "scale": [
-          0.32000000000000006,
-          0.3,
-          1.7263157894736842
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/eave.gltf"
       }
     },
     {
       "guid": "15f8e15a53219faa",
-      "name": "Tun_f1_3_C",
+      "name": "D_Eave_1",
       "transform": {
         "position": [
-          -7.05,
-          2.182105263157895,
-          0.0
+          26.0,
+          0.0,
+          19.85
         ],
         "rotation": [
           0.0,
-          0.0,
+          90.0,
           0.0
         ],
         "scale": [
-          0.32000000000000006,
-          0.3,
-          1.7263157894736842
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/eave.gltf"
       }
     },
     {
       "guid": "6f2a07413ff4d581",
-      "name": "Tun_f1_3_S0",
+      "name": "D_Eave_2",
       "transform": {
         "position": [
-          -7.05,
-          1.3000000000000003,
-          -0.7131578947368421
+          26.0,
+          0.0,
+          23.95
         ],
         "rotation": [
           0.0,
-          0.0,
+          90.0,
           0.0
         ],
         "scale": [
-          0.32000000000000006,
-          2.0642105263157897,
-          0.3
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/eave.gltf"
       }
     },
     {
       "guid": "3646e51a14b3a455",
-      "name": "Tun_f1_3_S1",
+      "name": "D_Eave_3",
       "transform": {
         "position": [
-          -7.05,
-          1.3000000000000003,
-          0.7131578947368421
+          26.0,
+          0.0,
+          28.05
         ],
         "rotation": [
           0.0,
-          0.0,
+          90.0,
           0.0
         ],
         "scale": [
-          0.32000000000000006,
-          2.0642105263157897,
-          0.3
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/eave.gltf"
       }
     },
     {
       "guid": "7a1745613a119957",
-      "name": "Tun_f1_4_F",
+      "name": "D_Eave_4",
       "transform": {
         "position": [
-          -7.35,
-          0.5598684210526317,
-          0.0
+          26.0,
+          0.0,
+          32.15
         ],
         "rotation": [
           0.0,
-          0.0,
+          90.0,
           0.0
         ],
         "scale": [
-          0.32000000000000006,
-          0.3,
-          1.5078947368421054
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/eave.gltf"
       }
     },
     {
       "guid": "94f36f777104c3b8",
-      "name": "Tun_f1_4_C",
+      "name": "D_Eave_5",
       "transform": {
         "position": [
-          -7.35,
-          2.0401315789473684,
-          0.0
+          26.0,
+          0.0,
+          36.25
         ],
         "rotation": [
           0.0,
-          0.0,
+          90.0,
           0.0
         ],
         "scale": [
-          0.32000000000000006,
-          0.3,
-          1.5078947368421054
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/eave.gltf"
       }
     },
     {
       "guid": "ffd8df062d4ef730",
-      "name": "Tun_f1_4_S0",
+      "name": "D_EaveW",
       "transform": {
         "position": [
-          -7.35,
-          1.3,
-          -0.6039473684210527
+          26.0,
+          6.5,
+          26.0
         ],
         "rotation": [
           0.0,
@@ -2473,12 +5232,22 @@
           0.0
         ],
         "scale": [
-          0.32000000000000006,
-          1.780263157894737,
-          0.3
+          0.26,
+          11.0,
+          24.6
         ]
       },
-      "parentGuid": "5739e8c32d078054",
+      "parentGuid": "6e7a69b0709cb812",
+      "primitive": "box",
+      "color": [
+        0.9,
+        0.89,
+        0.86
+      ],
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.6
+      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -2504,3188 +5273,81 @@
     },
     {
       "guid": "1c855b0f0aa02b04",
-      "name": "Tun_f1_4_S1",
+      "name": "D_locker_0",
       "transform": {
         "position": [
-          -7.35,
-          1.3,
-          0.6039473684210527
+          31.2,
+          0.0,
+          35.2
         ],
         "rotation": [
           0.0,
-          0.0,
+          180.0,
           0.0
         ],
         "scale": [
-          0.32000000000000006,
-          1.780263157894737,
-          0.3
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/props/locker.gltf"
       }
     },
     {
       "guid": "0cc9fe014cc79cc2",
-      "name": "Tun_f1_5_F",
+      "name": "D_bench_1",
       "transform": {
         "position": [
-          -7.65,
-          0.7018421052631579,
-          0.0
+          25.6,
+          0.0,
+          24.0
         ],
         "rotation": [
           0.0,
-          0.0,
+          90.0,
           0.0
         ],
         "scale": [
-          0.31999999999999984,
-          0.3,
-          1.289473684210526
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/props/bench.gltf"
       }
     },
     {
       "guid": "ba360bc794f4ef44",
-      "name": "Tun_f1_5_C",
+      "name": "D_crate_2",
       "transform": {
         "position": [
-          -7.65,
-          1.8981578947368423,
-          0.0
+          29.2,
+          0.0,
+          17.2
         ],
         "rotation": [
           0.0,
-          0.0,
+          20.0,
           0.0
         ],
         "scale": [
-          0.31999999999999984,
-          0.3,
-          1.289473684210526
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "6e7a69b0709cb812",
+      "meshRenderer": {
+        "modelPath": "models/props/crate.gltf"
       }
     },
     {
       "guid": "b8a933020ef91f39",
-      "name": "Tun_f1_5_S0",
-      "transform": {
-        "position": [
-          -7.65,
-          1.3000000000000003,
-          -0.49473684210526314
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.31999999999999984,
-          1.4963157894736843,
-          0.3
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "99d88849d37508b6",
-      "name": "Tun_f1_5_S1",
-      "transform": {
-        "position": [
-          -7.65,
-          1.3000000000000003,
-          0.49473684210526314
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.31999999999999984,
-          1.4963157894736843,
-          0.3
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "b46951bf4e05bdf8",
-      "name": "Tun_f1_6_F",
-      "transform": {
-        "position": [
-          -7.95,
-          0.8438157894736843,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.3200000000000003,
-          0.3,
-          1.0710526315789473
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "937ecfc1394ca197",
-      "name": "Tun_f1_6_C",
-      "transform": {
-        "position": [
-          -7.95,
-          1.756184210526316,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.3200000000000003,
-          0.3,
-          1.0710526315789473
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "c5eb2335e7259f39",
-      "name": "Tun_f1_6_S0",
-      "transform": {
-        "position": [
-          -7.95,
-          1.3000000000000003,
-          -0.3855263157894736
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.3200000000000003,
-          1.2123684210526315,
-          0.3
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "5bf644eb3186822b",
-      "name": "Tun_f1_6_S1",
-      "transform": {
-        "position": [
-          -7.95,
-          1.3000000000000003,
-          0.3855263157894736
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.3200000000000003,
-          1.2123684210526315,
-          0.3
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "4ca63eaba48e5c47",
-      "name": "Tun_f1_7_F",
-      "transform": {
-        "position": [
-          -8.25,
-          0.9857894736842107,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.31999999999999984,
-          0.3,
-          0.8526315789473683
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "8df81adb5046a1e3",
-      "name": "Tun_f1_7_C",
-      "transform": {
-        "position": [
-          -8.25,
-          1.6142105263157895,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.31999999999999984,
-          0.3,
-          0.8526315789473683
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "caf0ce41c9fe7e26",
-      "name": "Tun_f1_7_S0",
-      "transform": {
-        "position": [
-          -8.25,
-          1.3000000000000003,
-          -0.2763157894736842
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.31999999999999984,
-          0.9284210526315789,
-          0.3
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "1906216561b56324",
-      "name": "Tun_f1_7_S1",
-      "transform": {
-        "position": [
-          -8.25,
-          1.3000000000000003,
-          0.2763157894736842
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.31999999999999984,
-          0.9284210526315789,
-          0.3
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "cc550f8c1c5af811",
-      "name": "Back_f1",
-      "transform": {
-        "position": [
-          -8.55,
-          1.3000000000000003,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.3,
-          0.9284210526315789,
-          0.8526315789473684
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "ded4938e692c73dd",
-      "name": "FakeT_f1_0",
-      "transform": {
-        "position": [
-          -6.631578947368421,
-          2.285706371191136,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.7700831024930748,
-          0.7700831024930748,
-          0.7700831024930748
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "22cf62d71e66d533",
-      "name": "FakeL_f1_0",
-      "transform": {
-        "position": [
-          -6.631578947368421,
-          2.2086980609418285,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.9
-        ],
-        "intensity": 2.0790839542360784,
-        "range": 2.710249307479224
-      }
-    },
-    {
-      "guid": "d5ca0a1d9f7dc3e9",
-      "name": "FakeT_f1_1",
-      "transform": {
-        "position": [
-          -7.2631578947368425,
-          1.9914127423822716,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.5401662049861495,
-          0.5401662049861495,
-          0.5401662049861495
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "a45eb72f76362d63",
-      "name": "FakeL_f1_1",
-      "transform": {
-        "position": [
-          -7.2631578947368425,
-          1.9373961218836566,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.9
-        ],
-        "intensity": 1.1753385870274167,
-        "range": 2.0204986149584485
-      }
-    },
-    {
-      "guid": "187bc19a3eb9ba80",
-      "name": "FakeT_f1_2",
-      "transform": {
-        "position": [
-          -7.894736842105264,
-          1.6971191135734072,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.3102493074792243,
-          0.3102493074792243,
-          0.3102493074792243
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "380472c9ebc20d98",
-      "name": "FakeL_f1_2",
-      "transform": {
-        "position": [
-          -7.894736842105264,
-          1.6660941828254847,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.9
-        ],
-        "intensity": 0.5887638983740148,
-        "range": 1.330747922437673
-      }
-    },
-    {
-      "guid": "0721cba841786036",
-      "name": "FakeD_f1",
-      "transform": {
-        "position": [
-          -8.34,
-          1.1357894736842107,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          90.0,
-          0.0
-        ],
-        "scale": [
-          0.25263157894736843,
-          0.25263157894736843,
-          0.25263157894736843
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "meshRenderer": {
-        "modelPath": "models/goal.gltf"
-      }
-    },
-    {
-      "guid": "b0f3769087d736e9",
-      "name": "FakeGL_f1",
-      "transform": {
-        "position": [
-          -8.112631578947369,
-          1.451578947368421,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "5739e8c32d078054",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.25,
-          1.0,
-          0.62
-        ],
-        "intensity": 2.6,
-        "range": 1.0547368421052632
-      }
-    },
-    {
-      "guid": "675005d779a5da88",
-      "name": "Room A (x1)",
-      "transform": {
-        "position": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "08d3e5023136ad49"
-    },
-    {
-      "guid": "a7233eb1ecb6ebbd",
-      "name": "A_Floor",
-      "transform": {
-        "position": [
-          0.0,
-          -0.15,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          12.3,
-          0.3,
-          12.3
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.24,
-        0.2,
-        0.12
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.95
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "33f723904bcc9775",
-      "name": "A_FloorM",
-      "transform": {
-        "position": [
-          0.0,
-          0.005,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/floor.gltf"
-      }
-    },
-    {
-      "guid": "5705f1bea4ed5585",
-      "name": "A_Ceil",
-      "transform": {
-        "position": [
-          0.0,
-          6.15,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          12.3,
-          0.3,
-          12.3
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.72,
-        0.72,
-        0.7
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "873cfb85a7859564",
-      "name": "A_CeilM",
-      "transform": {
-        "position": [
-          0.0,
-          5.995,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/ceiling.gltf"
-      }
-    },
-    {
-      "guid": "d0f1b3d90f312339",
-      "name": "A_WallM_N",
-      "transform": {
-        "position": [
-          0.0,
-          0.0,
-          5.995
-        ],
-        "rotation": [
-          0.0,
-          180.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/wm_12_36756fb8.gltf"
-      }
-    },
-    {
-      "guid": "84f75e8ca0a0fe4f",
-      "name": "A_Wall_N_0",
-      "transform": {
-        "position": [
-          -3.575,
-          3.0,
-          6.15
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          5.15,
-          6.0,
-          0.3
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "45a391ecc57e7f89",
-      "name": "A_Wall_N_1",
-      "transform": {
-        "position": [
-          3.575,
-          3.0,
-          6.15
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          5.15,
-          6.0,
-          0.3
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "943ea06353e63591",
-      "name": "A_Leaf_s1a",
-      "transform": {
-        "position": [
-          -1.0,
-          0.9,
-          5.985
-        ],
-        "rotation": [
-          0.0,
-          105.00000000000001,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
-      }
-    },
-    {
-      "guid": "c18a90255cf8cc69",
-      "name": "A_Lintel_N_s1a",
-      "transform": {
-        "position": [
-          0.0,
-          4.75,
-          6.15
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          2.0,
-          2.5,
-          0.3
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "9bb77edd7cf6e899",
-      "name": "A_Sill_N_s1a",
-      "transform": {
-        "position": [
-          0.0,
-          0.45,
-          6.15
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          2.0,
-          0.9,
-          0.3
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "b454bb04a8eae355",
-      "name": "A_WallM_S",
-      "transform": {
-        "position": [
-          0.0,
-          0.0,
-          -5.995
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/wall.gltf"
-      }
-    },
-    {
-      "guid": "7f3c77e1dc2066fa",
-      "name": "A_Wall_S",
-      "transform": {
-        "position": [
-          0.0,
-          3.0,
-          -6.15
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          12.3,
-          6.0,
-          0.3
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "43f46a422ce96522",
-      "name": "A_WallM_E",
-      "transform": {
-        "position": [
-          5.995,
-          0.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          270.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/wall.gltf"
-      }
-    },
-    {
-      "guid": "c633cfd77d0269dc",
-      "name": "A_Wall_E",
-      "transform": {
-        "position": [
-          6.15,
-          3.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.3,
-          6.0,
-          12.3
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "6279b775eb2b1c82",
-      "name": "A_WallM_W",
-      "transform": {
-        "position": [
-          -5.995,
-          0.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          90.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/wm_12_6db635cc.gltf"
-      }
-    },
-    {
-      "guid": "0b1db5a6a1d2d50a",
-      "name": "A_Wall_W_0",
-      "transform": {
-        "position": [
-          -6.15,
-          3.0,
-          -3.575
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.3,
-          6.0,
-          5.15
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "2a6e4a8431f6121e",
-      "name": "A_Wall_W_1",
-      "transform": {
-        "position": [
-          -6.15,
-          3.0,
-          3.575
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.3,
-          6.0,
-          5.15
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "26d25d37a9cabc99",
-      "name": "A_Leaf_f1",
-      "transform": {
-        "position": [
-          -5.985,
-          0.0,
-          -1.0
-        ],
-        "rotation": [
-          0.0,
-          15.000000000000005,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
-      }
-    },
-    {
-      "guid": "567bb7823e8117bb",
-      "name": "A_Lintel_W_f1",
-      "transform": {
-        "position": [
-          -6.15,
-          4.3,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.3,
-          3.4,
-          2.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "867813f5b69b3dd6",
-      "name": "A_Troffer_1",
-      "transform": {
-        "position": [
-          -3.2,
-          5.99,
-          -3.2
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "61f248a3ffe65cad",
-      "name": "A_Light_1",
-      "transform": {
-        "position": [
-          -3.2,
-          5.55,
-          -3.2
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.88
-        ],
-        "intensity": 9.0,
-        "range": 22.0
-      }
-    },
-    {
-      "guid": "272c83eb7e574af5",
-      "name": "A_Troffer_2",
-      "transform": {
-        "position": [
-          3.2,
-          5.99,
-          -3.2
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "c012bfce559903d7",
-      "name": "A_Light_2",
-      "transform": {
-        "position": [
-          3.2,
-          5.55,
-          -3.2
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.88
-        ],
-        "intensity": 9.0,
-        "range": 22.0
-      }
-    },
-    {
-      "guid": "d08859b34b1dffa6",
-      "name": "A_Troffer_3",
-      "transform": {
-        "position": [
-          -3.2,
-          5.99,
-          3.2
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "7fdf4ca1ec290db9",
-      "name": "A_Light_3",
-      "transform": {
-        "position": [
-          -3.2,
-          5.55,
-          3.2
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.88
-        ],
-        "intensity": 9.0,
-        "range": 22.0
-      }
-    },
-    {
-      "guid": "d2dce2a31ea787f7",
-      "name": "A_Troffer_4",
-      "transform": {
-        "position": [
-          3.2,
-          5.99,
-          3.2
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "6fb7e8119cd642c9",
-      "name": "A_Light_4",
-      "transform": {
-        "position": [
-          3.2,
-          5.55,
-          3.2
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.88
-        ],
-        "intensity": 9.0,
-        "range": 22.0
-      }
-    },
-    {
-      "guid": "777889e0efd9e939",
-      "name": "A_Eave_0",
-      "transform": {
-        "position": [
-          -4.4,
-          0.0,
-          -2.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/eave.gltf"
-      }
-    },
-    {
-      "guid": "7956c4fe35afc36e",
-      "name": "A_Eave_1",
-      "transform": {
-        "position": [
-          0.0,
-          0.0,
-          -2.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/eave.gltf"
-      }
-    },
-    {
-      "guid": "7f62f8aa094dcddd",
-      "name": "A_Eave_2",
-      "transform": {
-        "position": [
-          4.4,
-          0.0,
-          -2.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/eave.gltf"
-      }
-    },
-    {
-      "guid": "f0c48db9cff4b833",
-      "name": "A_EaveW",
-      "transform": {
-        "position": [
-          0.0,
-          3.5,
-          -2.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          12.3,
-          5.0,
-          0.26
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "primitive": "box",
-      "color": [
-        0.9,
-        0.89,
-        0.86
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.6
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "f398225a40548a4b",
-      "name": "A_bench_0",
-      "transform": {
-        "position": [
-          1.6,
-          0.0,
-          -1.0
-        ],
-        "rotation": [
-          0.0,
-          90.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/bench.gltf"
-      }
-    },
-    {
-      "guid": "4f7e444b81aa24d0",
-      "name": "A_locker_1",
-      "transform": {
-        "position": [
-          5.4,
-          0.0,
-          2.6
-        ],
-        "rotation": [
-          0.0,
-          270.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/locker.gltf"
-      }
-    },
-    {
-      "guid": "aa9afbd1da2106e2",
-      "name": "A_crate_2",
-      "transform": {
-        "position": [
-          3.4,
-          0.0,
-          -4.6
-        ],
-        "rotation": [
-          0.0,
-          20.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "675005d779a5da88",
-      "meshRenderer": {
-        "modelPath": "models/crate.gltf"
-      }
-    },
-    {
-      "guid": "f49688dd3242515f",
-      "name": "Room B (x0.5)",
-      "transform": {
-        "position": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "08d3e5023136ad49"
-    },
-    {
-      "guid": "8f5cb5fadca425d0",
-      "name": "B_Floor",
-      "transform": {
-        "position": [
-          0.0,
-          -0.15,
-          13.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          6.15,
-          0.3,
-          6.15
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "primitive": "box",
-      "color": [
-        0.24,
-        0.2,
-        0.12
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.95
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "576babd3a1f95ce0",
-      "name": "B_FloorM",
-      "transform": {
-        "position": [
-          0.0,
-          0.005,
-          13.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/floor.gltf"
-      }
-    },
-    {
-      "guid": "101012ec1555c610",
-      "name": "B_Ceil",
-      "transform": {
-        "position": [
-          0.0,
-          3.075,
-          13.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          6.15,
-          0.15,
-          6.15
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "primitive": "box",
-      "color": [
-        0.72,
-        0.72,
-        0.7
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "a43bff1da1b3662d",
-      "name": "B_CeilM",
-      "transform": {
-        "position": [
-          0.0,
-          2.995,
-          13.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/ceiling.gltf"
-      }
-    },
-    {
-      "guid": "aedb34bc20b0ae17",
-      "name": "B_WallM_N",
-      "transform": {
-        "position": [
-          0.0,
-          0.0,
-          15.995
-        ],
-        "rotation": [
-          0.0,
-          180.0,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/wall.gltf"
-      }
-    },
-    {
-      "guid": "02daea353c5e25d6",
-      "name": "B_Wall_N",
-      "transform": {
-        "position": [
-          0.0,
-          1.5,
-          16.075
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          6.15,
-          3.0,
-          0.15
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "23cccb2eee020ae7",
-      "name": "B_WallM_S",
-      "transform": {
-        "position": [
-          0.0,
-          0.0,
-          10.005
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/wm_12_67140103.gltf"
-      }
-    },
-    {
-      "guid": "ac09e5920f5b17fd",
-      "name": "B_Wall_S_0",
-      "transform": {
-        "position": [
-          -1.7875,
-          1.5,
-          9.925
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          2.575,
-          3.0,
-          0.15
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "559db450a0d9d0f4",
-      "name": "B_Wall_S_1",
-      "transform": {
-        "position": [
-          1.7875,
-          1.5,
-          9.925
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          2.575,
-          3.0,
-          0.15
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "e648bcfae7cd683a",
-      "name": "B_Leaf_s1b",
-      "transform": {
-        "position": [
-          -0.5,
-          0.9,
-          10.0075
-        ],
-        "rotation": [
-          0.0,
-          -105.00000000000001,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
-      }
-    },
-    {
-      "guid": "80f15c0de632f131",
-      "name": "B_Lintel_S_s1b",
-      "transform": {
-        "position": [
-          0.0,
-          2.6,
-          9.925
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          0.7999999999999998,
-          0.15
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "8f9eecead3a66cac",
-      "name": "B_Sill_S_s1b",
-      "transform": {
-        "position": [
-          0.0,
-          0.45,
-          9.925
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          0.9,
-          0.15
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "197d33501962fdf4",
-      "name": "B_WallM_E",
-      "transform": {
-        "position": [
-          2.995,
-          0.0,
-          13.0
-        ],
-        "rotation": [
-          0.0,
-          270.0,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/wall.gltf"
-      }
-    },
-    {
-      "guid": "8fc5bc80654807f4",
-      "name": "B_Wall_E",
-      "transform": {
-        "position": [
-          3.075,
-          1.5,
-          13.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.15,
-          3.0,
-          6.15
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "eb47a3f554c4ea7c",
-      "name": "B_WallM_W",
-      "transform": {
-        "position": [
-          -2.995,
-          0.0,
-          13.0
-        ],
-        "rotation": [
-          0.0,
-          90.0,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/wall.gltf"
-      }
-    },
-    {
-      "guid": "aee6a5626f5e3eef",
-      "name": "B_Wall_W",
-      "transform": {
-        "position": [
-          -3.075,
-          1.5,
-          13.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.15,
-          3.0,
-          6.15
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.92
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "4ed30f3213d23839",
-      "name": "B_Troffer_1",
-      "transform": {
-        "position": [
-          -1.6,
-          2.995,
-          11.4
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "8a579570634dd7b3",
-      "name": "B_Light_1",
-      "transform": {
-        "position": [
-          -1.6,
-          2.775,
-          11.4
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.88
-        ],
-        "intensity": 5.1691425974866565,
-        "range": 11.0
-      }
-    },
-    {
-      "guid": "fa6e0b501a5ed62c",
-      "name": "B_Troffer_2",
-      "transform": {
-        "position": [
-          1.6,
-          2.995,
-          11.4
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "f776e80ca6712859",
-      "name": "B_Light_2",
-      "transform": {
-        "position": [
-          1.6,
-          2.775,
-          11.4
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.88
-        ],
-        "intensity": 5.1691425974866565,
-        "range": 11.0
-      }
-    },
-    {
-      "guid": "ca5b220239fb61be",
-      "name": "B_Troffer_3",
-      "transform": {
-        "position": [
-          -1.6,
-          2.995,
-          14.6
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "029a438ae833c3fd",
-      "name": "B_Light_3",
-      "transform": {
-        "position": [
-          -1.6,
-          2.775,
-          14.6
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.88
-        ],
-        "intensity": 5.1691425974866565,
-        "range": 11.0
-      }
-    },
-    {
-      "guid": "776ee0ad0379acc5",
-      "name": "B_Troffer_4",
-      "transform": {
-        "position": [
-          1.6,
-          2.995,
-          14.6
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          0.5,
-          0.5,
-          0.5
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/troffer.gltf"
-      }
-    },
-    {
-      "guid": "75ca34613280aeba",
-      "name": "B_Light_4",
-      "transform": {
-        "position": [
-          1.6,
-          2.775,
-          14.6
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "pointLight": {
-        "castShadows": false,
-        "color": [
-          0.98,
-          0.96,
-          0.88
-        ],
-        "intensity": 5.1691425974866565,
-        "range": 11.0
-      }
-    },
-    {
-      "guid": "e4c4479c4f16e526",
-      "name": "B_Eave_0",
-      "transform": {
-        "position": [
-          -2.2,
-          0.0,
-          12.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/eave.gltf"
-      }
-    },
-    {
-      "guid": "59efc04a16653d9f",
-      "name": "B_Eave_1",
-      "transform": {
-        "position": [
-          2.2,
-          0.0,
-          12.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/eave.gltf"
-      }
-    },
-    {
-      "guid": "5c85fc7b5f86788e",
-      "name": "B_EaveW",
-      "transform": {
-        "position": [
-          0.0,
-          2.0,
-          12.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          6.15,
-          2.0,
-          0.26
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "primitive": "box",
-      "color": [
-        0.9,
-        0.89,
-        0.86
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.6
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 0,
-        "restitution": 0.0,
-        "useGravity": false
-      }
-    },
-    {
-      "guid": "67fb8bc3e823391a",
-      "name": "B_bench_0",
-      "transform": {
-        "position": [
-          0.8,
-          0.0,
-          12.5
-        ],
-        "rotation": [
-          0.0,
-          90.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/bench.gltf"
-      }
-    },
-    {
-      "guid": "5893e6869fbbeefc",
-      "name": "B_locker_1",
-      "transform": {
-        "position": [
-          2.7,
-          0.0,
-          14.3
-        ],
-        "rotation": [
-          0.0,
-          270.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/locker.gltf"
-      }
-    },
-    {
-      "guid": "3bdd5fd4488164eb",
-      "name": "B_crate_2",
-      "transform": {
-        "position": [
-          1.7,
-          0.0,
-          10.7
-        ],
-        "rotation": [
-          0.0,
-          20.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "f49688dd3242515f",
-      "meshRenderer": {
-        "modelPath": "models/crate.gltf"
-      }
-    },
-    {
-      "guid": "13d1689ee1b2c347",
       "name": "Morph m1",
       "transform": {
         "position": [
@@ -5704,138 +5366,16 @@
           1.0
         ]
       },
-      "parentGuid": "dba17c322e27d977"
+      "parentGuid": "21c8e68e0c596cfd"
     },
     {
-      "guid": "7c6b41a368cc8678",
+      "guid": "99d88849d37508b6",
       "name": "MorphA_m1_0",
       "transform": {
         "position": [
-          3.4,
-          0.0,
-          -4.6
-        ],
-        "rotation": [
-          0.0,
-          20.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "13d1689ee1b2c347",
-      "meshRenderer": {
-        "modelPath": "models/crate.gltf"
-      }
-    },
-    {
-      "guid": "dc7d1ddc1011c3db",
-      "name": "MorphB_m1_0",
-      "transform": {
-        "position": [
           -3.0,
-          -200.0,
-          3.4
-        ],
-        "rotation": [
           0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "13d1689ee1b2c347",
-      "meshRenderer": {
-        "modelPath": "models/bench.gltf"
-      }
-    },
-    {
-      "guid": "ee351b855db818e7",
-      "name": "MorphB_m1_1",
-      "transform": {
-        "position": [
-          -4.2,
-          -200.0,
-          -2.0
-        ],
-        "rotation": [
-          0.0,
-          60.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "13d1689ee1b2c347",
-      "meshRenderer": {
-        "modelPath": "models/crate.gltf"
-      }
-    },
-    {
-      "guid": "106c670195e82e00",
-      "name": "Morph m2",
-      "transform": {
-        "position": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "rotation": [
-          0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "dba17c322e27d977"
-    },
-    {
-      "guid": "18831284fe6a4a2d",
-      "name": "MorphA_m2_0",
-      "transform": {
-        "position": [
-          0.8,
-          0.0,
-          12.5
-        ],
-        "rotation": [
-          0.0,
-          90.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      },
-      "parentGuid": "106c670195e82e00",
-      "meshRenderer": {
-        "modelPath": "models/bench.gltf"
-      }
-    },
-    {
-      "guid": "f695375aa6a487ff",
-      "name": "MorphB_m2_0",
-      "transform": {
-        "position": [
-          -0.5,
-          -200.0,
-          11.5
+          24.6
         ],
         "rotation": [
           0.0,
@@ -5848,73 +5388,44 @@
           1.0
         ]
       },
-      "parentGuid": "106c670195e82e00",
+      "parentGuid": "b8a933020ef91f39",
       "meshRenderer": {
-        "modelPath": "models/crate.gltf"
+        "modelPath": "models/props/crate.gltf"
       }
     },
     {
-      "guid": "7468649740a044a9",
-      "name": "Plug_s1b",
+      "guid": "b46951bf4e05bdf8",
+      "name": "MorphB_m1_0",
       "transform": {
         "position": [
-          0.0,
+          -3.4,
           -200.0,
-          9.5
+          22.6
         ],
         "rotation": [
           0.0,
-          0.0,
+          70.0,
           0.0
         ],
         "scale": [
-          1.1,
-          1.4000000000000001,
-          0.7
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "parentGuid": "dba17c322e27d977",
-      "primitive": "box",
-      "color": [
-        0.62,
-        0.6,
-        0.55
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.9
-      },
-      "boxCollider": {
-        "halfExtents": [
-          0.5,
-          0.5,
-          0.5
-        ],
-        "offset": [
-          0.0,
-          0.0,
-          0.0
-        ]
-      },
-      "rigidBody": {
-        "angularDamping": 0.01,
-        "continuousCollision": false,
-        "friction": 0.6,
-        "linearDamping": 0.02,
-        "mass": 1.0,
-        "motionType": 1,
-        "restitution": 0.0,
-        "useGravity": false
+      "parentGuid": "b8a933020ef91f39",
+      "meshRenderer": {
+        "modelPath": "models/props/bench.gltf"
       }
     },
     {
-      "guid": "9dd0ed8422a7e3aa",
+      "guid": "937ecfc1394ca197",
       "name": "GoalM",
       "transform": {
         "position": [
-          -1.4,
           0.0,
-          15.0
+          0.0,
+          36.8
         ],
         "rotation": [
           0.0,
@@ -5927,19 +5438,19 @@
           1.0
         ]
       },
-      "parentGuid": "4287fac4c01c410b",
+      "parentGuid": "7bcfbefd1ab11b40",
       "meshRenderer": {
-        "modelPath": "models/goal.gltf"
+        "modelPath": "models/game/goal.gltf"
       }
     },
     {
-      "guid": "35cfd1cfc183b7b3",
+      "guid": "c5eb2335e7259f39",
       "name": "Goal",
       "transform": {
         "position": [
-          -1.4,
+          0.0,
           0.2,
-          15.0
+          36.8
         ],
         "rotation": [
           0.0,
@@ -5952,16 +5463,16 @@
           0.2
         ]
       },
-      "parentGuid": "4287fac4c01c410b"
+      "parentGuid": "7bcfbefd1ab11b40"
     },
     {
-      "guid": "96030791c7804043",
+      "guid": "5bf644eb3186822b",
       "name": "GoalLightF",
       "transform": {
         "position": [
-          -1.3999999999999997,
+          1.8369701987210297e-16,
           0.55,
-          13.5
+          35.3
         ],
         "rotation": [
           0.0,
@@ -5974,7 +5485,7 @@
           1.0
         ]
       },
-      "parentGuid": "4287fac4c01c410b",
+      "parentGuid": "7bcfbefd1ab11b40",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -5987,13 +5498,13 @@
       }
     },
     {
-      "guid": "8756acaf1f4dd31b",
+      "guid": "4ca63eaba48e5c47",
       "name": "GoalLightB",
       "transform": {
         "position": [
-          -1.4000000000000001,
+          -1.8369701987210297e-16,
           0.55,
-          16.5
+          38.3
         ],
         "rotation": [
           0.0,
@@ -6006,7 +5517,7 @@
           1.0
         ]
       },
-      "parentGuid": "4287fac4c01c410b",
+      "parentGuid": "7bcfbefd1ab11b40",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -6019,13 +5530,13 @@
       }
     },
     {
-      "guid": "2344e8fc3887906d",
+      "guid": "8df81adb5046a1e3",
       "name": "GoalFx",
       "transform": {
         "position": [
-          -1.4,
+          0.0,
           0.15,
-          15.0
+          36.8
         ],
         "rotation": [
           0.0,
@@ -6038,7 +5549,7 @@
           1.0
         ]
       },
-      "parentGuid": "4287fac4c01c410b",
+      "parentGuid": "7bcfbefd1ab11b40",
       "particleEmitter": {
         "kind": 0,
         "blend": 0,
@@ -6075,7 +5586,96 @@
       }
     },
     {
-      "guid": "c95d2a9b70e81c02",
+      "guid": "caf0ce41c9fe7e26",
+      "name": "Decoy_0",
+      "transform": {
+        "position": [
+          28.5,
+          0.0,
+          26.0
+        ],
+        "rotation": [
+          0.0,
+          270.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "7bcfbefd1ab11b40",
+      "meshRenderer": {
+        "modelPath": "models/game/goal.gltf"
+      }
+    },
+    {
+      "guid": "1906216561b56324",
+      "name": "DecoyLight0F",
+      "transform": {
+        "position": [
+          27.0,
+          0.55,
+          26.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "7bcfbefd1ab11b40",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.25,
+          1.0,
+          0.62
+        ],
+        "intensity": 5.0,
+        "range": 9.0
+      }
+    },
+    {
+      "guid": "cc550f8c1c5af811",
+      "name": "DecoyLight0B",
+      "transform": {
+        "position": [
+          30.0,
+          0.55,
+          26.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "parentGuid": "7bcfbefd1ab11b40",
+      "pointLight": {
+        "castShadows": false,
+        "color": [
+          0.25,
+          1.0,
+          0.62
+        ],
+        "intensity": 5.0,
+        "range": 9.0
+      }
+    },
+    {
+      "guid": "ded4938e692c73dd",
       "name": "Pilot",
       "transform": {
         "position": [
@@ -6094,7 +5694,7 @@
           0.22
         ]
       },
-      "parentGuid": "4287fac4c01c410b",
+      "parentGuid": "7bcfbefd1ab11b40",
       "primitive": "sphere",
       "color": [
         0.55,
@@ -6107,7 +5707,7 @@
       }
     },
     {
-      "guid": "b4c57e3d079067e9",
+      "guid": "22cf62d71e66d533",
       "name": "PilotLight",
       "transform": {
         "position": [
@@ -6126,7 +5726,7 @@
           1.0
         ]
       },
-      "parentGuid": "4287fac4c01c410b",
+      "parentGuid": "7bcfbefd1ab11b40",
       "pointLight": {
         "castShadows": false,
         "color": [
@@ -6139,13 +5739,13 @@
       }
     },
     {
-      "guid": "9c44365e57fa6bf6",
+      "guid": "d5ca0a1d9f7dc3e9",
       "name": "Body_0",
       "transform": {
         "position": [
           0.0,
           -200.0,
-          1.0
+          -9.0
         ],
         "rotation": [
           0.0,
@@ -6174,13 +5774,13 @@
       }
     },
     {
-      "guid": "96547468dc047205",
+      "guid": "a45eb72f76362d63",
       "name": "Body_1",
       "transform": {
         "position": [
           0.0,
           -200.0,
-          1.0
+          -9.0
         ],
         "rotation": [
           0.0,
@@ -6209,13 +5809,13 @@
       }
     },
     {
-      "guid": "e2cd0c2bab53e7d9",
+      "guid": "187bc19a3eb9ba80",
       "name": "Body_2",
       "transform": {
         "position": [
           0.0,
           -200.0,
-          1.0
+          -9.0
         ],
         "rotation": [
           0.0,
@@ -6244,13 +5844,13 @@
       }
     },
     {
-      "guid": "3810fc814ceedfe8",
+      "guid": "380472c9ebc20d98",
       "name": "Body_3",
       "transform": {
         "position": [
           0.0,
           -200.0,
-          1.0
+          -9.0
         ],
         "rotation": [
           0.0,
@@ -6279,13 +5879,13 @@
       }
     },
     {
-      "guid": "d5d91e3534331f8c",
+      "guid": "0721cba841786036",
       "name": "Body_4",
       "transform": {
         "position": [
           0.0,
           -200.0,
-          1.0
+          -9.0
         ],
         "rotation": [
           0.0,
@@ -6314,7 +5914,7 @@
       }
     },
     {
-      "guid": "41f48dc981e89e35",
+      "guid": "b0f3769087d736e9",
       "name": "MainCamera",
       "camera": {
         "farClip": 300.0,
@@ -6332,7 +5932,7 @@
         "position": [
           0.0,
           1.7,
-          1.0
+          -9.0
         ],
         "rotation": [
           0.0,
@@ -6347,7 +5947,7 @@
       }
     },
     {
-      "guid": "08398fa286e954f7",
+      "guid": "675005d779a5da88",
       "name": "Logic_Stage_3",
       "transform": {
         "position": [
@@ -6366,7 +5966,7 @@
           1.0
         ]
       },
-      "parentGuid": "4287fac4c01c410b",
+      "parentGuid": "7bcfbefd1ab11b40",
       "luaScript": {
         "enabled": true,
         "scriptPath": "components/Junction.lua"

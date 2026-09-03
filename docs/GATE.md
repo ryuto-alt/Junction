@@ -143,9 +143,9 @@ band = clamp(floor((lat + DOORW/2) / (DOORW/n)) + 1, 1, n)
 
 Lua が実行時に `scene:spawn` する物:
 ```
-Band_<id>_<k>   開口の色帯    models/band.gltf   （原点=底面中心、+Y へ立つ板、幅1/高さ1で作り scale で伸ばす）
-Lane_<id>_<k>   床のレーン    models/lane.gltf   （原点=手前端の中心、+Z へ伸びる平板、幅1/長さ1）
-Pin_<n>         接続ピン      models/pin.gltf    （据え置き）
+Band_<id>_<k>   開口の色帯    models/game/band.gltf   （原点=底面中心、+Y へ立つ板、幅1/高さ1で作り scale で伸ばす）
+Lane_<id>_<k>   床のレーン    models/game/lane.gltf   （原点=手前端の中心、+Z へ伸びる平板、幅1/長さ1）
+Pin_<n>         接続ピン      models/game/pin.gltf    （据え置き）
 ```
 削除: `W_<id>_<k>` / `Needle` / `NeedleEdge` / `models/wedge*.gltf` / `models/needle.gltf`
 

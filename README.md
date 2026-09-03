@@ -31,7 +31,7 @@ Game.exe
 
 ## ルール（プレイヤーには見せない）
 
-契約書は **`docs/V8.md`**。**ここが心臓なので、触る前に必ず読むこと。**（v7 以前は履歴）
+契約書は **`docs/V9.md`**（その前の骨格は `docs/V8.md`）。**ここが心臓なので、触る前に必ず読むこと。**（v7 以前は履歴）
 
 1. 部屋には縮尺（0.5 / 1 / 2）がある。壁・天井・扉・目地だけがその倍率。中に居る限り普通の部屋。
 2. ★**什器（ベンチ 0.95m / ロッカー 1.95m / 木箱 0.75m）は絶対寸法**。部屋の縮尺を掛けない。
@@ -46,6 +46,24 @@ Game.exe
 | 0.5 | 0.90 m | 目の高さ | 見上げる壁 | 越えられない |
 | 1 | 1.80 m | 腰 | 自分より高い | 越えられない |
 | 2 | 3.60 m | 脛 | 腰 | **膝。跨げる** |
+
+---
+
+## ★2026-09-03 — v9「白い壁と坂道の犯人を捕まえ、1〜3 面を組み直した」
+
+契約書は **`docs/V9.md`**。指摘は 2 つとも**実機の不具合**で、原因は設計ではなく生成側にあった。
+
+| 指摘 | 真因(実測) | 対処 |
+|---|---|---|
+| 部屋と部屋の間に白い壁があって要らない | 台形メッシュが**突き当りの壁を無条件で張っていた**。それは向こうの部屋の開口と同寸・同位置 = **入口をぴったり塞ぐ白い板**。当たり判定は無いので歩けば抜ける | 奥の壁は**偽の廊下だけ**(`cap`)。★同じ板が窓にも入っていたので、v8 の**窓は不透明だった** |
+| 坂道でがくんと視点が一瞬動く | 偽の廊下は強制遠近法で床が上がる(24.5 度)。その当たり判定を **8 個の箱に刻んで**いたので、1 段 0.14m の階段を 8 回登っていた | 床・天井・側壁は平面 = **傾けた板 1 枚ずつ**に置き換え。物理レイで段差ゼロを実測 |
+
+ついでに、黙って効いていた不具合を 5 つ潰した(全部 `docs/V9.md`)。とくに
+**`resetRun` が Play のたびに環境光を 0.035 へ上書きしていた**(v8 で 0.16 に上げたはずの値が
+効くのは Editor だけだった)のと、**第8面の部屋 B と D が 4.1m x 5.6m 重なっていた**のは、
+新しく足した検査 `check_layout` / `check_corridors` が無ければ見つからなかった。
+
+1〜3 面は「小さくなったのか、目が騙されているのか」を軸に作り直した。
 
 ---
 
@@ -70,9 +88,9 @@ v7 で錯覚そのものは成立した（第9面）。v8 はそれを **第1面
 
 | 面 | 題 | 教える事 | 縮尺の道筋 |
 |---|---|---|---|
-| 1 | 扉 | 道具一式（偽の廊下・背後改変・什器が物差し） | 1 → 0.5 → 2 |
-| 2 | 窓 | 窓は物差し。二択を家具の見え方で選ぶ | 1 → 2 |
-| 3 | 敷居 | 小さくなると損をする。膝の敷居が胸になる | 1 → 0.5 |
+| 1 | おなじ部屋 | 部屋を 1 つしか使わない。同じ部屋に四度帰ってくる（v9） | 1 → 0.5 → 1 → 2 |
+| 2 | 輪 | 戻ってきた部屋が、戻ってきていない（v9 で作り直し） | 1 → 0.5 → 1 → 2 |
+| 3 | 並び | 歩いても絵が変わらない。部屋 3 つが 1 本の廊下に見える（v9 で作り直し） | 2 → 1 → 0.5 |
 | 4 | 三つの廊下 | 見えている物を疑う。塞がれた扉だけが本物 | 1 → 2 |
 | 5 | 溝 | 柱の太さは変わらない。大広間で柱が爪楊枝になる | 1 → 2 → 0.5 |
 | 6 | 輪 | 回ると「最初の部屋」に戻る（実は同じ絵の別室） | 1 → 2 → 1 → 0.5 |
@@ -89,11 +107,16 @@ v7 で錯覚そのものは成立した（第9面）。v8 はそれを **第1面
 ```
 python source/gen_textures.py          # tex/*.png
 python source/gen_sfx.py               # audio/**
-python source/gen_stages.py            # scenes/*.json, Junction.lua の STAGES, models/manifest.json(壁・床・廊下)
-# 壁モデルが足りないと言われたら BlenderMCP から:
-#   JX_MANIFEST_ONLY = True
-#   exec(open(r"...source/blender_kit.py", encoding="utf-8").read())
+python source/gen_stages.py            # scenes/*.json, Junction.lua の STAGES, models/gen/manifest.json(壁・床・廊下)
+# 壁・廊下のモデルが足りないと言われたら（BlenderMCP は要らない）:
+blender.exe --background --factory-startup --python source/run_kit.py
 ```
+
+★**BlenderMCP が落ちていてもモデルは出せる。** `source/run_kit.py` が
+`JX_MANIFEST_ONLY=True` と `JX_ROOT` を渡して `blender_kit.py` を叩くだけなので、
+`blender.exe --background` で回る（実測: Blender 5.1）。
+★**システムの `python` が Microsoft Store のスタブだと何も動かない。**
+`gen_stages.py` は標準ライブラリしか使わないので、Blender 同梱の python でよい。
 
 `gen_stages.py` はステージを書き出す前に **全状態 (部屋, 区画, 大きさ) を総当たり**して、
 出口に着けるか / 想定手数（`minHops`）より短く解けないか / **到達できる全状態から出口へ戻れるか（詰み無し）** /
@@ -108,6 +131,32 @@ python source/gen_stages.py            # scenes/*.json, Junction.lua の STAGES,
 | Lua | `assets/components/*.lua` | `source/**`, `assets/scenes/**` |
 | レベル | `source/gen_stages.py`, `assets/scenes/**` | `assets/components/**` |
 
+### `assets/models/` の置き場所
+
+```
+arch/wall/   壁。wall / wall8 / wall18 / wall20 と、その開口違い(_door/_hatch/_vent/_gate/_window/_hi)
+arch/slab/   床と天井の板。floor* / ceiling*
+arch/trim/   部屋の造作。column / doorleaf / eave / seam / divider / blocker / barrier / railing
+props/       什器と設備。bench / locker / crate / vent / pipes / troffer
+game/        ゲームの仕掛け。goal / pin / band / lane / figure / hand
+gen/         ★自動生成。手で置かない・手で消さない
+  manifest.json  gen_stages.py が書き、blender_kit.py が読む注文書
+  floor/   fm_*   床(部屋ごとの寸法)
+  ceil/    cm_*   天井(同上)
+  tunnel/  tn_*   継ぎ目の台形の廊下
+  wall/    wm_*   開口が複数ある壁
+tex/         テクスチャ。gen_textures.py が書く
+```
+
+★どのモデルがどこへ行くかは **`dest_of()` が唯一の正**。`source/blender_kit.py` と
+`source/gen_stages.py` の **両方に同じ物がある。片方だけ直すと**、シーンが書くパスと
+実ファイルの場所がずれて **モデルが丸ごと消える**。新しいモデルを足したら両方に足すこと
+(知らない名前は例外で落ちるので、`models/` 直下に散らかることはない)。
+
+★`.gltf` の中の `"uri"` は **その `.gltf` からの相対**。`tex/` は `models/` 直下のままなので、
+深さ 2 のフォルダ(`arch/wall` など)からは `../../tex/xxx.png` になる。
+`blender_kit.py` の `export()` が書き出し時に付け直している。
+
 ### 幾何の規約
 
 - 部屋は内寸の面と面が **`GAP = 4.0m`** 離れて隣り合う。その 4m を台形の廊下が貫く。
@@ -120,6 +169,17 @@ python source/gen_stages.py            # scenes/*.json, Junction.lua の STAGES,
 
 ## 踏んだ罠（時間を溶かした順）
 
+- ★★**台形の廊下メッシュの「突き当りの壁」は偽の廊下だけのもの。** 本物の継ぎ目や窓に付けると、
+  向こうの部屋の開口を同寸の白い板がぴったり塞ぐ。**当たり判定が無いので歩けば抜けてしまい**、
+  「壁に見えるのに通れる」という一番たちの悪い絵になる（v9 まで 8 面すべてで起きていた）。
+- ★★**傾いた床の当たり判定を「区間ごとの軸並行な箱」で作ると階段になる。** 段差登りが
+  そのたびカメラを持ち上げるので「がくんと跳ねる」。平面は**傾けた箱 1 枚**で厳密に表せる。
+- ★**`resetRun` は Play のたびにシーンの設定を上書きする。** 環境光をシーン JSON で直しても、
+  ここに古い値が直書きされていると Editor でしか効かない。
+- ★**同じ口に栓(plug)を 2 つ作らない。** `plugs` と morph の `seal/unseal` は別々に栓を作る。
+  名前引きは 1 体しか掴めないので、もう 1 体が口を塞いだまま残り**扉が永久に開かない**。
+- ★**部屋どうし・廊下と部屋の重なりは目で見つからない。** 壁が壁を貫くだけなので絵は一見それらしい。
+  `check_layout` / `check_corridors` に任せること。
 - ★★**エンジンの重力は 9.8 ではなく 14 m/s²**（`PhysicsSystem.cpp`）。`jumpSpeed` を 9.8 で
   計算すると跳べる高さが 0.9 → 0.63 になり、高い口に届かない。
 - ★**空中でも WASD は効く**が、`physics:jump` を Lua の task から撃った実験では水平に進まなかった。
