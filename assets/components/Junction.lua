@@ -484,7 +484,7 @@ local function pilot(self, t, p)
     local h = hint[self.hintIdx]
     local ty = 1.1 + 0.6 * self.shownScale
     local y = ty + math.sin(t * 2.1) * 0.16
-    local sc = 0.20 + 0.035 * math.sin(t * 4.3)
+    local sc = 0.20
     place("Pilot", h[1], y, h[2], nil, sc, sc, sc)
     place("PilotLight", h[1], y, h[2])
     local pl = ent("PilotLight")

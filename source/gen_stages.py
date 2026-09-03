@@ -134,6 +134,15 @@ def model(name, path, pos, yaw=0.0, parent=None, scale=(1, 1, 1)):
     return e
 
 
+def add_box_collider(e, half, offset, kinematic=False):
+    e["boxCollider"] = {"halfExtents": list(half), "offset": list(offset)}
+    e["rigidBody"] = {"angularDamping": 0.01, "continuousCollision": False,
+                      "friction": 0.6, "linearDamping": 0.02, "mass": 1.0,
+                      "motionType": 1 if kinematic else 0,
+                      "restitution": 0.0, "useGravity": False}
+    return e
+
+
 def plight(name, pos, color, intensity, rng, parent=None):
     e = base(name, pos, parent=parent)
     e["pointLight"] = {"castShadows": False, "color": list(color),
@@ -581,10 +590,12 @@ class World:
             #   縮尺 2 の部屋では脛の高さに、0.5 の部屋では見上げる壁になる。
             #   v6 は什器も k 倍していたので【絵が完全に同じ】になり、錯覚が起きようがなかった。
             sc = (1.0, ch / 4.0, 1.0) if kind == "column" else (1.0, 1.0, 1.0)
-            ents.append(model("%s_%s_%d" % (rid, kind, i), P["path"], (cx + lx * k, fy + y, cz + lz * k), yaw, g, sc))
+            e = model("%s_%s_%d" % (rid, kind, i), P["path"], (cx + lx * k, fy + y, cz + lz * k), yaw, g, sc)
             if P["block"]:
+                add_box_collider(e, P["half"], P["offset"])
                 top = P["top"] if P["top"] < 90.0 else ch
                 self.fixtures.setdefault(rid, []).append((cx + lx * k, cz + lz * k, P["r"], top))
+            ents.append(e)
 
         # 柵(絶対 1.7m。長さだけ部屋に合わせる)
         for i, (axis, c) in enumerate(lay.get("bars", ())):
@@ -651,7 +662,10 @@ class World:
                         y = SHAPES[r["shape"]]["h"] * k - 0.01
                     nm = "Morph%s_%s_%d" % (tag, mo["id"], i)
                     px, pz = cx + lx * k, cz + lz * k
-                    ents.append(model(nm, P["path"], (px, HIDE_Y if hidden else fy + y, pz), yaw, gm))
+                    e = model(nm, P["path"], (px, HIDE_Y if hidden else fy + y, pz), yaw, gm)
+                    if P["block"]:
+                        add_box_collider(e, P["half"], P["offset"], kinematic=True)
+                    ents.append(e)
                     rows.append((nm, px, fy + y, pz, tag))
             self.morphs.append(dict(id=mo["id"], room=rid, wx=cx, wz=cz,
                                     x=cx + mo.get("at", (0, 0))[0] * k,
@@ -745,11 +759,11 @@ class World:
 
 
 PROPS = {
-    "bench":   dict(path="models/bench.gltf",   y=0.0, r=0.90, top=0.95, block=True),
-    "column":  dict(path="models/column.gltf",  y=0.0, r=0.45, top=99.0, block=True),
-    "locker":  dict(path="models/locker.gltf",  y=0.0, r=0.85, top=1.95, block=True),
-    "crate":   dict(path="models/crate.gltf",   y=0.0, r=0.55, top=0.75, block=True),
-    "railing": dict(path="models/railing.gltf", y=0.0, r=1.55, top=1.10, block=True),
+    "bench":   dict(path="models/bench.gltf",   y=0.0, r=0.90, top=0.95, block=True,  half=(0.85, 0.48, 0.25), offset=(0.0, 0.48, 0.0)),
+    "column":  dict(path="models/column.gltf",  y=0.0, r=0.45, top=99.0, block=True,  half=(0.36, 3.00, 0.36), offset=(0.0, 3.00, 0.0)),
+    "locker":  dict(path="models/locker.gltf",  y=0.0, r=0.85, top=1.95, block=True,  half=(0.80, 0.95, 0.30), offset=(0.0, 0.95, 0.025)),
+    "crate":   dict(path="models/crate.gltf",   y=0.0, r=0.55, top=0.75, block=True,  half=(0.425, 0.35, 0.425), offset=(0.0, 0.35, 0.0)),
+    "railing": dict(path="models/railing.gltf", y=0.0, r=1.55, top=1.10, block=True,  half=(1.50, 0.533, 0.065), offset=(0.0, 0.533, 0.0)),
     "vent":    dict(path="models/vent.gltf",    y=None, r=0.4, top=0.0, block=False),
     "pipes":   dict(path="models/pipes.gltf",   y=None, r=3.0, top=0.0, block=False),
 }

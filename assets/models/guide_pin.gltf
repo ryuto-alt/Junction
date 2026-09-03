@@ -15,7 +15,12 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"\u5186\u9310"
+			"name":"\u5186\u9310",
+			"scale":[
+				2,
+				2,
+				2
+			]
 		}
 	],
 	"meshes":[
@@ -98,7 +103,7 @@
 	"buffers":[
 		{
 			"byteLength":548,
-			"uri":"pin.bin"
+			"uri":"guide_pin.bin"
 		}
 	]
 }
