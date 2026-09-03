@@ -24,14 +24,26 @@ OUT = os.path.join(ROOT, "assets", "models")
 # ---- 寸法。gen_stages.py と【必ず一致】させる。★変えるな、増やせ ----
 WALLT = 0.3     # 壁の厚み(gen_stages.py の WALLT)
 SPAN  = 12.3    # box12 の壁の全長 = 内寸 12 + WALLT
-WALLH = 4.0
-DOORW = 2.0     # ★1.5 から拡張。開口を行き先の数だけ縦の帯に割るので、
-                #   4 出口でも帯が 0.5m 残る幅が要る(1.5 だと 0.375m でプレイヤー直径 0.7m に対し狭すぎた)。
-                #   ついでに「人が通る扉」でなく「門・ゲート」に見える。
+WALLH = 6.0     # ★4.0 -> 6.0。門(高さ 5.2)が box12 に入らないと第1面が成立しない(docs/SCALE.md)
+DOORW = 2.0     # 「扉」= 大きさ 1 の開口の幅。★OPENINGS の "door" と同じ値
 DOORH = 2.6
-WINW  = 6.0     # 窓の開口(第1面の「見えているのに行けない」)
+WINW  = 6.0     # 【景色としての窓】。繋げない。第1面の「見えているのに行けない」用
 WINY0 = 1.0
 WINY1 = 3.0
+
+# ---------------------------------------------------------------- 開口の大きさ(docs/SCALE.md)
+# ★これがゲームの心臓。gen_stages.py の OPENINGS と Junction.lua の OPEN と【必ず一致】。
+#   全部相似形(幅:高さ = 2:2.6)。だから「体が開口をどれだけ埋めているか」が
+#   どの大きさでも同じに見える = 大きさ比べが一目で分かる。
+OPENINGS = {
+    "vent":  (0.50, 0.65),   # size 0.25
+    "hatch": (1.00, 1.30),   # size 0.5
+    "door":  (2.00, 2.60),   # size 1
+    "gate":  (4.00, 5.20),   # size 2
+}
+SILL_HI = 0.9   # 「高い開口」の敷居。★手の届く高さは 1.4 x scale なので、
+                #   大きさ 0.5 以下では届かない = 【小さくなりすぎると損をする】装置。
+                #   これが無いと「小さいほど得」になってゲームが一方通行になる。
 
 # 部屋の形。SPAN は「内寸 + WALLT」= 隣の壁と角で噛み合う長さ。
 #   (内寸X, 内寸Z, 天井高)。box12 は既存の floor/ceiling/wall/wall_door がこれ。
@@ -311,7 +323,10 @@ def wall_mesh(L, H, op=None):
     baseboard(b, -h, -d); baseboard(b, d, h)
     if y0 > 1e-6:
         baseboard(b, -d, d)
-    cw, cd = 0.13, 0.045                        # ケーシングの幅/出っ張り
+    # ★ケーシングは開口の大きさに比例させる。0.13 固定だと 0.5m の通気口が
+    #   枠だらけになり、相似形に見えなくなる(= 大きさ比べが崩れる)
+    cw = max(0.05, 0.065 * w)
+    cd = max(0.025, 0.0225 * w)                 # ケーシングの出っ張り
     pz0 = y0 - cw if y0 > 1e-6 else 0.0         # 縦枠は開口の上下に cw ぶん回り込む
     pz1 = y1 + cw
     for s in (-1, +1):
@@ -421,6 +436,157 @@ def build_rooms():
             "jx_wall_%s_door" % tag, [M_WALL, M_PAINT]), "wall%s_door.gltf" % tag)
 
 
+# ---------------------------------------------------------------- 開口(docs/SCALE.md)
+# ★このゲームの心臓。開口は 4 つの大きさ(通気口/小口/扉/門)しか無く、全部相似形。
+#   「中間の大きさ」を 1 つでも作ってはいけない(見れば分かる、という信頼が崩れる)。
+MIN_LINTEL = 0.25   # 開口の上に最低これだけ壁を残す。残らない組合せは作らない
+
+
+def wall_variants():
+    """(ファイル接頭辞, 壁の全長, 壁の高さ) の一覧。gen_stages.py の SHAPES と対。"""
+    return (("",   SPAN,        WALLH),   # box12  12.3 x 6.0
+            ("20", 20.0 + WALLT, 7.0),    # hall20
+            ("18", 18.0 + WALLT, 3.2),    # corr18 の長辺
+            ("8",  8.0 + WALLT,  3.2))    # cell8 / corr18 の短辺
+
+
+def opening_fits(H, size, hi):
+    y0 = SILL_HI if hi else 0.0
+    return y0 + OPENINGS[size][1] <= H - MIN_LINTEL
+
+
+def build_openings():
+    """4 つの大きさ x 4 つの壁 x (床置き / 高い所) の開口つき壁を全部出す。
+    ★命名は wall<TAG>_<size>.gltf / wall<TAG>_<size>_hi.gltf。
+      gen_stages.py はこの名前を機械的に組み立てるので、規約を変えたら両方直すこと。"""
+    M_WALL = mat("jx_wall", "wall_col.png", 0.88, 0.0, "wall_nrm.png")
+    M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
+    n = 0
+    for tag, L, H in wall_variants():
+        for size, (w, h) in OPENINGS.items():
+            for hi in (False, True):
+                if not opening_fits(H, size, hi):
+                    continue
+                y0 = SILL_HI if hi else 0.0
+                fn = "wall%s_%s%s.gltf" % (tag, size, "_hi" if hi else "")
+                export(wall_mesh(L, H, (w, y0, y0 + h)).make(
+                    "jx_w%s_%s%s" % (tag, size, "_hi" if hi else ""),
+                    [M_WALL, M_PAINT]), fn)
+                n += 1
+    print("openings:", n)
+
+
+# ---------------------------------------------------------------- 出口と継ぎ目
+def build_goal():
+    """goal.gltf … 出口。★「緑の細い箱」ではなく【壁から独立して立っている扉】にする。
+      壁の無いところに扉だけが立っている = リミナルの定番であり、
+      このゲームの主題(継ぎ目)そのもの。中に枠が入れ子で奥へ続いていて、
+      【外から見た奥行きより中の方が深い】= 不思議さは寸法の嘘で出す。
+      原点=床の中心、正面は ±Z(どちらから来ても同じ絵になるよう左右対称)。
+
+    seam.gltf … 継ぎ目。★プレイヤーが「つなぐ」ための唯一の物。
+      壁に開いていない、床に立った未完成の枠。体当たりすると【自分の大きさの口になって開く】。
+      ★幅 1.0 / 高さ 1.3 / 原点=床の中心 で作り、Lua が【一様スケール】で実寸へ伸ばす
+        (開口は全部 幅:高さ = 2:2.6 = 1:1.3 の相似形なので一様で正しい)。"""
+    M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
+    M_METAL = mat("jx_metal", "metal_col.png", 0.45, 0.6)
+    M_CONC = mat("jx_concrete", "concrete_col.png", 0.90, 0.0, "concrete_nrm.png")
+
+    # ---- 出口の門(v8)。★「ゴールに見えない」への答え ----
+    #   旧版は白い入れ子の枠で、白い部屋の中では【ただの彫刻】にしか見えなかった。
+    #   v8 は非常口そのものの語彙で作る: 濃い金属の門 + 緑に光る敷居 + 下向き矢印の標識
+    #   + 床の矢羽根。緑はこのゲームで【出口にしか使わない色】なので、遠くの一瞥で分かる。
+    #   ★総高 2.90m に収めること。縮尺 0.5 の部屋は天井が 3.0m しかない。
+    #   ★原点 = 床の中心。±Z 対称(どちらから来ても同じ絵)。
+    M_GLOW = mat("jx_glow", "glow_col.png", 0.35)
+    M_SIGN = mat("jx_exit", "exit_col.png", 0.40)
+    M_DARK = mat("jx_metal_d", "dark_col.png", 0.42, 0.55)
+    b = Build()
+    MD, GL, SG = 0, 1, 2
+    b.ebox((0, 0.055, 0), (2.60, 0.11, 1.10), MD, 0.5)              # 台座
+    b.ebox((0, 0.125, 0), (2.24, 0.03, 0.86), GL, 0.5)              # 足元の緑の線
+    for sx in (-1, 1):                                               # 方立(内側 |x|=0.94)
+        b.ebox((sx * 1.10, 1.20, 0), (0.32, 2.20, 0.62), MD, 0.5)
+    b.ebox((0, 2.41, 0), (2.60, 0.22, 0.66), MD, 0.5)               # 楣
+    b.ebox((0, 2.71, 0), (1.42, 0.38, 0.14), MD, 0.5)               # 標識の枠
+    b.ebox((0, 1.20, 0), (1.88, 2.20, 0.07), GL, 0.5)               # 緑に光る敷居(門の面)
+    for sz in (-1, 1):                                               # 口の見込み(奥行きを出す)
+        b.ebox((0, 2.34, sz * 0.26), (1.98, 0.10, 0.10), MD, 0.5)
+        for sx in (-1, 1):
+            b.ebox((sx * 0.99, 1.20, sz * 0.26), (0.10, 2.28, 0.10), MD, 0.5)
+
+    def signface(yc, w, h, z, sgn):
+        x0, x1, y0, y1 = -w / 2, w / 2, yc - h / 2, yc + h / 2
+        P = [(x0, y0), (x1, y0), (x1, y1), (x0, y1)]
+        UV = [(0, 0), (1, 0), (1, 1), (0, 1)]
+        if sgn < 0:
+            P, UV = P[::-1], UV[::-1]
+        b.face([E(px, py, sgn * z) for (px, py) in P], UV, SG)
+
+    for sgn in (-1, 1):                                              # 標識の面(両面)
+        signface(2.71, 1.28, 0.30, 0.076, sgn)
+        for i, (d, hw) in enumerate(((1.05, 0.58), (1.80, 0.50), (2.55, 0.42))):
+            # ★床の矢羽根。門へ向かう三角。遠くからでも「あっちだ」と分かる唯一の誘導
+            b.eprism([(-hw, sgn * (d + 0.34)), (hw, sgn * (d + 0.34)), (0.0, sgn * (d - 0.34))],
+                     0.008, 0.020, GL, 0.5)
+    export(b.make("jx_goal", [M_DARK, M_GLOW, M_SIGN]), "goal.gltf")
+
+    # ---- 継ぎ目。幅 1.0 / 高さ 1.3(原点=床の中心)。閉じている間も同じ形で小さく置く ----
+    b = Build()
+    T = 0.075
+    b.ebox((0, 0.030, 0), (1.34, 0.06, 0.34), 1, 1.0)                # 足元の板(床の傷)
+    for sx in (-1, 1):
+        b.ebox((sx * (0.5 + T * 0.5), 0.65, 0), (T, 1.30, 0.11), 0, 1.0)
+    b.ebox((0, 1.30 + T * 0.5, 0), (1.0 + T * 2, T, 0.11), 0, 1.0)
+    # ★縦の「ほつれ」。閉じている時はこれだけが白い壁に浮いて見える
+    for i in range(5):
+        x = -0.40 + i * 0.20
+        b.ebox((x, 0.65 + (i % 2) * 0.06, 0.045), (0.018, 1.16 - (i % 3) * 0.14, 0.02), 1, 1.0)
+    export(b.make("jx_seam", [M_PAINT, M_METAL]), "seam.gltf")
+
+    # ---- 低い庇(くぐる場所)。原点=底面の中心、長さ方向 X。小さくないと通れない ----
+    # ★原点=床の中心。下端 1.0m の隙間 = 体高 1.8x大きさ が 1.0 未満、
+    #   つまり【大きさ 0.5 以下でないとくぐれない】。gen_stages 側で Y を伸ばして調整もできる
+    b = Build()
+    # ★奥行きは 0.6m。1.2m あると縮尺 0.5 の部屋(内寸 6m)で出口の門に食い込む(v8 実測)
+    b.ebox((0, 1.10, 0), (4.4, 0.20, 0.6), 0, 0.5)                    # 庇
+    for sx in (-1, 1):
+        b.ebox((sx * 2.05, 0.50, 0), (0.30, 1.00, 0.6), 1, 0.7)       # 脚
+    export(b.make("jx_eave", [M_CONC, M_PAINT]), "eave.gltf")
+
+
+# ---------------------------------------------------------------- 人型と手
+def build_figure():
+    """figure.gltf … 虚無の中で「入口の自分」と「出口の自分」を並べて見せる人型。
+      ★原点=足元、高さ【1.0】、厚み 0.05、正面は +Z。Lua が scale で実寸へ伸ばす。
+      ★色は Lua の setColor(乗算)で乗るので、テクスチャは無彩色でなければならない。
+    hand.gltf … 一人称の手。★これが無いと「世界が変わった」のか「自分が変わった」のか
+      区別が付かない(調査: 自分の身体は最強のスケール手がかり)。
+      原点=手首の少し手前、+Z が指先、長さ 0.45 くらい。カメラ相対で毎フレーム置く。"""
+    M_PLAIN = mat("jx_plain", "plain_col.png", 0.55)
+    M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
+
+    T = 0.05
+    b = Build()
+    b.ebox((0.00, 0.9075, 0.0), (0.170, 0.185, T), 0, 1.0)     # 頭。天辺がちょうど y=1.0
+    b.ebox((0.00, 0.815, 0.0), (0.075, 0.075, T), 0, 1.0)      # 首
+    b.ebox((0.00, 0.640, 0.0), (0.330, 0.290, T), 0, 1.0)      # 胴
+    b.ebox((0.00, 0.480, 0.0), (0.290, 0.090, T), 0, 1.0)      # 腰
+    for sx in (-1, +1):
+        b.ebox((sx * 0.205, 0.620, 0.0), (0.080, 0.330, T), 0, 1.0)   # 腕
+        b.ebox((sx * 0.075, 0.220, 0.0), (0.115, 0.440, T), 0, 1.0)   # 脚
+    export(b.make("jx_figure", [M_PLAIN]), "figure.gltf")
+
+    b = Build()
+    b.etube([(-0.45, 0.052), (-0.16, 0.058), (-0.06, 0.052)], 0,
+            axis="z", origin=(0, 0, 0), seg=14)                 # 前腕
+    b.ebox((0.0, 0.0, 0.045), (0.098, 0.088, 0.170), 0, 1.0)    # 手のひら
+    for i in range(4):                                          # 指(軽く握っている)
+        b.ebox((-0.036 + i * 0.024, 0.030, 0.135), (0.021, 0.052, 0.070), 0, 1.0)
+    b.ebox((-0.055, -0.012, 0.100), (0.030, 0.030, 0.090), 0, 1.0)   # 親指
+    export(b.make("jx_hand", [M_PAINT]), "hand.gltf")
+
+
 # ---------------------------------------------------------------- 門(GATE)
 def build_gate():
     """開口の色帯と床のレーンとピン。
@@ -492,6 +658,10 @@ def build_divider():
 
     export(plate(4.0).make("jx_divider", [M_PAINT, M_METAL]), "divider.gltf")
     export(plate(1.2).make("jx_blocker", [M_PAINT, M_METAL]), "blocker.gltf")
+    # ★barrier … 第1面で【部屋を横断して塞ぐ】柵。大きさ 1 では越えられず、
+    #   大きさ 2 になると跨げる(体の stepHeight が 0.6 -> 1.2 になるため)。
+    #   第8面で 4 倍の物として再登場させる = 成長を文字なしで証明する唯一の手段(調査)。
+    export(plate(12.6, H=1.35).make("jx_barrier", [M_PAINT, M_METAL]), "barrier.gltf")
 
 
 # ---------------------------------------------------------------- 什器(部屋の識別)
@@ -549,9 +719,141 @@ def build_props():
     export(b.make("jx_crate", [M_WOOD, M_CONC]), "crate.gltf")
 
 
-build_all()
-build_rooms()
-build_gate()
-build_divider()
-build_props()
+# ---------------------------------------------------------------- v5: manifest 駆動の壁と床
+def wall_mesh_multi(L, H, ops):
+    """壁 1 枚に【任意の位置・複数の口】。ops = [(局所 X の中心, 幅, 下端, 上端)]。
+    原点・向き・UV は wall_mesh と完全に同じ規約。gen_stages.py が manifest.json に吐く。"""
+    b = Build()
+    h = L / 2
+    ops = sorted(ops, key=lambda o: o[0])
+    xs = [-h]
+    for (cx, w, y0, y1) in ops:
+        xs += [cx - w / 2, cx + w / 2]
+    xs.append(h)
+    for i in range(0, len(xs), 2):
+        x0, x1 = xs[i], xs[i + 1]
+        if x1 - x0 > 1e-4:
+            b.wallquad(x0, x1, 0.0, H, 0)
+            baseboard(b, x0, x1)
+    for (cx, w, y0, y1) in ops:
+        d = w / 2
+        if y1 < H - 1e-6:
+            b.wallquad(cx - d, cx + d, y1, H, 0)
+        if y0 > 1e-6:
+            b.wallquad(cx - d, cx + d, 0.0, y0, 0)
+            baseboard(b, cx - d, cx + d)
+        cw = max(0.05, 0.065 * w)
+        cd = max(0.025, 0.0225 * w)
+        pz0 = y0 - cw if y0 > 1e-6 else 0.0
+        pz1 = y1 + cw
+        for sgn in (-1, +1):
+            b.box((cx + sgn * (d + cw / 2), -cd / 2, (pz0 + pz1) / 2), (cw, cd, pz1 - pz0), 1, 0.5)
+        b.box((cx, -cd / 2, y1 + cw / 2), (w, cd, cw), 1, 0.5)
+        if y0 > 1e-6:
+            b.box((cx, -cd / 2, y0 - cw / 2), (w, cd, cw), 1, 0.5)
+    return b
+
+
+def build_manifest():
+    """assets/models/manifest.json(gen_stages.py が書く)にある壁と床を全部出す。"""
+    import json
+    M_WALL = mat("jx_wall", "wall_col.png", 0.88, 0.0, "wall_nrm.png")
+    M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
+    M_CARPET = mat("jx_carpet", "carpet_col.png", 0.95, 0.0, "carpet_nrm.png")
+    path = os.path.join(OUT, "manifest.json")
+    with open(path, encoding="utf-8") as f:
+        man = json.load(f)
+    n = 0
+    M_TUN = mat("jx_tunnel", "paint_col.png", 0.92)
+    for name, spec in sorted(man.items()):
+        if spec.get("tunnel") and spec.get("v") == 2:
+            # ★v7 の廊下。床=カーペット / 天井=天井板 / 壁=塗装。白い筒をやめる。
+            #   UV は実寸から出す(2m で 1 タイル)。偽の廊下もこれで作るので、
+            #   【短くて細い箱が、長い廊下に見える】
+            M_C2 = mat("jx_carpet", "carpet_col.png", 0.95, 0.0, "carpet_nrm.png")
+            M_CE = mat("jx_ceiling", "ceiling_col.png", 0.92)
+            M_WA = mat("jx_wall", "wall_col.png", 0.88, 0.0, "wall_nrm.png")
+            wa, ha, ya = spec["wa"], spec["ha"], spec["ya"]
+            wb, hb, yb = spec["wb"], spec["hb"], spec["yb"]
+            L = spec["L"]
+            K = 0.5
+            b = Build()
+            # 床(+Y)
+            b.eface([(-wa / 2, ya, 0), (-wb / 2, yb, L), (wb / 2, yb, L), (wa / 2, ya, 0)],
+                    [(-wa / 2 * K, 0), (-wb / 2 * K, L * K), (wb / 2 * K, L * K), (wa / 2 * K, 0)], 0)
+            # 天井(-Y)。★床と【逆回り】。同じ回りで並べると裏面になって真っ黒になる(実測)
+            b.eface([(wa / 2, ya + ha, 0), (wb / 2, yb + hb, L), (-wb / 2, yb + hb, L), (-wa / 2, ya + ha, 0)],
+                    [(wa / 2 * K, 0), (wb / 2 * K, L * K), (-wb / 2 * K, L * K), (-wa / 2 * K, 0)], 1)
+            # 左(+X向き) / 右
+            b.eface([(-wa / 2, ya, 0), (-wa / 2, ya + ha, 0), (-wb / 2, yb + hb, L), (-wb / 2, yb, L)],
+                    [(0, ya * K), (0, (ya + ha) * K), (L * K, (yb + hb) * K), (L * K, yb * K)], 2)
+            b.eface([(wa / 2, ya, 0), (wb / 2, yb, L), (wb / 2, yb + hb, L), (wa / 2, ya + ha, 0)],
+                    [(0, ya * K), (L * K, yb * K), (L * K, (yb + hb) * K), (0, (ya + ha) * K)], 2)
+            # 奥の壁(偽の廊下の突き当り。実物の廊下では部屋の壁に隠れて見えない)
+            b.eface([(-wb / 2, yb, L), (-wb / 2, yb + hb, L), (wb / 2, yb + hb, L), (wb / 2, yb, L)],
+                    [(0, 0), (0, hb * K), (wb * K, hb * K), (wb * K, 0)], 2)
+            export(b.make("jx_" + name, [M_C2, M_CE, M_WA]), name + ".gltf")
+        elif spec.get("tunnel"):
+            # ★先細りの廊下(v6)。原点 = 口 a の中心・床、+Z が口 b の向き。材質は模様の無い塗装
+            #   (目地があると縮尺の変化が見えてしまう)。面は法線側から見て CCW。
+            wa, ha, ya = spec["wa"], spec["ha"], spec["ya"]
+            wb, hb, yb = spec["wb"], spec["hb"], spec["yb"]
+            L = spec["L"]
+            uv = [(0, 0), (2, 0), (2, 2), (0, 2)]
+            b = Build()
+            b.eface([(-wa / 2, ya, 0), (-wb / 2, yb, L), (wb / 2, yb, L), (wa / 2, ya, 0)], uv, 0)          # 床 +Y
+            b.eface([(-wa / 2, ya + ha, 0), (-wb / 2, yb + hb, L), (wb / 2, yb + hb, L), (wa / 2, ya + ha, 0)], uv, 0)  # 天井 -Y(実機で黒かったので裏返した)
+            b.eface([(-wa / 2, ya, 0), (-wa / 2, ya + ha, 0), (-wb / 2, yb + hb, L), (-wb / 2, yb, L)], uv, 0)  # 左 +X
+            b.eface([(wa / 2, ya, 0), (wb / 2, yb, L), (wb / 2, yb + hb, L), (wa / 2, ya + ha, 0)], uv, 0)      # 右 -X
+            export(b.make("jx_" + name, [M_TUN]), name + ".gltf")
+        elif spec.get("floor"):
+            b = Build()
+            b.floorquad(-spec["sx"] / 2, spec["sx"] / 2, -spec["sz"] / 2, spec["sz"] / 2, 0.0, 0)
+            export(b.make("jx_" + name, [M_CARPET]), name + ".gltf")
+        elif spec.get("ceil"):
+            M_CEIL = mat("jx_ceiling", "ceiling_col.png", 0.92)
+            b = Build()
+            b.floorquad(-spec["sx"] / 2, spec["sx"] / 2, -spec["sz"] / 2, spec["sz"] / 2, 0.0, 0, down=True)
+            export(b.make("jx_" + name, [M_CEIL]), name + ".gltf")
+        else:
+            ops = [tuple(o) for o in spec["ops"]]
+            export(wall_mesh_multi(spec["L"], spec["H"], ops).make("jx_" + name, [M_WALL, M_PAINT]),
+                   name + ".gltf")
+        n += 1
+    print("manifest models:", n)
+
+
+if not globals().get("JX_MANIFEST_ONLY"):
+    build_all()
+    build_rooms()
+    build_openings()
+    build_goal()
+    build_figure()
+    build_gate()
+    build_divider()
+    build_props()
+def build_doorleaf():
+    """扉板。★原点 = 蝶番(左端・床)。開いた状態で置く。
+    v6 は開口が「壁の穴」でしかなく【扉に見えない】と指摘された。板とハンドルがあるだけで
+    「ここは扉だ」が一瞬で伝わる。寸法は開口(2.0 x 2.6)に対して 1.90 x 2.52。"""
+    M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
+    M_METAL = mat("jx_metal", "metal_col.png", 0.45, 0.6)
+    W, H, T = 1.90, 2.52, 0.055
+    b = Build()
+    b.ebox((W / 2, H / 2, 0), (W, H, T), 0, 0.6)                       # 板
+    for sy in (0.10, H - 0.10):                                        # 上下の framing
+        b.ebox((W / 2, sy, 0), (W, 0.10, T + 0.012), 1, 1.0)
+    for sx in (0.07, W - 0.07):
+        b.ebox((sx, H / 2, 0), (0.10, H, T + 0.012), 1, 1.0)
+    b.ebox((W / 2, H * 0.55, 0), (W - 0.40, H * 0.42, T + 0.010), 1, 0.8)   # 鏡板
+    for sz in (-1, 1):                                                  # ハンドル(両面)
+        b.etube([(0.0, 0.020), (0.075, 0.020)], 0, axis="z",
+                origin=(W - 0.13, 1.05, sz * T / 2), seg=8)
+        b.ebox((W - 0.13, 1.05, sz * (T / 2 + 0.075)), (0.055, 0.20, 0.045), 1, 1.0)
+        b.ebox((W - 0.13, 0.86, sz * (T / 2 + 0.020)), (0.10, 0.16, 0.020), 1, 1.0)   # 錠前
+    export(b.make("jx_doorleaf", [M_PAINT, M_METAL]), "doorleaf.gltf")
+
+
+build_doorleaf()
+build_manifest()
 print("KIT ALL DONE")

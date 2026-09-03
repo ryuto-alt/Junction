@@ -1,0 +1,5 @@
+=== dx12 scene validate ===
+scene : assets/scenes/stage9.json
+assets: assets
+[info]  entities=229  scripts=2  triggers=0  emitters=1
+RESULT: PASS

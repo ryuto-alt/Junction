@@ -270,7 +270,9 @@ def verify():
         peak = np.max(np.abs(x))
         db = 20 * np.log10(peak)
         head, tailv = abs(x[0]), abs(x[-1])
-        want = -9.0 if "detent" in rel else -3.0
+        # ★足音は毎歩鳴るので -14dB、成長音は -6dB。他は -3dB へ揃える
+        want = -9.0 if "detent" in rel else (-14.0 if "step" in rel else
+               (-6.0 if "grow" in rel else -3.0))
         bad = []
         if (ch, sw, sr) != (1, 2, SR):
             bad.append("format")
@@ -300,12 +302,34 @@ def verify():
     return ok
 
 
-FILES = ["ui/touch.wav", "ui/open.wav", "ui/detent.wav", "ui/connect.wav",
+def s_step():
+    """足音。★大きさは【ピッチとテンポ】で鳴らす(調査: 一番安くて一番効く聴覚キュー)。
+    Junction/FreeLook が setVoicePitch(1/sqrt(scale)) を掛けるので、素材は中庸に作る。
+    カーペットの上の靴 = 低いドスンとバンドパスした短いノイズの重ね。"""
+    t = tarr(0.110)
+    body = np.sin(2 * np.pi * 92.0 * np.exp(-t * 9.0) * t) * np.exp(-t * 26.0)
+    tick = svf(noise(len(t)) * 0.7, 1900.0, 1.1, "bp") * np.exp(-t * 55.0)
+    return body * 0.85 + tick * 0.35
+
+
+def s_grow():
+    """大きくなった。低い方へ滑り落ちる 2 音(倍率が上がったことを音程で)。"""
+    t = tarr(0.55)
+    u = t / t[-1]
+    f = 520.0 * (0.5 ** u)
+    y = np.sin(2 * np.pi * f * t) * np.exp(-t * 4.2)
+    y += 0.4 * np.sin(2 * np.pi * f * 0.5 * t) * np.exp(-t * 3.0)
+    return y
+
+
+FILES = ["ui/step.wav", "ui/grow.wav", "ui/touch.wav", "ui/open.wav", "ui/detent.wav", "ui/connect.wav",
          "ui/pin.wav", "ui/deny.wav", "ui/pass.wav", "ui/clear.wav",
          "ui/fail.wav", "amb/hum.wav"]
 
 
 if __name__ == "__main__":
+    write_wav(os.path.join(OUT, "ui/step.wav"), s_step(), -14.0, fout=0.015)
+    write_wav(os.path.join(OUT, "ui/grow.wav"), s_grow(), -6.0, fout=0.050)
     write_wav(os.path.join(OUT, "ui/touch.wav"), s_touch(), fout=0.012)
     write_wav(os.path.join(OUT, "ui/open.wav"), s_open(), fout=0.030)
     write_wav(os.path.join(OUT, "ui/detent.wav"), s_detent(), -9.0, fin=0.0004, fout=0.003)

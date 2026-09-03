@@ -254,7 +254,48 @@ def gate():
     write_png(os.path.join(OUT, "lane_col.png"), srgb(np.repeat(lane[..., None], 3, -1)))
 
 
+# ---------------------------------------------------------------- 出口(v8)
+def exitsign():
+    """★出口の標識。緑地に白の下向き矢印と枠。goal.gltf の庇に貼る。
+    「ゴールがゴールに見えない(ただの白い枠の彫刻だった)」という指摘への答えで、
+    このゲームで唯一【意味を持つ色】が緑。だから緑は出口以外に使わない。
+    UV は 0..1 を面いっぱいに張る(Build.face に明示 UV を渡す)。
+    ★Blender -> glTF で V が反転するので、画像の【上】が実物の【下】になる。
+      矢印は実物で下を向かせたいので、画像では上を向けて描く。"""
+    GREEN = np.array([0.055, 0.560, 0.290])
+    v = 1.0 - 0.05 * (fbm(6, 3, 0.5, 4801) - 0.5)
+    col = GREEN[None, None, :] * v[..., None]
+    u, w = xx, yy                # ★実測: 画像の上がそのまま実物の上だった。
+    #   下向きの矢印にしたいので、画像でも下を向けて描く(w が小さいほど先端)
+    # 外枠(白)
+    e = np.minimum(np.minimum(u, 1 - u), np.minimum(yy, 1 - yy))
+    frame = (e < 0.055) & (e > 0.022)
+    # 矢印(画像の上を向く三角 + 軸)。実物では下向きになる
+    cx0 = 0.5
+    # ★実測 2 回: 画像の【上】がそのまま実物の上。下向きにするには画像でも下(yy 大)に先端。
+    head = (w > 0.58) & (w < 0.90) & (np.abs(u - cx0) < (0.90 - w) * 0.95)
+    shaft = (w > 0.14) & (w <= 0.60) & (np.abs(u - cx0) < 0.105)
+    ink = frame | head | shaft
+    col = np.where(ink[..., None], np.array([0.94, 0.96, 0.94])[None, None, :], col)
+    write_png(os.path.join(OUT, "exit_col.png"), srgb(col))
+
+
+def darkmetal():
+    """出口の門の枠。★白い部屋の中で【輪郭が立つ】のが仕事なので、既存の metal(0.56 灰)
+    では明るすぎて壁に溶けた(v8 実測)。炭色まで落とす。"""
+    base = np.array([0.088, 0.092, 0.100])
+    v = 1.0 - 0.30 * (fbm(6, 5, 0.55, 6151) - 0.5) - 0.05 * (rng.random((N, N)) - 0.5)
+    write_png(os.path.join(OUT, "dark_col.png"), srgb(base[None, None, :] * v[..., None]))
+
+
+def glow():
+    """出口の敷居と床の矢羽根に貼る、模様の無い明るい緑。"""
+    g = np.array([0.045, 0.520, 0.255])
+    v = 1.0 - 0.04 * (fbm(8, 3, 0.5, 5303) - 0.5)
+    write_png(os.path.join(OUT, "glow_col.png"), srgb(g[None, None, :] * v[..., None]))
+
+
 if __name__ == "__main__":
     wallpaper(); carpet(); ceiling(); paint(); metal(); concrete()
-    plain(); wood(); gate()
+    plain(); wood(); gate(); exitsign(); glow(); darkmetal()
     print("done")

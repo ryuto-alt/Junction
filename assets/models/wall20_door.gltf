@@ -15,7 +15,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"jx_wall_20_door"
+			"name":"jx_w20_door"
 		}
 	],
 	"materials":[
@@ -47,7 +47,7 @@
 	],
 	"meshes":[
 		{
-			"name":"jx_wall_20_door",
+			"name":"jx_w20_door",
 			"primitives":[
 				{
 					"attributes":{

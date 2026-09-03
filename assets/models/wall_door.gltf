@@ -15,7 +15,7 @@
 	"nodes":[
 		{
 			"mesh":0,
-			"name":"jx_wall_door"
+			"name":"jx_w_door"
 		}
 	],
 	"materials":[
@@ -47,7 +47,7 @@
 	],
 	"meshes":[
 		{
-			"name":"jx_wall_door",
+			"name":"jx_w_door",
 			"primitives":[
 				{
 					"attributes":{
@@ -108,7 +108,7 @@
 			"count":12,
 			"max":[
 				6.150000095367432,
-				4,
+				6,
 				0
 			],
 			"min":[

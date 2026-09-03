@@ -12,6 +12,7 @@ build/game/dx12_engine.log
 build/game/dx12_crash*
 build/game/settings.json
 build/game/imgui.ini
+build/game/.texcache/
 
 __pycache__/
 *.pyc
