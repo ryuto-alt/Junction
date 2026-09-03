@@ -18,3 +18,12 @@ __pycache__/
 
 # エディタのオートセーブ(作業中の一時ファイル)
 assets/scenes/.autosave/
+
+# DX12 Engine (追記)
+build/
+out/
+*.user
+.vs/
+*.tmp
+assets/.thumbcache/
+.mcp.json
