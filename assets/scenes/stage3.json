@@ -3352,7 +3352,7 @@
           5.0,
           10.0
         ],
-        "screenShaderPath": "SoftFocus.hlsl"
+        "screenShaderPath": "ScreenShader/SoftFocus.hlsl"
       },
       "characterController": {
         "gravityScale": 1.0,
