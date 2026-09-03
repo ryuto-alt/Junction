@@ -8593,32 +8593,58 @@
       }
     },
     {
-      "guid": "7e062d198a7d690d",
+      "boxCollider": {
+        "halfExtents": [
+          1.0,
+          2.012732982635498,
+          0.23357951641082764
+        ],
+        "offset": [
+          0.0,
+          2.012732982635498,
+          0.0
+        ]
+      },
+      "guid": "5514e75480f3baff",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/Door.lua"
+      },
       "material": {
-        "metallic": 0.0,
-        "roughness": 0.550000011920929
+        "metallic": 1.0,
+        "roughness": 1.0
       },
       "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
+        "modelPath": "models/door.gltf"
       },
-      "name": "A_Leaf_s1a",
-      "parent": 189,
-      "parentGuid": "ba5e9701806ad16e",
+      "name": "Q_Leaf_s2b",
+      "parent": 262,
+      "parentGuid": "fc35cf14f796d364",
+      "rigidBody": {
+        "angularDamping": 0.009999999776482582,
+        "continuousCollision": false,
+        "friction": 0.6000000238418579,
+        "linearDamping": 0.019999999552965164,
+        "mass": 1.0,
+        "motionType": 1,
+        "restitution": 0.0,
+        "useGravity": false
+      },
       "transform": {
         "position": [
-          3.0,
+          10.495726585388184,
           0.0,
-          5.985000133514404
+          -1.5
         ],
         "rotation": [
           0.0,
-          105.0,
+          -180.0,
           0.0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          0.5,
+          0.3229439854621887,
+          0.2675747871398926
         ]
       }
     },
@@ -8818,32 +8844,58 @@
       }
     },
     {
-      "guid": "6adfb9be4194d479",
+      "boxCollider": {
+        "halfExtents": [
+          1.0,
+          2.012732982635498,
+          0.23357951641082764
+        ],
+        "offset": [
+          0.0,
+          2.012732982635498,
+          0.0
+        ]
+      },
+      "guid": "85d9992ad22d7a65",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/Door.lua"
+      },
       "material": {
-        "metallic": 0.0,
-        "roughness": 0.550000011920929
+        "metallic": 1.0,
+        "roughness": 1.0
       },
       "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
+        "modelPath": "models/door.gltf"
       },
-      "name": "A_Leaf_f1",
+      "name": "A_Leaf_s1a",
       "parent": 189,
       "parentGuid": "ba5e9701806ad16e",
+      "rigidBody": {
+        "angularDamping": 0.009999999776482582,
+        "continuousCollision": false,
+        "friction": 0.6000000238418579,
+        "linearDamping": 0.019999999552965164,
+        "mass": 1.0,
+        "motionType": 1,
+        "restitution": 0.0,
+        "useGravity": false
+      },
       "transform": {
         "position": [
-          -1.0,
+          5.0,
           0.0,
-          -5.985000133514404
+          5.002799034118652
         ],
         "rotation": [
           0.0,
-          -105.0,
+          -90.0,
           0.0
         ],
         "scale": [
           1.0,
-          1.0,
-          1.0
+          0.6458879709243774,
+          0.5351496934890747
         ]
       }
     },
@@ -9098,32 +9150,58 @@
       }
     },
     {
-      "guid": "b473c5043e1c9db5",
+      "boxCollider": {
+        "halfExtents": [
+          1.0,
+          2.012732982635498,
+          0.23357951641082764
+        ],
+        "offset": [
+          0.0,
+          2.012732982635498,
+          0.0
+        ]
+      },
+      "guid": "3ba4b77fe68e3c7b",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/Door.lua"
+      },
       "material": {
-        "metallic": 0.0,
-        "roughness": 0.550000011920929
+        "metallic": 1.0,
+        "roughness": 1.0
       },
       "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
+        "modelPath": "models/door.gltf"
       },
-      "name": "A_Leaf_s2a",
+      "name": "A_Leaf_f1",
       "parent": 189,
       "parentGuid": "ba5e9701806ad16e",
+      "rigidBody": {
+        "angularDamping": 0.009999999776482582,
+        "continuousCollision": false,
+        "friction": 0.6000000238418579,
+        "linearDamping": 0.019999999552965164,
+        "mass": 1.0,
+        "motionType": 1,
+        "restitution": 0.0,
+        "useGravity": false
+      },
       "transform": {
         "position": [
-          5.985000133514404,
           0.0,
-          -3.0
+          0.0,
+          -6.031232833862305
         ],
         "rotation": [
           0.0,
-          165.0,
+          -180.0,
           0.0
         ],
         "scale": [
           1.0,
-          1.0,
-          1.0
+          0.6458879709243774,
+          0.5351496934890747
         ]
       }
     },
@@ -10454,32 +10532,58 @@
       }
     },
     {
-      "guid": "010554c2bdd44eec",
+      "boxCollider": {
+        "halfExtents": [
+          1.0,
+          2.012732982635498,
+          0.23357951641082764
+        ],
+        "offset": [
+          0.0,
+          2.012732982635498,
+          0.0
+        ]
+      },
+      "guid": "201f3a3210925931",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/Door.lua"
+      },
       "material": {
-        "metallic": 0.0,
-        "roughness": 0.550000011920929
+        "metallic": 1.0,
+        "roughness": 1.0
       },
       "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
+        "modelPath": "models/door.gltf"
       },
-      "name": "P_Leaf_s1b",
-      "parent": 230,
-      "parentGuid": "f9cfc48676a4b5a0",
+      "name": "A_Leaf_s2a",
+      "parent": 189,
+      "parentGuid": "ba5e9701806ad16e",
+      "rigidBody": {
+        "angularDamping": 0.009999999776482582,
+        "continuousCollision": false,
+        "friction": 0.6000000238418579,
+        "linearDamping": 0.019999999552965164,
+        "mass": 1.0,
+        "motionType": 1,
+        "restitution": 0.0,
+        "useGravity": false
+      },
       "transform": {
         "position": [
-          2.0,
+          6.032044410705566,
           0.0,
-          10.029999732971191
+          -2.0
         ],
         "rotation": [
           0.0,
-          -105.0,
+          90.0,
           0.0
         ],
         "scale": [
-          2.0,
-          2.0,
-          2.0
+          1.0,
+          0.6458879709243774,
+          0.5351496934890747
         ]
       }
     },
@@ -11845,32 +11949,58 @@
       }
     },
     {
-      "guid": "b8e23848b36c02e3",
+      "boxCollider": {
+        "halfExtents": [
+          1.0,
+          2.012732982635498,
+          0.23357951641082764
+        ],
+        "offset": [
+          0.0,
+          2.012732982635498,
+          0.0
+        ]
+      },
+      "guid": "0b0e15fded221e90",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/Door.lua"
+      },
       "material": {
-        "metallic": 0.0,
-        "roughness": 0.550000011920929
+        "metallic": 1.0,
+        "roughness": 1.0
       },
       "meshRenderer": {
-        "modelPath": "models/doorleaf.gltf"
+        "modelPath": "models/door.gltf"
       },
-      "name": "Q_Leaf_s2b",
-      "parent": 262,
-      "parentGuid": "fc35cf14f796d364",
+      "name": "P_Leaf_s1b",
+      "parent": 230,
+      "parentGuid": "f9cfc48676a4b5a0",
+      "rigidBody": {
+        "angularDamping": 0.009999999776482582,
+        "continuousCollision": false,
+        "friction": 0.6000000238418579,
+        "linearDamping": 0.019999999552965164,
+        "mass": 1.0,
+        "motionType": 1,
+        "restitution": 0.0,
+        "useGravity": false
+      },
       "transform": {
         "position": [
-          10.007499694824219,
+          2.0,
           0.0,
-          -2.5
+          11.979265213012695
         ],
         "rotation": [
           0.0,
-          15.0,
+          -270.0,
           0.0
         ],
         "scale": [
-          0.5,
-          0.5,
-          0.5
+          2.0,
+          1.2917759418487549,
+          1.0702992677688599
         ]
       }
     },
@@ -12764,13 +12894,13 @@
           1.0,
           0.800000011920929
         ],
-        "intensity": 2.2048122882843018,
+        "intensity": 2.501110553741455,
         "range": 5.0
       },
       "transform": {
         "position": [
           -5.0,
-          2.4489567279815674,
+          1.755636215209961,
           22.0
         ],
         "rotation": [
@@ -12804,9 +12934,9 @@
       "name": "Body_0",
       "transform": {
         "position": [
-          3.8794949054718018,
-          -15377.8271484375,
-          9.66251277923584
+          5.039007186889648,
+          -49500.34765625,
+          9.608081817626953
         ],
         "rotation": [
           0.0,
@@ -12839,9 +12969,9 @@
       "name": "Body_1",
       "transform": {
         "position": [
-          3.8794949054718018,
-          -15381.8271484375,
-          9.66251277923584
+          5.039007186889648,
+          -49504.34765625,
+          9.608081817626953
         ],
         "rotation": [
           0.0,
@@ -12874,9 +13004,9 @@
       "name": "Body_2",
       "transform": {
         "position": [
-          3.8794949054718018,
-          -15385.8271484375,
-          9.66251277923584
+          5.039007186889648,
+          -49508.34765625,
+          9.608081817626953
         ],
         "rotation": [
           0.0,
@@ -12909,9 +13039,9 @@
       "name": "Body_3",
       "transform": {
         "position": [
-          3.8794949054718018,
-          -15389.8271484375,
-          9.66251277923584
+          3.3023526668548584,
+          0.8999999165534973,
+          4.011037826538086
         ],
         "rotation": [
           0.0,
@@ -12944,9 +13074,9 @@
       "name": "Body_4",
       "transform": {
         "position": [
-          0.5730299949645996,
-          1.7999999523162842,
-          18.813005447387695
+          5.039007186889648,
+          -49516.34765625,
+          9.608081817626953
         ],
         "rotation": [
           0.0,
@@ -12985,13 +13115,13 @@
       "name": "MainCamera",
       "transform": {
         "position": [
-          0.5730299949645996,
-          3.3999998569488525,
-          18.813005447387695
+          3.3023526668548584,
+          1.6999999284744263,
+          4.011037826538086
         ],
         "rotation": [
-          35.90999984741211,
-          208.44000244140625,
+          21.329999923706055,
+          39.060001373291016,
           -0.0
         ],
         "scale": [
@@ -13046,7 +13176,7 @@
       "transform": {
         "position": [
           -5.0,
-          2.4489567279815674,
+          1.755636215209961,
           22.0
         ],
         "rotation": [

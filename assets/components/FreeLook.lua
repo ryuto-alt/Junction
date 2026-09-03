@@ -156,4 +156,9 @@ function OnUpdate(self, dt)
         e.transform.position = Vec3.new(p.x, p.y - BODY_H * 0.5 * sb + EYE_H * s, p.z)
     end
     e.transform.rotation = Vec3.new(-(self.pitch + bobPitch), self.yaw, bobRoll)
+
+    -- 通常時は白いドット。Door.lua が照準内の扉を検出した時だけ上から緑に置き換える。
+    local rx, ry = SCREEN_W * 0.5, SCREEN_H * 0.5
+    ui:rect(rx - 7, ry - 7, 14, 14, 0.0, 0.0, 0.0, 0.90, 7)
+    ui:rect(rx - 4, ry - 4, 8, 8, 1.0, 1.0, 1.0, 1.0, 4)
 end
