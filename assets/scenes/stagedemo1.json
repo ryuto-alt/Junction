@@ -2983,6 +2983,28 @@
       "parentGuid": "d1fe7acd2eec312e",
       "meshRenderer": {
         "modelPath": "models/props/locker.gltf"
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.8,
+          0.975,
+          0.275
+        ],
+        "offset": [
+          0.0,
+          0.975,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.5,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.05,
+        "useGravity": false
       }
     },
     {
@@ -3008,6 +3030,28 @@
       "parentGuid": "d1fe7acd2eec312e",
       "meshRenderer": {
         "modelPath": "models/props/bench.gltf"
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.9,
+          0.475,
+          0.31
+        ],
+        "offset": [
+          0.0,
+          0.475,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.01,
+        "continuousCollision": false,
+        "friction": 0.5,
+        "linearDamping": 0.02,
+        "mass": 1.0,
+        "motionType": 0,
+        "restitution": 0.05,
+        "useGravity": false
       }
     },
     {
@@ -3033,6 +3077,28 @@
       "parentGuid": "d1fe7acd2eec312e",
       "meshRenderer": {
         "modelPath": "models/props/crate.gltf"
+      },
+      "boxCollider": {
+        "halfExtents": [
+          0.39,
+          0.375,
+          0.39
+        ],
+        "offset": [
+          0.0,
+          0.375,
+          0.0
+        ]
+      },
+      "rigidBody": {
+        "angularDamping": 0.65,
+        "continuousCollision": true,
+        "friction": 0.55,
+        "linearDamping": 0.25,
+        "mass": 17.0,
+        "motionType": 2,
+        "restitution": 0.04,
+        "useGravity": true
       }
     },
     {
@@ -3081,16 +3147,6 @@
         ]
       },
       "parentGuid": "d1fe7acd2eec312e",
-      "primitive": "box",
-      "color": [
-        0.55,
-        0.56,
-        0.54
-      ],
-      "material": {
-        "metallic": 0.0,
-        "roughness": 0.6
-      },
       "boxCollider": {
         "halfExtents": [
           0.5,
@@ -4657,6 +4713,27 @@
     },
     {
       "guid": "9a57434a5012f8ea",
+      "name": "[v10]",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "782e7197a9236a0c",
       "name": "GoalM",
       "transform": {
         "position": [
@@ -4681,7 +4758,7 @@
       }
     },
     {
-      "guid": "782e7197a9236a0c",
+      "guid": "2ee67d1bbb6f3d10",
       "name": "Goal",
       "transform": {
         "position": [
@@ -4703,7 +4780,7 @@
       "parentGuid": "7743dc8ac80a99d1"
     },
     {
-      "guid": "2ee67d1bbb6f3d10",
+      "guid": "1927d2037d200969",
       "name": "GoalLightF",
       "transform": {
         "position": [
@@ -4735,7 +4812,7 @@
       }
     },
     {
-      "guid": "1927d2037d200969",
+      "guid": "e8b99130000decc9",
       "name": "GoalLightB",
       "transform": {
         "position": [
@@ -4767,7 +4844,7 @@
       }
     },
     {
-      "guid": "e8b99130000decc9",
+      "guid": "d8a236e9494bee15",
       "name": "GoalFx",
       "transform": {
         "position": [
@@ -4823,7 +4900,7 @@
       }
     },
     {
-      "guid": "d8a236e9494bee15",
+      "guid": "cebab1bf8a036d9a",
       "name": "Pilot",
       "transform": {
         "position": [
@@ -4855,7 +4932,7 @@
       }
     },
     {
-      "guid": "cebab1bf8a036d9a",
+      "guid": "fff64f645f73db56",
       "name": "PilotLight",
       "transform": {
         "position": [
@@ -4887,7 +4964,7 @@
       }
     },
     {
-      "guid": "fff64f645f73db56",
+      "guid": "9190fe136bbbfd1f",
       "name": "Body_0",
       "transform": {
         "position": [
@@ -4922,7 +4999,7 @@
       }
     },
     {
-      "guid": "9190fe136bbbfd1f",
+      "guid": "f81ab60187738b35",
       "name": "Body_1",
       "transform": {
         "position": [
@@ -4957,7 +5034,7 @@
       }
     },
     {
-      "guid": "f81ab60187738b35",
+      "guid": "6178b262ed15396b",
       "name": "Body_2",
       "transform": {
         "position": [
@@ -4992,7 +5069,7 @@
       }
     },
     {
-      "guid": "6178b262ed15396b",
+      "guid": "05e2fae4a5007e6d",
       "name": "Body_3",
       "transform": {
         "position": [
@@ -5027,7 +5104,7 @@
       }
     },
     {
-      "guid": "05e2fae4a5007e6d",
+      "guid": "5999d68ba9e63490",
       "name": "Body_4",
       "transform": {
         "position": [
@@ -5062,7 +5139,7 @@
       }
     },
     {
-      "guid": "5999d68ba9e63490",
+      "guid": "02b5260dce5d0f72",
       "name": "MainCamera",
       "camera": {
         "farClip": 300.0,
@@ -5095,7 +5172,7 @@
       }
     },
     {
-      "guid": "02b5260dce5d0f72",
+      "guid": "887146d6571afb51",
       "name": "Logic_Demo_1",
       "transform": {
         "position": [

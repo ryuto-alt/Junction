@@ -155,5 +155,8 @@ function OnUpdate(self, dt)
         local sb = SCALES[math.floor(loadNum("bodyIdx", 3) + 0.5) + 1] or 1.0
         e.transform.position = Vec3.new(p.x, p.y - BODY_H * 0.5 * sb + EYE_H * s, p.z)
     end
-    e.transform.rotation = Vec3.new(-(self.pitch + bobPitch), self.yaw, bobRoll)
+    -- ★v10: Junction.lua が書く camRoll を足す(視界だけを転がす = 平衡感覚の錯覚)。
+    --   歩くほど少しずつ傾くので、傾いていく最中は見えない。
+    e.transform.rotation = Vec3.new(-(self.pitch + bobPitch), self.yaw,
+                                    bobRoll + loadNum("camRoll", 0))
 end

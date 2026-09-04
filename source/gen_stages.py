@@ -28,9 +28,10 @@ MANIFEST = os.path.join(MODELS, "gen", "manifest.json")
 # ★source/blender_kit.py の同名関数と【必ず一致】させること。片方だけ直すと
 #   シーンが参照するパスと実ファイルの場所がずれて、モデルが丸ごと出なくなる。
 #   新しいモデルを足したら、ここにも足す(知らない名前は例外で落とす = 直下に散らかさない)。
-_TRIM = ("column", "doorleaf", "eave", "seam", "divider", "blocker", "barrier", "railing")
-_PROPS = ("bench", "locker", "crate", "vent", "pipes", "troffer")
-_GAME = ("goal", "pin", "band", "lane", "figure", "hand")
+_TRIM = ("column", "doorleaf", "eave", "seam", "divider", "blocker", "barrier", "railing", "fence")
+_PROPS = ("bench", "locker", "crate", "vent", "pipes", "troffer", "rack", "drum", "sign")
+_GAME = ("goal", "pin", "band", "lane", "figure", "hand", "joint", "jframe",
+         "membrane", "ball", "plate")
 
 
 def dest_of(name):
@@ -41,6 +42,8 @@ def dest_of(name):
         return "gen/ceil"
     if name.startswith("tn_"):
         return "gen/tunnel"
+    if name.startswith("am_"):
+        return "gen/room"
     if name.startswith("wm_"):
         return "gen/wall"
     if name.startswith("wall"):
@@ -116,8 +119,26 @@ SHAPES = {
     # ★v6.1 回廊用。壁・床・天井を manifest(Blender)で出す
     "corr12": dict(ix=3.0, iz=12.0, h=3.2, tag="", floor=None, ceil=None, mf=True,
                    lights=[(0.0, -4.0), (0.0, 0.0), (0.0, 4.0)], lrange=10.0),
+    # ---------------- v10「継ぎ目の館」。超巨大な施設のための間取り ----------------
+    # ★全部 mf=True(壁も床も天井も manifest で出す)。寸法は自由に足してよい。
+    "atrium40": dict(ix=40.0, iz=40.0, h=14.0, tag="40", floor=None, ceil=None, mf=True,
+                     lights=[(x, z) for z in (-15.0, -7.5, 0.0, 7.5, 15.0)
+                             for x in (-15.0, -7.5, 0.0, 7.5, 15.0)], lrange=30.0),
+    "hall26": dict(ix=26.0, iz=26.0, h=9.0, tag="26", floor=None, ceil=None, mf=True,
+                   lights=[(x, z) for z in (-8.5, 0.0, 8.5) for x in (-8.5, 0.0, 8.5)],
+                   lrange=24.0),
+    "corr36": dict(ix=36.0, iz=9.0, h=5.0, tag="36", floor=None, ceil=None, mf=True,
+                   lights=[(x, 0.0) for x in (-14.0, -7.0, 0.0, 7.0, 14.0)], lrange=15.0),
+    "corr30": dict(ix=9.0, iz=30.0, h=4.4, tag="30", floor=None, ceil=None, mf=True,
+                   lights=[(0.0, z) for z in (-12.0, -6.0, 0.0, 6.0, 12.0)], lrange=14.0),
+    "store22": dict(ix=22.0, iz=16.0, h=5.5, tag="22", floor=None, ceil=None, mf=True,
+                    lights=[(x, z) for z in (-5.0, 5.0) for x in (-7.5, 0.0, 7.5)], lrange=16.0),
+    "tilt16": dict(ix=16.0, iz=16.0, h=6.0, tag="16", floor=None, ceil=None, mf=True,
+                   lights=[(x, z) for z in (-5.0, 5.0) for x in (-5.0, 5.0)], lrange=18.0),
 }
-WALLTAG = {"box12": ("", ""), "hall20": ("20", "20"), "corr18": ("18", "8"), "corr12": ("", "")}
+WALLTAG = {"box12": ("", ""), "hall20": ("20", "20"), "corr18": ("18", "8"), "corr12": ("", ""),
+           "atrium40": ("40", "40"), "hall26": ("26", "26"), "corr36": ("36", "9"),
+           "corr30": ("9", "30"), "store22": ("22", "16"), "tilt16": ("16", "16")}
 
 C_WALL = [0.62, 0.60, 0.55]
 C_FLOOR = [0.24, 0.20, 0.12]
@@ -126,6 +147,22 @@ C_GOAL = [0.10, 0.75, 0.50]
 C_DIV = [0.55, 0.56, 0.54]
 C_PAINT = [0.90, 0.89, 0.86]
 C_PIT = [0.05, 0.05, 0.06]
+# ★継ぎ手の筒の中。環境光 0.16 を掛けても 0.005 なので【何も見えない】。
+#   ★真っ黒(0.03)にしたら【転送前が暗黒 / 転送後は部屋の光で灰色】になり、
+#     明るさの落差そのものが切り替わりを教えてしまった(実測)。
+#     筒は【薄暗いが見えている】くらいが正しい。両端の筒は同じ材質・同じ灯りなので、
+#     見えていても区別が付かない。変わるのは奥の板が明るい口に変わることだけ。
+C_DARK = [0.072, 0.072, 0.080]
+C_SHUT = [0.175, 0.178, 0.188]   # 継ぎ手の奥の板(シャッターに見える明度)
+# ★継ぎ手の筒の奥行きと、転送面の位置。ここは【実測で決めた】。
+#   転送の瞬間に見えているのは「筒の奥にある面」だけ。その面までの距離が
+#   入る側(奥の板まで D-P)と出る側(向こうの口まで P)で【違うと画角が変わる】=
+#   切り替わりが一目で分かる。P = D/2 にすると前後で
+#   【同じ位置・同じ大きさの長方形】になり、変わるのは中身の明るさだけになる。
+#   絵としては「奥のシャッターが開いた」に見える。
+#     実測: D=2.0 / P=1.55 -> 転送直後に部屋が画面の 7 割。誰でも気づく
+#           D=4.2 / P=2.1  -> 前後とも 2.1m 先の長方形。落差は明るさだけ
+PORT_D = 4.2
 HIDE_Y = -200.0
 
 WALLS = {
@@ -190,9 +227,101 @@ def group(ents, name, parent=None):
     return e["guid"]
 
 
+def _flat(xs):
+    out = []
+    for x in xs:
+        out.extend(x) if isinstance(x, (list, tuple)) else out.append(x)
+    return out
+
+
 def key_of(obj):
     s = json.dumps(obj, sort_keys=True, separators=(",", ":"))
     return hashlib.md5(s.encode()).hexdigest()[:8]
+
+
+# ---------------------------------------------------------------- v10: 回転(オイラー角)の合成
+# ★エンジンの Transform は【行ベクトル・ZXY 順】(src/ecs/Components.cpp):
+#     v' = v * Rz(rotation.z) * Rx(rotation.x) * Ry(rotation.y)
+#   だから「先にローカルで転がして、後からワールドの Y 回りに振る」は
+#   (z=転がし, y=振り) をそのまま書けばいい。それ以外(傾いた板・傾いた部屋)は
+#   行列で組んでから分解する。手で三角関数を展開すると必ず規約を取り違える。
+def m_mul(A, B):
+    return [[sum(A[i][k] * B[k][j] for k in range(3)) for j in range(3)] for i in range(3)]
+
+
+def m_rx(d):
+    c, s = math.cos(math.radians(d)), math.sin(math.radians(d))
+    return [[1, 0, 0], [0, c, s], [0, -s, c]]
+
+
+def m_ry(d):
+    c, s = math.cos(math.radians(d)), math.sin(math.radians(d))
+    return [[c, 0, -s], [0, 1, 0], [s, 0, c]]
+
+
+def m_rz(d):
+    c, s = math.cos(math.radians(d)), math.sin(math.radians(d))
+    return [[c, s, 0], [-s, c, 0], [0, 0, 1]]
+
+
+def m_of_euler(rot):
+    """rotation=(x,y,z) 度 -> 行ベクトルの回転行列(行 = ローカル軸のワールド向き)"""
+    return m_mul(m_mul(m_rz(rot[2]), m_rx(rot[0])), m_ry(rot[1]))
+
+
+def euler_of_m(M):
+    """行列 -> rotation=(x,y,z) 度。QuaternionToEulerDegrees と同じ解き方。"""
+    sp = max(-1.0, min(1.0, -M[2][1]))
+    pitch = math.asin(sp)
+    if abs(sp) < 0.9999:
+        yaw = math.atan2(M[2][0], M[2][2])
+        roll = math.atan2(M[0][1], M[1][1])
+    else:                                   # ジンバルロック
+        yaw = math.atan2(-M[0][2], M[0][0])
+        roll = 0.0
+    return (math.degrees(pitch), math.degrees(yaw), math.degrees(roll))
+
+
+def m_apply(M, v):
+    """行ベクトル v * M"""
+    return tuple(sum(v[k] * M[k][j] for k in range(3)) for j in range(3))
+
+
+def euler_of_basis(ex, ey, ez):
+    """ローカル X/Y/Z 軸のワールド向き(正規直交)から rotation を出す。
+    傾いた板の当たり判定はこれで置く。"""
+    return euler_of_m([list(ex), list(ey), list(ez)])
+
+
+def norm3(v):
+    n = math.sqrt(sum(q * q for q in v)) or 1.0
+    return (v[0] / n, v[1] / n, v[2] / n)
+
+
+def cross3(a, b):
+    return (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0])
+
+
+def plate_from_quad(name, pts, thick, color, parent, rough=0.92, outward=None, pad=0.0):
+    """★平面な四角形 pts(4点)を、そのまま【傾けた板 1 枚】の当たり判定にする。
+    v9 の教訓: 傾いた面を軸並行の箱で刻むと階段になって視点が跳ねる。平面は 1 枚で厳密。
+    outward = 部屋の【外】を向く向き。板はそちらへ厚み分だけ逃がす(表面は四角形のまま)。"""
+    cx = sum(p[0] for p in pts) / 4.0
+    cy = sum(p[1] for p in pts) / 4.0
+    cz = sum(p[2] for p in pts) / 4.0
+    u = norm3(tuple(pts[1][i] - pts[0][i] + pts[2][i] - pts[3][i] for i in range(3)))
+    w = tuple(pts[3][i] - pts[0][i] + pts[2][i] - pts[1][i] for i in range(3))
+    n = norm3(cross3(u, w))
+    w = norm3(cross3(n, u))
+    lu = max(abs(sum((p[i] - (cx, cy, cz)[i]) * u[i] for i in range(3))) for p in pts) * 2.0 + pad
+    lw = max(abs(sum((p[i] - (cx, cy, cz)[i]) * w[i] for i in range(3))) for p in pts) * 2.0 + pad
+    if outward is not None and sum(n[i] * outward[i] for i in range(3)) > 0:
+        n = (-n[0], -n[1], -n[2])
+        w = (-w[0], -w[1], -w[2])
+    c = (cx - n[0] * thick * 0.5, cy - n[1] * thick * 0.5, cz - n[2] * thick * 0.5)
+    rot = euler_of_basis(u, n, w)           # ローカル X=u / Y=n(厚み) / Z=w
+    return box(name, c, (lu, thick, lw), color, rot=rot, parent=parent, rough=rough,
+               visible=False)
 
 
 # ---------------------------------------------------------------- 幾何
@@ -244,6 +373,23 @@ class World:
         self.manifest = {}
         self.fixtures = {}
         self.ents = []
+        self.ports = []        # v10: 継ぎ手の口
+        self.linkrows = []     # v10: 継ぎ手の結線
+        self.portrooms = {}
+        self.watchers = []     # v10: 見ている間は動かない物
+        self.creeps = []       # v10: 気づかない速さで動く物
+        self.rolls = []        # v10: 視界を傾ける区画
+        self.amesboxes = []    # v10: エイムズの部屋の外形(検査用)
+        self.amesmap = {}      # v10: 別棟の局所座標 -> 世界座標
+        self.dynprops = []     # v11: 動く剛体(やり直しで元の位置へ戻す)
+        self.gates = []        # v11: 継ぎ手の枠
+        self.gpairs = []       # v11: 重ねると繋がる枠の組
+        self.plates = []       # v11: 重量板
+        self.tilts = []        # v11: 視線で傾く床
+        self._tiltprops = []
+        self.marks = []        # v11.1: 立ち位置の印
+        self.fovramps = []     # v11: 歩く位置で画角を変える帯
+        self.noleaf = set()    # v10: 扉板を立てない口(継ぎ手と別棟の入口)
 
     # ---- 口。off は部屋の【単位】座標(縮尺前)。世界では off*k ----
     def add_opening(self, rid, wall, off_u, kind, sill, oid, osize=None):
@@ -297,7 +443,7 @@ class World:
         raise SystemExit("%s: %s.%s の向かい(4m 先)に部屋が無い pos=%s" % (self.st["name"], rid, wall, pos))
 
     # ---- 廊下(先細り)。a = 部屋側の口、b = 向こう ----
-    def frustum(self, g, name, ma, mb, glass=False, L=None, solid=False, cap=False):
+    def frustum(self, g, name, ma, mb, glass=False, L=None, solid=False, cap=False, mat=None):
         """口 a から口 b へ 4m の先細り廊下。見た目は Blender の台形メッシュ、
         当たり判定は【面ごとに 1 枚の傾けた板】。
 
@@ -322,6 +468,10 @@ class World:
         spec = dict(tunnel=True, wa=round(wa, 3), ha=round(ha, 3), ya=round(ya, 3),
                     wb=round(wb, 3), hb=round(hb, 3), yb=round(yb, 3), L=round(L, 3),
                     cap=1 if cap else 0, v=3)
+        # ★廊下の床は【母屋と同じ材質】でなければならない。v10 で部屋をコンクリートに
+        #   したのに廊下だけカーペットのままだったので、偽の廊下が【床の色で一目で分かった】。
+        if mat:
+            spec["mat"] = mat
         mname = "tn_%s" % key_of(spec)
         self.manifest[mname] = spec
         yaw = math.degrees(math.atan2(n[0], n[1]))
@@ -384,7 +534,7 @@ class World:
         self.links[sid + "a"] = sid + "b"
         self.links[sid + "b"] = sid + "a"
         g = group(self.ents, "Seam %s" % sid, self.g_seams)
-        self.frustum(g, sid, ma, mb)
+        self.frustum(g, sid, ma, mb, mat=self.rooms[sp["room"]].get("floorMat"))
         n = ma["n"]
         # ★通路の中に弱い灯りを 1 つ置く。v7 は「部屋の光が差し込むだけ」だったので、
         #   白い壁に白い開口が空いているだけの絵になり、【壁にしか見えない=進めないと思う】
@@ -414,7 +564,8 @@ class World:
         mb = dict(w=ma["w"] * r, h=ma["h"] * r, sill=ma["sill"] + ma["h"] * 0.5 * (1 - r),
                   n=ma["n"], along=ma["along"], pos=ma["pos"])
         g = group(self.ents, "Fake %s" % fid, self.g_seams)
-        self.frustum(g, fid, ma, mb, L=D, solid=True, cap=True)
+        self.frustum(g, fid, ma, mb, L=D, solid=True, cap=True,
+                     mat=self.rooms[sp["room"]].get("floorMat"))
         n, al = ma["n"], ma["along"]
         zax = abs(n[1]) > 0.5
 
@@ -451,6 +602,417 @@ class World:
         g = group(self.ents, "Window %s" % wid, self.g_seams)
         self.frustum(g, wid, ma, mb, glass=True)
 
+    # ================================ v10: 継ぎ手(port / link) ================================
+    # ★このゲームの中心装置。「継ぎ目の向こう」を【任意の場所】にする。
+    #
+    #   口の奥は 2m の【真っ暗な行き止まりの筒】で、両端の筒は寸法も材質も同じ。
+    #   筒の奥 1.55m の面を越えた瞬間に、相手の筒の同じ位置・同じ姿勢へ置き換える。
+    #   ・暗いので筒の中では何も見えない = 入れ替わった絵の変化が【存在しない】
+    #   ・横位置と向きを相手の筒の座標系へ写すので、歩き続けるだけで自然に出てくる
+    #   ・音も出さない。振り返っても、来たとおりの筒がある
+    #
+    #   結果:【歩いた距離と方角】でプレイヤーが作る心の地図だけが壊れる。
+    #   目の前で何かが変わるわけではないので、その場では絶対に気づけない。
+    #   気づくのは「東へ 40m 歩いたのに、ホールの西側に立っている」時。
+    #
+    # ★warp(v6)との違い: warp は【同じ廊下の中で前の廊下へ戻す】だけで、方角を変えられず、
+    #   継ぎ目(先細りの廊下)が要った。port は壁でも部屋の真ん中でも置け、向きも大きさも
+    #   付け替えられる。施設まるごとを非ユークリッドに組める。
+    def port(self, sp):
+        pid = sp["id"]
+        D = sp.get("depth", PORT_D)
+        sz = sp.get("size", 1.0)
+        rid = sp["room"]
+        r = self.rooms[rid]
+        g = group(self.ents, "Port %s" % pid, self.g_seams)
+        if sp.get("wall"):
+            hole = sp.get("hole", sz)
+            m = self.add_opening(rid, sp["wall"], sp.get("off", 0.0), "door", 0.0, pid, osize=hole)
+            n, al = m["n"], m["along"]
+            pos, sill = m["pos"], m["sill"]
+            w, h = DOOR_W * sz, DOOR_H * sz
+            self.noleaf.add(pid)
+            self.ents.append(model("PortF_%s" % pid, mdl("jframe"), (pos[0], sill, pos[1]),
+                                   WALLS[sp["wall"]]["yaw"], g, (sz, sz, sz)))
+            if hole > sz + 1e-6:
+                # ★母屋の穴が筒より大きい時の【襟】。傾いた部屋は壁ごと転がっているので、
+                #   開口も転がる = 水平な筒とは角がずれる。大きめに開けて水平な襟で塞ぐと、
+                #   「建物は傾いているのに継ぎ手だけが水平」という絵になる(そういう施設に見える)。
+                HW = DOOR_W * hole * 0.5 * 1.22        # 襟の半幅(転がった開口の外接を覆う)
+                HH = DOOR_H * hole * 1.16              # 襟の高さ
+                zax0 = abs(n[1]) > 0.5
+                for nm, (ox, oy, sx, sy) in (
+                        ("T", (0.0, (h + HH) * 0.5, HW * 2, HH - h)),
+                        ("L", (-(HW + w * 0.5) * 0.5, h * 0.5, HW - w * 0.5, h)),
+                        ("R", ((HW + w * 0.5) * 0.5, h * 0.5, HW - w * 0.5, h))):
+                    if sx <= 0.02 or sy <= 0.02:
+                        continue
+                    self.ents.append(box("PortC_%s_%s" % (pid, nm),
+                                         (pos[0] + al[0] * ox - n[0] * 0.18, sill + oy,
+                                          pos[1] + al[1] * ox - n[1] * 0.18),
+                                         (sx, sy, 0.36) if zax0 else (0.36, sy, sx),
+                                         C_DIV, parent=g, rough=0.55))
+        else:
+            # 部屋の中に単体で立つ継ぎ手ユニット。★筐体(joint.gltf)が外から見える箱になる
+            into = sp["into"]
+            n = (float(WALLS[into]["sign"]) if WALLS[into]["axis"] == "x" else 0.0,
+                 float(WALLS[into]["sign"]) if WALLS[into]["axis"] == "z" else 0.0)
+            al = (-n[1], n[0])
+            k = r["scale"]
+            cx, cz = r["at"]
+            if sp.get("ames"):
+                aid2, alat, at2 = sp["ames"]
+                qq = self.amesmap[aid2](alat, 0.0, at2)
+                pos = (qq[0], qq[2])
+            else:
+                pos = (cx + sp["at"][0] * k, cz + sp["at"][1] * k)
+            w, h = DOOR_W * sz, DOOR_H * sz
+            sill = floor_y(r)
+            yaw = math.degrees(math.atan2(n[0], n[1]))
+            self.ents.append(model("PortH_%s" % pid, mdl("joint"), (pos[0], sill, pos[1]), yaw, g,
+                                   (sz, sz, sz)))
+            self.ents.append(model("PortF_%s" % pid, mdl("jframe"), (pos[0], sill, pos[1]),
+                                   (yaw + 180.0) % 360.0, g, (sz, sz, sz)))
+            m = dict(room=rid, wall=None, off=0.0, size=sz, sill=sill, sillRel=0.0, pos=pos,
+                     w=w, h=h, n=n, along=al, kind="door")
+            self.mouths[pid] = m
+            # 筐体の外殻の当たり判定(側面と背面。中は通れる)
+            HW, HD = w * 0.5 + 0.30 * sz, D + 0.30 * sz
+            for s2 in (-1, 1):
+                x2 = pos[0] + n[0] * HD * 0.5 + al[0] * s2 * HW
+                z2 = pos[1] + n[1] * HD * 0.5 + al[1] * s2 * HW
+                self.ents.append(box("PortHS_%s_%d" % (pid, s2 > 0), (x2, sill + h * 0.5, z2),
+                                     (0.30 * sz, h + 0.7 * sz, HD) if abs(n[1]) > 0.5
+                                     else (HD, h + 0.7 * sz, 0.30 * sz),
+                                     C_WALL, parent=g, visible=False))
+        self.portrooms[pid] = rid
+        # ---- 筒(暗い前室)。床・天井・左右・奥の 5 枚 ----
+        # ★MG(横の余裕)は 0 に近くないといけない。0.3 も空けると、口の縁と筒の側壁の間に
+        #   ポケットができ、斜めから見たときにそこから【母屋の明るい壁】が覗く(実測)。
+        T, MG = 0.3, 0.02
+        hw = w * 0.5 + MG
+        cx2, cz2 = pos[0] + n[0] * D * 0.5, pos[1] + n[1] * D * 0.5
+        zax = abs(n[1]) > 0.5
+        S3 = (lambda a, b, c: (a, b, c) if zax else (c, b, a))
+        self.ents.append(box("PortT_%s_F" % pid, (cx2, sill - T * 0.5, cz2),
+                             S3(hw * 2, T, D), C_DARK, parent=g, rough=0.98))
+        self.ents.append(box("PortT_%s_C" % pid, (cx2, sill + h + T * 0.5, cz2),
+                             S3(hw * 2, T, D), C_DARK, parent=g, rough=0.98))
+        for s2 in (-1, 1):
+            x2 = cx2 + al[0] * s2 * (hw + T * 0.5)
+            z2 = cz2 + al[1] * s2 * (hw + T * 0.5)
+            self.ents.append(box("PortT_%s_S%d" % (pid, s2 > 0), (x2, sill + h * 0.5, z2),
+                                 S3(T, h, D), C_DARK, parent=g, rough=0.98))
+        bx, bz = pos[0] + n[0] * (D + T * 0.5), pos[1] + n[1] * (D + T * 0.5)
+        # ★奥の板だけ少し明るい。ここが【転送の瞬間に見えている唯一の面】なので、
+        #   真っ黒にすると「暗黒 -> 明るい口」の落差になる。金属のシャッターに見える明度にする。
+        self.ents.append(box("PortT_%s_B" % pid, (bx, sill + h * 0.5, bz),
+                             S3(hw * 2 + T * 2, h, T), C_SHUT, parent=g, rough=0.55))
+        # ★灯りは 2 つ。口の内側(ここが通路だと分かる)と、一番奥のごく弱い灯り。
+        #   奥が【真っ暗】だと、入れ替わった瞬間に「暗黒 -> 明るい部屋」の落差が出て
+        #   切り替わりが見えてしまう。奥をうっすら照らしておくと落差が小さくなる。
+        self.ents.append(plight("PortL_%s" % pid, (pos[0] + n[0] * 0.30, sill + h * 0.80,
+                                                   pos[1] + n[1] * 0.30),
+                                (0.72, 0.80, 0.92), 2.3, 3.4 * sz + 0.8, g))
+        self.ents.append(plight("PortLb_%s" % pid, (pos[0] + n[0] * (D - 0.85), sill + h * 0.78,
+                                                    pos[1] + n[1] * (D - 0.85)),
+                                (0.70, 0.78, 0.92), 1.7, 3.0 * sz + 0.6, g))
+        self.ports.append(dict(id=pid, x=pos[0], z=pos[1], nx=n[0], nz=n[1], alx=al[0], alz=al[1],
+                               hw=hw, P=D * 0.5, y0=floor_y(r), size=sz, room=rid,
+                               free=not sp.get("wall"),
+                               yaw=math.degrees(math.atan2(n[0], n[1]))))
+
+    # ================================ v11: 継ぎ手の枠(gate) ================================
+    # ★v11 の心臓。v10 の「暗い筒」は【行き先が分からない】(指摘: 最初の転送先が意味不明)ので捨てた。
+    #
+    #   枠は部屋の中に単体で立っている金属の門で、中に【膜】が張ってある。
+    #   ★二つの枠が【自分の目から見て重なった】ときだけ、その二枚は繋がる。
+    #     手前の枠の開口の中に、向こうの枠が見えていること。それが唯一の条件。
+    #   繋がると膜の縫い目がほどけ、くぐると【向こうの枠の裏】から出てくる。
+    #
+    #   つまりプレイヤーは【カメラの絵で地図を編む】。どの枠に重ねるかで行き先が変わる。
+    #   見えていない枠へは繋がらないので、行き先は必ず自分の目で確かめてから通ることになる。
+    def gate(self, sp):
+        gid = sp["id"]
+        rid = sp["room"]
+        r = self.rooms[rid]
+        k = r["scale"]
+        cx, cz = r["at"]
+        sz = sp.get("size", 1.0)
+        x = cx + sp["at"][0] * k
+        z = cz + sp["at"][1] * k
+        fy = floor_y(r) + sp.get("y", 0.0)
+        f = sp.get("facing", "S")
+        n = (float(WALLS[f]["sign"]) if WALLS[f]["axis"] == "x" else 0.0,
+             float(WALLS[f]["sign"]) if WALLS[f]["axis"] == "z" else 0.0)
+        al = (-n[1], n[0])
+        yaw = math.degrees(math.atan2(n[0], n[1]))
+        w, h = DOOR_W * sz, DOOR_H * sz
+        g = group(self.ents, "Gate %s" % gid, self.g_seams)
+        self.ents.append(model("Gate_%s" % gid, mdl("jframe"), (x, fy, z), yaw, g, (sz, sz, sz)))
+        # 台座。枠が床から生えているように見せる + 転がってきた玉を止めない厚みにする
+        self.ents.append(box("GateB_%s" % gid, (x, fy + 0.05, z),
+                             (w + 0.9 * sz, 0.10, 0.7 * sz) if abs(n[1]) > 0.5
+                             else (0.7 * sz, 0.10, w + 0.9 * sz),
+                             C_DIV, parent=g, rough=0.5))
+        # 枠の柱(当たり判定)。中央の開口だけが通れる
+        for s2 in (-1, 1):
+            self.ents.append(box("GateJ_%s_%d" % (gid, s2 > 0),
+                                 (x + al[0] * s2 * (w * 0.5 + 0.16 * sz), fy + h * 0.5,
+                                  z + al[1] * s2 * (w * 0.5 + 0.16 * sz)),
+                                 (0.32 * sz, h + 0.34 * sz, 0.34 * sz) if abs(n[1]) > 0.5
+                                 else (0.34 * sz, h + 0.34 * sz, 0.32 * sz),
+                                 C_WALL, parent=g, visible=False))
+        # ★膜。カスタムシェーダー(Membrane.hlsl)。繋がり具合を Lua が effectValue で送る
+        m = model("GateM_%s" % gid, mdl("membrane"), (x, fy + 0.02, z), yaw, g, (sz, sz, sz))
+        m["shader"] = "Membrane.hlsl"
+        m["shaderAlphaBlend"] = True
+        m["shaderEffectValue"] = 0.0
+        m["shaderParams"] = [round((abs(hash(gid)) % 997) / 997.0, 3), 0.0, 0.35, 0.0]
+        self.ents.append(m)
+        # ★枠の光。対の色を gpair が上書きする。needs 付きの枠は Lua が【消灯】する
+        self.ents.append(plight("GateL_%s" % gid, (x - n[0] * 0.5, fy + h * 0.86, z - n[1] * 0.5),
+                                (0.62, 0.76, 0.95), 2.6, 4.6 * sz, g))
+        # 総当たり検査(simulate)へ渡すための擬似的な「口」
+        lx = x - cx - n[0] * 0.5
+        lz = z - cz - n[1] * 0.5
+        self.mouths[gid] = dict(room=rid, wall=None, off=0.0, size=sz, sill=fy, sillRel=0.0,
+                                pos=(x, z), w=w, h=h, n=n, along=al, kind="door")
+        self.gates.append(dict(id=gid, x=x, z=z, y0=fy, nx=n[0], nz=n[1], alx=al[0], alz=al[1],
+                               hw=w * 0.5, hh=h, size=sz, room=rid))
+
+    def gpair(self, sp):
+        byid = {q["id"]: q for q in self.gates}
+        for q in (sp["a"], sp["b"]):
+            if q not in byid:
+                raise SystemExit("%s: 枠の組 %s が無い" % (self.st["name"], q))
+        col = sp.get("col", "cyan")
+        rgb = PAIRCOL[col]
+        hue = PAIRHUE[col]
+        self.gpairs.append(dict(a=sp["a"], b=sp["b"], both=1 if sp.get("both", True) else 0,
+                                needs=sp.get("needs") or "", col=col, rgb=rgb, hue=hue))
+        # ★両方の枠を同じ色で光らせる。色が合っている枠どうしだけが繋がる、と目で分かる
+        for q in (sp["a"], sp["b"]):
+            g = byid[q]
+            g["rgb"] = rgb
+            g["hue"] = hue
+            g["needs"] = sp.get("needs") or ""
+        # ★立ち位置の印。手前の枠から見て「向こうの枠と重なる線」の上に置く
+        if sp.get("mark", 0.0) > 0.0:
+            A, B = byid[sp["a"]], byid[sp["b"]]
+            dx, dz = A["x"] - B["x"], A["z"] - B["z"]
+            L = math.hypot(dx, dz) or 1.0
+            m = sp["mark"]
+            mx, mz = A["x"] + dx / L * m, A["z"] + dz / L * m
+            gg = group(self.ents, "Mark %s" % sp["a"], self.g_seams)
+            yaw = math.degrees(math.atan2(-dx / L, -dz / L))
+            self.ents.append(model("MarkL_%s" % sp["a"], mdl("lane"), (mx, floor_y(A_room(self, A)) + 0.02, mz),
+                                   yaw, gg, (1.6, 1.0, m * 0.85)))
+            self.ents.append(plight("MarkLi_%s" % sp["a"], (mx, 0.45, mz), rgb, 2.6, 3.4, gg))
+            self.marks.append(dict(ent="MarkL_%s" % sp["a"], light="MarkLi_%s" % sp["a"],
+                                   rgb=rgb, x=mx, z=mz))
+        self.links[sp["a"]] = sp["b"]
+        if sp.get("both", True):
+            self.links[sp["b"]] = sp["a"]
+
+    def plate(self, sp):
+        pid = sp["id"]
+        r = self.rooms[sp["room"]]
+        k = r["scale"]
+        x = r["at"][0] + sp["at"][0] * k
+        z = r["at"][1] + sp["at"][1] * k
+        fy = floor_y(r)
+        g = group(self.ents, "Plate %s" % pid, self.g_seams)
+        self.ents.append(model("Plate_%s" % pid, mdl("plate"), (x, fy, z), 0.0, g))
+        self.ents.append(plight("PlateL_%s" % pid, (x, fy + 0.5, z), (1.0, 0.45, 0.2), 2.6, 4.6, g))
+        self.plates.append(dict(id=pid, ent="Plate_%s" % pid, light="PlateL_%s" % pid,
+                                x=x, z=z, y0=fy, r=sp.get("r", 1.05), room=sp["room"],
+                                rgb=(1.0, 0.45, 0.2)))
+
+    # ================================ v10: エイムズの部屋 ================================
+    # ★これは「大きさが変わる」ではなく【本物の目の錯覚】。部屋そのものが嘘の形をしている。
+    #
+    #   作り方: 理想の直方体の部屋(幅 w・奥行 d・高さ h)の 8 隅を、覗き穴 V から伸ばした
+    #   直線の上で s = 1/(1 + α·横位置) 倍だけ遠ざける/近づける。
+    #   これは【同次座標では線形 = 射影変換】なので、
+    #     ・面は面のまま(床も天井も壁も平面。当たり判定は傾けた板 1 枚ずつで厳密に置ける)
+    #     ・V から見た絵は理想の直方体と【1 画素も違わない】
+    #   の 2 つが同時に成り立つ。実物のエイムズの部屋と同じ原理。
+    #
+    #   結果: 左奥の隅は本当は 1.4 倍遠くて 1.4 倍大きいのに、同じ大きさに見える。
+    #   そこへ【左右まったく同じロッカー(1.95m)】を置くと、左は小さく右は大きく見える。
+    #   ★この game は「什器は絶対寸法 = 唯一の物差し」で組んである。
+    #     その物差しが嘘をつく部屋なので、ここだけは今までの全部が通用しない。
+    def ames(self, sp):
+        aid = sp["id"]
+        rid = sp["room"]
+        r = self.rooms[rid]
+        Wd, Dp, Ht = sp.get("w", 8.0), sp.get("d", 14.0), sp.get("h", 5.0)
+        aa = sp.get("alpha", 0.075)
+        ma = self.add_opening(rid, sp["wall"], sp.get("off", 0.0), "door", 0.0, aid)
+        self.noleaf.add(aid)
+        n = ma["n"]
+        fy = floor_y(r)
+        eye = sp.get("eye", EYE_H)
+        vx, vz = ma["pos"][0], ma["pos"][1]
+        yaw = math.degrees(math.atan2(n[0], n[1]))
+        hw = Wd * 0.5
+
+        # ---- (1) 射影で歪める。局所座標 x=横 / y=高さ(床が 0) / z=奥 ----
+        #      覗き穴は (0, eye, 0)。横位置 lat だけで倍率が決まるので、
+        #      【真ん中の線(lat=0)は動かない】= 戸口の高さも床の高さも保たれる。
+        def pj(lat, y, t):
+            s = 1.0 / (1.0 + aa * lat)
+            return (lat * s, eye + (y - eye) * s, t * s)
+
+        # ---- (2) 床を水平に戻す。★歪めた床は「戸口から奥へ伸びる線」を軸に傾いた平面。
+        #      その軸まわりに転がして水平へ戻すと、母屋の床とぴったり繋がる(段差ゼロ)。
+        #      覗き穴が 21cm 横へずれるだけで、絵はほぼそのまま(立体視の無い一人称では
+        #      21cm の頭の位置なんて誰にも分からない)。★これをやらないと戸口の左右で
+        #      床が 60cm 食い違い、壁の下に【虚空へ抜ける隙間】が空く。
+        q = pj(-hw, 0.0, 0.0)
+        phi = math.degrees(math.atan2(-q[1], q[0])) if abs(q[0]) > 1e-9 else 0.0
+        phi = (phi + 90.0) % 180.0 - 90.0
+        Mloc = m_mul(m_rz(phi), m_ry(yaw))
+
+        def W3(lat, y, t):
+            """理想の部屋の座標 -> 実際の世界座標"""
+            pw = m_apply(Mloc, pj(lat, y, t))
+            return (vx + pw[0], fy + pw[1], vz + pw[2])
+
+        g = group(self.ents, "Ames %s" % aid, self.g_rooms)
+        C, Lo = {}, {}
+        for sx, lat in (("L", -hw), ("R", hw)):
+            for sy, y in (("0", 0.0), ("1", Ht)):
+                for sz, t in (("n", 0.0), ("f", Dp)):
+                    C[sx + sy + sz] = W3(lat, y, t)
+                    Lo[sx + sy + sz] = pj(lat, y, t)
+        # ---- 見える面(Blender)。近い側の面は【母屋の壁が覆う】ので張らない ----
+        spec = dict(ames=True, v=1, c={k: [round(x, 4) for x in v] for k, v in Lo.items()})
+        mname = "am_%s" % key_of(spec)
+        self.manifest[mname] = spec
+        self.ents.append(model("AmesM_%s" % aid, mdl(mname), (vx, fy, vz), yaw, g))
+        self.ents[-1]["transform"]["rotation"] = [0.0, yaw, phi]
+        # ---- 当たり判定。面は全部【平面】なので傾けた板 1 枚ずつで厳密 ----
+        up, dn = (0.0, 1.0, 0.0), (0.0, -1.0, 0.0)
+        lft = m_apply(Mloc, (-1.0, 0.0, 0.0))
+        rgt = m_apply(Mloc, (1.0, 0.0, 0.0))
+        for nm, quad, out in (
+                ("F", ("L0n", "R0n", "R0f", "L0f"), dn),
+                ("C", ("L1n", "R1n", "R1f", "L1f"), up),
+                ("SL", ("L0n", "L1n", "L1f", "L0f"), lft),
+                ("SR", ("R0n", "R1n", "R1f", "R0f"), rgt),
+                ("B", ("L0f", "R0f", "R1f", "L1f"), (n[0], 0.0, n[1]))):
+            self.ents.append(plate_from_quad("Ames_%s_%s" % (aid, nm), [C[q] for q in quad],
+                                             0.5, C_WALL, g, outward=out, pad=0.8))
+        # ---- 照明。★天井の【実際の】高さに沿って置く。奥ほど小さくするのは
+        #      強制遠近法と同じで、「奥は遠い」という嘘を灯りの側からも支えるため ----
+        for i, (lat, t) in enumerate(sp.get("lights") or
+                                     [(-hw * 0.55, Dp * 0.30), (hw * 0.55, Dp * 0.30),
+                                      (-hw * 0.55, Dp * 0.76), (hw * 0.55, Dp * 0.76)]):
+            qq = W3(lat, Ht, t)
+            s = 1.0 / (1.0 + aa * lat)
+            self.ents.append(model("AmesT_%s_%d" % (aid, i), mdl("troffer"),
+                                   (qq[0], qq[1] - 0.03 * s, qq[2]), yaw, g, (s, s, s)))
+            self.ents.append(plight("AmesL_%s_%d" % (aid, i), (qq[0], qq[1] - 0.5 * s, qq[2]),
+                                    (0.98, 0.96, 0.90), 4.6, 15.0 * s, g))
+        # ---- 什器。★理想座標で置くので【絵の上では左右対称】。実物は左が 1.43 倍遠い。
+        #      同じロッカーが、片方は目の高さ・片方は腰までしか無いように見える ----
+        for i, (kind, lat, t, yw) in enumerate(sp.get("props", ())):
+            P = PROPS[kind]
+            qq = W3(lat, 0.0, t)
+            self.ents.append(model("Ames_%s_%s_%d" % (aid, kind, i), P["path"],
+                                   (qq[0], fy, qq[2]), yaw + yw, g))
+            if P["block"]:
+                # ★母屋の外(別棟)に居るので、部屋の什器とは別の帳簿に載せる
+                self.fixtures.setdefault("ames:" + aid, []).append((qq[0], qq[2], P["r"], P["top"]))
+        self.amesmap[aid] = W3
+        self.amesboxes.append(dict(id=aid, room=rid, pts=list(C.values()),
+                                   near=[C[k] for k in ("L0n", "R0n", "L1n", "R1n")],
+                                   phi=phi, floorErr=max(abs(C[k][1] - fy) for k in
+                                                         ("L0n", "R0n", "L0f", "R0f"))))
+
+    # ================================ v10: 部屋ごと傾ける ================================
+    # ★平衡感覚を壊す装置。部屋の【全部】(床・壁・天井・什器・照明・当たり判定)を
+    #   歩く向きの軸まわりに転がす。重力はワールドの真下のままなので、
+    #   「部屋の垂直」と「本当の垂直」が食い違う = 錯覚小屋(Mystery Spot)と同じ状況になる。
+    #
+    # ★継ぎ手の筒は【転がさない】(g_seams にあるので此処の範囲外)。
+    #   建物が傾いていて継ぎ手だけが水平、という絵になる。母屋の開口は大きめに開けて
+    #   水平な襟(collar)で塞いであるので、転がっても角が抜けない。
+    def tilt_slice(self, r, i0, i1):
+        deg = float(r["tilt"])
+        ax = r.get("tiltAxis", "z")
+        k = r["scale"]
+        px, py, pz = r.get("tiltAt", (0.0, 0.0, 0.0))
+        pv = (r["at"][0] + px * k, floor_y(r) + py, r["at"][1] + pz * k)
+        M = m_rx(deg) if ax == "x" else m_rz(deg)
+        for e in self.ents[i0:i1]:
+            if not any(q in e for q in ("meshRenderer", "primitive", "pointLight", "boxCollider",
+                                        "particleEmitter")):
+                continue                      # 入れ物(グループの目印)は動かさない
+            t = e["transform"]
+            p = t["position"]
+            q = m_apply(M, (p[0] - pv[0], p[1] - pv[1], p[2] - pv[2]))
+            t["position"] = [pv[0] + q[0], pv[1] + q[1], pv[2] + q[2]]
+            t["rotation"] = list(euler_of_m(m_mul(m_of_euler(t["rotation"]), M)))
+
+    # ================================ v10: 見張り / 忍び寄り / 傾ける区画 ============
+    def extras(self):
+        st = self.st
+        g = group(self.ents, "[v10]")
+        # ---- 見張り(watch)。★視界に入っている間は 1mm も動かない ----
+        #   動く瞬間を絶対に見せないので、「動いた」ではなく【さっきと違う】としか思えない。
+        #   変化盲(change blindness)は、変化そのものを隠すのが一番強い。
+        for w in st.get("watchers", ()):
+            r = self.rooms[w["room"]]
+            k = r["scale"]
+            x = r["at"][0] + w["at"][0] * k
+            z = r["at"][1] + w["at"][1] * k
+            sc = w.get("h", 1.85)
+            self.ents.append(model(w["id"], mdl(w.get("model", "figure")),
+                                   (x, floor_y(r), z), w.get("yaw", 0.0), g, (sc, sc, sc)))
+            # ★押しのけられる。視線をふさぐ物なのに動かせないと理不尽になる
+            self.ents[-1]["boxCollider"] = {"halfExtents": [0.30, sc * 0.5, 0.22],
+                                            "offset": [0.0, sc * 0.5, 0.0]}
+            self.ents[-1]["rigidBody"] = {"angularDamping": 0.9, "continuousCollision": False,
+                                          "friction": 0.7, "linearDamping": 0.9, "mass": 34.0,
+                                          "motionType": 2, "restitution": 0.02, "useGravity": True}
+            self.watchers.append(dict(ent=w["id"], x=x, z=z, y=floor_y(r), step=w.get("step", 2.6),
+                                      near=w.get("near", 2.2), rng=w.get("range", 34.0),
+                                      wait=w.get("wait", 0.5), turn=1 if w.get("face", True) else 0))
+        # ---- 忍び寄り(creep)。★気づかない速さで動き続ける物 ----
+        for c in st.get("creeps", ()):
+            self.creeps.append(dict(id=c["id"], ents=list(c["ents"]), dx=c.get("dx", 0.0),
+                                    dy=c.get("dy", 0.0), dz=c.get("dz", 0.0),
+                                    axis=c.get("axis", "z"), a=c["a"], b=c["b"],
+                                    x0=c["zone"][0], x1=c["zone"][1], z0=c["zone"][2], z1=c["zone"][3]))
+        for q in st.get("rolls", ()):
+            self.rolls.append(dict(axis=q.get("axis", "z"), a=q["a"], b=q["b"],
+                                   d0=q["deg"][0], d1=q["deg"][1],
+                                   x0=q["zone"][0], x1=q["zone"][1], z0=q["zone"][2], z1=q["zone"][3]))
+        for q in st.get("fovramps", ()):
+            self.fovramps.append(dict(axis=q.get("axis", "z"), a=q["a"], b=q["b"],
+                                      f0=q["f0"], f1=q["f1"], x0=q["zone"][0], x1=q["zone"][1],
+                                      z0=q["zone"][2], z1=q["zone"][3]))
+
+    def link(self, sp):
+        """継ぎ手 from の奥を越えたら to の奥へ出す。times>0 なら最初の times 回だけ。
+        ★同じ戸が、通った回数で行き先を変える = 「同じ廊下を三度歩かされる」が作れる。"""
+        a = [p for p in self.ports if p["id"] == sp["from"]]
+        b = [p for p in self.ports if p["id"] == sp["to"]]
+        if not a or not b:
+            raise SystemExit("%s: link の端 %s -> %s が無い" % (self.st["name"], sp["from"], sp["to"]))
+        a, b = a[0], b[0]
+        # 出る向き: a へ入る向き(na)が、b から出る向き(-nb)になるように振る
+        dy = math.degrees(math.atan2(-b["nx"], -b["nz"])) - math.degrees(math.atan2(a["nx"], a["nz"]))
+        dy = (dy + 180.0) % 360.0 - 180.0
+        c, s = math.cos(math.radians(dy)), math.sin(math.radians(dy))
+        rlx = a["alx"] * c + a["alz"] * s          # 横方向の基底も同じ角度で回す
+        rlz = a["alz"] * c - a["alx"] * s
+        self.linkrows.append(dict(frm=sp["from"], to=sp["to"], times=sp.get("times", 0),
+                                  dyaw=dy, rlx=rlx, rlz=rlz))
+
     # ---- 壁 ----
     def wall_model(self, rid, wall):
         fr = wall_frame(self.rooms[rid], wall)
@@ -479,7 +1041,9 @@ class World:
         ents = self.ents
         g = group(ents, "Room %s (x%.2g)" % (rid, k), self.g_rooms)
         lay = r.get("layout", {})
-        pits = [(axis, c * k) for (axis, c) in lay.get("pits", ())]
+        # ★溝は (axis, 中心) か (axis, 中心, 幅)。幅を省くと PIT_W(4.6m = 跳べる溝)。
+        #   v10 の受入ホールは【跳べない 14m の谷】を使うので幅を渡せるようにした。
+        pits = [(p[0], p[1] * k, (p[2] if len(p) > 2 else PIT_W)) for p in lay.get("pits", ())]
         sc3 = (k, k, k)
         fy = r.get("y", 0.0)
         rise = S.get("rise", 0.0) * k
@@ -500,17 +1064,52 @@ class World:
             nm = "cm_%s" % key_of(cs); self.manifest[nm] = cs
             ents.append(model("%s_CeilM" % rid, mdl(nm), (cx, fy + rise * 0.5 + ch - 0.005, cz), 0.0, g, sc3))
             ents[-1]["transform"]["rotation"] = [ang, 0.0, 0.0]
+        elif r.get("tiltFloor"):
+            # ★v11: 視線で傾く床。床は【1 枚の動く板(KINEMATIC)】。
+            #   部屋より 5m 大きく作って端を壁の中へ埋める = 傾いても縁が見えない。
+            #   さらに壁の下へ「腰板」を垂らして、下がった側にできる隙間を塞ぐ。
+            tf = r["tiltFloor"]
+            ov = tf.get("over", 5.0)
+            ents.append(box("%s_Floor" % rid, (cx, fy - 0.25, cz),
+                            (spanx + ov, 0.5, spanz + ov), C_FLOOR, rough=0.95, parent=g,
+                            kinematic=True))
+            fs = dict(floor=True, sx=round((spanx + ov) / k, 3), sz=round((spanz + ov) / k, 3))
+            if r.get("floorMat"):
+                fs["mat"] = r["floorMat"]
+            nm = "fm_%s" % key_of(fs); self.manifest[nm] = fs
+            ents.append(model("%s_FloorM" % rid, mdl(nm), (cx, fy + 0.005, cz), 0.0, g, sc3))
+            for w2 in ("N", "S", "E", "W"):
+                fr2 = wall_frame(r, w2)
+                nn, T2 = fr2["n"], WALLT * k
+                ents.append(box("%s_Skirt_%s" % (rid, w2),
+                                (fr2["face"][0] + nn[0] * T2 * 0.5, fy - 1.6,
+                                 fr2["face"][1] + nn[1] * T2 * 0.5),
+                                (fr2["L"] + ov, 3.2, T2) if WALLS[w2]["axis"] == "z"
+                                else (T2, 3.2, fr2["L"] + ov),
+                                C_WALL, parent=g))   # ★当たり判定あり: 床が下がった側で
+                                                     #   壁の下から物が逃げるのを止める
+            self._tiltprops = []
+            tw = [("%s_Floor" % rid, cx, fy - 0.25, cz), ("%s_FloorM" % rid, cx, fy + 0.005, cz)]
+            for i2, (bx2, bz2, bw2, bd2, bh2) in enumerate(tf.get("walls", ())):
+                nm2 = "%s_TWall_%d" % (rid, i2)
+                ents.append(box(nm2, (cx + bx2 * k, fy + bh2 * 0.5, cz + bz2 * k),
+                                (bw2, bh2, bd2), C_DIV, parent=g, rough=0.6, kinematic=True))
+                tw.append((nm2, cx + bx2 * k, fy + bh2 * 0.5, cz + bz2 * k))
+            self.tilts.append(dict(room=rid, x=cx, y=fy, z=cz, deg=tf.get("deg", 6.0),
+                                   ents=tw, extra=list(tf.get("with", ())), _late=True))
         elif not pits:
             ents.append(box("%s_Floor" % rid, (cx, fy - 0.15, cz), (spanx, 0.3, spanz), C_FLOOR, rough=0.95, parent=g))
             if S.get("mf"):
                 fs = dict(floor=True, sx=round(spanx / k, 3), sz=round(spanz / k, 3))
+                if r.get("floorMat"):
+                    fs["mat"] = r["floorMat"]
                 nm = "fm_%s" % key_of(fs); self.manifest[nm] = fs
                 ents.append(model("%s_FloorM" % rid, mdl(nm), (cx, fy + 0.005, cz), 0.0, g, sc3))
             else:
                 ents.append(model("%s_FloorM" % rid, S["floor"], (cx, fy + 0.005, cz), 0.0, g, sc3))
         else:
-            axis, c = pits[0]
-            c0, c1 = c - PIT_W * 0.5, c + PIT_W * 0.5
+            axis, c, PW = pits[0]
+            c0, c1 = c - PW * 0.5, c + PW * 0.5
             half = hz if axis == "z" else hx
             for i, (p0, p1) in enumerate([(-half - WALLT * k * 0.5, c0), (c1, half + WALLT * k * 0.5)]):
                 L = p1 - p0
@@ -522,10 +1121,12 @@ class World:
                 ents.append(box("%s_Floor%d" % (rid, i), pos, sc, C_FLOOR, rough=0.95, parent=g))
                 # 床モデルは単位寸法で作って k 倍する(目地の大きさも縮尺に従う)
                 fs = dict(floor=True, sx=round(fspec["sx"] / k, 3), sz=round(fspec["sz"] / k, 3))
+                if r.get("floorMat"):
+                    fs["mat"] = r["floorMat"]
                 nm = "fm_%s" % key_of(fs)
                 self.manifest[nm] = fs
                 ents.append(model("%s_FloorM%d" % (rid, i), mdl(nm), (pos[0], 0.005, pos[2]), 0.0, g, sc3))
-            W = PIT_W
+            W = PW
             if axis == "z":
                 for i, (zc, sgn) in enumerate(((c0, 1), (c1, -1))):
                     ents.append(box("%s_PitW%d" % (rid, i), (cx, -PIT_DEPTH * 0.5, cz + zc - sgn * 0.15),
@@ -589,7 +1190,7 @@ class World:
                 ents.append(box("%s_Wall_%s_%d" % (rid, w, i // 2), p, (b - a, ch, T) if zax else (T, ch, b - a), C_WALL, parent=g))
             for o in ops:
                 # ★扉板。開いた状態で蝶番の側に立てる。「ここは扉だ」を一目で言う
-                if o["kind"] == "door":
+                if o["kind"] == "door" and o["id"] not in self.noleaf:
                     # ★70 度開いた状態。板は蝶番から「壁沿い x cos70 + 部屋の内側 x sin70」へ伸びる。
                     #   モデルの局所 +X は right(yaw) = (cos yaw, -sin yaw) なので、そこから yaw を逆算する。
                     #   (v7 初回は info["yaw"]+108 で置いて【板が廊下の中に倒れていた】)
@@ -614,7 +1215,9 @@ class World:
                     p = (wc[0] + al[0] * o["off"], wy + sh * 0.5, wc[2] + al[1] * o["off"])
                     ents.append(box("%s_Sill_%s_%s" % (rid, w, o["id"]), p, (o["w"], sh, T) if zax else (T, sh, o["w"]), C_WALL, parent=g))
 
-        lightcol, intensity = st.get("lightcol", (0.98, 0.96, 0.88)), st.get("intensity", 9.0)
+        # ★部屋ごとに明るさを変えられる(保管庫だけ暗くする等)。既定は面ぜんたいの値
+        lightcol = r.get("lightcol", st.get("lightcol", (0.98, 0.96, 0.88)))
+        intensity = r.get("intensity", st.get("intensity", 9.0))
         for i, (ox, oz) in enumerate(S["lights"]):
             ly = fy + (rise * (0.5 + oz * k / spanz) if rise > 0 else 0.0)
             ents.append(model("%s_Troffer_%d" % (rid, i + 1), mdl("troffer"), (cx + ox * k, ly + ch - 0.01 * k, cz + oz * k), 0.0, g, sc3))
@@ -652,7 +1255,22 @@ class World:
             #   縮尺 2 の部屋では脛の高さに、0.5 の部屋では見上げる壁になる。
             #   v6 は什器も k 倍していたので【絵が完全に同じ】になり、錯覚が起きようがなかった。
             sc = (1.0, ch / 4.0, 1.0) if kind == "column" else (1.0, 1.0, 1.0)
-            ents.append(model("%s_%s_%d" % (rid, kind, i), P["path"], (cx + lx * k, fy + y, cz + lz * k), yaw, g, sc))
+            nm2 = "%s_%s_%d" % (rid, kind, i)
+            ents.append(model(nm2, P["path"], (cx + lx * k, fy + y, cz + lz * k), yaw, g, sc))
+            # ★当たり判定。柱だけは天井まで伸ばすので高さも scale される
+            prop_body(ents[-1], P, sc[1] if kind == "column" else 1.0)
+            if P.get("phys") == "dyn":
+                # ★physics:setPosition は【コライダーの中心】を指す。原点(足元)を渡すと
+                #   その差ぶん地面へ埋まる。中心までの高さを一緒に覚えておく
+                sh = P["col"]
+                off = sh[1] if sh[0] == "sphere" else sh[2] * 0.5
+                self.dynprops.append((nm2, off))
+            elif r.get("tiltFloor") and P.get("phys") == "fix":
+                # ★傾く部屋の什器は【床にくっついて】一緒に上下する。
+                #   静止体(motionType 0)のままだと transform を書いても当たり判定が動かないので
+                #   KINEMATIC(1)へ。これをやらないとロッカーだけ空中に取り残される。
+                ents[-1]["rigidBody"]["motionType"] = 1
+                self._tiltprops.append((nm2, cx + lx * k, fy + y, cz + lz * k))
             if P["block"]:
                 top = P["top"] if P["top"] < 90.0 else ch
                 self.fixtures.setdefault(rid, []).append((cx + lx * k, cz + lz * k, P["r"], top))
@@ -663,11 +1281,15 @@ class World:
             along_x = (axis == "z")
             span = spanx if along_x else spanz
             lx, lz = (0.0, cw) if along_x else (cw, 0.0)
-            ents.append(model("%s_Bar_%d" % (rid, i), mdl("barrier"), (cx + lx, fy, cz + lz), 0.0 if along_x else 90.0, g,
+            ents.append(model("%s_Bar_%d" % (rid, i), mdl(lay.get("barMdl", "barrier")), (cx + lx, fy, cz + lz), 0.0 if along_x else 90.0, g,
                               (span / 12.6, BAR_H / 1.35, 1.0)))
             sx = span if along_x else 0.14
             sz = 0.14 if along_x else span
-            ents.append(box("%s_BarCol_%d" % (rid, i), (cx + lx, fy + BAR_H * 0.5 - 0.03, cz + lz), (sx - 0.03, BAR_H - 0.06, sz - 0.03), C_DIV, rough=0.6, parent=g))
+            # ★当たり判定は【見えない板】。v9 までは C_DIV の箱を見せていたが、
+            #   40m のホールに置くと【向こうが一切見えない壁】になり、
+            #   「見えているのに行けない」という設計そのものが成立しない。
+            #   見た目は手すりモデル(barrier)だけに任せる。
+            ents.append(box("%s_BarCol_%d" % (rid, i), (cx + lx, fy + BAR_H * 0.5 - 0.03, cz + lz), (sx - 0.03, BAR_H - 0.06, sz - 0.03), C_DIV, rough=0.6, parent=g, visible=False))
             self.fixtures.setdefault(rid, []).append((cx + lx, cz + lz, 0.6, BAR_H))
 
     def build(self):
@@ -690,8 +1312,37 @@ class World:
             self.fake(sp)
         for sp in st.get("windows", ()):
             self.window(sp)
+        # ---- v10: 別棟(エイムズ) -> 継ぎ手 の順。口は壁に穴を開けるので【部屋を建てる前】に。
+        #      継ぎ手は別棟の中にも立てられる(at=("E1", 横, 奥))ので、別棟が先に要る ----
+        for sp in st.get("ames", ()):
+            self.ames(sp)
+        for sp in st.get("ports", ()):
+            self.port(sp)
+        for sp in _flat(st.get("links", ())):     # JOIN() は 2 本まとめて返すので均す
+            self.link(sp)
+        # ---- v11: 継ぎ手の枠 / 重量板 / 重ねると繋がる組 ----
+        for sp in st.get("gates", ()):
+            self.gate(sp)
+        for sp in st.get("plates", ()):
+            self.plate(sp)
+        for sp in _flat(st.get("pairs", ())):
+            self.gpair(sp)
+        # ★総当たり検査(simulate)は口と口の対応表(links)しか見ない。
+        #   回数で行き先が変わる結線(times>0)は【最後に落ち着く方】だけを教える
+        #   (輪は遠回りであって、行けない場所を作らないから)。
+        for lk in self.linkrows:
+            if lk["times"] == 0:
+                self.links[lk["frm"]] = lk["to"]
         for r in st["rooms"]:
+            i0 = len(self.ents)
+            self._tiltprops = []
             self.build_room(r)
+            # ★什器は床の後に作られるので、部屋を建て終えてから傾ける一覧へ足す
+            if self._tiltprops and self.tilts:
+                self.tilts[-1]["ents"].extend(self._tiltprops)
+            if abs(r.get("tilt", 0.0)) > 1e-6:
+                self.tilt_slice(r, i0, len(self.ents))
+        self.extras()
         # ---- 黙って転送する面(warp)。同じ見た目の廊下の中に置くので見えない ----
         self.warps = []
         for wp in st.get("warps", ()):
@@ -856,6 +1507,15 @@ class World:
                                    (dx + ux * 1.5 * sgn, 0.55, dz + uz * 1.5 * sgn),
                                    (0.25, 1.0, 0.62), 5.0, 9.0, g_sys))
 
+        # ★v11: くぐった瞬間に【カメラの前を通り過ぎる膜】。床下に隠してある。
+        #   実行時に spawn した entity は描画されないので、必ずシーンに置くこと。
+        if st.get("gates"):
+            v = model("WarpVeil", mdl("membrane"), (0.0, HIDE_Y, 0.0), 0.0, g_sys)
+            v["shader"] = "Membrane.hlsl"
+            v["shaderAlphaBlend"] = True
+            v["shaderEffectValue"] = 0.0
+            v["shaderParams"] = [0.61, 0.9, 2.2, 0.0]
+            ents.append(v)
         ents.append(box("Pilot", (0.0, HIDE_Y, 0.0), (0.22, 0.22, 0.22), (0.55, 1.0, 0.85),
                         collide=False, rough=0.2, parent=g_sys, prim="sphere"))
         ents.append(plight("PilotLight", (0.0, HIDE_Y, 0.0), (0.35, 1.0, 0.80), 2.6, 5.0, g_sys))
@@ -887,7 +1547,10 @@ class World:
             "ssao": {"bias": 0.025, "blur": True, "enabled": True, "intensity": 1.0,
                      "power": 1.7, "radius": 0.7, "sampleCount": 16},
             "postProcess": {
-                "enabled": True, "tonemapper": 1, "exposureOn": True, "exposure": 1.0,
+                "enabled": True, "tonemapper": 1, "exposureOn": True,
+                # ★露出。灯りの数が多い面(v10 の 40m ホールは 25 灯)は 1.0 だと
+                #   コンクリートの床が【真っ白に飛ぶ】。面ごとに落とせるようにした。
+                "exposure": st.get("exposure", 1.0),
                 "bloomOn": True, "bloom": 0.42, "bloomThreshold": 1.15,
                 "bloomKnee": 0.5, "bloomRadius": 0.72,
                 "vignetteOn": True, "vignette": 0.26, "caOn": True, "ca": 0.15,
@@ -896,15 +1559,72 @@ class World:
         }
 
 
+# ★v11: 什器に【当たり判定】と【物理】を持たせた。
+#   phys="fix" … 動かない当たり判定(棚・ロッカー・ベンチ・柱)。押しても微動だにしない
+#   phys="dyn" … 動く剛体。押せば転がる/滑る。mass は現実の重さに近い値
+#   col = ("box", 幅, 高さ, 奥行) / ("sphere", 半径)。原点は床なので中心は高さの半分
+#   ★v10 までは什器は【全部すり抜ける飾り】だった。指摘「オブジェクト個々に当たり判定を」
 PROPS = {
-    "bench":   dict(path=mdl("bench"),   y=0.0, r=0.90, top=0.95, block=True),
-    "column":  dict(path=mdl("column"),  y=0.0, r=0.45, top=99.0, block=True),
-    "locker":  dict(path=mdl("locker"),  y=0.0, r=0.85, top=1.95, block=True),
-    "crate":   dict(path=mdl("crate"),   y=0.0, r=0.55, top=0.75, block=True),
+    "rack":    dict(path=mdl("rack"),    y=0.0, r=1.45, top=2.40, block=True,
+                    phys="fix", col=("box", 2.60, 2.40, 0.90)),
+    "drum":    dict(path=mdl("drum"),    y=0.0, r=0.34, top=0.88, block=True,
+                    phys="dyn", mass=26.0, col=("box", 0.60, 0.88, 0.60),
+                    fric=0.42, rest=0.06, ldamp=0.22, adamp=0.55),
+    # ★転がり抵抗。0.10 だと床を水平に戻しても止まらず、狙った所へ置けない(実測)。
+    #   0.62 にすると「傾けている間だけ転がり、離すと数十cmで止まる」= 狙える
+    "ball":    dict(path=mdl("ball"),    y=0.0, r=0.40, top=0.72, block=False,
+                    phys="dyn", mass=48.0, col=("sphere", 0.36),
+                    fric=0.45, rest=0.10, ldamp=0.62, adamp=0.55),
+    "sign":    dict(path=mdl("sign"),    y=3.20, r=0.9, top=0.0, block=False),
+    "bench":   dict(path=mdl("bench"),   y=0.0, r=0.90, top=0.95, block=True,
+                    phys="fix", col=("box", 1.80, 0.95, 0.62)),
+    "column":  dict(path=mdl("column"),  y=0.0, r=0.45, top=99.0, block=True,
+                    phys="fix", col=("box", 0.92, 4.00, 0.92)),
+    "locker":  dict(path=mdl("locker"),  y=0.0, r=0.85, top=1.95, block=True,
+                    phys="fix", col=("box", 1.60, 1.95, 0.55)),
+    "crate":   dict(path=mdl("crate"),   y=0.0, r=0.55, top=0.75, block=True,
+                    phys="dyn", mass=17.0, col=("box", 0.78, 0.75, 0.78),
+                    fric=0.55, rest=0.04, ldamp=0.25, adamp=0.65),
     "railing": dict(path=mdl("railing"), y=0.0, r=1.55, top=1.10, block=True),
     "vent":    dict(path=mdl("vent"),    y=None, r=0.4, top=0.0, block=False),
     "pipes":   dict(path=mdl("pipes"),   y=None, r=3.0, top=0.0, block=False),
 }
+
+
+def A_room(W, g):
+    return W.rooms[g["room"]]
+
+
+def prop_body(e, P, k=1.0):
+    """★什器のエンティティに当たり判定と剛体を足す。
+    ・fix … 動かない壁と同じ扱い(motionType 0)。押しても動かない
+    ・dyn … 転がる/滑る(motionType 2)。★ガクガクさせないための値:
+             restitution を 0.2 以下に(跳ね返りが小さいほど落ち着く)、
+             linearDamping/angularDamping を入れて微振動を殺す、
+             mass は現実の値(ドラム缶 26kg / 木箱 17kg / 鋼球 48kg)。
+             軽すぎると人にぶつかった瞬間に吹き飛んで嘘に見える。
+    ★CharacterVirtual は接触した動的剛体を押す(Jolt の既定 mMaxStrength)。
+      だから「歩いてぶつかると転がる」が Lua を 1 行も書かずに成立する。"""
+    ph = P.get("phys")
+    if not ph:
+        return e
+    shape = P["col"]
+    if shape[0] == "sphere":
+        e["sphereCollider"] = {"radius": shape[1] * k, "offset": [0.0, shape[1] * k, 0.0]}
+    else:
+        _, w, h, d = shape
+        e["boxCollider"] = {"halfExtents": [w * 0.5 * k, h * 0.5 * k, d * 0.5 * k],
+                            "offset": [0.0, h * 0.5 * k, 0.0]}
+    dyn = (ph == "dyn")
+    e["rigidBody"] = {"angularDamping": P.get("adamp", 0.4) if dyn else 0.01,
+                      "continuousCollision": dyn,
+                      "friction": P.get("fric", 0.5),
+                      "linearDamping": P.get("ldamp", 0.2) if dyn else 0.02,
+                      "mass": P.get("mass", 1.0),
+                      "motionType": 2 if dyn else 0,
+                      "restitution": P.get("rest", 0.05),
+                      "useGravity": dyn}
+    return e
 
 
 # ---------------------------------------------------------------- 総当たり(状態 = 部屋, 区画。大きさは部屋が決める)
@@ -916,8 +1636,8 @@ def _dividers(r):
         out.append((axis, c * k, ("big", 0)))
     for (axis, c) in lay.get("eaves", ()):
         out.append((axis, c * k, ("small", 0)))
-    for (axis, c) in lay.get("pits", ()):
-        out.append((axis, c * k, ("pit", PIT_W)))
+    for pp in lay.get("pits", ()):
+        out.append((pp[0], pp[1] * k, ("pit", pp[2] if len(pp) > 2 else PIT_W)))
     return out
 
 
@@ -1117,6 +1837,121 @@ def check_corridors(st, W):
               {W.mouths[t["a"]]["room"], W.mouths[t["b"]]["room"]})
 
 
+def _room_boxes(st):
+    out = []
+    for r in st["rooms"]:
+        hx, hz, _ch, k = dims(r)
+        cx, cz = r["at"]
+        t = WALLT * k * 0.5
+        out.append((r["id"], cx - hx - t, cx + hx + t, cz - hz - t, cz + hz + t))
+    return out
+
+
+def check_ports(st, W):
+    """★継ぎ手の検査。ここが崩れると「暗い筒を歩いたら別の場所」という一番大事な嘘が
+    目に見えてしまうので、次の 4 つを機械で見る。
+
+      1. 筒(2m の箱)が【関係ない部屋】へ突き刺さっていないか
+         → 刺さると部屋の中に黒い箱が生え、当たり判定だけある壁になる
+      2. 筒どうしが重なっていないか
+      3. 結ばれた 2 つの口の【寸法が同じ】か
+         → 違うと入った筒と出た筒の幅が変わり、暗くても輪郭で分かってしまう
+      4. どの口にも結線があるか(行き止まりの黒い穴を残さない)
+    """
+    rooms = _room_boxes(st)
+    boxes = []
+    for q in W.ports:
+        n = (q["nx"], q["nz"])
+        hw = q["hw"]
+        x0 = min(q["x"] - hw * abs(n[1]), q["x"] + n[0] * (q["P"] + 0.9))
+        x1 = max(q["x"] + hw * abs(n[1]), q["x"] + n[0] * (q["P"] + 0.9))
+        z0 = min(q["z"] - hw * abs(n[0]), q["z"] + n[1] * (q["P"] + 0.9))
+        z1 = max(q["z"] + hw * abs(n[0]), q["z"] + n[1] * (q["P"] + 0.9))
+        boxes.append((q["id"], x0, x1, z0, z1, q["room"], q.get("free", False)))
+    for (pid, x0, x1, z0, z1, own, free) in boxes:
+        if free:
+            continue          # 部屋の中に立つ筐体は、その部屋に入っていて当たり前
+        for (rid, a0, a1, b0, b1) in rooms:
+            ox = min(x1, a1) - max(x0, a0)
+            oz = min(z1, b1) - max(z0, b0)
+            if ox > 0.35 and oz > 0.35:      # 壁の厚みぶんは重なって当然
+                raise SystemExit("%s: ★継ぎ手 %s の筒が部屋 %s へ刺さっている(x %.2f / z %.2f)"
+                                 % (st["name"], pid, rid, ox, oz))
+    for i in range(len(boxes)):
+        for j in range(i + 1, len(boxes)):
+            a, b = boxes[i], boxes[j]
+            ox = min(a[2], b[2]) - max(a[1], b[1])
+            oz = min(a[4], b[4]) - max(a[3], b[3])
+            if ox > 1e-6 and oz > 1e-6:
+                raise SystemExit("%s: ★継ぎ手 %s と %s の筒が重なっている" % (st["name"], a[0], b[0]))
+    size = {q["id"]: q["size"] for q in W.ports}
+    outs = set()
+    for lk in W.linkrows:
+        outs.add(lk["frm"])
+        if abs(size[lk["frm"]] - size[lk["to"]]) > 1e-3:
+            raise SystemExit("%s: ★継ぎ手 %s(%.2f) と %s(%.2f) は寸法が違う。筒の幅が変わると入れ替わりが見える"
+                             % (st["name"], lk["frm"], size[lk["frm"]], lk["to"], size[lk["to"]]))
+    for q in W.ports:
+        if q["id"] not in outs:
+            raise SystemExit("%s: ★継ぎ手 %s に結線が無い(行き止まりの黒い穴になる)" % (st["name"], q["id"]))
+
+
+def check_ames(st, W):
+    """エイムズの部屋の検査。★床が水平か(戻し回転が効いているか)と、
+    歪めた外形が他の部屋を貫いていないか。"""
+    rooms = _room_boxes(st)
+    for a in W.amesboxes:
+        if a["floorErr"] > 0.02:
+            raise SystemExit("%s: ★エイムズ %s の床が水平でない(最大 %.3fm)。戻し回転が合っていない"
+                             % (st["name"], a["id"], a["floorErr"]))
+        xs = [p[0] for p in a["pts"]]
+        zs = [p[2] for p in a["pts"]]
+        for (rid, a0, a1, b0, b1) in rooms:
+            if rid == a["room"]:
+                continue
+            ox = min(max(xs), a1) - max(min(xs), a0)
+            oz = min(max(zs), b1) - max(min(zs), b0)
+            if ox > 1e-6 and oz > 1e-6:
+                raise SystemExit("%s: ★エイムズ %s が部屋 %s と重なっている(x %.2f / z %.2f)"
+                                 % (st["name"], a["id"], rid, ox, oz))
+        r = W.rooms[a["room"]]
+        hx, hz, _c, k = dims(r)
+        nl = a["near"]
+        for p in nl:
+            lx, lz = p[0] - r["at"][0], p[2] - r["at"][1]
+            if abs(lx) > hx + 0.4 and abs(lz) > hz + 0.4:
+                continue
+            if abs(lx) - 1e-6 > hx + 0.4 or abs(lz) - 1e-6 > hz + 0.4:
+                raise SystemExit("%s: ★エイムズ %s の手前の口が母屋の壁からはみ出す(local %.2f, %.2f)"
+                                 % (st["name"], a["id"], lx, lz))
+
+
+def check_props(st, W):
+    """★什器どうしがめり込んでいないか / 壁を突き抜けていないか。
+    v10 は部屋が広く物が多いので、目視では絶対に見つからない。"""
+    for rid, fx in W.fixtures.items():
+        if rid not in W.rooms:
+            continue                    # "ames:xx" = 別棟の帳簿。壁の判定は母屋の壁ではない
+        r = W.rooms[rid]
+        hx, hz, _ch, k = dims(r)
+        for i, (x, z, rr, top) in enumerate(fx):
+            if rr >= 2.0:
+                continue
+            lx, lz = abs(x - r["at"][0]), abs(z - r["at"][1])
+            # ★什器は壁に背をつけて置くのが正しいので、中心が【内寸の外】に出た時だけ弾く。
+            #   半径ぶんの余裕を見ると、壁付けの置き方が全部引っかかる(v9 の SET1 も落ちる)。
+            if lx > hx - 0.15 or lz > hz - 0.15:
+                raise SystemExit("%s: 部屋 %s の什器 %d が壁の外にある(local %.1f,%.1f / 内寸 %.1f,%.1f)"
+                                 % (st["name"], rid, i, x - r["at"][0], z - r["at"][1], hx, hz))
+            for j, (x2, z2, r2, _t2) in enumerate(fx):
+                if j <= i or r2 >= 2.0:
+                    continue
+                d = math.hypot(x - x2, z - z2)
+                if d < (rr + r2) * 0.62:
+                    raise SystemExit("%s: 部屋 %s の什器 %d と %d が重なっている(距離 %.2f)"
+                                     % (st["name"], rid, i, j, d))
+
+
 def check_solvable(st, W):
     hops, states, path, pts = simulate(st, W)
     if hops is None:
@@ -1258,8 +2093,19 @@ def cine_world(st, centers, eye=EYE_H):
 
 
 # ================================ ステージ定義 ================================
-def R(rid, shape, at, scale=1.0, layout=None):
-    return dict(id=rid, shape=shape, at=at, scale=scale, layout=layout or {})
+def R(rid, shape, at, scale=1.0, layout=None, tilt=0.0, tiltAxis="z", tiltAt=(0.0, 0.0, 0.0),
+      intensity=None, lightcol=None, floorMat=None, tiltFloor=None):
+    d = dict(id=rid, shape=shape, at=at, scale=scale, layout=layout or {},
+             tilt=tilt, tiltAxis=tiltAxis, tiltAt=tiltAt)
+    if intensity is not None:
+        d["intensity"] = intensity
+    if lightcol is not None:
+        d["lightcol"] = lightcol
+    if floorMat is not None:
+        d["floorMat"] = floorMat
+    if tiltFloor is not None:
+        d["tiltFloor"] = tiltFloor
+    return d
 
 
 def SEAM(sid, room, wall, off, sill=0.0, osize=None, osizeB=None):
@@ -1301,6 +2147,97 @@ def SGATE(gid, room, at, facing, sf, sb, size=3.2):
 
 def WIN(room, wall, off):
     return dict(room=room, wall=wall, off=off)
+
+
+# ================================ v10 の語彙 ================================
+def PORT(pid, room, wall=None, off=0.0, at=None, into=None, depth=PORT_D, size=1.0, hole=None,
+         ames=None):
+    """継ぎ手の口。壁に開ける(wall=)か、部屋の中に単体で立てる(at=, into=)。
+    into = そこへ【入る時に歩く向き】。hole = 母屋に開ける穴の大きさ(既定 size)。"""
+    d = dict(id=pid, room=room, depth=depth, size=size)
+    if wall:
+        d.update(wall=wall, off=off, hole=hole if hole is not None else size)
+    else:
+        d.update(at=at, into=into, ames=ames)
+    return d
+
+
+def LINK(frm, to, times=0):
+    """継ぎ手 frm の奥を越えたら to から出る。times>0 なら【最初の times 回だけ】。
+    ★同じ戸が回数で行き先を変えられる = 「三度歩かされる廊下」が書ける。"""
+    return dict(**{"from": frm, "to": to, "times": times})
+
+
+def JOIN(a, b, times=0):
+    """両通行の継ぎ手 1 組。LINK 2 本(行きと帰り)の砂糖。"""
+    return [LINK(a, b, times), LINK(b, a, times)]
+
+
+def AMES(aid, room, wall, off=0.0, w=8.0, d=14.0, h=5.0, alpha=0.075, props=(), lights=None,
+         eye=EYE_H):
+    return dict(id=aid, room=room, wall=wall, off=off, w=w, d=d, h=h, alpha=alpha,
+                props=list(props), lights=lights, eye=eye)
+
+
+def WATCH(wid, room, at, yaw=0.0, h=1.85, step=2.6, near=2.2, rng=34.0, wait=0.5, model="figure"):
+    return dict(id=wid, room=room, at=at, yaw=yaw, h=h, step=step, near=near, range=rng,
+                wait=wait, model=model)
+
+
+def CREEP(cid, ents, zone, axis="z", a=0.0, b=1.0, dx=0.0, dy=0.0, dz=0.0):
+    """zone の中で、座標 axis が a→b と進むにつれて ents を (dx,dy,dz) だけずらす。
+    ★進み具合は【戻らない】(ラチェット)。だから引き返しても元には戻っていない。"""
+    return dict(id=cid, ents=list(ents), zone=zone, axis=axis, a=a, b=b, dx=dx, dy=dy, dz=dz)
+
+
+def ROLL(zone, axis="z", a=0.0, b=1.0, deg=(0.0, 0.0)):
+    return dict(zone=zone, axis=axis, a=a, b=b, deg=deg)
+
+
+# ================================ v11 の語彙 ================================
+def GATE(gid, room, at, facing="S", size=1.0, y=0.0):
+    """継ぎ手の枠。部屋の中に単体で立つ門。中に膜(Membrane.hlsl)が張ってある。
+    facing = 【正面が向く方位】。プレイヤーはその側から入る。"""
+    return dict(id=gid, room=room, at=at, facing=facing, size=size, y=y)
+
+
+# ★対の色。同じ色の枠どうしだけが繋がる。これが「どれとどれを重ねるのか」を
+#   文字なしで言う唯一の手段(指摘: 解き方がぜんぜん分からない)。
+PAIRCOL = {
+    "amber":  (1.00, 0.62, 0.18),
+    "cyan":   (0.24, 0.82, 1.00),
+    "green":  (0.32, 1.00, 0.48),
+    "violet": (0.72, 0.46, 1.00),
+    "red":    (1.00, 0.32, 0.28),
+    "blue":   (0.38, 0.52, 1.00),
+}
+PAIRHUE = {"amber": 0.09, "cyan": 0.53, "green": 0.35, "violet": 0.76,
+           "red": 0.99, "blue": 0.62}
+
+
+def PAIR(a, b, both=True, needs=None, col="cyan", mark=0.0):
+    """★重ねると繋がる枠の組。手前の枠の開口の中に向こうの枠が【見えている】時だけ有効。
+    col   … 対の色。両方の枠が同じ色で光る = 一目でどれと組か分かる
+    needs … 重量板の id。押されるまで枠は【消灯】して繋がらない
+    mark  … >0 なら手前の枠の正面 mark m の床に【立ち位置の印】を描く(最初の教える組だけ)"""
+    return dict(a=a, b=b, both=both, needs=needs, col=col, mark=mark)
+
+
+def PLATE(pid, room, at, r=1.05):
+    """重量板。動く剛体(玉・ドラム缶・木箱)が乗ると押される。"""
+    return dict(id=pid, room=room, at=at, r=r)
+
+
+def TILTF(deg=6.0, over=5.0, walls=(), withEnts=()):
+    """視線で傾く床。★見ている方へ床が下がるので、玉は【見た方へ】転がる。
+    walls = 床と一緒に傾く低い壁 (x, z, 幅, 奥行, 高さ)。withEnts = 一緒に傾ける物の名前。"""
+    return dict(deg=deg, over=over, walls=list(walls), **{"with": list(withEnts)})
+
+
+def FOVR(zone, axis="z", a=0.0, b=1.0, fov=(74.0, 74.0)):
+    """歩く位置で画角を連続的に変える帯。★画角を絞ると【近づいても大きくならない】。
+    奥の壁が遠ざかって見えるので、廊下がいつまでも終わらない。"""
+    return dict(zone=zone, axis=axis, a=a, b=b, f0=fov[0], f1=fov[1])
 
 
 # ================================ 間取り(v8) ================================
@@ -1477,6 +2414,131 @@ STAGES = [
          cine=[("H", (4.0, 2.6, 5.0), "H", (-2.0, 1.4, -2.0), 2.4),
                ("H", (4.0, 1.7, 3.0), "H", (-2.0, 1.3, -2.0), 1.6)]),
 
+    # ======================================================================================
+    # stagedemo3「継ぎ目の館 / SORTING HOUSE」 v11.2 — 4 回くぐって 1 つ解く
+    # ======================================================================================
+    # ★指摘「その部屋でなにすればいいか分からん」への答えは【短くする】ことだった。
+    #   v11.1 は往復 3 回・板 2 枚・分岐 5 本で、道筋そのものが読めなかった。
+    #
+    #   必須はこれだけ:
+    #     1. 始まりの帯で【琥珀】の枠を重ねて柵を越える
+    #     2. 中の帯から【水色】の枠を重ねて傾く部屋へ(東の窓ごしに見える)
+    #     3. 傾く部屋で鋼球を【青い重量板】へ転がす  ← ここが唯一のパズル
+    #     4. 水色で戻り、【青】の枠を重ねて谷を渡る   ← 青い板が青い枠を点ける
+    #
+    #   ★中の帯に立つと、谷の向こうの出口と、消えている青い枠と、
+    #     東の窓の向こうの青い板が【全部同時に見える】。やる事は見れば分かる。
+    #
+    #   寄り道(行かなくても終われる): 緑=機械室(エイムズの部屋)/ 赤=仕分け廊(画角の嘘)/
+    #   紫=保管庫(視線をふさぐ人型)。
+    dict(name="stagedemo3", tag="Demo_3", title=3,
+         intensity=5.2, exposure=0.82,
+         rooms=[
+             R("A", "atrium40", (0.0, 0.0), 1.0,
+               dict(bars=[("z", -13.0)], barMdl="fence", pits=[("z", 0.0, 14.0)],
+                    props=[("rack", -17.0, -18.4, 0.0), ("rack", 17.0, -18.4, 0.0),
+                           ("drum", -9.0, -17.8, 0.0), ("drum", -8.2, -18.3, 40.0),
+                           ("bench", -2.0, -18.6, 0.0), ("bench", 2.0, -18.6, 0.0),
+                           ("locker", 18.4, -16.0, 270.0), ("crate", 10.5, -17.5, 20.0),
+                           ("rack", -18.4, -10.0, 90.0), ("drum", 17.6, -8.4, 0.0),
+                           ("crate", -16.0, -8.6, 35.0),
+                           ("column", -16.0, 16.0, 0.0), ("column", 16.0, 16.0, 0.0),
+                           ("rack", -15.0, 18.4, 180.0), ("rack", 15.0, 18.4, 180.0),
+                           ("drum", 12.0, 9.0, 0.0), ("bench", -6.0, 8.6, 180.0)]),
+               floorMat="concrete", intensity=3.4),
+             # ★傾く部屋。受入ホールの【東】。中の帯から窓ごしに中が見える
+             R("G", "tilt16", (32.0, -10.0), 1.0,
+               dict(props=[("ball", 5.0, 4.0, 0.0),
+                           ("locker", -6.6, 6.6, 90.0), ("bench", -6.4, -5.6, 90.0)]),
+               floorMat="concrete", intensity=4.4,
+               tiltFloor=TILTF(deg=6.5, over=5.0,
+                               walls=[(0.0, -2.2, 4.6, 0.35, 0.55),
+                                      (-2.3, -1.0, 0.35, 2.4, 0.55),
+                                      (2.3, -1.0, 0.35, 2.4, 0.55)],
+                               withEnts=["Plate_p1", "PlateL_p1"])),
+             # ---- ここから下は寄り道 ----
+             R("D", "hall26", (-37.0, -10.0), 1.0,
+               dict(props=[("column", -8.0, -8.0, 0.0), ("column", 8.0, -8.0, 0.0),
+                           ("column", -8.0, 8.0, 0.0), ("column", 8.0, 8.0, 0.0),
+                           ("rack", 11.0, -4.0, 270.0), ("rack", 11.0, 4.0, 270.0),
+                           ("drum", 3.0, 8.4, 0.0), ("drum", 3.9, 8.9, 30.0),
+                           ("crate", -1.0, 9.6, 15.0),
+                           ("locker", 6.0, -11.4, 0.0), ("bench", -6.0, -3.0, 90.0),
+                           ("pipes", 0.0, -7.0, 0.0)]),
+               floorMat="concrete"),
+             R("B", "corr36", (0.0, -28.5), 1.0,
+               dict(props=[("rack", -10.0, -3.2, 0.0), ("rack", -6.0, -3.2, 0.0),
+                           ("rack", 6.0, -3.2, 0.0), ("rack", 10.0, -3.2, 0.0),
+                           ("rack", -8.0, 3.2, 180.0), ("rack", 8.0, 3.2, 180.0),
+                           ("drum", -2.6, 3.4, 0.0), ("crate", 2.0, -3.4, 0.0)]),
+               floorMat="concrete"),
+             R("H", "store22", (0.0, -45.0), 1.0,
+               dict(props=[("rack", -8.0, -4.5, 0.0), ("rack", -4.0, -4.5, 0.0),
+                           ("rack", 4.0, -4.5, 0.0), ("rack", 8.0, -4.5, 0.0),
+                           ("rack", -8.0, 3.5, 0.0), ("rack", 8.0, 3.5, 0.0),
+                           ("drum", -9.6, 6.4, 0.0), ("crate", 9.0, -6.6, 25.0),
+                           ("locker", 9.6, 6.4, 270.0)]),
+               floorMat="concrete", intensity=1.7, lightcol=(0.82, 0.87, 1.0)),
+         ],
+         # ---- 窓。隣の部屋は【見えるが入口が無い】 ----
+         windows=[WIN("A", "E", -10.0),     # 中の帯 -> 傾く部屋(青い板が見える)
+                  WIN("A", "W", -10.0),     # 中の帯 -> 機械室(寄り道)
+                  WIN("A", "S", -14.0),     # 始まりの帯 -> 仕分け廊(寄り道)
+                  WIN("B", "S", 0.0)],      # 仕分け廊 -> 保管庫(寄り道)
+         gates=[GATE("s1", "A", (6.0, -15.5), "S"),      # 1. 柵を越える
+                GATE("m1", "A", (6.0, -10.0), "S"),
+                GATE("m2", "A", (12.0, -10.0), "W"),     # 2. 東の窓ごしに傾く部屋
+                GATE("g1", "G", (-6.0, 0.0), "W"),
+                GATE("m3", "A", (0.0, -9.5), "S"),       # 4. 谷を渡る(青い板が要る)
+                GATE("n1", "A", (0.0, 12.0), "S"),
+                GATE("m4", "A", (-12.0, -10.0), "E"),    # 寄り道: 機械室
+                GATE("d1", "D", (11.0, 0.0), "E"),
+                GATE("s2", "A", (-14.0, -18.0), "N"),    # 寄り道: 仕分け廊
+                GATE("b1", "B", (-14.0, 1.5), "N"),
+                GATE("b2", "B", (0.0, -1.5), "N"),       # 寄り道: 保管庫
+                GATE("h1", "H", (0.0, 6.0), "N")],
+         # ★板は【玉が自然に止まる所】= 囲いの南の突き当りに置く。
+         #   真ん中に置いたら玉が板を通り過ぎて南壁で止まり、1.7m 手前で止まった(実測)。
+         plates=[PLATE("p1", "G", (0.0, -1.5), r=1.5)],
+         # ★青い板が青い枠を点ける。色だけが理屈。文字はいらない
+         pairs=[PAIR("s1", "m1", col="amber", mark=2.6),
+                PAIR("m2", "g1", col="cyan", mark=3.0),
+                PAIR("m3", "n1", col="blue", needs="p1", mark=3.0),
+                PAIR("m4", "d1", col="green"),
+                PAIR("s2", "b1", col="red"),
+                PAIR("b2", "h1", col="violet")],
+         # ---- 案内。★文字ではなく【光の玉】が次にやる事の上に浮く ----
+         guide=[(6.0, -18.1, "cross:s1"),
+                (9.0, -10.0, "cross:m2"),
+                (32.0, -10.0, "plate:p1"),
+                (27.6, -10.0, "cross:g1"),
+                (0.0, -12.5, "cross:m3"),
+                (0.0, 17.0, "")],
+         ames=[AMES("E1", "D", "W", 0.0, w=9.0, d=15.0, h=5.0, alpha=0.07,
+                    props=[("locker", -3.6, 13.0, 0.0), ("locker", 3.6, 13.0, 0.0),
+                           ("bench", -3.6, 5.5, 0.0), ("bench", 3.6, 5.5, 0.0),
+                           ("drum", -1.6, 8.5, 0.0), ("drum", 1.6, 8.5, 0.0)])],
+         fakes=[FAKE("f_d", "D", "S", 0.0)],
+         anchors=[(16.5, -28.5, 270.0, 1.0, 31.0)],
+         watchers=[WATCH("W1", "H", (-4.0, 1.0), yaw=180.0, near=3.2, step=1.4, wait=1.0),
+                   WATCH("W2", "H", (3.0, 2.0), yaw=180.0, near=3.6, step=1.2, wait=1.3),
+                   WATCH("W3", "H", (7.0, 0.0), yaw=180.0, near=4.0, step=1.1, wait=1.6)],
+         fovramps=[FOVR(zone=(-19.0, 19.0, -34.0, -23.0), axis="x", a=-14.0, b=14.0,
+                        fov=(74.0, 46.0))],
+         rolls=[ROLL(zone=(-19.0, 19.0, -34.0, -23.0), axis="x", a=-12.0, b=14.0,
+                     deg=(0.0, 8.0))],
+         dolly=[(0.0, -8.5, 5.0, 54.0)],
+         morphs=[MORPH("m1", "A", at=(0.0, -10.0), r=15.0, delay=1.2,
+                       org=[("drum", 12.0, 9.0, 0.0), ("bench", -6.0, 8.6, 180.0)],
+                       alt=[("drum", -12.5, 9.6, 0.0), ("bench", 7.0, 12.0, 90.0)],
+                       light=(0.93, 0.93, 1.0))],
+         spawn=(6.0, -19.2, 0.0), goal=(0.0, 17.0), goalYaw=180.0,
+         start="A", goalRoom="A", minHops=2, teach=None,
+         hintPath=[(6.0, -18.1)],
+         cine=[("A", (11.0, 7.5, -18.0), "A", (0.0, 2.2, 14.0), 3.0),
+               ("A", (6.0, 2.7, -18.6), "A", (6.0, 2.5, 10.0), 1.8)]),
+
+
 ]
 
 
@@ -1489,6 +2551,9 @@ def main():
         data = W.build()
         check_footholds(st, W)
         check_corridors(st, W)
+        check_ports(st, W)
+        check_ames(st, W)
+        check_props(st, W)
         check_runup(st, W)
         check_fakes(st, W)
         pts = check_solvable(st, W)
@@ -1544,6 +2609,99 @@ def main():
                      % (pg["id"], pg["x"], pg["y"], pg["z"], pg["mode"], pg["delay"],
                         "true" if pg["auto"] else "false"))
         L.append('        },')
+        # ---------------- v10 ----------------
+        L.append('        ports = {')
+        for q in W.ports:
+            L.append('            { id = "%s", x = %.3f, z = %.3f, nx = %.3f, nz = %.3f, alx = %.3f, alz = %.3f, '
+                     'hw = %.2f, P = %.2f, y0 = %.2f, size = %.3f },'
+                     % (q["id"], q["x"], q["z"], q["nx"], q["nz"], q["alx"], q["alz"],
+                        q["hw"], q["P"], q["y0"], q["size"]))
+        L.append('        },')
+        L.append('        links = {')
+        pidx = {q["id"]: i + 1 for i, q in enumerate(W.ports)}
+        for lk in W.linkrows:
+            L.append('            { from = %d, to = %d, times = %d, dyaw = %.3f, rlx = %.4f, rlz = %.4f },'
+                     % (pidx[lk["frm"]], pidx[lk["to"]], lk["times"], lk["dyaw"], lk["rlx"], lk["rlz"]))
+        L.append('        },')
+        L.append('        watchers = {')
+        for q in W.watchers:
+            L.append('            { ent = "%s", x = %.3f, y = %.3f, z = %.3f, step = %.2f, near = %.2f, '
+                     'rng = %.1f, wait = %.2f, turn = %d },'
+                     % (q["ent"], q["x"], q["y"], q["z"], q["step"], q["near"], q["rng"],
+                        q["wait"], q["turn"]))
+        L.append('        },')
+        L.append('        creeps = {')
+        for q in W.creeps:
+            L.append('            { id = "%s", axis = "%s", a = %.2f, b = %.2f, dx = %.3f, dy = %.3f, dz = %.3f, '
+                     'x0 = %.2f, x1 = %.2f, z0 = %.2f, z1 = %.2f, ents = { %s } },'
+                     % (q["id"], q["axis"], q["a"], q["b"], q["dx"], q["dy"], q["dz"],
+                        q["x0"], q["x1"], q["z0"], q["z1"],
+                        ", ".join('"%s"' % e for e in q["ents"])))
+        L.append('        },')
+        L.append('        rolls = {')
+        for q in W.rolls:
+            L.append('            { axis = "%s", a = %.2f, b = %.2f, d0 = %.2f, d1 = %.2f, '
+                     'x0 = %.2f, x1 = %.2f, z0 = %.2f, z1 = %.2f },'
+                     % (q["axis"], q["a"], q["b"], q["d0"], q["d1"],
+                        q["x0"], q["x1"], q["z0"], q["z1"]))
+        L.append('        },')
+        L.append('        gates = {')
+        for q in W.gates:
+            rgb = q.get("rgb", (0.62, 0.76, 0.95))
+            L.append('            { id = "%s", ent = "Gate_%s", mem = "GateM_%s", light = "GateL_%s", '
+                     'x = %.3f, z = %.3f, y0 = %.2f, '
+                     'nx = %.3f, nz = %.3f, alx = %.3f, alz = %.3f, hw = %.2f, hh = %.2f, size = %.2f, '
+                     'cr = %.3f, cg = %.3f, cb = %.3f, hue = %.3f, needs = "%s" },'
+                     % (q["id"], q["id"], q["id"], q["id"], q["x"], q["z"], q["y0"], q["nx"], q["nz"],
+                        q["alx"], q["alz"], q["hw"], q["hh"], q["size"],
+                        rgb[0], rgb[1], rgb[2], q.get("hue", 0.53), q.get("needs", "")))
+        L.append('        },')
+        gidx = {q["id"]: i + 1 for i, q in enumerate(W.gates)}
+        L.append('        pairs = {')
+        for q in W.gpairs:
+            # ★色は枠の側に持たせる。ここで r/g/b を書くと【b が枠の番号 b を上書きする】
+            #   (Lua のテーブルは後勝ち)。実際にそれで seeThrough に nil が渡って落ちた。
+            L.append('            { a = %d, b = %d, both = %d, needs = "%s" },'
+                     % (gidx[q["a"]], gidx[q["b"]], q["both"], q["needs"]))
+        L.append('        },')
+        L.append('        plates = {')
+        pcol = {}
+        for q in W.gpairs:
+            if q["needs"]:
+                pcol[q["needs"]] = q["rgb"]
+        for q in W.plates:
+            c = pcol.get(q["id"], (1.0, 0.45, 0.2))
+            L.append('            { id = "%s", ent = "%s", light = "%s", x = %.3f, z = %.3f, y0 = %.2f, r = %.2f, '
+                     'cr = %.3f, cg = %.3f, cb = %.3f },'
+                     % (q["id"], q["ent"], q["light"], q["x"], q["z"], q["y0"], q["r"], c[0], c[1], c[2]))
+        L.append('        },')
+        L.append('        guide = {')
+        for q in st.get("guide", ()):
+            L.append('            { x = %.2f, z = %.2f, need = "%s" },' % (q[0], q[1], q[2]))
+        L.append('        },')
+        L.append('        marks = {')
+        for q in W.marks:
+            L.append('            { ent = "%s", light = "%s", x = %.3f, z = %.3f, '
+                     'cr = %.3f, cg = %.3f, cb = %.3f },'
+                     % (q["ent"], q["light"], q["x"], q["z"],
+                        q["rgb"][0], q["rgb"][1], q["rgb"][2]))
+        L.append('        },')
+        L.append('        tilts = {')
+        for q in W.tilts:
+            L.append('            { x = %.3f, y = %.3f, z = %.3f, deg = %.2f, ents = { %s }, extra = { %s } },'
+                     % (q["x"], q["y"], q["z"], q["deg"],
+                        ", ".join('{ "%s", %.3f, %.3f, %.3f }' % e for e in q["ents"]),
+                        ", ".join('"%s"' % e for e in q["extra"])))
+        L.append('        },')
+        L.append('        fovramps = {')
+        for q in W.fovramps:
+            L.append('            { axis = "%s", a = %.2f, b = %.2f, f0 = %.1f, f1 = %.1f, '
+                     'x0 = %.2f, x1 = %.2f, z0 = %.2f, z1 = %.2f },'
+                     % (q["axis"], q["a"], q["b"], q["f0"], q["f1"],
+                        q["x0"], q["x1"], q["z0"], q["z1"]))
+        L.append('        },')
+        L.append('        dynprops = { %s },'
+                 % ", ".join('{ ent = "%s", off = %.3f }' % (e[0], e[1]) for e in W.dynprops))
         L.append('        anchors = {')
         for a in W.anchors:
             L.append('            { ent = "%s", x = %.3f, z = %.3f, k = %.3f, d0 = %.3f },'

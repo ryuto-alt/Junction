@@ -26,9 +26,10 @@ MANIFEST = os.path.join(OUT, "gen", "manifest.json")
 # ★gen_stages.py の同名関数と【必ず一致】させること。片方だけ直すとシーンが
 #   参照するパスと実ファイルの場所がずれて、モデルが丸ごと出なくなる。
 #   新しいモデルを足したら、ここにも足す(知らない名前は例外で落とす = 直下に散らかさない)。
-_TRIM = ("column", "doorleaf", "eave", "seam", "divider", "blocker", "barrier", "railing")
-_PROPS = ("bench", "locker", "crate", "vent", "pipes", "troffer")
-_GAME = ("goal", "pin", "band", "lane", "figure", "hand")
+_TRIM = ("column", "doorleaf", "eave", "seam", "divider", "blocker", "barrier", "railing", "fence")
+_PROPS = ("bench", "locker", "crate", "vent", "pipes", "troffer", "rack", "drum", "sign")
+_GAME = ("goal", "pin", "band", "lane", "figure", "hand", "joint", "jframe",
+         "membrane", "ball", "plate")
 
 
 def dest_of(name):
@@ -39,6 +40,8 @@ def dest_of(name):
         return "gen/ceil"
     if name.startswith("tn_"):
         return "gen/tunnel"
+    if name.startswith("am_"):
+        return "gen/room"
     if name.startswith("wm_"):
         return "gen/wall"
     if name.startswith("wall"):
@@ -710,6 +713,10 @@ def build_divider():
     #   大きさ 2 になると跨げる(体の stepHeight が 0.6 -> 1.2 になるため)。
     #   第8面で 4 倍の物として再登場させる = 成長を文字なしで証明する唯一の手段(調査)。
     export(plate(12.6, H=1.35).make("jx_barrier", [M_PAINT, M_METAL]), "barrier.gltf")
+    # ★fence(v10) … barrier と同じ寸法(12.6 x 1.35)だが【向こうが見える】。
+    #   40m のホールを横断させるので、塞いだ板だと「見えているのに行けない」という
+    #   設計そのものが成立しない(実測: 視界の下半分が全部その板になった)。
+
 
 
 # ---------------------------------------------------------------- 什器(部屋の識別)
@@ -802,6 +809,163 @@ def wall_mesh_multi(L, H, ops):
     return b
 
 
+# ---------------------------------------------------------------- v10: 継ぎ手と施設の中身
+def build_v10():
+    """joint … 継ぎ手ユニットの筐体。★原点 = 開口の【床の中心】。開口は -Z を向き、
+      中は +Z へ 2.0m の【真っ暗な行き止まり】。gen_stages.py の PORT_D と一致させること。
+      壁に開ける継ぎ手は筐体を持たない(母屋の壁がそれ)ので、これは部屋の中に単体で
+      立てる時だけ使う。「施設のあちこちに継ぎ手の機械が据えてある」という絵にする。
+    rack / drum / sign … 施設の中身。★rack(2.40m) と drum(0.88m) は
+      ベンチ 0.95m・ロッカー 1.95m と同じ【絶対寸法の物差し】として働く。"""
+    M_METAL = mat("jx_metal", "metal_col.png", 0.45, 0.6)
+    M_PAINT = mat("jx_paint", "paint_col.png", 0.55)
+    M_DARK = mat("jx_dark", "dark_col.png", 0.98)
+    M_PLAIN = mat("jx_plain", "plain_col.png", 0.55)
+    M_WOOD = mat("jx_wood", "wood_col.png", 0.80)
+    M_CONC = mat("jx_conc", "concrete_col.png", 0.92, 0.0, "concrete_nrm.png")
+
+    # ---------------- joint(継ぎ手ユニット) ----------------
+    IW, IH, ID = 1.0, 2.60, 4.20        # 内寸(半幅 / 高さ / 奥行)★gen_stages.py の PORT_D と一致
+    T = 0.28
+    OW, OH, OD = IW + T, IH + T, ID + T
+    b = Build()
+    K = 0.5
+    # 中(真っ暗)。★ここが明るいと入れ替わりが見えてしまう
+    # ★床は y=0.03。部屋のコンクリート床(y=0.005)と同じ高さに置くと、
+    #   筐体の中まで白い床が見えて【暗がりにならない】(実測)。
+    b.eface([(-IW, 0.03, 0), (-IW, 0.03, ID), (IW, 0.03, ID), (IW, 0.03, 0)],
+            [(0, 0), (0, ID * K), (IW * 2 * K, ID * K), (IW * 2 * K, 0)], 2)          # 床
+    b.eface([(IW, IH, 0), (IW, IH, ID), (-IW, IH, ID), (-IW, IH, 0)],
+            [(0, 0), (0, ID * K), (IW * 2 * K, ID * K), (IW * 2 * K, 0)], 2)          # 天井
+    b.eface([(-IW, 0, 0), (-IW, IH, 0), (-IW, IH, ID), (-IW, 0, ID)],
+            [(0, 0), (0, IH * K), (ID * K, IH * K), (ID * K, 0)], 2)                  # 左
+    b.eface([(IW, 0, 0), (IW, 0, ID), (IW, IH, ID), (IW, IH, 0)],
+            [(0, 0), (ID * K, 0), (ID * K, IH * K), (0, IH * K)], 2)                  # 右
+    b.eface([(-IW, 0, ID), (-IW, IH, ID), (IW, IH, ID), (IW, 0, ID)],
+            [(0, 0), (0, IH * K), (IW * 2 * K, IH * K), (IW * 2 * K, 0)], 2)          # 奥
+    # 外(金属の筐体)
+    b.eface([(-OW, OH, 0), (-OW, OH, OD), (OW, OH, OD), (OW, OH, 0)],
+            [(0, 0), (0, OD * K), (OW * 2 * K, OD * K), (OW * 2 * K, 0)], 0)          # 天面
+    b.eface([(-OW, 0, 0), (-OW, 0, OD), (-OW, OH, OD), (-OW, OH, 0)],
+            [(0, 0), (OD * K, 0), (OD * K, OH * K), (0, OH * K)], 0)                  # 左外
+    b.eface([(OW, 0, 0), (OW, OH, 0), (OW, OH, OD), (OW, 0, OD)],
+            [(0, 0), (0, OH * K), (OD * K, OH * K), (OD * K, 0)], 0)                  # 右外
+    b.eface([(-OW, 0, OD), (OW, 0, OD), (OW, OH, OD), (-OW, OH, OD)],
+            [(0, 0), (OW * 2 * K, 0), (OW * 2 * K, OH * K), (0, OH * K)], 0)          # 背面
+    # 前面の枠(外形 -> 開口)。4 枚
+    for pts in (
+            [(-OW, IH, 0), (-OW, OH, 0), (OW, OH, 0), (OW, IH, 0)],                   # 上
+            [(-OW, 0, 0), (-OW, OH, 0), (-IW, OH, 0), (-IW, 0, 0)],                   # 左
+            [(IW, 0, 0), (IW, OH, 0), (OW, OH, 0), (OW, 0, 0)]):                      # 右
+        b.eface([pts[0], pts[1], pts[2], pts[3]],
+                [(p[0] * K, p[1] * K) for p in pts], 0)
+    # 開口のまわりの縁取りと、上に載る配管・銘板(「施設の機械」に見せるための飾り)
+    for sx in (-1, 1):
+        b.ebox((sx * (IW + T * 0.5), IH * 0.5, 0.06), (T * 0.9, IH, 0.12), 1, 1.0)
+        b.etube([(0.10, 0.055), (OD - 0.10, 0.055)], 0, axis="z",
+                origin=(sx * (OW - 0.14), OH + 0.10, 0), seg=8)
+    b.ebox((0.0, OH + 0.10, OD * 0.5), (OW * 1.4, 0.20, OD * 0.86), 0, 0.7)
+    b.ebox((0.0, IH + T * 0.5, 0.07), (IW * 1.6, T * 0.8, 0.14), 1, 1.0)
+    export(b.make("jx_joint", [M_METAL, M_PAINT, M_DARK]), "joint.gltf")
+
+    # ---------------- jframe(継ぎ手の枠) 開口 2.0 x 2.6。原点 = 開口の床の中心 ----------------
+    # ★継ぎ手は【暗い穴】なので、枠が無いと「壁の染み」にしか見えない。
+    #   金属の枠 + 足元の縞板で「ここは通れる」と一目で言わせる。前後対称に作る。
+    b = Build()
+    JW, JH, JT, JD = 1.00, 2.60, 0.13, 0.22
+    for sx in (-1, 1):
+        b.ebox((sx * (JW + JT * 0.5), JH * 0.5, 0.0), (JT, JH + JT, JD), 0, 1.0)
+        b.ebox((sx * (JW + JT * 0.5), JH * 0.5, 0.0), (JT * 0.5, JH - 0.3, JD + 0.09), 1, 1.0)
+    b.ebox((0.0, JH + JT * 0.5, 0.0), (JW * 2 + JT * 2, JT, JD), 0, 1.0)
+    b.ebox((0.0, JH + JT * 0.5, 0.0), (JW * 1.6, JT * 0.5, JD + 0.09), 1, 1.0)
+    b.ebox((0.0, 0.012, 0.0), (JW * 2 + JT, 0.024, JD * 1.9), 1, 1.4)      # 足元の縞板
+    for i in range(6):                                                      # 上の小さな標識灯
+        b.ebox((-0.75 + i * 0.30, JH + JT + 0.055, 0.0), (0.10, 0.05, JD * 0.8), 2, 1.0)
+    export(b.make("jx_jframe", [M_METAL, M_PAINT, M_PLAIN]), "jframe.gltf")
+
+    # ---------------- membrane(継ぎ手の膜) 2.0 x 2.6。原点 = 床の中心 ----------------
+    # ★カスタムシェーダー(Membrane.hlsl)を貼る板。UV は 0..1(シェーダーが縫い目の位置に使う)。
+    #   表裏 2 枚。どちらから見ても膜に見えないと、裏から回った時に消える。
+    b = Build()
+    MW, MH = 1.0, 2.60
+    for sgn in (-1.0, 1.0):
+        pts = [(-MW * sgn, 0.0, 0.0), (MW * sgn, 0.0, 0.0), (MW * sgn, MH, 0.0), (-MW * sgn, MH, 0.0)]
+        uvs = [(0.0, 0.0), (1.0, 0.0), (1.0, 1.0), (0.0, 1.0)]
+        if sgn < 0:
+            uvs = [(1.0, 0.0), (0.0, 0.0), (0.0, 1.0), (1.0, 1.0)]
+        b.eface(pts, uvs, 0)
+    export(b.make("jx_membrane", [M_PLAIN]), "membrane.gltf")
+
+    # ---------------- ball(鋼球) 半径 0.36。原点 = 床(接地点) ----------------
+    # ★傾く床のパズルで転がす玉。原点を接地点にすると gen 側が床にそのまま置ける。
+    b = Build()
+    R = 0.36
+    prof = []
+    for i in range(13):
+        t = i / 12.0
+        ang = t * math.pi
+        prof.append((R - R * math.cos(ang), R * math.sin(ang)))
+    b.etube(prof, 0, axis="y", origin=(0, 0, 0), seg=20)
+    export(b.make("jx_ball", [M_METAL]), "ball.gltf")
+
+    # ---------------- plate(重量板) 1.8 x 1.8。原点 = 床の中心 ----------------
+    b = Build()
+    b.ebox((0.0, 0.055, 0.0), (1.80, 0.11, 1.80), 0, 0.8)
+    b.ebox((0.0, 0.125, 0.0), (1.44, 0.07, 1.44), 1, 1.0)
+    for sx in (-1, 1):
+        for sz in (-1, 1):
+            b.ebox((sx * 0.80, 0.085, sz * 0.80), (0.16, 0.17, 0.16), 1, 1.0)
+    export(b.make("jx_plate", [M_METAL, M_PAINT]), "plate.gltf")
+
+    # ---------------- fence(見通せる柵) 12.6 x 1.35 ----------------
+    # ★白い壁の前に白い柵を置くと【見えない】(実測: 40m のホールで柵が消えた)。
+    #   濃い材質にして、白い建物の中で柵だけが黒く浮くようにする。
+    b = Build()
+    FL, FH, FT = 12.6, 1.35, 0.075
+    for i in range(13):
+        x = -FL / 2 + FL * i / 12.0
+        b.ebox((x, FH * 0.5, 0.0), (0.055, FH, 0.075), 0, 1.0)                # 支柱
+    for y in (0.34, 0.82, FH - 0.045):
+        b.ebox((0.0, y, 0.0), (FL, 0.085, FT), 0, 1.0)                        # 横桟
+    b.ebox((0.0, 0.075, 0.0), (FL, 0.15, FT + 0.05), 1, 0.8)                  # 蹴込み
+    export(b.make("jx_fence", [M_DARK, M_METAL]), "fence.gltf")
+
+    # ---------------- rack(棚) 2.60 x 2.40 x 0.90 ----------------
+    b = Build()
+    RW, RH, RD = 1.30, 2.40, 0.45
+    for sx in (-1, 1):
+        for sz in (-1, 1):
+            b.ebox((sx * (RW - 0.05), RH * 0.5, sz * (RD - 0.05)), (0.10, RH, 0.10), 0, 1.0)
+    for i, y in enumerate((0.06, 0.72, 1.38, 2.04, 2.36)):
+        b.ebox((0.0, y, 0.0), (RW * 2, 0.06, RD * 2), 0, 0.7)
+    b.ebox((0.0, RH * 0.5, RD - 0.03), (RW * 2, RH, 0.05), 1, 0.5)
+    for (bx, by, bw) in ((-0.85, 0.78, 0.62), (0.10, 0.78, 0.72), (0.80, 1.44, 0.52),
+                         (-0.55, 1.44, 0.66), (0.55, 2.10, 0.60)):
+        b.ebox((bx, by + 0.28, 0.0), (bw, 0.56, 0.66), 2, 0.8)
+    export(b.make("jx_rack", [M_METAL, M_PAINT, M_WOOD]), "rack.gltf")
+
+    # ---------------- drum(ドラム缶) 0.88m ----------------
+    b = Build()
+    b.etube([(0.0, 0.0), (0.0, 0.285), (0.06, 0.295), (0.30, 0.295), (0.34, 0.305),
+             (0.54, 0.305), (0.58, 0.295), (0.82, 0.295), (0.88, 0.285), (0.88, 0.0)],
+            0, axis="y", origin=(0, 0, 0), seg=16)
+    export(b.make("jx_drum", [M_METAL]), "drum.gltf")
+
+    # ---------------- sign(吊り標識) 1.70 x 0.44。原点 = 板の中心 ----------------
+    b = Build()
+    b.ebox((0.0, 0.0, 0.0), (1.70, 0.44, 0.05), 0, 1.0)
+    b.ebox((0.0, 0.30, 0.0), (0.06, 0.60, 0.06), 1, 1.0)          # 吊り棒
+    for sx in (-1, 1):
+        b.ebox((sx * 0.80, 0.0, 0.0), (0.06, 0.44, 0.07), 1, 1.0)
+    # 矢印(板の両面に浮かせた三角柱)
+    for sz in (-1, 1):
+        for i in range(5):
+            w2 = 0.26 - i * 0.05
+            b.ebox((0.44 + i * 0.055, 0.0, sz * 0.036), (0.05, w2 * 2, 0.012), 2, 1.0)
+        b.ebox((0.10, 0.0, sz * 0.036), (0.62, 0.10, 0.012), 2, 1.0)
+    export(b.make("jx_sign", [M_PAINT, M_METAL, M_PLAIN]), "sign.gltf")
+
+
 def build_manifest():
     """assets/models/gen/manifest.json(gen_stages.py が書く)にある壁と床を全部出す。"""
     import json
@@ -818,7 +982,9 @@ def build_manifest():
             # ★v7 の廊下。床=カーペット / 天井=天井板 / 壁=塗装。白い筒をやめる。
             #   UV は実寸から出す(2m で 1 タイル)。偽の廊下もこれで作るので、
             #   【短くて細い箱が、長い廊下に見える】
-            M_C2 = mat("jx_carpet", "carpet_col.png", 0.95, 0.0, "carpet_nrm.png")
+            M_C2 = (mat("jx_conc", "concrete_col.png", 0.92, 0.0, "concrete_nrm.png")
+                    if spec.get("mat") == "concrete"
+                    else mat("jx_carpet", "carpet_col.png", 0.95, 0.0, "carpet_nrm.png"))
             M_CE = mat("jx_ceiling", "ceiling_col.png", 0.92)
             M_WA = mat("jx_wall", "wall_col.png", 0.88, 0.0, "wall_nrm.png")
             wa, ha, ya = spec["wa"], spec["ha"], spec["ya"]
@@ -858,10 +1024,58 @@ def build_manifest():
             b.eface([(-wa / 2, ya, 0), (-wa / 2, ya + ha, 0), (-wb / 2, yb + hb, L), (-wb / 2, yb, L)], uv, 0)  # 左 +X
             b.eface([(wa / 2, ya, 0), (wb / 2, yb, L), (wb / 2, yb + hb, L), (wa / 2, ya + ha, 0)], uv, 0)      # 右 -X
             export(b.make("jx_" + name, [M_TUN]), name + ".gltf")
+        elif spec.get("ames"):
+            # ★エイムズの部屋。8 隅は gen_stages.py が射影で歪めた【実際の】位置。
+            #   面は 4 隅を線で結んだだけだと UV が中で暴れる(射影は一次変換ではない)ので、
+            #   理想の部屋の格子で刻み、【頂点の位置も UV も 1 点ずつ計算する】。
+            #   UV は実寸から出す = 遠い側は目地も大きい = 覗き穴からは同じ大きさに見える。
+            M_C2 = mat("jx_conc", "concrete_col.png", 0.92, 0.0, "concrete_nrm.png")
+            M_CE = mat("jx_ceiling", "ceiling_col.png", 0.92)
+            M_WA = mat("jx_wall", "wall_col.png", 0.88, 0.0, "wall_nrm.png")
+            c = spec["c"]
+            K = 0.5
+            b = Build()
+
+            # ★面は【平面】なので、4 隅の双一次補間は必ずその平面の上に乗る。
+            #   UV は位置の一次式(実寸 x K)なので、刻めば刻むほど正しくなるのではなく
+            #   最初から厳密。刻むのは頂点密度のため。
+            def mixc(a, bb, t):
+                return tuple(a[i] + (bb[i] - a[i]) * t for i in range(3))
+
+            def face(k00, k10, k11, k01, m, nu=8, nv=8, flip=False):
+                for i in range(nu):
+                    for j in range(nv):
+                        pts, uvs = [], []
+                        for (uu, vv) in ((i / nu, j / nv), ((i + 1) / nu, j / nv),
+                                         ((i + 1) / nu, (j + 1) / nv), (i / nu, (j + 1) / nv)):
+                            p0 = mixc(c[k00], c[k10], uu)
+                            p1 = mixc(c[k01], c[k11], uu)
+                            p = mixc(p0, p1, vv)
+                            pts.append(p)
+                        # UV は実寸(2 軸を面ごとに選ぶ)
+                        for p in pts:
+                            if m == 0:                      # 床/天井: x,z
+                                uvs.append((p[0] * K, p[2] * K))
+                            elif m == 2:                    # 側壁: z,y
+                                uvs.append((p[2] * K, p[1] * K))
+                            else:
+                                uvs.append((p[0] * K, p[1] * K))
+                        if flip:
+                            pts = pts[::-1]; uvs = uvs[::-1]
+                        b.eface(pts, uvs, m)
+            face("L0n", "L0f", "R0f", "R0n", 0)                       # 床(+Y)
+            face("R1n", "R1f", "L1f", "L1n", 1)                       # 天井(-Y)
+            face("L0n", "L1n", "L1f", "L0f", 2)                       # 左(+X)
+            face("R0n", "R0f", "R1f", "R1n", 2)                       # 右(-X)
+            face("L0f", "L1f", "R1f", "R0f", 3)                       # 奥(-Z)
+            export(b.make("jx_" + name, [M_C2, M_CE, M_WA, M_WA]), name + ".gltf")
         elif spec.get("floor"):
+            # ★施設の床はコンクリート。v9 までのカーペットと混ぜると「同じ建物」に見えない
+            M_F = (mat("jx_conc", "concrete_col.png", 0.92, 0.0, "concrete_nrm.png")
+                   if spec.get("mat") == "concrete" else M_CARPET)
             b = Build()
             b.floorquad(-spec["sx"] / 2, spec["sx"] / 2, -spec["sz"] / 2, spec["sz"] / 2, 0.0, 0)
-            export(b.make("jx_" + name, [M_CARPET]), name + ".gltf")
+            export(b.make("jx_" + name, [M_F]), name + ".gltf")
         elif spec.get("ceil"):
             M_CEIL = mat("jx_ceiling", "ceiling_col.png", 0.92)
             b = Build()
@@ -907,5 +1121,6 @@ def build_doorleaf():
 
 
 build_doorleaf()
+build_v10()
 build_manifest()
 print("KIT ALL DONE")

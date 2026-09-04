@@ -1,0 +1,1215 @@
+# -*- coding: utf-8 -*-
+"""JUNCTION / 継ぎ目 v5 のステージを生成する。シーン JSON はここが唯一の正。
+エディタで手で足した物は次の実行で消える。契約書は docs/V5.md。
+
+実行:
+  python source/gen_stages.py            # scenes/*.json, Junction.lua の STAGES, models/manifest.json
+  (壁のモデルが足りない時は manifest.json を BlenderMCP で blender_kit.py に食わせる)
+
+★v5 の世界(2026-09-02 夜):
+  ・建物は【ひと続き】。部屋は内寸の面と面が GAP=4.0m 離れて隣り合い、その 4m の壁の中を
+    継ぎ目(トンネル)が貫く。テレポートも覗き箱も無い。
+  ・継ぎ目 = 入口と出口の大きさが違うトンネル。中の【線】を越えると向こう側の大きさになる。
+    線は必ず【大きい側】に置く(大きい体が小さい断面に食い込むと物理が暴れる)。
+  ・戻り継ぎ目(U) = 同じ壁に 2 つの口。壁の中の小部屋で繋がっていて、同じ部屋に別の大きさで戻る。
+  ・自分より小さい口には物理的に入れない(断面がそのまま当たり判定)。
+  ・障害物: 柵(2 だけ) / 隙間(0.5 以下) / 高い口(敷居 0.9・登れる大きさだけ) / 溝(跳べる距離) /
+    低い部屋(門の口が作れない = 2 は入れない)
+
+★寸法は source/blender_kit.py の OPENINGS / WALLT と【必ず一致】させること。
+
+★エンジンの地雷(v4 から引き継ぎ。README 参照):
+  ・シーンを開いた時点で存在しなかった entity は描画されない → 実行時の物は全部 JSON に置いて床下へ
+  ・CharacterController の寸法は実行時に変えられない → 大きさごとに Body_0..4
+  ・Play 直後に書いた transform は復元に上書きされる → Lua が 1 秒押し込む
+  ・STATIC の当たり判定は transform を書いても動かない
+"""
+import json, math, random, os, hashlib
+
+random.seed(20260902)
+HERE = os.path.dirname(os.path.abspath(__file__))
+OUT = os.path.join(HERE, "..", "assets", "scenes")
+MODELS = os.path.join(HERE, "..", "assets", "models")
+
+WALLT = 0.3     # 壁モデルの厚み
+GAP = 4.0       # 隣り合う部屋の内寸の面と面の距離 = 継ぎ目のトンネルの長さ
+WIN_W, WIN_H, WIN_SILL = 5.0, 2.0, 1.0   # 窓(見えるだけ)
+
+# ---------------------------------------------------------------- 口(docs/V5.md)
+# (大きさ, 幅, 高さ)。全部相似形(幅:高さ = 2:2.6)。★中間の大きさを作ってはいけない。
+OPENINGS = {
+    "vent":  (0.25, 0.50, 0.65),
+    "hatch": (0.5,  1.00, 1.30),
+    "door":  (1.0,  2.00, 2.60),
+    "gate":  (2.0,  4.00, 5.20),
+}
+SIZE_OF = {k: v[0] for k, v in OPENINGS.items()}
+NAME_OF = {v[0]: k for k, v in OPENINGS.items()}
+SILL_HI = 0.9   # 高い口。登れる高さ climb_h(s) >= 0.9 = 大きさ 1 以上だけ
+
+SCALES = [0.125, 0.25, 0.5, 1.0, 2.0]   # Body_0..4。★Junction.lua の SCALES と一致
+BODY_H = 1.8
+EYE_H = 1.7
+JUMP_H0 = 0.9      # 大きさ 1 で跳べる高さ [m]
+STEP_K = 0.25      # 段差 = STEP_K * 大きさ
+SPEED0 = 3.4       # 大きさ 1 の歩く速さ(FreeLook.lua と一致)
+GRAV = 14.0       # ★エンジン(Jolt)の重力は 9.8 ではなく 14(PhysicsSystem.cpp)。実測のジャンプ高さと一致
+
+
+def jump_h(s):
+    """★s^0.7 だと 1 と 2 の差が小さく、1 が柵を越えてしまう。線形にして差を開ける。
+       0.25 -> 0.225 / 0.5 -> 0.45 / 1 -> 0.9 / 2 -> 1.8"""
+    return JUMP_H0 * s
+
+
+def climb_h(s):
+    """実際に登れる高さ = 跳べる高さ + 段差。0.25->0.29 / 0.5->0.58 / 1->1.15 / 2->2.30。柵 1.70 は 2 だけ"""
+    return jump_h(s) + STEP_K * s
+
+
+def jump_dist(s):
+    """【走りながら】跳んで越えられる溝の幅(体の直径ぶんの縁の余裕を足す)。
+    ★実測(2026-09-02): 大きさ 1・歩き・重力 14 で 1 跳び 2.10m / 滞空 0.62 秒 = 速さ x 滞空 ぴったり。
+      空中でも WASD は効く。シミュレーションは【走った場合】で判定する(抜け道を見逃さないため)。
+      設計は「意図した大きさなら歩き跳びで届く幅」にすること:
+        歩き: 1 -> 2.4+0.5 = 2.9 / 2 -> 4.7+1.1 = 5.8      走り(1.3倍): 1 -> 3.2+0.5 = 3.7 / 2 -> 7.2
+      溝 4.6m = 2 は歩きで届き(余裕 1.2)、1 は走っても届かない(余裕 0.9)。実測: 2 の歩き 1 跳び 4.73m。"""
+    air = 2.0 * math.sqrt(2.0 * jump_h(s) / GRAV)
+    # 縁の余裕: カプセルは中心が縁を 0.35*s*sin(50°) 越えるまで接地扱い(踏み切り側と着地側で 2 回)
+    return JD_K * SPEED0 * (s ** 0.6) * air + 2.0 * 0.35 * s * 0.766
+
+
+JD_K = 1.3    # FreeLook.lua の FAST(走り)。★1.6 だと大きさ 1 の走り跳びが 2 の歩き跳びに迫りすぎる
+
+
+def body_cc(s):
+    r = 0.35 * s
+    return dict(radius=r, halfHeight=BODY_H * 0.5 * s - r, stepHeight=STEP_K * s)
+
+
+# ---- 部屋の形。blender_kit.py の FOOTPRINTS と対 ----
+SHAPES = {
+    "box12": dict(ix=12.0, iz=12.0, h=6.0, tag="", floor="models/floor.gltf",
+                  ceil="models/ceiling.gltf",
+                  lights=[(-3.2, -3.2), (3.2, -3.2), (-3.2, 3.2), (3.2, 3.2)], lrange=22.0),
+    "hall20": dict(ix=20.0, iz=20.0, h=7.0, tag="20", floor="models/floor20.gltf",
+                   ceil="models/ceiling20.gltf",
+                   lights=[(x, z) for z in (-6.4, 0.0, 6.4) for x in (-6.4, 0.0, 6.4)],
+                   lrange=24.0),
+    "corr18": dict(ix=18.0, iz=8.0, h=3.2, tag="18", floor="models/floor18x8.gltf",
+                   ceil="models/ceiling18x8.gltf",
+                   lights=[(-6.0, 0.0), (0.0, 0.0), (6.0, 0.0)], lrange=15.0),
+    "cell8": dict(ix=8.0, iz=8.0, h=3.0, tag="8", floor="models/floor8.gltf",
+                  ceil="models/ceiling8.gltf",
+                  lights=[(0.0, 0.0)], lrange=12.0),
+}
+# 壁モデルの接頭辞。長辺/短辺で違う(corr18 の短辺は 8)
+WALLTAG = {"box12": ("", ""), "hall20": ("20", "20"), "corr18": ("18", "8"), "cell8": ("8", "8")}
+
+C_WALL = [0.62, 0.60, 0.55]
+C_TUN = [0.09, 0.09, 0.10]   # ★継ぎ目の中は暗い。大きさが変わる瞬間を見せない(docs/V5.md 追記)
+C_FLOOR = [0.24, 0.20, 0.12]
+C_CEIL = [0.72, 0.72, 0.70]
+C_GOAL = [0.10, 0.75, 0.50]
+C_DIV = [0.55, 0.56, 0.54]
+C_PAINT = [0.90, 0.89, 0.86]
+C_LINE = [0.55, 0.92, 1.00]
+C_PIT = [0.05, 0.05, 0.06]
+HIDE_Y = -200.0
+PIT_DEPTH = 7.0
+
+WALLS = {
+    "N": {"yaw": 180.0, "axis": "z", "sign": +1},
+    "S": {"yaw": 0.0, "axis": "z", "sign": -1},
+    "E": {"yaw": 270.0, "axis": "x", "sign": +1},
+    "W": {"yaw": 90.0, "axis": "x", "sign": -1},
+}
+OPPOSITE = {"N": "S", "S": "N", "E": "W", "W": "E"}
+
+
+def guid():
+    return "%016x" % random.getrandbits(64)
+
+
+def base(name, pos, rot=(0, 0, 0), scale=(1, 1, 1), parent=None):
+    e = {"guid": guid(), "name": name,
+         "transform": {"position": [float(pos[0]), float(pos[1]), float(pos[2])],
+                       "rotation": [float(rot[0]), float(rot[1]), float(rot[2])],
+                       "scale": [float(scale[0]), float(scale[1]), float(scale[2])]}}
+    if parent:
+        e["parentGuid"] = parent
+    return e
+
+
+def box(name, pos, scale, color, rot=(0, 0, 0), collide=True, rough=0.92, parent=None,
+        prim="box", kinematic=False, visible=True):
+    e = base(name, pos, rot, scale, parent)
+    if visible:
+        e["primitive"] = prim
+        e["color"] = list(color)
+        e["material"] = {"metallic": 0.0, "roughness": rough}
+    if collide:
+        e["boxCollider"] = {"halfExtents": [0.5, 0.5, 0.5], "offset": [0.0, 0.0, 0.0]}
+        e["rigidBody"] = {"angularDamping": 0.01, "continuousCollision": False,
+                          "friction": 0.6, "linearDamping": 0.02, "mass": 1.0,
+                          "motionType": 1 if kinematic else 0,
+                          "restitution": 0.0, "useGravity": False}
+    return e
+
+
+def model(name, path, pos, yaw=0.0, parent=None, scale=(1, 1, 1)):
+    e = base(name, pos, (0.0, yaw, 0.0), scale, parent)
+    e["meshRenderer"] = {"modelPath": path}
+    return e
+
+
+def plight(name, pos, color, intensity, rng, parent=None):
+    e = base(name, pos, parent=parent)
+    e["pointLight"] = {"castShadows": False, "color": list(color),
+                       "intensity": float(intensity), "range": float(rng)}
+    return e
+
+
+def marker(name, pos, yaw=0.0, parent=None):
+    return base(name, pos, (0.0, float(yaw), 0.0), parent=parent)
+
+
+def group(ents, name, parent=None):
+    e = marker(name, (0.0, 0.0, 0.0), 0.0, parent)
+    ents.append(e)
+    return e["guid"]
+
+
+# ---------------------------------------------------------------- 幾何の小道具
+def wall_frame(r, w):
+    """部屋 r の壁 w の: 面の中心(世界), 外向き法線, 壁に沿う軸の単位ベクトル(世界),
+    壁モデルの right(局所 +X が世界でどちらを向くか), 壁の全長, 部屋の天井高。"""
+    S = SHAPES[r["shape"]]
+    cx, cz = r["at"]
+    hx, hz = S["ix"] * 0.5, S["iz"] * 0.5
+    info = WALLS[w]
+    yaw = info["yaw"]
+    rgt = (math.cos(math.radians(yaw)), -math.sin(math.radians(yaw)))
+    if info["axis"] == "z":
+        face = (cx, cz + info["sign"] * hz)
+        n = (0.0, float(info["sign"]))
+        along = (1.0, 0.0)
+        L = S["ix"] + WALLT
+    else:
+        face = (cx + info["sign"] * hx, cz)
+        n = (float(info["sign"]), 0.0)
+        along = (0.0, 1.0)
+        L = S["iz"] + WALLT
+    return dict(face=face, n=n, along=along, right=rgt, L=L, h=S["h"], yaw=yaw,
+                tag=WALLTAG[r["shape"]][0 if info["axis"] == "z" else 1])
+
+
+def op_dims(kind):
+    size, w, h = OPENINGS[kind]
+    return size, w, h
+
+
+def key_of(obj):
+    s = json.dumps(obj, sort_keys=True, separators=(",", ":"))
+    return hashlib.md5(s.encode()).hexdigest()[:8]
+
+
+# ---------------------------------------------------------------- 口の登録
+class World:
+    """1 面ぶんの幾何。部屋・壁の口・継ぎ目・窓を集め、最後に実体を吐く。"""
+
+    def __init__(self, st):
+        self.st = st
+        self.rooms = {r["id"]: r for r in st["rooms"]}
+        self.openings = {}      # (room, wall) -> [dict(off, w, h, y0, kind, id)]
+        self.planes = []        # Lua に渡す継ぎ目の線
+        self.mouths = {}        # mouth id -> dict(room, wall, off, size, sill, pos(世界), zone)
+        self.links = {}         # mouth id -> 相手の mouth id
+        self.manifest = {}
+        self.fixtures = {}
+        self.ents = []
+        self.pits = {}          # room -> [(axis, c0, c1)]
+
+    # ---- 口 ----
+    def add_opening(self, rid, wall, off, kind, sill, oid):
+        size, w, h = op_dims(kind)
+        fr = wall_frame(self.rooms[rid], wall)
+        if abs(off) + w * 0.5 > fr["L"] * 0.5 - 0.6:
+            raise SystemExit("%s: %s.%s の口 %s が壁からはみ出す(off=%.1f)"
+                             % (self.st["name"], rid, wall, oid, off))
+        if sill + h > fr["h"] - 0.25:
+            raise SystemExit("%s: %s.%s の口 %s(%s) が天井 %.1f に入らない"
+                             % (self.st["name"], rid, wall, oid, kind, fr["h"]))
+        lst = self.openings.setdefault((rid, wall), [])
+        for o in lst:
+            if abs(o["off"] - off) < (o["w"] + w) * 0.5 + 0.4:
+                raise SystemExit("%s: %s.%s で口 %s と %s が重なる"
+                                 % (self.st["name"], rid, wall, o["id"], oid))
+        lst.append(dict(off=off, w=w, h=h, y0=sill, kind=kind, id=oid))
+        pos = (fr["face"][0] + fr["along"][0] * off, fr["face"][1] + fr["along"][1] * off)
+        self.mouths[oid] = dict(room=rid, wall=wall, off=off, size=size, sill=sill, pos=pos,
+                                w=w, h=h, n=fr["n"], along=fr["along"])
+        return self.mouths[oid]
+
+    def partner_room(self, rid, wall, pos):
+        fr = wall_frame(self.rooms[rid], wall)
+        n = fr["n"]
+        q = (pos[0] + n[0] * GAP, pos[1] + n[1] * GAP)
+        for oid, r in self.rooms.items():
+            if oid == rid:
+                continue
+            w2 = OPPOSITE[wall]
+            f2 = wall_frame(r, w2)
+            if WALLS[wall]["axis"] == "z":
+                if abs(f2["face"][1] - q[1]) > 1e-3:
+                    continue
+                off2 = q[0] - f2["face"][0]
+            else:
+                if abs(f2["face"][0] - q[0]) > 1e-3:
+                    continue
+                off2 = q[1] - f2["face"][1]
+            if abs(off2) < f2["L"] * 0.5:
+                return oid, w2, off2
+        raise SystemExit("%s: %s.%s の向かい(4m 先)に部屋が無い pos=%s"
+                         % (self.st["name"], rid, wall, pos))
+
+    # ---- 継ぎ目 ----
+    def seam(self, sp):
+        """通り継ぎ目。sp = dict(id, room, wall, off, a, b, sill)。a = room 側の口。"""
+        sid = sp["id"]
+        sill = sp.get("sill", 0.0)
+        ma = self.add_opening(sp["room"], sp["wall"], sp["off"], sp["a"], sill, sid + "a")
+        rid2, w2, off2 = self.partner_room(sp["room"], sp["wall"], ma["pos"])
+        mb = self.add_opening(rid2, w2, off2, sp["b"], sill, sid + "b")
+        self.links[sid + "a"] = sid + "b"
+        self.links[sid + "b"] = sid + "a"
+        ents = self.ents
+        g = group(ents, "Seam %s" % sid, self.g_seams)
+        n = ma["n"]
+        al = ma["along"]
+        sa, wa, ha = op_dims(sp["a"])
+        sb, wb, hb = op_dims(sp["b"])
+        big = max(sa, sb)
+        zax = abs(n[1]) > 0.5
+
+        def at(t, lat):
+            return (ma["pos"][0] + n[0] * t + al[0] * lat, ma["pos"][1] + n[1] * t + al[1] * lat)
+
+        def S3(w, h, dp):
+            return (w, h, dp) if zax else (dp, h, w)
+
+        def liner(t0, t1, w, h, tag):
+            L = t1 - t0
+            tm = (t0 + t1) * 0.5
+            x, z = at(tm, 0)
+            ents.append(box("Tun_%s_%s_F" % (sid, tag), (x, sill - 0.15, z), S3(w + 0.6, 0.3, L),
+                            C_TUN, rough=0.95, parent=g))
+            ents.append(box("Tun_%s_%s_C" % (sid, tag), (x, sill + h + 0.15, z),
+                            S3(w + 0.6, 0.3, L), C_TUN, rough=0.9, parent=g))
+            for i, sg in enumerate((-1, 1)):
+                x2, z2 = at(tm, sg * (w * 0.5 + 0.15))
+                ents.append(box("Tun_%s_%s_S%d" % (sid, tag, i), (x2, sill + h * 0.5, z2),
+                                S3(0.3, h + 0.6, L), C_TUN, rough=0.9, parent=g))
+
+        liner(WALLT, GAP * 0.5, wa, ha, "a")
+        liner(GAP * 0.5, GAP - WALLT, wb, hb, "b")
+        if abs(sa - sb) > 1e-6:
+            self.step_plate(g, sid, at, S3, GAP * 0.5 + (0.1 if sb < sa else -0.1), sill, (wa, ha), (wb, hb))
+        # 線。★必ず大きい側に置く
+        delta = 0.35 * big + 0.25
+        toward_b = sb > sa
+        tp = GAP * 0.5 + (delta if toward_b else -delta)
+        nx, nz = (n[0], n[1]) if toward_b else (-n[0], -n[1])
+        wbig, hbig = (wb, hb) if toward_b else (wa, ha)
+        px, pz = at(tp, 0)
+        self.planes.append(dict(id=sid, px=px, pz=pz, nx=nx, nz=nz, hw=wbig * 0.5 + 0.2,
+                                big=big, small=min(sa, sb), y0=sill,
+                                a=sid + "a", b=sid + "b"))
+        self.fixtures.setdefault(sp["room"], [])
+
+    def step_plate(self, g, sid, at, S3, t, sill, big_dims, small_dims):
+        """断面が変わる所の段差の壁。大きい断面から小さい穴を引いた形を 3 枚で作る。"""
+        (wA, hA), (wB, hB) = big_dims, small_dims
+        if wA < wB:
+            (wA, hA), (wB, hB) = (wB, hB), (wA, hA)
+        T = 0.2
+        for i, sg in enumerate((-1, 1)):
+            lat = sg * (wB * 0.5 + (wA - wB) * 0.25)
+            x, z = at(t, lat)
+            self.ents.append(box("Step_%s_%d" % (sid, i), (x, sill + hA * 0.5, z),
+                                 S3((wA - wB) * 0.5 + 0.02, hA, T), C_TUN, rough=0.9, parent=g))
+        x, z = at(t, 0)
+        self.ents.append(box("Step_%s_t" % sid, (x, sill + hB + (hA - hB) * 0.5, z),
+                             S3(wB + 0.04, hA - hB, T), C_TUN, rough=0.9, parent=g))
+
+    def line(self, g, sid, at, S3, t, sill, w, h):
+        """継ぎ目の線。床・天井・両側に細い光る帯。ここを越えると大きさが変わる。"""
+        x, z = at(t, 0)
+        k = 0.05
+        self.ents.append(box("Line_%s_F" % sid, (x, sill + 0.012, z), S3(w + 0.3, 0.024, k),
+                             C_LINE, collide=False, rough=0.2, parent=g))
+        self.ents.append(box("Line_%s_C" % sid, (x, sill + h - 0.012, z), S3(w + 0.3, 0.024, k),
+                             C_LINE, collide=False, rough=0.2, parent=g))
+        for i, sg in enumerate((-1, 1)):
+            x2, z2 = at(t, sg * (w * 0.5 - 0.012))
+            self.ents.append(box("Line_%s_S%d" % (sid, i), (x2, sill + h * 0.5, z2),
+                                 S3(0.024, h, k), C_LINE, collide=False, rough=0.2, parent=g))
+        self.ents.append(plight("LineL_%s" % sid, (x, sill + h * 0.5, z), (0.6, 0.9, 1.0),
+                               0.5 + 0.8 * w, 1.0 + 1.2 * w, g))
+
+    def useam(self, sp):
+        """戻り継ぎ目。同じ壁に口 a(off1) と b(off2)。壁の中の小部屋で繋がる。"""
+        sid = sp["id"]
+        sill = sp.get("sill", 0.0)
+        rid, wall = sp["room"], sp["wall"]
+        ma = self.add_opening(rid, wall, sp["off1"], sp["a"], sill, sid + "a")
+        mb = self.add_opening(rid, wall, sp["off2"], sp["b"], sill, sid + "b")
+        self.links[sid + "a"] = sid + "b"
+        self.links[sid + "b"] = sid + "a"
+        ents = self.ents
+        g = group(ents, "USeam %s" % sid, self.g_seams)
+        fr = wall_frame(self.rooms[rid], wall)
+        n, al = fr["n"], fr["along"]
+        face = fr["face"]
+        sa, wa, ha = op_dims(sp["a"])
+        sb, wb, hb = op_dims(sp["b"])
+        zax = abs(n[1]) > 0.5
+        o1, o2 = sp["off1"], sp["off2"]
+        # 並び順を揃える(u0 が小さい側の座標)
+        if o1 > o2:
+            (o1, wa, ha, sa), (o2, wb, hb, sb) = (o2, wb, hb, sb), (o1, wa, ha, sa)
+            first, second = sid + "b", sid + "a"
+        else:
+            first, second = sid + "a", sid + "b"
+        u0 = o1 - wa * 0.5 - 0.35
+        u1 = o2 + wb * 0.5 + 0.35
+        um = ((o1 + wa * 0.5) + (o2 - wb * 0.5)) * 0.5
+        t0, t1 = WALLT, GAP - WALLT       # 小部屋の奥行き(面からの距離)
+        D = t1 - t0
+
+        def at(t, u):
+            return (face[0] + n[0] * t + al[0] * u, face[1] + n[1] * t + al[1] * u)
+
+        def S3(u, h, dp):
+            return (u, h, dp) if zax else (dp, h, u)
+
+        def slab(nm, ua, ub, y, hgt, tA, tB, col=C_TUN):
+            x, z = at((tA + tB) * 0.5, (ua + ub) * 0.5)
+            ents.append(box(nm, (x, y, z), S3(ub - ua, hgt, tB - tA), col, rough=0.9, parent=g))
+
+        # 床(全体)
+        slab("U_%s_F" % sid, u0 - 0.3, u1 + 0.3, sill - 0.15, 0.3, t0 - 0.3, t1 + 0.3)
+        # ★小さい側の天井と奥壁は【段の位置ちょうど】で止める。大きい側へ 0.3 はみ出させると、
+        #   大きい体が線(段の手前 δ)に届く前に天井に頭をぶつけて【線を越えられない】(実測)。
+        for tag, ua, ub, h in (("a", u0, um, ha), ("b", um, u1, hb)):
+            small = h < max(ha, hb) - 1e-6
+            ea = 0.0 if (small and tag == "b") else 0.3
+            eb = 0.0 if (small and tag == "a") else 0.3
+            slab("U_%s_%s_C" % (sid, tag), ua - ea, ub + eb, sill + h + 0.15, 0.3, t0 - 0.3, t1 + 0.3)
+            slab("U_%s_%s_B" % (sid, tag), ua - ea, ub + eb, sill + h * 0.5, h, t1, t1 + 0.3)  # 奥壁
+        # 両端の壁
+        slab("U_%s_E0" % sid, u0 - 0.3, u0, sill + ha * 0.5, ha, t0 - 0.3, t1 + 0.3)
+        slab("U_%s_E1" % sid, u1, u1 + 0.3, sill + hb * 0.5, hb, t0 - 0.3, t1 + 0.3)
+        # 段(高さの差)
+        if abs(ha - hb) > 1e-6:
+            lo, hi = min(ha, hb), max(ha, hb)
+            sd = 1.0 if hb < ha else -1.0        # 段の板は小さい側へ寄せる(大きい側の線に届くように)
+            slab("U_%s_Step" % sid, um + min(0.0, sd * 0.2), um + max(0.0, sd * 0.2),
+                 sill + lo + (hi - lo) * 0.5, hi - lo, t0 - 0.3, t1 + 0.3)
+        # 手前(部屋側)の壁 = 口と口の間・両脇。壁モデルの裏を隠す
+        slab("U_%s_P0" % sid, u0 - 0.3, o1 - wa * 0.5, sill + ha * 0.5, ha, t0 - 0.3, t0)
+        slab("U_%s_P1" % sid, o1 + wa * 0.5, um, sill + ha * 0.5, ha, t0 - 0.3, t0)
+        slab("U_%s_P2" % sid, um, o2 - wb * 0.5, sill + hb * 0.5, hb, t0 - 0.3, t0)
+        slab("U_%s_P3" % sid, o2 + wb * 0.5, u1 + 0.3, sill + hb * 0.5, hb, t0 - 0.3, t0)
+        # 線。大きい側へ delta
+        big = max(sa, sb)
+        delta = 0.35 * big + 0.25
+        toward_b = sb > sa
+        up = um + (delta if toward_b else -delta)
+        hbig = max(ha, hb)
+        sgn = 1.0 if toward_b else -1.0
+        x, z = at((t0 + t1) * 0.5, up)   # 線は見せない(暗闇の中で黙って変わる)
+        self.planes.append(dict(id=sid, px=x, pz=z, nx=al[0] * sgn, nz=al[1] * sgn,
+                                hw=D * 0.5 + 0.2, big=big, small=min(sa, sb), y0=sill,
+                                a=first, b=second))
+
+    def window(self, sp):
+        """窓。見えるだけ。透明な当たり判定で塞ぐ。"""
+        rid, wall, off = sp["room"], sp["wall"], sp["off"]
+        wid = "win_%s_%s" % (rid, wall)
+        fr = wall_frame(self.rooms[rid], wall)
+        lst = self.openings.setdefault((rid, wall), [])
+        lst.append(dict(off=off, w=WIN_W, h=WIN_H, y0=WIN_SILL, kind="win", id=wid))
+        rid2, w2, off2 = self.partner_room(rid, wall, (fr["face"][0] + fr["along"][0] * off,
+                                                        fr["face"][1] + fr["along"][1] * off))
+        self.openings.setdefault((rid2, w2), []).append(
+            dict(off=off2, w=WIN_W, h=WIN_H, y0=WIN_SILL, kind="win", id=wid + "2"))
+        g = group(self.ents, "Window %s" % wid, self.g_seams)
+        n, al = fr["n"], fr["along"]
+        zax = abs(n[1]) > 0.5
+        face = fr["face"]
+
+        def at(t, u):
+            return (face[0] + n[0] * t + al[0] * u, face[1] + n[1] * t + al[1] * u)
+
+        def S3(u, h, dp):
+            return (u, h, dp) if zax else (dp, h, u)
+
+        tm = GAP * 0.5
+        x, z = at(tm, off)
+        self.ents.append(box("Win_%s_F" % wid, (x, WIN_SILL - 0.15, z), S3(WIN_W + 0.6, 0.3, GAP),
+                             C_TUN, rough=0.9, parent=g))
+        self.ents.append(box("Win_%s_C" % wid, (x, WIN_SILL + WIN_H + 0.15, z),
+                             S3(WIN_W + 0.6, 0.3, GAP), C_TUN, rough=0.9, parent=g))
+        for i, sg in enumerate((-1, 1)):
+            x2, z2 = at(tm, off + sg * (WIN_W * 0.5 + 0.15))
+            self.ents.append(box("Win_%s_S%d" % (wid, i), (x2, WIN_SILL + WIN_H * 0.5, z2),
+                                 S3(0.3, WIN_H + 0.6, GAP), C_TUN, rough=0.9, parent=g))
+        # 透明な当たり判定(ガラス)。見た目は無い
+        self.ents.append(box("Win_%s_G" % wid, (x, WIN_SILL + WIN_H * 0.5, z),
+                             S3(WIN_W + 0.2, WIN_H + 0.2, 0.2), C_TUN, parent=g, visible=False))
+        self.ents.append(plight("WinL_%s" % wid, (x, WIN_SILL + WIN_H - 0.3, z),
+                               (0.98, 0.96, 0.90), 2.4, 5.0, g))
+
+    # ---- 壁 ----
+    def wall_model(self, rid, wall):
+        fr = wall_frame(self.rooms[rid], wall)
+        ops = self.openings.get((rid, wall), [])
+        if not ops:
+            return "models/wall%s.gltf" % fr["tag"]
+        # 局所 X = 世界の offset を right に射影
+        al, rg = fr["along"], fr["right"]
+        k = al[0] * rg[0] + al[1] * rg[1]     # +1 or -1
+        loc = sorted([[round(o["off"] * k, 3), o["w"], o["y0"], o["y0"] + o["h"]] for o in ops])
+        spec = dict(L=round(fr["L"], 3), H=round(fr["h"], 3), ops=loc)
+        name = "wm_%s%s_%s" % (fr["tag"] or "12", "", key_of(spec))
+        self.manifest[name] = spec
+        return "models/%s.gltf" % name
+
+    def build_room(self, r):
+        st = self.st
+        rid, shape = r["id"], r["shape"]
+        cx, cz = r["at"]
+        S = SHAPES[shape]
+        hx, hz, ch = S["ix"] * 0.5, S["iz"] * 0.5, S["h"]
+        spanx, spanz = S["ix"] + WALLT, S["iz"] + WALLT
+        ents = self.ents
+        g = group(ents, "Room %s" % rid, self.g_rooms)
+        pits = r.get("pits", ())
+        self.pits[rid] = list(pits)
+
+        # 床。溝があれば割る
+        if not pits:
+            ents.append(box("%s_Floor" % rid, (cx, -0.15, cz), (spanx, 0.3, spanz), C_FLOOR,
+                            rough=0.95, parent=g))
+            ents.append(model("%s_FloorM" % rid, S["floor"], (cx, 0.005, cz), 0.0, g))
+        else:
+            axis, c0, c1 = pits[0]
+            if len(pits) > 1:
+                raise SystemExit("%s: 溝は部屋に 1 本まで" % st["name"])
+            if axis == "z":
+                parts = [(-hz - WALLT * 0.5, c0), (c1, hz + WALLT * 0.5)]
+            else:
+                parts = [(-hx - WALLT * 0.5, c0), (c1, hx + WALLT * 0.5)]
+            for i, (p0, p1) in enumerate(parts):
+                L = p1 - p0
+                m = (p0 + p1) * 0.5
+                if axis == "z":
+                    pos, sc, fspec = (cx, -0.15, cz + m), (spanx, 0.3, L), dict(sx=spanx, sz=L)
+                else:
+                    pos, sc, fspec = (cx + m, -0.15, cz), (L, 0.3, spanz), dict(sx=L, sz=spanz)
+                ents.append(box("%s_Floor%d" % (rid, i), pos, sc, C_FLOOR, rough=0.95, parent=g))
+                nm = "fm_%s" % key_of(dict(sx=round(fspec["sx"], 3), sz=round(fspec["sz"], 3)))
+                self.manifest[nm] = dict(floor=True, sx=round(fspec["sx"], 3), sz=round(fspec["sz"], 3))
+                ents.append(model("%s_FloorM%d" % (rid, i), "models/%s.gltf" % nm,
+                                  (pos[0], 0.005, pos[2]), 0.0, g))
+            # 溝の壁と底
+            W = c1 - c0
+            if axis == "z":
+                for i, (zc, sgn) in enumerate(((c0, 1), (c1, -1))):
+                    ents.append(box("%s_PitW%d" % (rid, i), (cx, -PIT_DEPTH * 0.5, cz + zc - sgn * 0.15),
+                                    (spanx, PIT_DEPTH, 0.3), C_PIT, rough=1.0, parent=g))
+                ents.append(box("%s_PitB" % rid, (cx, -PIT_DEPTH - 0.15, cz + (c0 + c1) * 0.5),
+                                (spanx, 0.3, W), C_PIT, rough=1.0, parent=g))
+                for sgn in (-1, 1):
+                    ents.append(box("%s_PitS%d" % (rid, sgn), (cx + sgn * (hx + WALLT * 0.5), -PIT_DEPTH * 0.5, cz + (c0 + c1) * 0.5),
+                                    (WALLT, PIT_DEPTH, W), C_PIT, rough=1.0, parent=g))
+            else:
+                for i, (xc, sgn) in enumerate(((c0, 1), (c1, -1))):
+                    ents.append(box("%s_PitW%d" % (rid, i), (cx + xc - sgn * 0.15, -PIT_DEPTH * 0.5, cz),
+                                    (0.3, PIT_DEPTH, spanz), C_PIT, rough=1.0, parent=g))
+                ents.append(box("%s_PitB" % rid, (cx + (c0 + c1) * 0.5, -PIT_DEPTH - 0.15, cz),
+                                (W, 0.3, spanz), C_PIT, rough=1.0, parent=g))
+                for sgn in (-1, 1):
+                    ents.append(box("%s_PitS%d" % (rid, sgn), (cx + (c0 + c1) * 0.5, -PIT_DEPTH * 0.5, cz + sgn * (hz + WALLT * 0.5)),
+                                    (W, PIT_DEPTH, WALLT), C_PIT, rough=1.0, parent=g))
+            # 溝の底に薄い赤い光(落ちる物だと分かる)
+            px = cx if axis == "z" else cx + (c0 + c1) * 0.5
+            pz = cz + (c0 + c1) * 0.5 if axis == "z" else cz
+            ents.append(plight("%s_PitL" % rid, (px, -PIT_DEPTH + 0.8, pz), (1.0, 0.25, 0.15), 3.0, 9.0, g))
+
+        ents.append(box("%s_Ceil" % rid, (cx, ch + 0.15, cz), (spanx, 0.3, spanz), C_CEIL, parent=g))
+        ents.append(model("%s_CeilM" % rid, S["ceil"], (cx, ch - 0.005, cz), 0.0, g))
+
+        for w in ("N", "S", "E", "W"):
+            fr = wall_frame(r, w)
+            info = WALLS[w]
+            L = fr["L"]
+            face = fr["face"]
+            n = fr["n"]
+            al = fr["along"]
+            zax = info["axis"] == "z"
+            wc = (face[0] + n[0] * WALLT * 0.5, ch * 0.5, face[1] + n[1] * WALLT * 0.5)
+            mp = (face[0] - n[0] * 0.005, 0.0, face[1] - n[1] * 0.005)
+            ents.append(model("%s_WallM_%s" % (rid, w), self.wall_model(rid, w), mp, info["yaw"], g))
+            ops = sorted(self.openings.get((rid, w), []), key=lambda o: o["off"])
+            if not ops:
+                ents.append(box("%s_Wall_%s" % (rid, w), wc, (L, ch, WALLT) if zax else (WALLT, ch, L),
+                                C_WALL, parent=g))
+                continue
+            # 口の間の袖壁
+            edges = [-L * 0.5]
+            for o in ops:
+                edges += [o["off"] - o["w"] * 0.5, o["off"] + o["w"] * 0.5]
+            edges.append(L * 0.5)
+            for i in range(0, len(edges), 2):
+                a, b = edges[i], edges[i + 1]
+                if b - a < 0.02:
+                    continue
+                m = (a + b) * 0.5
+                p = (wc[0] + al[0] * m, wc[1], wc[2] + al[1] * m)
+                sc = (b - a, ch, WALLT) if zax else (WALLT, ch, b - a)
+                ents.append(box("%s_Wall_%s_%d" % (rid, w, i // 2), p, sc, C_WALL, parent=g))
+            for o in ops:
+                y1 = o["y0"] + o["h"]
+                lh = ch - y1
+                p = (wc[0] + al[0] * o["off"], y1 + lh * 0.5, wc[2] + al[1] * o["off"])
+                if lh > 0.01:
+                    ents.append(box("%s_Lintel_%s_%s" % (rid, w, o["id"]), p,
+                                    (o["w"], lh, WALLT) if zax else (WALLT, lh, o["w"]), C_WALL, parent=g))
+                if o["y0"] > 0.01:
+                    p = (wc[0] + al[0] * o["off"], o["y0"] * 0.5, wc[2] + al[1] * o["off"])
+                    ents.append(box("%s_Sill_%s_%s" % (rid, w, o["id"]), p,
+                                    (o["w"], o["y0"], WALLT) if zax else (WALLT, o["y0"], o["w"]),
+                                    C_WALL, parent=g))
+
+        lightcol, intensity = st.get("lightcol", (0.98, 0.96, 0.88)), st.get("intensity", 9.0)
+        for i, (ox, oz) in enumerate(S["lights"]):
+            ents.append(model("%s_Troffer_%d" % (rid, i + 1), "models/troffer.gltf",
+                              (cx + ox, ch - 0.01, cz + oz), 0.0, g))
+            ents.append(plight("%s_Light_%d" % (rid, i + 1), (cx + ox, ch - 0.45, cz + oz),
+                               lightcol, intensity, S["lrange"], g))
+
+        # 隙間(壁の下 1.0m だけ空いた壁)
+        for i, (lx, lz, yaw) in enumerate(r.get("eaves", ())):
+            ents.append(model("%s_Eave_%d" % (rid, i), "models/eave.gltf", (cx + lx, 0.0, cz + lz), yaw, g))
+            along_x = abs(math.cos(math.radians(yaw))) > 0.5
+            sx, sz = (4.4, 0.26) if along_x else (0.26, 4.4)
+            top = ch - EAVE_GAP
+            ents.append(box("%s_EaveW_%d" % (rid, i), (cx + lx, EAVE_GAP + top * 0.5, cz + lz),
+                            (sx, top, sz), C_PAINT, rough=0.6, parent=g))
+            self.fixtures.setdefault(rid, []).append((cx + lx, cz + lz, 2.2, ch))
+
+        # 什器
+        for i, (kind, lx, lz, yaw) in enumerate(r.get("props", ())):
+            P = PROPS[kind]
+            y = P["y"]
+            if y is None:
+                y = min(2.6, ch - 0.6) if kind == "vent" else ch - 0.01
+            sc = (1.0, ch / 4.0, 1.0) if kind == "column" else (1.0, 1.0, 1.0)
+            ents.append(model("%s_%s_%d" % (rid, kind, i), P["path"], (cx + lx, y, cz + lz), yaw, g, sc))
+            if P["block"]:
+                top = P["top"] if P["top"] < 90.0 else ch
+                self.fixtures.setdefault(rid, []).append((cx + lx, cz + lz, P["r"], top))
+
+        # 柵(部屋を完全に横断する)
+        for i, (lx, lz, yaw) in enumerate(r.get("bars", ())):
+            along_x = abs(math.cos(math.radians(yaw))) > 0.5
+            span = spanx if along_x else spanz
+            k = span / BAR_LEN
+            ents.append(model("%s_Bar_%d" % (rid, i), "models/barrier.gltf", (cx + lx, 0.0, cz + lz), yaw, g,
+                              (k, BAR_H / 1.35, 1.0)))
+            sx = span if along_x else BAR_T
+            sz = BAR_T if along_x else span
+            ents.append(box("%s_BarCol_%d" % (rid, i), (cx + lx, BAR_H * 0.5 - 0.03, cz + lz),
+                            (sx - 0.03, BAR_H - 0.06, sz - 0.03), C_DIV, rough=0.6, parent=g))
+            self.fixtures.setdefault(rid, []).append((cx + lx, cz + lz, 0.6, BAR_H))
+
+    def build(self):
+        st = self.st
+        ents = self.ents
+        g_sys = group(ents, "[System]")
+        self.g_rooms = group(ents, "[Rooms]")
+        self.g_seams = group(ents, "[Seams]")
+        ents.append({"guid": guid(), "name": "Ambient", "parentGuid": g_sys,
+                     "directionalLight": {"ambient": 0.035, "color": [0.85, 0.88, 1.0],
+                                          "direction": [-0.3, -0.9, -0.3], "intensity": 0.0},
+                     "transform": {"position": [0.0, 0.0, 0.0], "rotation": [0.0, 0.0, 0.0],
+                                   "scale": [1.0, 1.0, 1.0]}})
+        # 口を先に登録(壁のモデルが決まる)
+        for sp in st.get("seams", ()):
+            self.seam(sp)
+        for sp in st.get("useams", ()):
+            self.useam(sp)
+        for sp in st.get("windows", ()):
+            self.window(sp)
+        for r in st["rooms"]:
+            self.build_room(r)
+
+        # 出口
+        gx, gz = st["goal"]
+        gyaw = st.get("goalYaw", 0.0)
+        ents.append(model("GoalM", "models/goal.gltf", (gx, 0.0, gz), gyaw, g_sys))
+        bx, bz = -math.sin(math.radians(gyaw)), -math.cos(math.radians(gyaw))
+        ents.append(box("Goal", (gx + bx * 0.98, 0.70, gz + bz * 0.98), (0.70, 1.02, 0.08),
+                        C_GOAL, rot=(0, gyaw, 0), collide=False, rough=0.10, parent=g_sys))
+        ents.append(plight("GoalLight", (gx + bx * 0.75, 0.9, gz + bz * 0.75),
+                           (0.25, 1.0, 0.62), 16.0, 14.0, g_sys))
+        gp = base("GoalFx", (gx, 0.15, gz), parent=g_sys)
+        gp["particleEmitter"] = {"kind": 0, "blend": 0, "rate": 14, "orient": 0,
+                                 "playOnStart": True, "looping": True, "duration": 1.0,
+                                 "dir": [0.0, 1.0, 0.0], "spread": 0.12, "speed": 0.9,
+                                 "speedVar": 0.3, "size": 0.16, "sizeEnd": 0.0,
+                                 "life": 2.6, "lifeVar": 0.5,
+                                 "color": [0.35, 1.0, 0.7], "colorEnd": [0.1, 0.6, 0.4],
+                                 "intensity": 2.4, "gravity": 0.0, "drag": 0.6}
+        ents.append(gp)
+
+        ents.append(box("Pilot", (0.0, HIDE_Y, 0.0), (0.22, 0.22, 0.22), (0.55, 1.0, 0.85),
+                        collide=False, rough=0.2, parent=g_sys, prim="sphere"))
+        ents.append(plight("PilotLight", (0.0, HIDE_Y, 0.0), (0.35, 1.0, 0.80), 2.6, 5.0, g_sys))
+
+        sp = st["spawn"]
+        for i, s in enumerate(SCALES):
+            cc = body_cc(s)
+            e = base("Body_%d" % i, (sp[0], HIDE_Y, sp[1]), (0.0, sp[2], 0.0))
+            e["characterController"] = {
+                "gravityScale": 1.0, "halfHeight": cc["halfHeight"],
+                "jumpSpeed": math.sqrt(2 * GRAV * jump_h(s)),
+                "mass": 70.0 * s, "maxSlopeDeg": 50.0, "offset": [0.0, 0.0, 0.0],
+                "radius": cc["radius"], "stepHeight": cc["stepHeight"]}
+            ents.append(e)
+        ents.append({
+            "guid": guid(), "name": "MainCamera",
+            "camera": {"farClip": 300.0, "fovDegrees": 74.0, "isActive": True,
+                       "nearClip": 0.02, "orthoSize": 10.0, "projection": 0},
+            "luaScript": {"enabled": True, "scriptPath": "components/FreeLook.lua"},
+            "transform": {"position": [sp[0], EYE_H, sp[1]], "rotation": [0.0, sp[2], 0.0],
+                          "scale": [1.0, 1.0, 1.0]},
+        })
+        logic = marker("Logic_" + st["tag"], (0.0, 0.0, 0.0), 0.0, g_sys)
+        logic["luaScript"] = {"enabled": True, "scriptPath": "components/Junction.lua"}
+        ents.append(logic)
+        return {
+            "version": 1, "entities": ents, "shadows": True,
+            "skybox": {"drawSkybox": False, "envMapPath": "", "iblIntensity": 0.0,
+                       "skyboxIntensity": 0.0},
+            "ssao": {"bias": 0.025, "blur": True, "enabled": True, "intensity": 1.0,
+                     "power": 1.7, "radius": 0.7, "sampleCount": 16},
+            "postProcess": {
+                "enabled": True, "tonemapper": 1, "exposureOn": True, "exposure": 1.0,
+                "bloomOn": True, "bloom": 0.42, "bloomThreshold": 1.15,
+                "bloomKnee": 0.5, "bloomRadius": 0.72,
+                "vignetteOn": True, "vignette": 0.26, "caOn": True, "ca": 0.15,
+                "grainOn": True, "grain": 0.045, "fxaaOn": True, "debandOn": True,
+            },
+        }
+
+
+PROPS = {
+    "bench":   dict(path="models/bench.gltf",   y=0.0, r=0.90, top=0.95, block=True),
+    "column":  dict(path="models/column.gltf",  y=0.0, r=0.45, top=99.0, block=True),
+    "locker":  dict(path="models/locker.gltf",  y=0.0, r=0.85, top=1.95, block=True),
+    "crate":   dict(path="models/crate.gltf",   y=0.0, r=0.55, top=0.75, block=True),
+    "railing": dict(path="models/railing.gltf", y=0.0, r=1.55, top=1.10, block=True),
+    "vent":    dict(path="models/vent.gltf",    y=None, r=0.4, top=0.0, block=False),
+    "pipes":   dict(path="models/pipes.gltf",   y=None, r=3.0, top=0.0, block=False),
+}
+BAR_LEN, BAR_H, BAR_T = 12.6, 1.70, 0.14   # ★1.35 だと大きさ 1 でも跳んで越えられた(実プレイで指摘)
+EAVE_GAP = 1.00
+
+
+# ---------------------------------------------------------------- 掟(生成時に落とす)
+def _dividers(r):
+    """部屋の中の仕切り。[(axis, coord, gate)]。axis 'x' は x=coord の線。"""
+    out = []
+    for (lx, lz, yaw) in r.get("bars", ()):
+        along_x = abs(math.cos(math.radians(yaw))) > 0.5
+        out.append(("z" if along_x else "x", lz if along_x else lx, ("big", 0)))
+    seen = set()
+    for (lx, lz, yaw) in r.get("eaves", ()):
+        along_x = abs(math.cos(math.radians(yaw))) > 0.5
+        key = ("z" if along_x else "x", lz if along_x else lx)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append((key[0], key[1], ("small", 0)))
+    for (axis, c0, c1) in r.get("pits", ()):
+        out.append((axis, (c0 + c1) * 0.5, ("pit", c1 - c0)))
+    return out
+
+
+def _zone_of(r, lx, lz):
+    zx = zz = 0
+    for (axis, c, _g) in sorted(_dividers(r), key=lambda d: (d[0], d[1])):
+        if axis == "x" and lx > c:
+            zx += 1
+        if axis == "z" and lz > c:
+            zz += 1
+    return (zx, zz)
+
+
+def _zone_edges(r):
+    ds = sorted(_dividers(r), key=lambda d: (d[0], d[1]))
+    xs = [d for d in ds if d[0] == "x"]
+    zs = [d for d in ds if d[0] == "z"]
+    e = {}
+    for i, d in enumerate(xs):
+        for zz in range(len(zs) + 1):
+            e[((i, zz), (i + 1, zz))] = d
+            e[((i + 1, zz), (i, zz))] = d
+    for i, d in enumerate(zs):
+        for zx in range(len(xs) + 1):
+            e[((zx, i), (zx, i + 1))] = d
+            e[((zx, i + 1), (zx, i))] = d
+    return e
+
+
+def _pass_gate(gate, s):
+    kind, arg = gate
+    if kind == "big":
+        return climb_h(s) >= BAR_H - 1e-6
+    if kind == "small":
+        return BODY_H * s < EAVE_GAP - 1e-6
+    if kind == "pit":
+        return jump_dist(s) >= arg + 1e-6
+    return False
+
+
+def simulate(st, W, want_seen=False, start_state=None):
+    """全状態 (部屋, 区画, 大きさ) を総当たり。出口に着けるか / 何回口をくぐるか / 最短手順。"""
+    rooms = W.rooms
+    mouths = {}
+    for mid, m in W.mouths.items():
+        r = rooms[m["room"]]
+        lx, lz = m["pos"][0] - r["at"][0], m["pos"][1] - r["at"][1]
+        # 口の少し内側で区画を決める
+        lx -= m["n"][0] * 0.5
+        lz -= m["n"][1] * 0.5
+        mouths[mid] = dict(room=m["room"], zone=_zone_of(r, lx, lz), size=m["size"], sill=m["sill"],
+                           pos=(m["pos"][0] - m["n"][0] * 1.2, m["pos"][1] - m["n"][1] * 1.2))
+    gr = rooms[st["goalRoom"]]
+    gx, gz = st["goal"]
+    goal_zone = _zone_of(gr, gx - gr["at"][0], gz - gr["at"][1])
+    sr = rooms[st["start"]]
+    start = start_state or (st["start"], _zone_of(sr, st["spawn"][0], st["spawn"][1]), 1.0)
+    edges = {rid: _zone_edges(rooms[rid]) for rid in rooms}
+    seen = {start: 0}
+    prev = {start: None}
+    frontier = [start]
+    best, bestState = None, None
+    while frontier:
+        nxt = []
+        for stt in frontier:
+            room, zone, sc = stt
+            hops = seen[stt]
+            if room == st["goalRoom"] and zone == goal_zone:
+                if best is None or hops < best:
+                    best, bestState = hops, stt
+                continue
+            r = rooms[room]
+            for (za, zb), div in edges[room].items():
+                if za == zone and _pass_gate(div[2], sc):
+                    n = (room, zb, sc)
+                    if n not in seen:
+                        # 越える場所(世界)
+                        axis, c, gate = div
+                        if axis == "z":
+                            wp = (r["at"][0], r["at"][1] + c)
+                        else:
+                            wp = (r["at"][0] + c, r["at"][1])
+                        seen[n] = hops
+                        prev[n] = (stt, {"big": "跨ぐ", "small": "くぐる", "pit": "跳び越える"}[gate[0]], wp)
+                        nxt.append(n)
+            for mid, m in mouths.items():
+                if m["room"] != room or m["zone"] != zone:
+                    continue
+                if sc > m["size"] + 1e-6 or climb_h(sc) < m["sill"] - 1e-6:
+                    continue
+                to = W.links[mid]
+                mt = mouths[to]
+                n = (mt["room"], mt["zone"], mt["size"])
+                if n not in seen:
+                    seen[n] = hops + 1
+                    prev[n] = (stt, "%s→%s(%.2g)" % (mid, to, mt["size"]), m["pos"])
+                    nxt.append(n)
+                # ★潜って戻る(dip)。口に入って線を越え、引き返すと【その口の大きさ】になる。
+                #   線は「今いる側の大きさ」を決めるので、これは構造上防げない。設計は
+                #   「大きくなるのは簡単、小さくなるには通り抜けるしかない」を前提にすること。
+                if abs(mt["size"] - m["size"]) > 1e-6 and abs(m["size"] - sc) > 1e-6:
+                    n = (room, zone, m["size"])
+                    if n not in seen:
+                        seen[n] = hops + 1
+                        prev[n] = (stt, "%s に潜って %.2g" % (mid, m["size"]), m["pos"])
+                        nxt.append(n)
+        frontier = nxt
+    path, pts = [], []
+    cur = bestState
+    while cur is not None and prev.get(cur):
+        cur, how, wp = prev[cur]
+        path.append(how)
+        pts.append(wp)
+    path.reverse()
+    pts.reverse()
+    pts.append((gx, gz))
+    if want_seen:
+        return best, len(seen), path, pts, seen
+    return best, len(seen), path, pts
+
+
+def check_no_deadend(st, W):
+    """★詰み無し。到達できる全状態から出口へ着けること(おとりで詰むのは許さない)。"""
+    hops, states, path, pts, seen = simulate(st, W, want_seen=True)
+    for s0 in list(seen):
+        st2 = dict(st)
+        h2 = simulate(st2, W, start_state=s0)[0]
+        if h2 is None:
+            raise SystemExit("%s: ★詰み状態がある: 部屋 %s 区画 %s 大きさ %.2g から出口へ戻れない"
+                             % (st["name"], s0[0], s0[1], s0[2]))
+
+
+def check_solvable(st, W):
+    hops, states, path, pts = simulate(st, W)
+    if hops is None:
+        raise SystemExit("%s: ★出口に到達できない(全 %d 状態を探索)" % (st["name"], states))
+    if hops == 0:
+        raise SystemExit("%s: ★口を 1 つもくぐらずに出口へ着けてしまう" % st["name"])
+    if hops < st.get("minHops", 1):
+        raise SystemExit("%s: 想定(%d)より短い(%d 回) : %s"
+                         % (st["name"], st.get("minHops", 1), hops, " / ".join(path)))
+    print("  %-8s 最短 %d 回 : %s" % (st["name"], hops, " / ".join(path)))
+    return pts
+
+
+def check_headroom(st, W):
+    """部屋に入った時の大きさ = 入ってきた口の大きさ。その体が天井に収まること。"""
+    mx = {}
+    for mid, m in W.mouths.items():
+        mx[m["room"]] = max(mx.get(m["room"], 0.25), m["size"])
+    mx[st["start"]] = max(mx.get(st["start"], 0.25), 1.0)
+    for rid, s in mx.items():
+        S = SHAPES[W.rooms[rid]["shape"]]
+        if BODY_H * s > S["h"] - 0.2:
+            raise SystemExit("%s: 部屋 %s(天井 %.1f)に 大きさ %.2f の体が立てない"
+                             % (st["name"], rid, S["h"], s))
+
+
+def check_runup(st, W):
+    """口の手前 2.5m に什器を置けない(入れるか見て確かめられない)。"""
+    for mid, m in W.mouths.items():
+        n = m["n"]
+        ix, iz = -n[0], -n[1]
+        for (fx, fz, fr, ftop) in W.fixtures.get(m["room"], ()):
+            if fr >= 0.8:
+                continue
+            fwd = (fx - m["pos"][0]) * ix + (fz - m["pos"][1]) * iz
+            lat = abs(-(fx - m["pos"][0]) * iz + (fz - m["pos"][1]) * ix)
+            if -0.5 < fwd <= 2.5 and lat < m["w"] * 0.5 + fr:
+                raise SystemExit("%s: 口 %s の手前に什器 前方=%.2f 横=%.2f" % (st["name"], mid, fwd, lat))
+
+
+def check_footholds(st, W):
+    for r in st["rooms"]:
+        S = SHAPES[r["shape"]]
+        divs = [d for d in _dividers(r) if d[2][0] == "big"]
+        if not divs:
+            continue
+        for (kind, lx, lz, yaw) in r.get("props", ()):
+            P = PROPS[kind]
+            if not P["block"]:
+                continue
+            top = P["top"] if P["top"] < 90.0 else S["h"]
+            if top < 0.35:
+                continue
+            for (axis, c, gate) in divs:
+                d = abs((lx if axis == "x" else lz) - c)
+                if d < 3.0 + P["r"]:
+                    raise SystemExit("%s: 部屋 %s の %s が柵から %.1fm。跳び乗って越えられる"
+                                     % (st["name"], r["id"], kind, d))
+
+
+CAM_MARGIN, CAM_YMIN, CAM_YTOP = 1.2, 0.8, 0.5
+CAM_CLEAR, CAM_TAIL, CAM_HEAD = 0.9, 2.0, 0.3
+
+
+def check_cine(st, W):
+    centers = {r["id"]: (r["at"][0], r["at"][1], r["shape"]) for r in st["rooms"]}
+    for i, (er, e, tr, t, dur) in enumerate(st.get("cine", ())):
+        tag = "%s cine[%d]" % (st["name"], i)
+        S = SHAPES[centers[er][2]]
+        hx, hz, ch = S["ix"] * 0.5, S["iz"] * 0.5, S["h"]
+        if abs(e[0]) > hx - CAM_MARGIN or abs(e[2]) > hz - CAM_MARGIN:
+            raise SystemExit("%s: 目が壁に近すぎる local=(%.1f,%.1f)" % (tag, e[0], e[2]))
+        if e[1] < CAM_YMIN or e[1] > ch - CAM_YTOP:
+            raise SystemExit("%s: 目の高さ %.2f が範囲外(天井 %.1f)" % (tag, e[1], ch))
+        ex, ey, ez = centers[er][0] + e[0], e[1], centers[er][1] + e[2]
+        tx, ty, tz = centers[tr][0] + t[0], t[1], centers[tr][1] + t[2]
+        vx, vz = tx - ex, tz - ez
+        seg = math.hypot(vx, vz)
+        if seg < 0.5:
+            raise SystemExit("%s: 目と注視点が近すぎる" % tag)
+        t0 = min(0.9, CAM_HEAD / seg)
+        t1 = max(t0, 1.0 - CAM_TAIL / seg)
+        # 隙間の壁(天井まで塞がっている)を横切る画は作れない
+        for rid in (er, tr):
+            r0 = W.rooms[rid]
+            for (axis, c, gate) in _dividers(r0):
+                if gate[0] != "small":
+                    continue
+                if axis == "z":
+                    a0, a1 = ez - r0["at"][1], tz - r0["at"][1]
+                else:
+                    a0, a1 = ex - r0["at"][0], tx - r0["at"][0]
+                if (a0 - c) * (a1 - c) < 0:
+                    raise SystemExit("%s: 隙間の壁を横切る room=%s %s=%.1f" % (tag, rid, axis, c))
+        for rid in (er, tr):
+            for (fx, fz, fr, ftop) in W.fixtures.get(rid, ()):
+                if fr >= 2.0:
+                    continue
+                k = ((fx - ex) * vx + (fz - ez) * vz) / (seg * seg)
+                k = max(t0, min(t1, k))
+                d = math.hypot(ex + vx * k - fx, ez + vz * k - fz)
+                if d < CAM_CLEAR + fr and (ey + (ty - ey) * k) < ftop + 0.25:
+                    raise SystemExit("%s: 什器に刺さる room=%s (%.1f,%.1f) 距離=%.2f"
+                                     % (tag, rid, fx, fz, d))
+    return centers
+
+
+def cine_world(st, centers):
+    out, prev = [], None
+    for (er, e, tr, t, dur) in st.get("cine", ()):
+        ex, ey, ez = centers[er][0] + e[0], e[1], centers[er][1] + e[2]
+        tx, ty, tz = centers[tr][0] + t[0], t[1], centers[tr][1] + t[2]
+        if prev is not None and er != prev:
+            out.append((ex, ey, ez, tx, ty, tz, 0.02))
+        out.append((ex, ey, ez, tx, ty, tz, dur))
+        prev = er
+    sx, sz, syaw = st["spawn"]
+    fx = math.sin(math.radians(syaw))
+    fz = math.cos(math.radians(syaw))
+    out.append((sx, EYE_H, sz, sx + fx * 8.0, EYE_H, sz + fz * 8.0, 1.4))
+    return out
+
+
+# ================================ ステージ定義 ================================
+def R(rid, shape, at, **kw):
+    d = dict(id=rid, shape=shape, at=at)
+    d.update(kw)
+    return d
+
+
+def SEAM(sid, room, wall, off, a, b, sill=0.0):
+    return dict(id=sid, room=room, wall=wall, off=off, a=a, b=b, sill=sill)
+
+
+def U(sid, room, wall, off1, a, off2, b, sill=0.0):
+    return dict(id=sid, room=room, wall=wall, off1=off1, a=a, off2=off2, b=b, sill=sill)
+
+
+def WIN(room, wall, off):
+    return dict(room=room, wall=wall, off=off)
+
+
+# 什器の並び。★どれも「人が使うために作られた物」= 大きさの物差し
+SET_A = [("bench", -4.6, -3.0, 0.0), ("locker", -3.0, 5.4, 0.0), ("crate", 5.2, -3.0, 20.0)]
+SET_B = [("bench", 4.6, 4.2, 180.0), ("locker", -5.4, -1.0, 90.0), ("crate", -5.0, -4.4, 40.0)]
+
+STAGES = [
+    # ================= 1: 扉 — くぐると大きくなる / 柵は 2 でしか跨げない =================
+    # 1 部屋。南壁に戻り継ぎ目(扉→門)。入って出てくると、さっきの部屋が半分の大きさ。
+    dict(name="stage1", tag="Stage_1", title=1,
+         rooms=[R("A", "box12", (0.0, 0.0), props=SET_A, bars=[(0.0, 1.5, 0.0)])],
+         useams=[U("u1", "A", "S", -3.2, "door", 2.4, "gate")],
+         spawn=(0.0, -2.6, 0.0), goal=(0.0, 4.6), goalYaw=180.0,
+         start="A", goalRoom="A", minHops=1, teach="walk",
+         cine=[("A", (-3.6, 3.2, -3.6), "A", (0.0, 1.8, 4.6), 2.0),
+               ("A", (2.0, 2.2, 1.0), "A", (-3.2, 1.4, -6.0), 2.2)]),
+
+    # ================= 2: 隙間 — 小さくなる。什器が建物になる =================
+    dict(name="stage2", tag="Stage_2", title=2,
+         rooms=[R("A", "box12", (0.0, 0.0), props=SET_B,
+                  eaves=[(0.0, 1.5, 0.0), (-4.4, 1.5, 0.0), (4.4, 1.5, 0.0)])],
+         useams=[U("u1", "A", "E", -3.6, "door", 0.4, "hatch")],
+         spawn=(0.0, -3.4, 0.0), goal=(0.0, 4.6), goalYaw=180.0,
+         start="A", goalRoom="A", minHops=1, teach="jump",
+         cine=[("A", (-4.4, 0.9, 4.7), "A", (0.0, 1.0, 4.6), 2.0),
+               ("A", (-2.0, 1.8, -1.0), "A", (6.0, 1.2, -1.6), 2.0)]),
+
+    # ================= 3: 順番 — 柵、それから隙間 =================
+    # 帯 S(z<-2.5) / M(-2.5..3.5) / N(>3.5=出口)。S に 扉→門。M に 門→小口(通り抜けないと縮めない)。
+    dict(name="stage3", tag="Stage_3", title=3,
+         rooms=[R("A", "box12", (0.0, 0.0), props=[("locker", 5.4, 5.0, 270.0)],
+                  bars=[(0.0, -2.5, 0.0)],
+                  eaves=[(0.0, 3.5, 0.0), (-4.4, 3.5, 0.0), (4.4, 3.5, 0.0)])],
+         useams=[U("u1", "A", "S", -3.2, "door", 2.4, "gate"),
+                 U("u3", "A", "E", -0.3, "gate", 2.6, "hatch")],
+         spawn=(0.0, -4.4, 0.0), goal=(0.0, 4.9), goalYaw=180.0,
+         start="A", goalRoom="A", minHops=2, teach=None,
+         cine=[("A", (-4.0, 4.4, -4.4), "A", (2.0, 1.0, 2.5), 2.4),
+               ("A", (3.0, 1.8, -4.0), "A", (-3.2, 1.4, -6.0), 1.8)]),
+
+    # ================= 4: 落とし穴 — 高い口。跳んで登った先で小さくなって落ちる =================
+    # A の東壁の高い口(扉、敷居 0.9)は 1 なら跳んで登れる。中で 0.5 になり、G へ落ちる。
+    # 0.5 では 0.9 に登れないので戻れない。G には柵。G の南壁の 小口→門 で 2 になって跨ぐ。
+    dict(name="stage4", tag="Stage_4", title=4,
+         rooms=[R("A", "box12", (0.0, 0.0), props=[("bench", -4.6, 3.0, 0.0), ("crate", -4.8, -4.6, 30.0)]),
+                R("G", "box12", (16.0, 0.0), props=[("locker", 4.8, -4.8, 180.0)],
+                  bars=[(0.0, 1.5, 0.0)])],
+         seams=[SEAM("s1", "A", "E", -2.0, "door", "hatch", sill=SILL_HI)],
+         useams=[U("u1", "G", "S", -3.6, "hatch", 1.4, "gate")],
+         spawn=(0.0, -3.0, 0.0), goal=(16.0, 4.6), goalYaw=180.0,
+         start="A", goalRoom="G", minHops=2, teach=None,
+         cine=[("G", (-3.6, 3.4, -3.8), "G", (0.0, 1.6, 4.6), 2.0),
+               ("A", (-2.0, 1.9, -1.0), "A", (6.0, 1.6, -2.0), 2.0)]),
+
+    # ================= 5: 溝 — 2 で跳び越える。落ちても戻るだけ =================
+    # 大広間。溝の南に 扉→門。跳んだ先(北)の壁に 門→小口 の通り継ぎ目。その先の部屋は隙間の向こうが出口。
+    dict(name="stage5", tag="Stage_5", title=5,
+         rooms=[R("H", "hall20", (0.0, 0.0), pits=[("z", 1.0, 5.6)],
+                  props=[("column", -7.0, -7.0, 0.0), ("column", 7.0, -7.0, 0.0), ("bench", -7.0, -3.0, 90.0)]),
+                R("C", "box12", (0.0, 20.0), props=[("crate", 4.6, -4.8, 20.0)],
+                  eaves=[(0.0, 1.6, 0.0), (-4.4, 1.6, 0.0), (4.4, 1.6, 0.0)])],
+         seams=[SEAM("s1", "H", "N", -1.5, "gate", "hatch")],
+         useams=[U("u1", "H", "S", -4.0, "door", 2.4, "gate")],
+         spawn=(0.0, -6.0, 0.0), goal=(0.0, 24.6), goalYaw=180.0,
+         start="H", goalRoom="C", minHops=2, teach=None,
+         cine=[("H", (-5.0, 5.0, -8.0), "H", (0.0, 0.0, 4.0), 2.4),
+               ("H", (3.0, 2.0, -3.0), "H", (-4.0, 1.4, -10.0), 1.8)]),
+
+    # ================= 6: 通気口 — 一番小さい口が一番大きい自分へ =================
+    # A(1) → 扉→小口 → B(0.5) → 小口→通気口 → C(0.25) → 通気口→門 → D(2)。D に柵、出口。
+    # A の北の窓から D の出口が最初から見える。
+    dict(name="stage6", tag="Stage_6", title=6,
+         rooms=[R("A", "box12", (0.0, 0.0), props=[("bench", -4.6, -3.0, 0.0)]),
+                R("B", "box12", (16.0, 0.0), props=[("locker", 5.0, 3.6, 270.0), ("crate", -3.0, -4.6, 10.0)]),
+                R("C", "cell8", (16.0, 14.0), props=[("crate", 2.4, 2.4, 25.0)]),
+                R("D", "hall20", (-2.0, 20.0), props=[("column", -8.0, -4.0, 0.0), ("bench", 6.0, -6.0, 0.0)],
+                  bars=[(0.0, 3.0, 0.0)])],
+         seams=[SEAM("s1", "A", "E", -3.0, "door", "hatch"),
+                SEAM("s2", "B", "N", 0.0, "hatch", "vent"),
+                SEAM("s3", "C", "W", 0.0, "vent", "gate")],
+         windows=[WIN("A", "N", -1.0)],
+         spawn=(0.0, -3.0, 0.0), goal=(-2.0, 27.0), goalYaw=180.0,
+         start="A", goalRoom="D", minHops=3, teach=None,
+         cine=[("D", (4.0, 5.5, -8.0), "D", (-2.0, 1.4, 7.0), 2.4),
+               ("A", (-1.0, 1.8, -3.5), "A", (-1.0, 2.0, 6.0), 1.8)]),
+
+    # ================= 7: 三つ巴 — 隙間(0.5) → 溝(2) → 低い廊下(1) =================
+    # 大広間 H。南の帯は隙間で塞がれ(0.5 で抜ける)、真ん中の帯から溝を跳ぶには 2 が要る
+    # (東壁の 門→扉 に潜って戻ると 2 になる = 潜る技をここで覚える)。溝の北の 門→扉 で 1 に戻り、
+    # 天井の低い廊下の奥が出口。
+    dict(name="stage7", tag="Stage_7", title=7,
+         rooms=[R("H", "hall20", (0.0, 0.0), pits=[("z", 0.0, 4.6)],
+                  eaves=[(x, -5.0, 0.0) for x in (0.0, -4.4, 4.4, -8.8, 8.8)],
+                  props=[("column", -7.5, -8.0, 0.0), ("column", 7.5, -8.0, 0.0), ("locker", -9.4, -2.5, 90.0)]),
+                R("E", "cell8", (18.0, -2.5), props=[("bench", 0.0, 2.6, 180.0)]),
+                R("G", "corr18", (0.0, 18.0), props=[("crate", -6.0, 2.6, 15.0)])],
+         seams=[SEAM("s1", "H", "E", -2.5, "gate", "door"),
+                SEAM("s2", "H", "N", 0.0, "gate", "door")],
+         useams=[U("u1", "H", "S", -5.0, "door", 0.5, "hatch")],
+         spawn=(0.0, -7.5, 0.0), goal=(7.5, 18.0), goalYaw=270.0,
+         start="H", goalRoom="G", minHops=3, teach=None,
+         cine=[("H", (-5.0, 5.4, -1.5), "H", (2.0, 0.0, 6.0), 2.4),
+               ("H", (2.0, 1.8, -7.0), "H", (-5.0, 1.4, -10.0), 1.8)]),
+
+    # ================= 8: 一棟 — 総合 =================
+    # 第1面の部屋 A から始まる。南の戻り継ぎ目は今回 扉→小口、柵は隙間に変わっている。
+    # A(0.5) → 北の小口→通気口 → V(0.25) → 東の通気口→門 → H(2, 大広間・溝) → 跳ぶ →
+    # 北壁の 門→扉 → T(1) → 東の高い扉→小口 → G(0.5) で落ちる。G の柵は 小口→門 の U で 2 になって跨ぐ。
+    dict(name="stage8", tag="Stage_8", title=8,
+         rooms=[R("A", "box12", (0.0, 0.0), props=SET_A,
+                  eaves=[(0.0, 3.0, 0.0), (-4.4, 3.0, 0.0), (4.4, 3.0, 0.0)]),
+                R("V", "cell8", (0.0, 14.0), props=[("crate", -2.4, 2.0, 15.0)]),
+                R("H", "hall20", (18.0, 14.0), pits=[("x", -2.0, 2.6)],
+                  props=[("column", -7.5, 7.5, 0.0), ("column", -7.5, -7.5, 0.0)]),
+                R("T", "box12", (22.0, 34.0), props=[("bench", -4.6, 3.0, 0.0)]),
+                R("G", "box12", (38.0, 34.0), props=[("locker", 4.8, -4.8, 180.0)],
+                  bars=[(0.0, 1.5, 0.0)])],
+         seams=[SEAM("s1", "A", "N", 3.0, "hatch", "vent"),
+                SEAM("s2", "V", "E", 0.0, "vent", "gate"),
+                SEAM("s3", "H", "N", 7.0, "gate", "door"),
+                SEAM("s4", "T", "E", -2.0, "door", "hatch", sill=SILL_HI)],
+         useams=[U("u1", "A", "S", -3.2, "door", 2.0, "hatch"),
+                 U("u2", "G", "S", -3.6, "hatch", 1.4, "gate")],
+         spawn=(0.0, -2.6, 0.0), goal=(38.0, 38.6), goalYaw=180.0,
+         start="A", goalRoom="G", minHops=6, teach=None,
+         cine=[("H", (-4.0, 5.5, -7.5), "H", (6.0, 1.0, 6.0), 2.4),
+               ("A", (-3.6, 2.4, -3.6), "A", (0.0, 1.6, 2.0), 1.8)]),
+]
+
+
+def main():
+    lua = []
+    manifest = {}
+    for i, st in enumerate(STAGES):
+        W = World(st)
+        data = W.build()
+        check_headroom(st, W)
+        check_footholds(st, W)
+        check_runup(st, W)
+        pts = check_solvable(st, W)
+        check_no_deadend(st, W)
+        centers = check_cine(st, W)
+        manifest.update(W.manifest)
+
+        path = os.path.join(OUT, st["name"] + ".json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print("wrote", path)
+
+        nxt = STAGES[i + 1]["name"] if i + 1 < len(STAGES) else None
+        cine = cine_world(st, centers)
+        L = []
+        L.append('    ["Logic_%s"] = { n = %d, scene = "scenes/%s.json", next = %s,'
+                 % (st["tag"], st["title"], st["name"],
+                    ('"scenes/%s.json"' % nxt) if nxt else "nil"))
+        L.append('        seams = {')
+        for p in W.planes:
+            L.append('            { id = "%s", px = %.3f, pz = %.3f, nx = %.3f, nz = %.3f, hw = %.2f, '
+                     'big = %.3f, small = %.3f, y0 = %.2f },'
+                     % (p["id"], p["px"], p["pz"], p["nx"], p["nz"], p["hw"], p["big"], p["small"], p["y0"]))
+        L.append('        },')
+        L.append('        hint = { %s },' % ", ".join("{ %.2f, %.2f }" % (x, z) for (x, z) in pts))
+        L.append('        start = "%s", goalRoom = "%s",' % (st["start"], st["goalRoom"]))
+        L.append('        spawn = { %.1f, %.1f, %.1f }, teach = %s,'
+                 % (st["spawn"][0], st["spawn"][1], st["spawn"][2],
+                    ('"%s"' % st["teach"]) if st.get("teach") else "nil"))
+        L.append('        cine = {')
+        for c in cine:
+            L.append('            { %.2f, %.2f, %.2f, %.2f, %.2f, %.2f, %.2f },' % c)
+        L.append('        } },')
+        lua.append("\n".join(L))
+
+    mpath = os.path.join(MODELS, "manifest.json")
+    with open(mpath, "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=1, sort_keys=True)
+    missing = [k for k in manifest if not os.path.exists(os.path.join(MODELS, k + ".gltf"))]
+    print("manifest: %d models, %d missing" % (len(manifest), len(missing)))
+    if missing:
+        print("  ★ BlenderMCP で blender_kit.py の build_manifest() を実行して出すこと:", missing[:6], "...")
+
+    lpath = os.path.join(HERE, "..", "assets", "components", "Junction.lua")
+    with open(lpath, encoding="utf-8") as f:
+        src = f.read()
+    head = "-- >>>STAGES (source/gen_stages.py が自動生成)"
+    tail = "    -- <<<STAGES"
+    a = src.index(head) + len(head)
+    b = src.index(tail)
+    src = src[:a] + "\n" + "\n".join(lua) + "\n" + src[b:]
+    with open(lpath, "w", encoding="utf-8") as f:
+        f.write(src)
+    print("patched", lpath)
+
+
+if __name__ == "__main__":
+    main()

@@ -31,6 +31,31 @@ local STAGES = {
         },
         plugs = {
         },
+        ports = {
+        },
+        links = {
+        },
+        watchers = {
+        },
+        creeps = {
+        },
+        rolls = {
+        },
+        gates = {
+        },
+        pairs = {
+        },
+        plates = {
+        },
+        guide = {
+        },
+        marks = {
+        },
+        tilts = {
+        },
+        fovramps = {
+        },
+        dynprops = { { ent = "A_crate_2", off = 0.375 } },
         anchors = {
         },
         dolly = {
@@ -48,7 +73,7 @@ local STAGES = {
             { 2.00, 1.70, 4.50, 0.00, 1.20, -4.80, 1.60 },
             { 2.00, 1.70, 4.50, 2.00, 1.70, -3.50, 1.40 },
         } },
-    ["Logic_Demo_2"] = { n = 2, scene = "scenes/stagedemo2.json", next = nil,
+    ["Logic_Demo_2"] = { n = 2, scene = "scenes/stagedemo2.json", next = "scenes/stagedemo3.json",
         tunnels = {
             { id = "t1", ax = 0.000, az = 10.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 1.000, sb = 1.000, wa = 2.00, wb = 2.00, y0 = 0.00 },
             { id = "t2", ax = 10.000, az = 0.000, nx = 1.000, nz = 0.000, L = 4.00, sa = 1.000, sb = 0.500, wa = 2.00, wb = 1.00, y0 = 0.00 },
@@ -61,6 +86,31 @@ local STAGES = {
         },
         plugs = {
         },
+        ports = {
+        },
+        links = {
+        },
+        watchers = {
+        },
+        creeps = {
+        },
+        rolls = {
+        },
+        gates = {
+        },
+        pairs = {
+        },
+        plates = {
+        },
+        guide = {
+        },
+        marks = {
+        },
+        tilts = {
+        },
+        fovramps = {
+        },
+        dynprops = {  },
         anchors = {
             { ent = "Anchor_0", x = -7.000, z = 18.000, k = 0.550, d0 = 14.000 },
         },
@@ -81,6 +131,96 @@ local STAGES = {
             { 4.00, 2.60, 5.00, -2.00, 1.40, -2.00, 2.40 },
             { 4.00, 1.70, 3.00, -2.00, 1.30, -2.00, 1.60 },
             { 4.00, 1.70, 3.00, 4.00, 1.70, -5.00, 1.40 },
+        } },
+    ["Logic_Demo_3"] = { n = 3, scene = "scenes/stagedemo3.json", next = nil,
+        tunnels = {
+        },
+        warps = {
+        },
+        morphs = {
+            { id = "m1", x = 0.000, z = -10.000, wx = 0.000, wz = 0.000, r = 15.00, delay = 1.2, light = { 0.93, 0.93, 1.00 }, light0 = { 0.98, 0.96, 0.88 },
+              room = "A", seal = {  }, unseal = {  },
+              rows = { { "MorphA_m1_0", 12.00, 0.00, 9.00, "A" }, { "MorphA_m1_1", -6.00, 0.00, 8.60, "A" }, { "MorphB_m1_0", -12.50, 0.00, 9.60, "B" }, { "MorphB_m1_1", 7.00, 0.00, 12.00, "B" } } },
+        },
+        plugs = {
+        },
+        ports = {
+        },
+        links = {
+        },
+        watchers = {
+            { ent = "W1", x = -4.000, y = 0.000, z = -44.000, step = 1.40, near = 3.20, rng = 34.0, wait = 1.00, turn = 1 },
+            { ent = "W2", x = 3.000, y = 0.000, z = -43.000, step = 1.20, near = 3.60, rng = 34.0, wait = 1.30, turn = 1 },
+            { ent = "W3", x = 7.000, y = 0.000, z = -45.000, step = 1.10, near = 4.00, rng = 34.0, wait = 1.60, turn = 1 },
+        },
+        creeps = {
+        },
+        rolls = {
+            { axis = "x", a = -12.00, b = 14.00, d0 = 0.00, d1 = 8.00, x0 = -19.00, x1 = 19.00, z0 = -34.00, z1 = -23.00 },
+        },
+        gates = {
+            { id = "s1", ent = "Gate_s1", mem = "GateM_s1", light = "GateL_s1", x = 6.000, z = -15.500, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.620, cb = 0.180, hue = 0.090, needs = "" },
+            { id = "m1", ent = "Gate_m1", mem = "GateM_m1", light = "GateL_m1", x = 6.000, z = -10.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.620, cb = 0.180, hue = 0.090, needs = "" },
+            { id = "m2", ent = "Gate_m2", mem = "GateM_m2", light = "GateL_m2", x = 12.000, z = -10.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.240, cg = 0.820, cb = 1.000, hue = 0.530, needs = "" },
+            { id = "g1", ent = "Gate_g1", mem = "GateM_g1", light = "GateL_g1", x = 26.000, z = -10.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.240, cg = 0.820, cb = 1.000, hue = 0.530, needs = "" },
+            { id = "m3", ent = "Gate_m3", mem = "GateM_m3", light = "GateL_m3", x = 0.000, z = -9.500, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.380, cg = 0.520, cb = 1.000, hue = 0.620, needs = "p1" },
+            { id = "n1", ent = "Gate_n1", mem = "GateM_n1", light = "GateL_n1", x = 0.000, z = 12.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.380, cg = 0.520, cb = 1.000, hue = 0.620, needs = "p1" },
+            { id = "m4", ent = "Gate_m4", mem = "GateM_m4", light = "GateL_m4", x = -12.000, z = -10.000, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.320, cg = 1.000, cb = 0.480, hue = 0.350, needs = "" },
+            { id = "d1", ent = "Gate_d1", mem = "GateM_d1", light = "GateL_d1", x = -26.000, z = -10.000, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.320, cg = 1.000, cb = 0.480, hue = 0.350, needs = "" },
+            { id = "s2", ent = "Gate_s2", mem = "GateM_s2", light = "GateL_s2", x = -14.000, z = -18.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.320, cb = 0.280, hue = 0.990, needs = "" },
+            { id = "b1", ent = "Gate_b1", mem = "GateM_b1", light = "GateL_b1", x = -14.000, z = -27.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.320, cb = 0.280, hue = 0.990, needs = "" },
+            { id = "b2", ent = "Gate_b2", mem = "GateM_b2", light = "GateL_b2", x = 0.000, z = -30.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.720, cg = 0.460, cb = 1.000, hue = 0.760, needs = "" },
+            { id = "h1", ent = "Gate_h1", mem = "GateM_h1", light = "GateL_h1", x = 0.000, z = -39.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.720, cg = 0.460, cb = 1.000, hue = 0.760, needs = "" },
+        },
+        pairs = {
+            { a = 1, b = 2, both = 1, needs = "" },
+            { a = 3, b = 4, both = 1, needs = "" },
+            { a = 5, b = 6, both = 1, needs = "p1" },
+            { a = 7, b = 8, both = 1, needs = "" },
+            { a = 9, b = 10, both = 1, needs = "" },
+            { a = 11, b = 12, both = 1, needs = "" },
+        },
+        plates = {
+            { id = "p1", ent = "Plate_p1", light = "PlateL_p1", x = 32.000, z = -11.500, y0 = 0.00, r = 1.50, cr = 0.380, cg = 0.520, cb = 1.000 },
+        },
+        guide = {
+            { x = 6.00, z = -18.10, need = "cross:s1" },
+            { x = 9.00, z = -10.00, need = "cross:m2" },
+            { x = 32.00, z = -10.00, need = "plate:p1" },
+            { x = 27.60, z = -10.00, need = "cross:g1" },
+            { x = 0.00, z = -12.50, need = "cross:m3" },
+            { x = 0.00, z = 17.00, need = "" },
+        },
+        marks = {
+            { ent = "MarkL_s1", light = "MarkLi_s1", x = 6.000, z = -18.100, cr = 1.000, cg = 0.620, cb = 0.180 },
+            { ent = "MarkL_m2", light = "MarkLi_m2", x = 9.000, z = -10.000, cr = 0.240, cg = 0.820, cb = 1.000 },
+            { ent = "MarkL_m3", light = "MarkLi_m3", x = 0.000, z = -12.500, cr = 0.380, cg = 0.520, cb = 1.000 },
+        },
+        tilts = {
+            { x = 32.000, y = 0.000, z = -10.000, deg = 6.50, ents = { { "G_Floor", 32.000, -0.250, -10.000 }, { "G_FloorM", 32.000, 0.005, -10.000 }, { "G_TWall_0", 32.000, 0.275, -12.200 }, { "G_TWall_1", 29.700, 0.275, -11.000 }, { "G_TWall_2", 34.300, 0.275, -11.000 }, { "G_locker_1", 25.400, 0.000, -3.400 }, { "G_bench_2", 25.600, 0.000, -15.600 } }, extra = { "Plate_p1", "PlateL_p1" } },
+        },
+        fovramps = {
+            { axis = "x", a = -14.00, b = 14.00, f0 = 74.0, f1 = 46.0, x0 = -19.00, x1 = 19.00, z0 = -34.00, z1 = -23.00 },
+        },
+        dynprops = { { ent = "A_drum_2", off = 0.440 }, { ent = "A_drum_3", off = 0.440 }, { ent = "A_crate_7", off = 0.375 }, { ent = "A_drum_9", off = 0.440 }, { ent = "A_crate_10", off = 0.375 }, { ent = "A_drum_15", off = 0.440 }, { ent = "G_ball_0", off = 0.360 }, { ent = "D_drum_6", off = 0.440 }, { ent = "D_drum_7", off = 0.440 }, { ent = "D_crate_8", off = 0.375 }, { ent = "B_drum_6", off = 0.440 }, { ent = "B_crate_7", off = 0.375 }, { ent = "H_drum_6", off = 0.440 }, { ent = "H_crate_7", off = 0.375 } },
+        anchors = {
+            { ent = "Anchor_0", x = 16.500, z = -28.500, k = 1.000, d0 = 31.000 },
+        },
+        dolly = {
+            { x = 0.000, z = -8.500, r = 5.00, fov = 54.0 },
+        },
+        carries = {
+        },
+        sizegates = {
+        },
+        hint = { { 6.00, -18.10 } },
+        startScale = 1.000,
+        start = "A", goalRoom = "A",
+        spawn = { 6.0, -19.2, 0.0 }, teach = nil,
+        cine = {
+            { 11.00, 7.50, -18.00, 0.00, 2.20, 14.00, 3.00 },
+            { 6.00, 2.70, -18.60, 6.00, 2.50, 10.00, 1.80 },
+            { 6.00, 1.70, -19.20, 6.00, 1.70, -11.20, 1.40 },
         } },
     -- <<<STAGES
 }
@@ -290,6 +430,69 @@ local function resetRun(self)
         place(c.ent, c.x, 0.0, c.z, c.yaw)
         place(c.col, c.x, c.h * 0.5, c.z)
     end
+    -- ---- v11: 枠 / 重量板 / 傾く床 / 動く剛体 / 案内 ----
+    self.gLink, self.gStr, self.gShow, self.gFwd, self.gHold = {}, {}, {}, {}, {}
+    self.bound, self.crossed = {}, {}
+    self.gCool, self.warpT, self.warpFov, self.warpRoll = 0, 0, 0, 0
+    self.gi, self.memNear, self.gBlock = 1, 0, 0
+    self.inTilt, self.fxOn = false, false
+    self.plateDone = {}
+    for _, pl in ipairs(self.cfg.plates or {}) do
+        local L = ent(pl.light)
+        if L and L:light() then
+            L:light():setColor((pl.cr or 1) * 0.5, (pl.cg or 0.45) * 0.5, (pl.cb or 0.2) * 0.5)
+            L:light().intensity = 2.0
+        end
+    end
+    for _, mk in ipairs(self.cfg.marks or {}) do
+        place(mk.ent, mk.x, 0.02, mk.z)
+        local e = ent(mk.ent)
+        -- ★床の印は対の色で塗る(白いままだと「ただの塗装」に見えて意味が伝わらない)
+        if e then pcall(function() scene:setColor(e, mk.cr or 1, mk.cg or 1, mk.cb or 1) end) end
+    end
+    -- ★動く剛体は【やり直しで元の位置へ戻す】。速度も殺さないと落ちた勢いが残る
+    self.dynBase = self.dynBase or {}
+    for _, dp in ipairs(self.cfg.dynprops or {}) do
+        local e = ent(dp.ent)
+        if e then
+            if not self.dynBase[dp.ent] then
+                local q = e.transform.position
+                self.dynBase[dp.ent] = { q.x, q.y, q.z }
+            end
+            local b = self.dynBase[dp.ent]
+            pcall(function()
+                physics:setVelocity(e, Vec3.new(0, 0, 0))
+                -- ★★physics:setPosition は【コライダーの中心】を指す。
+                --   原点(足元)をそのまま渡すと、半径ぶん地面へ埋まる(指摘の「玉が埋まってる」)。
+                physics:setPosition(e, Vec3.new(b[1], b[2] + dp.off + 0.03, b[3]))
+            end)
+            e.transform.rotation = Vec3.new(0, 0, 0)
+        end
+    end
+    self.tiltBase = self.tiltBase or {}
+    for _, tl in ipairs(self.cfg.tilts or {}) do
+        tl._c, tl._a, tl._amt, tl._dx, tl._dz = 0, 0, 0, 0, 1
+        for _, nm in ipairs(tl.extra or {}) do
+            local e = ent(nm)
+            if e and not self.tiltBase[nm] then
+                local q = e.transform.position
+                self.tiltBase[nm] = { q.x, q.y, q.z }
+            end
+        end
+    end
+    for i, w in ipairs(self.cfg.watchers or {}) do
+        self.watchS = self.watchS or {}
+        self.watchS[i] = { x = w.x, z = w.z, t = 0 }
+        place(w.ent, w.x, w.y, w.z)
+        local e = ent(w.ent)
+        if e then pcall(function() scene:setColor(e, 0.17, 0.18, 0.21) end) end
+    end
+    self.rollNow = 0
+    saveNum("camRoll", 0)
+    hide("WarpVeil")
+    pcall(function()
+        post.setMany{ vignette = 0.26, grain = 0.045, bloom = 0.42, exposure = 0.82 }
+    end)
     self.plugT = {}
     self.plugDone = {}
     self.morphT = {}
@@ -363,6 +566,36 @@ end
 --   序盤(teach 指定のある面)は常に、それ以降も【12 秒何もしていない人】には出す。
 --   行き先は gen_stages.py のシミュレーションが出した最短手順(hint)。
 local function pilot(self, t, p)
+    -- ★★v11: 案内は【光の玉】。次にやる事の上に浮く。文字は出さない。
+    --   進む条件を明示してあるので(cross:<枠> / plate:<板> / 空=近づく)、
+    --   継ぎ手で飛んでも狂わない。
+    local gd = self.cfg.guide or {}
+    if #gd > 0 then
+        self.gi = self.gi or 1
+        while self.gi <= #gd do
+            local st = gd[self.gi]
+            local ok = false
+            if st.need == "" then
+                ok = math.sqrt((p.x - st.x) ^ 2 + (p.z - st.z) ^ 2) < 2.2
+            elseif st.need:sub(1, 6) == "cross:" then
+                ok = (self.crossed or {})[st.need:sub(7)] == true
+            elseif st.need:sub(1, 6) == "plate:" then
+                ok = (self.plateDone or {})[st.need:sub(7)] == true
+            end
+            if ok then self.gi = self.gi + 1 else break end
+        end
+        if self.gi > #gd then hide("Pilot"); hide("PilotLight"); return end
+        local st = gd[self.gi]
+        local y = 1.25 + math.sin(t * 2.1) * 0.16
+        local sc = 0.22 + 0.04 * math.sin(t * 4.3)
+        place("Pilot", st.x, y, st.z, nil, sc, sc, sc)
+        place("PilotLight", st.x, y, st.z)
+        local pl = ent("PilotLight")
+        if pl and pl:light() then
+            pl:light().intensity = 2.6 + 1.4 * (0.5 + 0.5 * math.sin(t * 4.3))
+        end
+        return
+    end
     local hint = self.cfg.hint or {}
     -- 通過した経由点は進める
     while self.hintIdx < #hint do
@@ -648,6 +881,389 @@ function OnUpdate(self, dt)
         end
     end
 
+    -- ================================ v11: 継ぎ手の枠(gate) ================================
+    -- ★★【手前の枠の開口の中に、向こうの枠が見えている時だけ繋がる】。
+    --   どこへ出るかは通る前に見えている。同じ色の枠どうしだけが組。
+    do
+        local gates, prs = self.cfg.gates or {}, self.cfg.pairs or {}
+        local cam = ent("MainCamera")
+        local eye = cam and cam.transform.position or p
+        self.memNear, self.gBlock = 0, 0
+        for i = 1, #gates do self.gLink[i] = nil; self.gStr[i] = 0 end
+
+        -- ★線の上に立っている物があると繋がらない。見張りはこれを狙って動く
+        local function blocked(a, b)
+            for _, w in ipairs(self.cfg.watchers or {}) do
+                local e = ent(w.ent)
+                if e then
+                    local q = e.transform.position
+                    local dx, dz = b.x - a.x, b.z - a.z
+                    local L2 = dx * dx + dz * dz
+                    if L2 > 1e-4 then
+                        local u = ((q.x - a.x) * dx + (q.z - a.z) * dz) / L2
+                        if u > 0.02 and u < 0.98 then
+                            local px, pz = a.x + dx * u, a.z + dz * u
+                            if math.sqrt((q.x - px) ^ 2 + (q.z - pz) ^ 2) < 0.75 then return true end
+                        end
+                    end
+                end
+            end
+            return false
+        end
+
+        local function seeThrough(a, b)
+            local bx, bz = eye.x - b.x, eye.z - b.z
+            if bx * b.nx + bz * b.nz < 0.15 then return 0 end
+            local ax, az = eye.x - a.x, eye.z - a.z
+            local fa = ax * a.nx + az * a.nz
+            if fa < 0.30 then return 0 end
+            local da = math.sqrt(ax * ax + az * az)
+            local db = math.sqrt(bx * bx + bz * bz)
+            if db < da + 1.0 or da > 14.0 then return 0 end
+            local best = 0
+            for _, tt0 in ipairs({ 0.32, 0.55, 0.82 }) do
+                local by = b.y0 + b.hh * tt0
+                local dx, dy, dz = b.x - eye.x, by - eye.y, b.z - eye.z
+                local den = dx * a.nx + dz * a.nz
+                if math.abs(den) > 1e-4 then
+                    local tt = -fa / den
+                    if tt > 0.02 and tt < 1.0 then
+                        local px, py, pz = eye.x + dx * tt, eye.y + dy * tt, eye.z + dz * tt
+                        local lat = (px - a.x) * a.alx + (pz - a.z) * a.alz
+                        local u = math.abs(lat) / a.hw
+                        local v = math.abs((py - a.y0) - a.hh * 0.5) / (a.hh * 0.5)
+                        local m = math.max(u, v)
+                        if m < 1.0 and (1.0 - m) > best then best = 1.0 - m end
+                    end
+                end
+            end
+            return best
+        end
+
+        for _, pr in ipairs(prs) do
+            if (pr.needs == "") or self.plateDone[pr.needs] then
+                local cand = { { pr.a, pr.b } }
+                if pr.both == 1 then cand[2] = { pr.b, pr.a } end
+                for _, c in ipairs(cand) do
+                    local a, b = gates[c[1]], gates[c[2]]
+                    local sN = seeThrough(a, b)
+                    if sN > 0 and blocked(a, b) then self.gBlock = 1; sN = 0 end
+                    if sN > self.gStr[c[1]] then
+                        self.gStr[c[1]] = sN
+                        self.gLink[c[1]] = c[2]
+                    end
+                    if sN > self.gStr[c[2]] then self.gStr[c[2]] = sN * 0.85 end
+                end
+            end
+        end
+
+        -- ★一度繋いだ組は【繋がったまま】。これが無いと向こうで枠の裏に立って帰れない
+        for i = 1, #gates do
+            if self.bound[i] and not self.gLink[i] then
+                local g = gates[i]
+                if (g.needs == "") or self.plateDone[g.needs] then
+                    self.gLink[i] = self.bound[i]
+                    self.gStr[i] = math.max(self.gStr[i], 1.0)
+                end
+            end
+        end
+        -- ★重ねた事を 1.2 秒覚える(枠に寄ると自分が正面から外れて判定が切れるため)
+        for i = 1, #gates do
+            if self.gLink[i] then
+                self.gHold[i] = { to = self.gLink[i], t = 1.2, s = self.gStr[i] }
+            elseif self.gHold[i] then
+                self.gHold[i].t = self.gHold[i].t - dt
+                if self.gHold[i].t <= 0 then
+                    self.gHold[i] = nil
+                else
+                    self.gLink[i] = self.gHold[i].to
+                    self.gStr[i] = math.max(self.gStr[i], self.gHold[i].s * 0.9)
+                end
+            end
+        end
+
+        -- 膜と灯り。★色相 = 対の色。電源の無い枠は灰色の死んだ膜 + 消灯
+        for i, g in ipairs(gates) do
+            local live = (g.needs == "") or self.plateDone[g.needs]
+            local now = self.gShow[i] or 0
+            local e = ent(g.mem)
+            if e then
+                now = now + ((live and self.gStr[i] or 0) - now) * (1 - math.exp(-9.0 * dt))
+                self.gShow[i] = now
+                local hue = live and (g.hue or 0.53) or -1.0
+                pcall(function()
+                    scene:setMeshEffect(e, now)
+                    scene:setMeshParams(e, (i * 0.137) % 1.0, hue, 0.35, 0.0)
+                end)
+            end
+            local L = ent(g.light)
+            if L and L:light() then
+                local li = L:light()
+                if live then
+                    li.intensity = 2.2 + 3.4 * now + 0.5 * (0.55 + 0.45 * math.sin(t * 3.0 + i))
+                    li:setColor(g.cr or 0.6, g.cg or 0.76, g.cb or 0.95)
+                else
+                    li.intensity = 0.55
+                    li:setColor(0.55, 0.16, 0.14)
+                end
+            end
+            local dd = math.sqrt((p.x - g.x) ^ 2 + (p.z - g.z) ^ 2)
+            local nk = now * math.max(0, 1.0 - dd / 5.0)
+            if nk > self.memNear then self.memNear = nk end
+        end
+
+        -- ★繋がっている間、二つの枠の間に光の帯(壁を突き抜けて見える)
+        self.beamT = (self.beamT or 0) - dt
+        if self.beamT <= 0 then
+            self.beamT = 0.09
+            for i, g in ipairs(gates) do
+                if self.gLink[i] and (self.gStr[i] or 0) > 0.25 then
+                    local d = gates[self.gLink[i]]
+                    pcall(function()
+                        fx:beam{ x0 = g.x, y0 = g.y0 + g.hh * 0.55, z0 = g.z,
+                                 x1 = d.x, y1 = d.y0 + d.hh * 0.55, z1 = d.z,
+                                 width = 0.05 + 0.07 * self.gStr[i], kind = "energy",
+                                 r = g.cr or 0.6, g = g.cg or 0.8, b = g.cb or 1.0,
+                                 intensity = 1.6, life = 0.13 }
+                    end)
+                end
+            end
+        end
+
+        -- ---- くぐる。★正面からでも裏からでも通れる(一度繋いだ組なら) ----
+        if (self.gCool or 0) > 0 then self.gCool = self.gCool - dt end
+        if (self.placeT or 0) <= 0 and self.mode == "play" and (self.gCool or 0) <= 0 then
+            for i, g in ipairs(gates) do
+                local fwd = (p.x - g.x) * g.nx + (p.z - g.z) * g.nz
+                local lat = (p.x - g.x) * g.alx + (p.z - g.z) * g.alz
+                local foot = p.y - BODY_H * 0.5 * self.scale
+                local ins = math.abs(lat) <= g.hw + 0.05 and math.abs(foot - g.y0) < 2.2
+                local prev = self.gFwd[i]
+                local goIn  = (prev and prev > 0 and fwd <= 0)
+                local goOut = (prev and prev < 0 and fwd >= 0 and self.bound[i] ~= nil)
+                if ins and (goIn or goOut) and self.gLink[i] then
+                    local d = gates[self.gLink[i]]
+                    local dy = math.deg(atan2(d.nx, d.nz)) - math.deg(atan2(g.nx, g.nz))
+                    dy = (dy + 180) % 360 - 180
+                    local c, sn = math.cos(math.rad(dy)), math.sin(math.rad(dy))
+                    local rlx = g.alx * c + g.alz * sn
+                    local rlz = g.alz * c - g.alx * sn
+                    local side = goIn and -1.0 or 1.0
+                    local qx = d.x + d.nx * 1.05 * side + rlx * lat
+                    local qz = d.z + d.nz * 1.05 * side + rlz * lat
+                    useBody(self, self.scale, qx, qz, 0, d.y0)
+                    self.tpSeq = (self.tpSeq or 0) + 1
+                    local ny = (loadNum("camYaw", 0) + dy) % 360
+                    saveNum("tpYaw", ny); saveNum("tpPitch", loadNum("camPitch", 0))
+                    saveNum("tpSeq", self.tpSeq)
+                    self.checkpoint = { x = qx, z = qz, s = self.scale, yaw = ny, y0 = d.y0 }
+                    self.gFwd = {}
+                    self.gCool = 0.35
+                    self.warpT = 1.0
+                    self.warpSign = (i % 2 == 0) and 1 or -1
+                    self.crossed[g.id] = true
+                    self.bound[i] = self.gLink[i]
+                    self.bound[self.gLink[i]] = i
+                    sfx("connect", 0.72, 0.8)
+                    log(string.format("JUNCTION gate %s -> %s", g.id, d.id))
+                    break
+                end
+                self.gFwd[i] = ins and fwd or nil
+            end
+        end
+    end
+
+    -- ================================ v11: くぐった瞬間の演出 ================================
+    -- ★暗転しない。【膜そのものがカメラの前を通り過ぎる】。閉じた膜が顔を覆い、
+    --   そこから縫い目が裂けて向こう側が現れる。+ 画角の伸縮と視界のねじれ。
+    do
+        local w = self.warpT or 0
+        if w > 0.0005 then self.warpT = math.max(0, w - dt * 1.5) end
+        local k = self.warpT or 0
+        local e1 = k * k
+        local veil = ent("WarpVeil")
+        if veil then
+            if k > 0.001 then
+                local cam = ent("MainCamera")
+                local cp = cam and cam.transform.position or p
+                local yaw = math.rad(loadNum("camYaw", 0))
+                local fx0, fz0 = math.sin(yaw), math.cos(yaw)
+                local sc = 1.75
+                veil.transform.position = Vec3.new(cp.x + fx0 * 0.48, cp.y - 1.28 * sc + 0.02,
+                                                   cp.z + fz0 * 0.48)
+                veil.transform.rotation = Vec3.new(0, math.deg(yaw), 0)
+                veil.transform.scale = Vec3.new(sc, sc, sc)
+                pcall(function()
+                    scene:setMeshEffect(veil, math.max(0.0, math.min(1.0, (0.92 - k) * 1.45)))
+                    scene:setMeshParams(veil, 0.61, 0.9, 2.2, math.max(0.0, (k - 0.45) * 1.8))
+                end)
+            else
+                local q = veil.transform.position
+                if q.y > HIDE_Y + 50 then
+                    veil.transform.position = Vec3.new(q.x, HIDE_Y, q.z)
+                end
+            end
+        end
+        if e1 > 0.0005 or self.fxOn then
+            self.fxOn = (e1 > 0.0005)
+            pcall(function()
+                post.setMany{ bloomOn = true, bloom = 0.42 + 1.10 * e1,
+                              vignetteOn = true, vignette = 0.26 + 0.50 * e1,
+                              grainOn = true, grain = 0.045 + 0.26 * e1,
+                              exposure = 0.82 * (1.0 + 0.34 * e1) }
+            end)
+        end
+        self.warpFov  = 30.0 * math.sin(k * 3.14159)
+        self.warpRoll = (self.warpSign or 1) * 12.0 * math.sin(k * 3.14159) * k
+    end
+
+    -- ================================ v11: 重量板(plate) ================================
+    for _, pl in ipairs(self.cfg.plates or {}) do
+        if not self.plateDone[pl.id] then
+            for _, dp in ipairs(self.cfg.dynprops or {}) do
+                local e = ent(dp.ent)
+                if e then
+                    local q = e.transform.position
+                    if math.sqrt((q.x - pl.x) ^ 2 + (q.z - pl.z) ^ 2) < pl.r
+                       and math.abs(q.y - pl.y0) < 1.3 then
+                        self.plateDone[pl.id] = true
+                        local L = ent(pl.light)
+                        if L and L:light() then
+                            L:light():setColor(pl.cr or 0.3, pl.cg or 1.0, pl.cb or 0.5)
+                            L:light().intensity = 5.0
+                        end
+                        for _, gg in ipairs(self.cfg.gates or {}) do
+                            if gg.needs == pl.id then
+                                pcall(function()
+                                    fx:beam{ x0 = pl.x, y0 = pl.y0 + 0.3, z0 = pl.z,
+                                             x1 = gg.x, y1 = gg.y0 + gg.hh * 0.5, z1 = gg.z,
+                                             width = 0.16, kind = "energy",
+                                             r = gg.cr or 1, g = gg.cg or 1, b = gg.cb or 1,
+                                             intensity = 3.0, life = 1.1 }
+                                end)
+                            end
+                        end
+                        sfx("clear", 0.85, 0.7)
+                        fx:burst{ x = pl.x, y = pl.y0 + 0.3, z = pl.z, kind = "spark",
+                                  count = 40, size = 0.35, r = 0.4, g = 1.0, b = 0.6 }
+                        log("JUNCTION plate " .. pl.id .. " pressed")
+                        break
+                    end
+                end
+            end
+        end
+    end
+
+    -- ================================ v11: 歩くと傾く床 ================================
+    -- ★★ボタンは要らない。【歩いている間だけ】進む向きへ床が下がる。止まれば水平へ戻る。
+    --   歩いて玉を追えば床が前へ傾いて玉が逃げる = 玉を追い立てる感覚。
+    --   什器(ロッカー等)も床にくっついて一緒に上下する(KINEMATIC にしてある)。
+    for _, tl in ipairs(self.cfg.tilts or {}) do
+        local dx0, dz0 = p.x - tl.x, p.z - tl.z
+        local near = (dx0 * dx0 + dz0 * dz0) < 15.0 * 15.0
+        local mvx, mvz = loadNum("moveX", 0), loadNum("moveZ", 0)
+        local mv = (loadNum("moving", 0) > 0.5) and near
+        local yaw = math.rad(loadNum("camYaw", 0))
+        local gx, gz = math.sin(yaw), math.cos(yaw)
+        local L0 = math.sqrt(mvx * mvx + mvz * mvz)
+        local dxw, dzw = gx, gz
+        if L0 > 0.1 then
+            dxw, dzw = (mvx / L0) * 0.72 + gx * 0.28, (mvz / L0) * 0.72 + gz * 0.28
+            local L1 = math.sqrt(dxw * dxw + dzw * dzw)
+            if L1 > 1e-4 then dxw, dzw = dxw / L1, dzw / L1 end
+        end
+        tl._amt = (tl._amt or 0) + ((mv and 1.0 or 0.0) - (tl._amt or 0)) * (1 - math.exp(-3.4 * dt))
+        if tl._amt > 0.02 then tl._dx, tl._dz = dxw, dzw end
+        self.inTilt = near
+        local th = math.rad(tl.deg * (tl._amt or 0))
+        -- ★下り坂は【法線の水平成分の向き】。逆にすると玉が反対へ転がる
+        local wc = math.deg(math.asin(math.max(-0.6, math.min(0.6, -(tl._dx or 0) * math.sin(th)))))
+        local wa = math.deg(math.asin(math.max(-0.6, math.min(0.6, (tl._dz or 1) * math.sin(th)))))
+        tl._c = (tl._c or 0) + (wc - (tl._c or 0)) * (1 - math.exp(-4.0 * dt))
+        tl._a = (tl._a or 0) + (wa - (tl._a or 0)) * (1 - math.exp(-4.0 * dt))
+        local cc, sc2 = math.cos(math.rad(tl._c)), math.sin(math.rad(tl._c))
+        local ca2, sa2 = math.cos(math.rad(tl._a)), math.sin(math.rad(tl._a))
+        local function place3(nm, bx, by, bz)
+            local e = ent(nm)
+            if not e then return end
+            local x, y, z = bx - tl.x, by - tl.y, bz - tl.z
+            local X = x * cc - y * sc2
+            local Y = x * sc2 + y * cc
+            e.transform.position = Vec3.new(tl.x + X, tl.y + (Y * ca2 - z * sa2),
+                                            tl.z + (Y * sa2 + z * ca2))
+            e.transform.rotation = Vec3.new(tl._a, 0, tl._c)
+        end
+        for _, row in ipairs(tl.ents) do place3(row[1], row[2], row[3], row[4]) end
+        for _, nm in ipairs(tl.extra or {}) do
+            local b = self.tiltBase[nm]
+            if b then place3(nm, b[1], b[2], b[3]) end
+        end
+        -- ★★玉が床へ沈むのを直す。KINEMATIC を毎フレーム transform で置き直しているので
+        --   Jolt から見ると「速度ゼロの板が瞬間移動」= 押し戻しが効かずめり込む。
+        --   床は平面なので高さは式で出る。沈んだぶんだけ持ち上げる。
+        local nx, ny, nz = -sc2, cc * ca2, cc * sa2
+        if math.abs(ny) > 1e-3 then
+            for _, dp in ipairs(self.cfg.dynprops or {}) do
+                local e = ent(dp.ent)
+                if e then
+                    local q = e.transform.position
+                    local ddx, ddz = q.x - tl.x, q.z - tl.z
+                    if ddx * ddx + ddz * ddz < 14.0 * 14.0 then
+                        local surf = tl.y - (nx * ddx + nz * ddz) / ny
+                        if q.y < surf - 0.02 then
+                            local v = physics:getVelocity(e)
+                            -- ★ここも【コライダー中心】を渡す。足元を渡すと埋まる
+                            physics:setPosition(e, Vec3.new(q.x, surf + dp.off + 0.01, q.z))
+                            if v and v.y < 0 then physics:setVelocity(e, Vec3.new(v.x, 0, v.z)) end
+                        end
+                    end
+                end
+            end
+        end
+    end
+
+    -- ================================ v11: 見張り(watchers) ================================
+    -- ★視界に入っている間は 1mm も動かない。目を離すと枠と枠を結ぶ線の上へ寄ってくる。
+    --   34kg の剛体なので押しのけられる。
+    do
+        local yaw = math.rad(loadNum("camYaw", 0))
+        local fx0, fz0 = math.sin(yaw), math.cos(yaw)
+        for i, w in ipairs(self.cfg.watchers or {}) do
+            local st = self.watchS and self.watchS[i]
+            if st then
+                local dx, dz = st.x - p.x, st.z - p.z
+                local d = math.sqrt(dx * dx + dz * dz)
+                local seen = (d < w.rng) and ((dx * fx0 + dz * fz0) / math.max(0.01, d) > 0.34)
+                if (not seen) and d > w.near and d < w.rng then
+                    st.t = st.t + dt
+                    if st.t >= w.wait then
+                        st.t = 0
+                        local k = math.min(w.step, d - w.near) / d
+                        st.x, st.z = st.x - dx * k, st.z - dz * k
+                    end
+                else
+                    st.t = 0
+                end
+                place(w.ent, st.x, w.y, st.z,
+                      (w.turn == 1) and math.deg(atan2(p.x - st.x, p.z - st.z)) or nil)
+            end
+        end
+    end
+
+    -- ================================ v11: 視界の傾き(rolls) ================================
+    do
+        local want = 0
+        for _, q in ipairs(self.cfg.rolls or {}) do
+            if p.x >= q.x0 and p.x <= q.x1 and p.z >= q.z0 and p.z <= q.z1 then
+                local u = (((q.axis == "x") and p.x or p.z) - q.a) / (q.b - q.a)
+                u = math.max(0, math.min(1, u))
+                want = q.d0 + (q.d1 - q.d0) * u
+            end
+        end
+        self.rollNow = (self.rollNow or 0) + (want - (self.rollNow or 0)) * (1 - math.exp(-2.2 * dt))
+        saveNum("camRoll", self.rollNow + (self.warpRoll or 0))
+    end
+
     -- ======================= 角度固定(anchors) / ドリーズーム(dolly) =======================
     -- ★(1) 角度固定: 毎フレーム scale を【カメラからの距離に比例】させる。
     --   相似三角形なので投影サイズが数学的に不変 = 近づいても画面上の大きさが 1px も変わらない。
@@ -671,15 +1287,24 @@ function OnUpdate(self, dt)
     -- ★(3) ドリーズーム: 注視点の見かけの大きさを保ったまま FOV を動かすと、
     --   【自分は動いていないのに部屋だけが伸びる】。ヒッチコックのめまいショット。
     --   ★FOV は毎フレーム絶対値で書かないと翌フレームに戻る(エンジンの仕様)。
-    if self.cfg.dolly and #self.cfg.dolly > 0 then
+    do
         local want = self.fov0 or 74.0
-        for _, d in ipairs(self.cfg.dolly) do
+        -- ★v11: 歩く位置で画角を連続的に絞る帯。絞ると【近づいても大きくならない】ので、
+        --   36m の廊下を歩いても奥の壁がいつまでも同じ大きさ = 永遠に着かない。
+        for _, q in ipairs(self.cfg.fovramps or {}) do
+            if p.x >= q.x0 and p.x <= q.x1 and p.z >= q.z0 and p.z <= q.z1 then
+                local u = (((q.axis == "x") and p.x or p.z) - q.a) / (q.b - q.a)
+                u = math.max(0, math.min(1, u))
+                want = q.f0 + (q.f1 - q.f0) * u
+            end
+        end
+        for _, d in ipairs(self.cfg.dolly or {}) do
             local dx, dz = p.x - d.x, p.z - d.z
             if dx * dx + dz * dz < d.r * d.r then want = d.fov end
         end
         self.fovNow = (self.fovNow or want) + (want - (self.fovNow or want)) * (1 - math.exp(-2.6 * dt))
         local c = ent("MainCamera")
-        if c then c:setFov(self.fovNow) end
+        if c then c:setFov(self.fovNow + (self.warpFov or 0)) end
     end
 
     -- ================================ 運ぶ ================================
@@ -865,6 +1490,38 @@ function OnUpdate(self, dt)
     -- ================================ HUD ================================
     ui:rect(W * 0.5 - 4, H * 0.5 - 4, 8, 8, 0, 0, 0, 0.5, 4)
     ui:rect(W * 0.5 - 2, H * 0.5 - 2, 4, 4, 1, 1, 1, 0.95, 2)
+
+    -- ★v11: 重なり具合。文字は出さない。照準の真下の細い線 1 本だけ。
+    --   枠の正面に立つと出て、動くと伸び縮みする = 手探りで正しい立ち位置を探せる。
+    do
+        local gates = self.cfg.gates or {}
+        local best, bi = 0.0, nil
+        for i, g in ipairs(gates) do
+            local ax, az = p.x - g.x, p.z - g.z
+            local fa = ax * g.nx + az * g.nz
+            local lat = math.abs(ax * g.alx + az * g.alz)
+            local d = math.sqrt(ax * ax + az * az)
+            if fa > 0.2 and d < 9.0 and lat < g.hw + 2.6 then
+                local sc2 = (1.0 - d / 9.0) * (1.0 - math.min(1.0, lat / (g.hw + 2.6)))
+                if sc2 > best then best, bi = sc2, i end
+            end
+        end
+        if bi then
+            local g = gates[bi]
+            local live = (g.needs == "") or self.plateDone[g.needs]
+            local str = self.gStr[bi] or 0
+            local bw, bx, by = 96, W * 0.5 - 48, H * 0.5 + 26
+            if live then
+                ui:rect(bx, by, bw, 3, 0.10, 0.11, 0.13, 0.55, 2)
+                if str > 0.01 then
+                    ui:rect(bx, by, bw * math.min(1, str), 3,
+                            g.cr or 0.7, g.cg or 0.8, g.cb or 1.0, 0.95, 2)
+                end
+            else
+                ui:rect(bx, by, bw, 3, 0.42, 0.10, 0.09, 0.6, 2)
+            end
+        end
+    end
 
     local help = keyDown("H")
     local stuck = self.noAct > 12.0
