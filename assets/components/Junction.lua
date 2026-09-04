@@ -55,6 +55,17 @@ local STAGES = {
         },
         fovramps = {
         },
+        breakers = {
+        },
+        power = nil,
+        aligns = {
+        },
+        blinds = {
+        },
+        mirrors = {
+        },
+        turnts = {
+        },
         dynprops = { { ent = "A_crate_2", off = 0.375 } },
         anchors = {
         },
@@ -110,6 +121,17 @@ local STAGES = {
         },
         fovramps = {
         },
+        breakers = {
+        },
+        power = nil,
+        aligns = {
+        },
+        blinds = {
+        },
+        mirrors = {
+        },
+        turnts = {
+        },
         dynprops = {  },
         anchors = {
             { ent = "Anchor_0", x = -7.000, z = 18.000, k = 0.550, d0 = 14.000 },
@@ -138,9 +160,6 @@ local STAGES = {
         warps = {
         },
         morphs = {
-            { id = "m1", x = 0.000, z = -10.000, wx = 0.000, wz = 0.000, r = 15.00, delay = 1.2, light = { 0.93, 0.93, 1.00 }, light0 = { 0.98, 0.96, 0.88 },
-              room = "A", seal = {  }, unseal = {  },
-              rows = { { "MorphA_m1_0", 12.00, 0.00, 9.00, "A" }, { "MorphA_m1_1", -6.00, 0.00, 8.60, "A" }, { "MorphB_m1_0", -12.50, 0.00, 9.60, "B" }, { "MorphB_m1_1", 7.00, 0.00, 12.00, "B" } } },
         },
         plugs = {
         },
@@ -149,78 +168,111 @@ local STAGES = {
         links = {
         },
         watchers = {
-            { ent = "W1", x = -4.000, y = 0.000, z = -44.000, step = 1.40, near = 3.20, rng = 34.0, wait = 1.00, turn = 1 },
-            { ent = "W2", x = 3.000, y = 0.000, z = -43.000, step = 1.20, near = 3.60, rng = 34.0, wait = 1.30, turn = 1 },
-            { ent = "W3", x = 7.000, y = 0.000, z = -45.000, step = 1.10, near = 4.00, rng = 34.0, wait = 1.60, turn = 1 },
         },
         creeps = {
         },
         rolls = {
-            { axis = "x", a = -12.00, b = 14.00, d0 = 0.00, d1 = 8.00, x0 = -19.00, x1 = 19.00, z0 = -34.00, z1 = -23.00 },
         },
         gates = {
-            { id = "s1", ent = "Gate_s1", mem = "GateM_s1", light = "GateL_s1", x = 6.000, z = -15.500, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.620, cb = 0.180, hue = 0.090, needs = "" },
-            { id = "m1", ent = "Gate_m1", mem = "GateM_m1", light = "GateL_m1", x = 6.000, z = -10.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.620, cb = 0.180, hue = 0.090, needs = "" },
-            { id = "m2", ent = "Gate_m2", mem = "GateM_m2", light = "GateL_m2", x = 12.000, z = -10.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.240, cg = 0.820, cb = 1.000, hue = 0.530, needs = "" },
-            { id = "g1", ent = "Gate_g1", mem = "GateM_g1", light = "GateL_g1", x = 26.000, z = -10.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.240, cg = 0.820, cb = 1.000, hue = 0.530, needs = "" },
-            { id = "m3", ent = "Gate_m3", mem = "GateM_m3", light = "GateL_m3", x = 0.000, z = -9.500, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.380, cg = 0.520, cb = 1.000, hue = 0.620, needs = "p1" },
-            { id = "n1", ent = "Gate_n1", mem = "GateM_n1", light = "GateL_n1", x = 0.000, z = 12.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.380, cg = 0.520, cb = 1.000, hue = 0.620, needs = "p1" },
+            { id = "m2", ent = "Gate_m2", mem = "GateM_m2", light = "GateL_m2", x = 12.000, z = -12.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.240, cg = 0.820, cb = 1.000, hue = 0.530, needs = "" },
+            { id = "g1", ent = "Gate_g1", mem = "GateM_g1", light = "GateL_g1", x = 28.000, z = -12.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.240, cg = 0.820, cb = 1.000, hue = 0.530, needs = "" },
             { id = "m4", ent = "Gate_m4", mem = "GateM_m4", light = "GateL_m4", x = -12.000, z = -10.000, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.320, cg = 1.000, cb = 0.480, hue = 0.350, needs = "" },
-            { id = "d1", ent = "Gate_d1", mem = "GateM_d1", light = "GateL_d1", x = -26.000, z = -10.000, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.320, cg = 1.000, cb = 0.480, hue = 0.350, needs = "" },
-            { id = "s2", ent = "Gate_s2", mem = "GateM_s2", light = "GateL_s2", x = -14.000, z = -18.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.320, cb = 0.280, hue = 0.990, needs = "" },
-            { id = "b1", ent = "Gate_b1", mem = "GateM_b1", light = "GateL_b1", x = -14.000, z = -27.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.320, cb = 0.280, hue = 0.990, needs = "" },
-            { id = "b2", ent = "Gate_b2", mem = "GateM_b2", light = "GateL_b2", x = 0.000, z = -30.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.720, cg = 0.460, cb = 1.000, hue = 0.760, needs = "" },
-            { id = "h1", ent = "Gate_h1", mem = "GateM_h1", light = "GateL_h1", x = 0.000, z = -39.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.720, cg = 0.460, cb = 1.000, hue = 0.760, needs = "" },
+            { id = "d1", ent = "Gate_d1", mem = "GateM_d1", light = "GateL_d1", x = -28.000, z = -10.000, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.320, cg = 1.000, cb = 0.480, hue = 0.350, needs = "" },
+            { id = "m5", ent = "Gate_m5", mem = "GateM_m5", light = "GateL_m5", x = -8.000, z = -12.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.320, cb = 0.280, hue = 0.990, needs = "" },
+            { id = "b1", ent = "Gate_b1", mem = "GateM_b1", light = "GateL_b1", x = -8.000, z = -27.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.320, cb = 0.280, hue = 0.990, needs = "" },
+            { id = "g2", ent = "Gate_g2", mem = "GateM_g2", light = "GateL_g2", x = 36.000, z = -20.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.720, cg = 0.460, cb = 1.000, hue = 0.760, needs = "" },
+            { id = "h1", ent = "Gate_h1", mem = "GateM_h1", light = "GateL_h1", x = 36.000, z = -30.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.720, cg = 0.460, cb = 1.000, hue = 0.760, needs = "" },
+            { id = "d2", ent = "Gate_d2", mem = "GateM_d2", light = "GateL_d2", x = -46.000, z = -10.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.420, cb = 0.660, hue = 0.920, needs = "" },
+            { id = "n2", ent = "Gate_n2", mem = "GateM_n2", light = "GateL_n2", x = -46.000, z = -33.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.420, cb = 0.660, hue = 0.920, needs = "" },
+            { id = "t1", ent = "Gate_t1", mem = "GateM_t1", light = "GateL_t1", x = -37.000, z = -4.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.180, cg = 0.950, cb = 0.820, hue = 0.460, needs = "" },
+            { id = "t2", ent = "Gate_t2", mem = "GateM_t2", light = "GateL_t2", x = -37.000, z = -22.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.180, cg = 0.950, cb = 0.820, hue = 0.460, needs = "" },
+            { id = "m3", ent = "Gate_m3", mem = "GateM_m3", light = "GateL_m3", x = 8.000, z = -9.500, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.380, cg = 0.520, cb = 1.000, hue = 0.620, needs = "pw" },
+            { id = "n1", ent = "Gate_n1", mem = "GateM_n1", light = "GateL_n1", x = 8.000, z = 12.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.380, cg = 0.520, cb = 1.000, hue = 0.620, needs = "pw" },
         },
         pairs = {
             { a = 1, b = 2, both = 1, needs = "" },
             { a = 3, b = 4, both = 1, needs = "" },
-            { a = 5, b = 6, both = 1, needs = "p1" },
+            { a = 5, b = 6, both = 1, needs = "" },
             { a = 7, b = 8, both = 1, needs = "" },
             { a = 9, b = 10, both = 1, needs = "" },
             { a = 11, b = 12, both = 1, needs = "" },
+            { a = 13, b = 14, both = 1, needs = "pw" },
         },
         plates = {
-            { id = "p1", ent = "Plate_p1", light = "PlateL_p1", x = 32.000, z = -11.500, y0 = 0.00, r = 1.50, cr = 0.380, cg = 0.520, cb = 1.000 },
+            { id = "p1", ent = "Plate_p1", light = "PlateL_p1", x = 45.000, z = -3.000, y0 = 0.00, r = 1.30, pin = 1, cr = 1.000, cg = 0.450, cb = 0.200, watch = {  } },
+            { id = "p2", ent = "Plate_p2", light = "PlateL_p2", x = 27.000, z = -21.000, y0 = 0.00, r = 1.30, pin = 1, cr = 1.000, cg = 0.450, cb = 0.200, watch = {  } },
+            { id = "q1", ent = "Plate_q1", light = "PlateL_q1", x = -45.000, z = -50.000, y0 = 0.00, r = 1.45, pin = 0, cr = 1.000, cg = 0.450, cb = 0.200, watch = { "Mir_w1_b0" } },
+            { id = "q2", ent = "Plate_q2", light = "PlateL_q2", x = -29.000, z = -50.000, y0 = 0.00, r = 1.45, pin = 0, cr = 1.000, cg = 0.450, cb = 0.200, watch = { "Mir_w1_b1" } },
         },
         guide = {
-            { x = 6.00, z = -18.10, need = "cross:s1" },
-            { x = 9.00, z = -10.00, need = "cross:m2" },
-            { x = 32.00, z = -10.00, need = "plate:p1" },
-            { x = 27.60, z = -10.00, need = "cross:g1" },
-            { x = 0.00, z = -12.50, need = "cross:m3" },
-            { x = 0.00, z = 17.00, need = "" },
+            { x = 12.00, z = -12.00, need = "cross:m2" },
+            { x = 36.00, z = -1.00, need = "brk:k1" },
+            { x = 36.00, z = -20.00, need = "cross:g2" },
+            { x = 40.00, z = -44.60, need = "brk:k4" },
+            { x = -12.00, z = -10.00, need = "cross:m4" },
+            { x = -37.00, z = -2.00, need = "cross:t1" },
+            { x = -41.50, z = -23.60, need = "brk:k2" },
+            { x = -46.00, z = -8.00, need = "cross:d2" },
+            { x = -37.00, z = -31.00, need = "brk:k5" },
+            { x = -8.00, z = -12.00, need = "cross:m5" },
+            { x = -11.00, z = -29.00, need = "align:a1" },
+            { x = 13.00, z = -36.00, need = "brk:k3" },
+            { x = 8.00, z = -11.00, need = "cross:m3" },
+            { x = 0.00, z = 18.60, need = "" },
         },
         marks = {
-            { ent = "MarkL_s1", light = "MarkLi_s1", x = 6.000, z = -18.100, cr = 1.000, cg = 0.620, cb = 0.180 },
-            { ent = "MarkL_m2", light = "MarkLi_m2", x = 9.000, z = -10.000, cr = 0.240, cg = 0.820, cb = 1.000 },
-            { ent = "MarkL_m3", light = "MarkLi_m3", x = 0.000, z = -12.500, cr = 0.380, cg = 0.520, cb = 1.000 },
+            { ent = "MarkL_m2", light = "MarkLi_m2", x = 9.000, z = -12.000, cr = 0.240, cg = 0.820, cb = 1.000 },
+            { ent = "MarkL_m3", light = "MarkLi_m3", x = 8.000, z = -12.500, cr = 0.380, cg = 0.520, cb = 1.000 },
         },
         tilts = {
-            { x = 32.000, y = 0.000, z = -10.000, deg = 6.50, ents = { { "G_Floor", 32.000, -0.250, -10.000 }, { "G_FloorM", 32.000, 0.005, -10.000 }, { "G_TWall_0", 32.000, 0.275, -12.200 }, { "G_TWall_1", 29.700, 0.275, -11.000 }, { "G_TWall_2", 34.300, 0.275, -11.000 }, { "G_locker_1", 25.400, 0.000, -3.400 }, { "G_bench_2", 25.600, 0.000, -15.600 } }, extra = { "Plate_p1", "PlateL_p1" } },
+            { x = 36.000, y = 0.000, z = -12.000, deg = 6.50, ents = { { "G_Floor", 36.000, -0.250, -12.000 }, { "G_FloorM", 36.000, 0.005, -12.000 }, { "G_TWall_0", 31.000, 0.375, -10.000 }, { "G_TWall_1", 41.000, 0.375, -14.000 }, { "G_TWall_2", 39.000, 0.375, -4.000 }, { "G_TWall_3", 33.000, 0.375, -20.000 }, { "G_locker_2", 25.400, 0.000, -1.400 }, { "G_bench_3", 46.600, 0.000, -22.600 }, { "Gate_g1", 28.000, 0.000, -12.000 }, { "GateB_g1", 28.000, 0.050, -12.000 }, { "GateM_g1", 28.000, 0.020, -12.000 }, { "GateL_g1", 28.500, 2.236, -12.000 }, { "Gate_g2", 36.000, 0.000, -20.000 }, { "GateB_g2", 36.000, 0.050, -20.000 }, { "GateM_g2", 36.000, 0.020, -20.000 }, { "GateL_g2", 36.000, 2.236, -20.500 }, { "Plate_p1", 45.000, 0.000, -3.000 }, { "PlateL_p1", 45.000, 0.500, -3.000 }, { "Plate_p2", 27.000, 0.000, -21.000 }, { "PlateL_p2", 27.000, 0.500, -21.000 }, { "Brk_k1", 36.000, 0.000, -1.000 }, { "BrkL_k1", 36.000, 1.310, -0.980 }, { "BrkP_k1", 36.000, 0.860, -1.245 }, { "BrkGL_k1", 36.000, 1.500, -1.900 } }, extra = {  } },
         },
         fovramps = {
-            { axis = "x", a = -14.00, b = 14.00, f0 = 74.0, f1 = 46.0, x0 = -19.00, x1 = 19.00, z0 = -34.00, z1 = -23.00 },
+            { axis = "z", a = -10.00, b = 10.00, f0 = 74.0, f1 = 54.0, x0 = -17.00, x1 = 17.00, z0 = -48.00, z1 = -24.00 },
         },
-        dynprops = { { ent = "A_drum_2", off = 0.440 }, { ent = "A_drum_3", off = 0.440 }, { ent = "A_crate_7", off = 0.375 }, { ent = "A_drum_9", off = 0.440 }, { ent = "A_crate_10", off = 0.375 }, { ent = "A_drum_15", off = 0.440 }, { ent = "G_ball_0", off = 0.360 }, { ent = "D_drum_6", off = 0.440 }, { ent = "D_drum_7", off = 0.440 }, { ent = "D_crate_8", off = 0.375 }, { ent = "B_drum_6", off = 0.440 }, { ent = "B_crate_7", off = 0.375 }, { ent = "H_drum_6", off = 0.440 }, { ent = "H_crate_7", off = 0.375 } },
+        breakers = {
+            { id = "k1", ent = "Brk_k1", lever = "BrkL_k1", lamp = "BrkP_k1", light = "BrkGL_k1", x = 36.000, y = 0.000, z = -1.000, yaw = 180.0, cr = 0.240, cg = 0.820, cb = 1.000, needs = { "p1", "p2" } },
+            { id = "k2", ent = "Brk_k2", lever = "BrkL_k2", lamp = "BrkP_k2", light = "BrkGL_k2", x = -41.500, y = 0.000, z = -23.600, yaw = 0.0, cr = 0.320, cg = 1.000, cb = 0.480, needs = {  } },
+            { id = "k3", ent = "Brk_k3", lever = "BrkL_k3", lamp = "BrkP_k3", light = "BrkGL_k3", x = 13.000, y = 0.000, z = -36.000, yaw = 270.0, cr = 1.000, cg = 0.320, cb = 0.280, needs = {  } },
+            { id = "k4", ent = "Brk_k4", lever = "BrkL_k4", lamp = "BrkP_k4", light = "BrkGL_k4", x = 40.000, y = 0.000, z = -44.600, yaw = 180.0, cr = 0.720, cg = 0.460, cb = 1.000, needs = {  } },
+            { id = "k5", ent = "Brk_k5", lever = "BrkL_k5", lamp = "BrkP_k5", light = "BrkGL_k5", x = -37.000, y = 0.000, z = -31.000, yaw = 180.0, cr = 1.000, cg = 0.420, cb = 0.660, needs = { "q1", "q2" } },
+        },
+        power = { lamps = { "PwLamp1", "PwLamp2", "PwLamp3", "PwLamp4", "PwLamp5" }, light = "PwLight", x = -11.500, y = 0.000, z = 19.000, doors = { { ent = "ExitL", x = 1.995, y = 0.000, z = 19.600, dx = 4.085, dz = 0.000 }, { ent = "ExitR", x = -1.995, y = 0.000, z = 19.600, dx = -4.085, dz = -0.000 } } },
+        aligns = {
+            { id = "a1", ex = -11.000, ey = 1.700, ez = -29.000, tol = 3.00, hold = 0.50, bridge = "Bridge_a1", bx = 0.000, by = 0.020, bz = -36.000, segs = { { x0 = -9.800, x1 = -6.200, yb = 2.600, yt = 3.560, z = -33.200 }, { x0 = 0.200, x1 = 8.600, yb = 3.800, yt = 6.040, z = -38.800 }, { x0 = 0.900, x1 = 6.000, yb = 2.975, yt = 4.335, z = -34.950 } }, shards = { "Shard_a1_0", "Shard_a1_1", "Shard_a1_2" } },
+        },
+        blinds = {
+            { ent = "Blind_s0", x = 35.000, z = -33.000, yUp = -0.560, yDn = -4.760, cone = 34.0, rng = 27.0 },
+            { ent = "Blind_s1", x = 36.400, z = -34.800, yUp = -0.560, yDn = -4.760, cone = 34.0, rng = 27.0 },
+            { ent = "Blind_s2", x = 38.200, z = -36.200, yUp = -0.560, yDn = -4.760, cone = 34.0, rng = 27.0 },
+            { ent = "Blind_s3", x = 40.200, z = -37.400, yUp = -0.560, yDn = -4.760, cone = 34.0, rng = 27.0 },
+            { ent = "Blind_s4", x = 42.200, z = -38.600, yUp = -0.560, yDn = -4.760, cone = 34.0, rng = 27.0 },
+            { ent = "Blind_s5", x = 43.600, z = -40.400, yUp = -0.560, yDn = -4.760, cone = 34.0, rng = 27.0 },
+            { ent = "Blind_s6", x = 43.200, z = -42.600, yUp = -0.560, yDn = -4.760, cone = 34.0, rng = 27.0 },
+        },
+        mirrors = {
+            { id = "w1", axis = "z", c = -44.000, rows = { { a = "Mir_w1_a0", b = "Mir_w1_b0" }, { a = "Mir_w1_a1", b = "Mir_w1_b1" } }, mem = { "MirM_w1_0", "MirM_w1_1", "MirM_w1_2", "MirM_w1_3", "MirM_w1_4", "MirM_w1_5", "MirM_w1_6", "MirM_w1_7", "MirM_w1_8", "MirM_w1_9", "MirM_w1_10", "MirM_w1_11", "MirM_w1_12", "MirM_w1_13" } },
+        },
+        turnts = {
+            { id = "r1", ent = "Turn_r1", gate = 12, x = -37.000, y = 0.000, z = -22.000, k = -1.00, base = 48.0, r = 2.20 },
+        },
+        dynprops = { { ent = "A_drum_2", off = 0.440 }, { ent = "A_drum_3", off = 0.440 }, { ent = "A_crate_7", off = 0.375 }, { ent = "A_drum_9", off = 0.440 }, { ent = "A_crate_10", off = 0.375 }, { ent = "A_drum_15", off = 0.440 }, { ent = "G_ball_0", off = 0.360 }, { ent = "G_ball_1", off = 0.360 }, { ent = "D_drum_2", off = 0.440 }, { ent = "D_drum_3", off = 0.440 }, { ent = "D_crate_4", off = 0.375 }, { ent = "D_crate_7", off = 0.375 }, { ent = "B_drum_3", off = 0.440 }, { ent = "B_crate_4", off = 0.375 }, { ent = "H_drum_4", off = 0.440 }, { ent = "H_crate_5", off = 0.375 }, { ent = "M_crate_4", off = 0.375 }, { ent = "Mir_w1_a0", off = 0.440 }, { ent = "Mir_w1_a1", off = 0.440 } },
         anchors = {
-            { ent = "Anchor_0", x = 16.500, z = -28.500, k = 1.000, d0 = 31.000 },
         },
         dolly = {
-            { x = 0.000, z = -8.500, r = 5.00, fov = 54.0 },
         },
         carries = {
         },
         sizegates = {
         },
-        hint = { { 6.00, -18.10 } },
+        hint = { { 12.00, -12.00 } },
         startScale = 1.000,
         start = "A", goalRoom = "A",
-        spawn = { 6.0, -19.2, 0.0 }, teach = nil,
+        spawn = { 0.0, -18.0, 0.0 }, teach = nil,
         cine = {
-            { 11.00, 7.50, -18.00, 0.00, 2.20, 14.00, 3.00 },
-            { 6.00, 2.70, -18.60, 6.00, 2.50, 10.00, 1.80 },
-            { 6.00, 1.70, -19.20, 6.00, 1.70, -11.20, 1.40 },
+            { 14.00, 9.00, -18.50, -4.00, 3.40, 18.00, 3.20 },
+            { 0.00, 2.70, -18.60, 0.00, 2.60, 12.00, 1.80 },
+            { 0.00, 1.70, -18.00, 0.00, 1.70, -10.00, 1.40 },
         } },
     -- <<<STAGES
 }
@@ -437,6 +489,41 @@ local function resetRun(self)
     self.gi, self.memNear, self.gBlock = 1, 0, 0
     self.inTilt, self.fxOn = false, false
     self.plateDone = {}
+    -- ---- v12: 配電盤。継電器 5 台 -> 灯り 5 つ -> 出口の扉 ----
+    self.brkOn, self.brkA = {}, {}
+    self.alignDone, self.alignT, self.alignErr = {}, {}, {}
+    self.blindY, self.doorK, self.pinned = {}, 0, {}
+    -- ★動く剛体の「原点 -> コライダー中心」の高さ表。写しを置き直す時に要る。
+    --   physics:setPosition は【コライダーの中心】を指すので、原点をそのまま渡すと埋まる。
+    self.offOf = {}
+    for _, dp in ipairs(self.cfg.dynprops or {}) do self.offOf[dp.ent] = dp.off end
+    for _, bk in ipairs(self.cfg.breakers or {}) do
+        self.brkA[bk.id] = 0
+        local lv = ent(bk.lever)
+        if lv then lv.transform.rotation = Vec3.new(0, bk.yaw, 0) end
+        local lp = ent(bk.lamp)
+        if lp then pcall(function() scene:setColor(lp, 0.16, 0.17, 0.19) end) end
+        local L = ent(bk.light)
+        if L and L:light() then
+            L:light():setColor(0.55, 0.58, 0.62)
+            L:light().intensity = 0.8
+        end
+    end
+    for i, al in ipairs(self.cfg.aligns or {}) do
+        self.alignT[i] = 0
+        local e = ent(al.bridge)
+        if e then e.transform.position = Vec3.new(al.bx, al.by + HIDE_Y, al.bz) end
+    end
+    for i, bl in ipairs(self.cfg.blinds or {}) do
+        self.blindY[i] = bl.yUp
+        place(bl.ent, bl.x, bl.yUp, bl.z)
+    end
+    -- ★枠の【もとの向き】を覚える。回転台に載った枠はここから毎フレーム回す
+    for _, g in ipairs(self.cfg.gates or {}) do
+        g.bnx, g.bnz = g.bnx or g.nx, g.bnz or g.nz
+        g.nx, g.nz = g.bnx, g.bnz
+        g.alx, g.alz = -g.bnz, g.bnx
+    end
     for _, pl in ipairs(self.cfg.plates or {}) do
         local L = ent(pl.light)
         if L and L:light() then
@@ -581,6 +668,10 @@ local function pilot(self, t, p)
                 ok = (self.crossed or {})[st.need:sub(7)] == true
             elseif st.need:sub(1, 6) == "plate:" then
                 ok = (self.plateDone or {})[st.need:sub(7)] == true
+            elseif st.need:sub(1, 4) == "brk:" then
+                ok = (self.brkOn or {})[st.need:sub(5)] == true
+            elseif st.need:sub(1, 6) == "align:" then
+                ok = (self.alignDone or {})[st.need:sub(7)] == true
             end
             if ok then self.gi = self.gi + 1 else break end
         end
@@ -967,10 +1058,12 @@ function OnUpdate(self, dt)
                 end
             end
         end
-        -- ★重ねた事を 1.2 秒覚える(枠に寄ると自分が正面から外れて判定が切れるため)
+        -- ★重ねた事を 3 秒覚える(枠に寄ると自分が正面から外れて判定が切れるため)。
+        --   ★3 秒要る理由: 継の間の回転台は【横を向いた時だけ】繋がる。
+        --   繋げてから向き直って歩いてくぐるまでに 1.5〜2 秒かかるので、1.2 秒では届かない。
         for i = 1, #gates do
             if self.gLink[i] then
-                self.gHold[i] = { to = self.gLink[i], t = 1.2, s = self.gStr[i] }
+                self.gHold[i] = { to = self.gLink[i], t = 3.0, s = self.gStr[i] }
             elseif self.gHold[i] then
                 self.gHold[i].t = self.gHold[i].t - dt
                 if self.gHold[i].t <= 0 then
@@ -1120,13 +1213,23 @@ function OnUpdate(self, dt)
     -- ================================ v11: 重量板(plate) ================================
     for _, pl in ipairs(self.cfg.plates or {}) do
         if not self.plateDone[pl.id] then
-            for _, dp in ipairs(self.cfg.dynprops or {}) do
-                local e = ent(dp.ent)
+            -- ★見る物: 動く剛体ぜんぶ + この板が名指しした物(膜の向こうの写し等)
+            local look = {}
+            for _, dp in ipairs(self.cfg.dynprops or {}) do look[#look + 1] = dp.ent end
+            for _, nm in ipairs(pl.watch or {}) do look[#look + 1] = nm end
+            for _, nm2 in ipairs(look) do
+                local e = ent(nm2)
                 if e then
                     local q = e.transform.position
                     if math.sqrt((q.x - pl.x) ^ 2 + (q.z - pl.z) ^ 2) < pl.r
                        and math.abs(q.y - pl.y0) < 1.3 then
                         self.plateDone[pl.id] = true
+                        -- ★受け皿(pin)は玉をそこへ留める。留めないと、次の玉を運ぶ間の
+                        --   傾きで転がり出てしまい【二つ同時に入れる】が運任せになる
+                        if (pl.pin or 0) > 0 then
+                            self.pinned[nm2] = { x = pl.x, y = pl.y0 + (self.offOf[nm2] or 0.36) + 0.02,
+                                                 z = pl.z }
+                        end
                         local L = ent(pl.light)
                         if L and L:light() then
                             L:light():setColor(pl.cr or 0.3, pl.cg or 1.0, pl.cb or 0.5)
@@ -1150,6 +1253,283 @@ function OnUpdate(self, dt)
                         break
                     end
                 end
+            end
+        end
+    end
+
+    -- ================================ v12: 配電盤(5 つの継電器) ================================
+    -- ★出口の扉には電気が要る。5 つの部屋に 1 台ずつ継電器があり、その部屋の仕掛けを
+    --   解いてから【触る】と腕が倒れる。動詞が 1 つしか無いので説明が要らない。
+    do
+        local on = 0
+        local nb = #(self.cfg.breakers or {})
+        for _, bk in ipairs(self.cfg.breakers or {}) do
+            local ready = true
+            for _, need in ipairs(bk.needs or {}) do
+                if not self.plateDone[need] then ready = false end
+            end
+            if not self.brkOn[bk.id] then
+                local d = math.sqrt((p.x - bk.x) ^ 2 + (p.z - bk.z) ^ 2)
+                if ready and d < 2.3 and math.abs(p.y - bk.y) < 3.0 then
+                    self.brkOn[bk.id] = true
+                    sfx("connect", 0.95, 0.62)
+                    fx:burst{ x = bk.x, y = bk.y + 1.5, z = bk.z, kind = "spark",
+                              count = 60, size = 0.4, r = bk.cr, g = bk.cg, b = bk.cb }
+                    log("JUNCTION breaker " .. bk.id .. " ON")
+                end
+            end
+            if self.brkOn[bk.id] then on = on + 1 end
+            -- 腕。倒れる先は【筐体の正面】(yaw を掛けた +Z 方向)
+            local want = self.brkOn[bk.id] and 78.0 or (ready and 3.5 * math.sin(t * 3.0) or 0.0)
+            local a = self.brkA[bk.id] or 0
+            a = a + (want - a) * (1 - math.exp(-7.0 * dt))
+            self.brkA[bk.id] = a
+            local lv = ent(bk.lever)
+            if lv then lv.transform.rotation = Vec3.new(a, bk.yaw, 0) end
+            local lp = ent(bk.lamp)
+            if lp then
+                local k2 = self.brkOn[bk.id] and 1.0 or (ready and (0.45 + 0.35 * math.sin(t * 5.0)) or 0.0)
+                pcall(function()
+                    scene:setColor(lp, 0.16 + bk.cr * k2, 0.17 + bk.cg * k2, 0.19 + bk.cb * k2)
+                end)
+            end
+            local L = ent(bk.light)
+            if L and L:light() then
+                if self.brkOn[bk.id] then
+                    L:light():setColor(bk.cr, bk.cg, bk.cb)
+                    L:light().intensity = 4.6
+                elseif ready then
+                    L:light():setColor(bk.cr, bk.cg, bk.cb)
+                    L:light().intensity = 1.4 + 0.9 * math.sin(t * 5.0)
+                end
+            end
+        end
+        -- ★「5 つ揃った」は板と同じ扱いにする。こうすると青い枠の needs = "pw" が
+        --   既存の plateDone の仕組みだけで動く(枠側のコードを一行も足さなくていい)
+        self.plateDone["pw"] = (nb > 0 and on >= nb)
+        self.pwOn = on
+
+        local pw = self.cfg.power
+        if pw then
+            for i, nm in ipairs(pw.lamps or {}) do
+                local e = ent(nm)
+                if e then
+                    local lit = (i <= on)
+                    local f = lit and (0.85 + 0.15 * math.sin(t * 2.0 + i)) or 0.0
+                    pcall(function()
+                        scene:setColor(e, 0.13 + 0.30 * f, 0.14 + 1.05 * f, 0.16 + 0.55 * f)
+                    end)
+                end
+            end
+            local L = ent(pw.light)
+            if L and L:light() then
+                L:light():setColor(0.35 + 0.2 * on / math.max(1, nb), 0.55 + 0.45 * on / math.max(1, nb), 0.7)
+                L:light().intensity = 1.2 + 1.4 * on / math.max(1, nb)
+            end
+            -- 扉。5 つ揃うと左右へ開く
+            local want = self.plateDone["pw"] and 1.0 or 0.0
+            self.doorK = (self.doorK or 0) + (want - (self.doorK or 0)) * (1 - math.exp(-1.5 * dt))
+            for _, d in ipairs(pw.doors or {}) do
+                local e = ent(d.ent)
+                if e then
+                    e.transform.position = Vec3.new(d.x + d.dx * self.doorK, d.y,
+                                                    d.z + d.dz * self.doorK)
+                end
+            end
+        end
+    end
+
+    -- ================================ v12: 受け皿に入った玉を留める ================================
+    -- ★留めないと、二つ目を運んでいる間の傾きで一つ目が転がり出る = 運任せになる
+    for nm, q in pairs(self.pinned or {}) do
+        local e = ent(nm)
+        if e then
+            pcall(function()
+                physics:setVelocity(e, Vec3.new(0, 0, 0))
+                physics:setPosition(e, Vec3.new(q.x, q.y, q.z))
+            end)
+        end
+    end
+
+    -- ================================ v12: 三枚の欠片(アナモルフォーシス) ================================
+    -- ★天井から吊るした 3 枚は、【或る一点から見た時だけ】輪郭が繋がって 1 本のトラス橋になる。
+    --   欠片は目からの直線の上に、距離の倍率ぶんだけ縮めて吊ってある(gen_stages.py が計算)。
+    --   繋がった = 「隣り合う欠片の継ぎ目が、目から見て同じ方向にある」。
+    --   一歩ずれると角度がずれて、三枚はばらばらの板に戻る。
+    do
+        local ex, ey, ez = p.x, p.y + BODY_H * 0.5 * self.scale * 0.62, p.z
+        local cam = ent("MainCamera")
+        if cam then local q = cam.transform.position; ex, ey, ez = q.x, q.y, q.z end
+        local function ang(ax, ay, az, bx, by, bz)
+            local ux, uy, uz = ax - ex, ay - ey, az - ez
+            local vx, vy, vz = bx - ex, by - ey, bz - ez
+            local lu = math.sqrt(ux * ux + uy * uy + uz * uz)
+            local lv = math.sqrt(vx * vx + vy * vy + vz * vz)
+            if lu < 1e-4 or lv < 1e-4 then return 180.0 end
+            local c = (ux * vx + uy * vy + uz * vz) / (lu * lv)
+            return math.deg(math.acos(math.max(-1, math.min(1, c))))
+        end
+        for i, al in ipairs(self.cfg.aligns or {}) do
+            if not self.alignDone[al.id] then
+                local d0 = math.sqrt((ex - al.ex) ^ 2 + (ez - al.ez) ^ 2)
+                local err = 99.0
+                if d0 < 26.0 and #al.segs > 1 then
+                    err = 0.0
+                    for j = 1, #al.segs - 1 do
+                        local A, B = al.segs[j], al.segs[j + 1]
+                        err = err + ang(A.x1, A.yt, A.z, B.x0, B.yt, B.z)
+                        err = err + ang(A.x1, A.yb, A.z, B.x0, B.yb, B.z)
+                    end
+                    err = err / (2 * (#al.segs - 1))
+                end
+                self.alignErr[i] = err
+                if err < al.tol then
+                    self.alignT[i] = (self.alignT[i] or 0) + dt
+                else
+                    self.alignT[i] = math.max(0, (self.alignT[i] or 0) - dt * 1.6)
+                end
+                -- ★近づいてくると欠片が色づく + 唸る。文字を出さずに「今それだ」を言う唯一の手段。
+                --   ここが無いと、正解の立ち位置は 34m の部屋のどこにでもある点になってしまう。
+                local k2 = math.max(0.0, 1.0 - err / (al.tol * 6.0))
+                for _, nm in ipairs(al.shards or {}) do
+                    local e = ent(nm)
+                    if e then
+                        pcall(function()
+                            scene:setColor(e, 0.62 + 0.55 * k2 * k2, 0.62 + 0.28 * k2 * k2,
+                                           0.62 - 0.30 * k2 * k2)
+                        end)
+                    end
+                end
+                if err < al.tol * 3.0 and (self.alignSfx or 0) <= 0 then
+                    self.alignSfx = 0.38 - 0.24 * k2
+                    sfx("connect", 0.22 + 0.5 * k2, 0.5 + 0.9 * k2)
+                end
+                if (self.alignT[i] or 0) >= al.hold then
+                    self.alignDone[al.id] = true
+                    self.alignDrop = self.alignDrop or {}
+                    self.alignDrop[al.id] = 1.0          -- 上から降りてくる
+                    sfx("clear", 1.0, 0.55)
+                    for j = 1, #al.segs do
+                        local A = al.segs[j]
+                        fx:burst{ x = (A.x0 + A.x1) * 0.5, y = (A.yb + A.yt) * 0.5, z = A.z,
+                                  kind = "spark", count = 45, size = 0.4,
+                                  r = 1.0, g = 0.86, b = 0.42 }
+                    end
+                    log("JUNCTION align " .. al.id .. " locked")
+                end
+            end
+        end
+        self.alignSfx = (self.alignSfx or 0) - dt
+        -- 降下。幻の桁の高さから、渡れる高さへ落ちてくる
+        for _, al in ipairs(self.cfg.aligns or {}) do
+            local k3 = (self.alignDrop or {})[al.id]
+            if k3 then
+                k3 = math.max(0.0, k3 - dt * 0.9)
+                self.alignDrop[al.id] = k3
+                local e = ent(al.bridge)
+                if e then
+                    e.transform.position = Vec3.new(al.bx, al.by + 5.4 * k3 * k3, al.bz)
+                end
+                if k3 <= 0 then self.alignDrop[al.id] = nil end
+            end
+        end
+    end
+
+    -- ================================ v12: 見ていない時だけ在る段板 ================================
+    -- ★視界の【真ん中】に入れると沈む。目の端に置いたままなら迫り上がる。
+    --   だから道を正面から見ずに、横目に入れたまま横歩きで渡ることになる。
+    --   立っている板だけは沈めない(足元が消えるのは理不尽なので)。
+    do
+        local yawc = math.rad(loadNum("camYaw", 0))
+        local fx0, fz0 = math.sin(yawc), math.cos(yawc)
+        for i, bl in ipairs(self.cfg.blinds or {}) do
+            local dx, dz = bl.x - p.x, bl.z - p.z
+            local d = math.sqrt(dx * dx + dz * dz)
+            local seen = false
+            if d > 0.001 and d < bl.rng then
+                seen = ((dx * fx0 + dz * fz0) / d) > math.cos(math.rad(bl.cone))
+            end
+            if d < 2.1 then seen = false end                  -- 足元は消さない
+            local tgt = seen and bl.yDn or bl.yUp
+            local tau = seen and 0.9 or 0.55                  -- 沈むのは少しゆっくり
+            local y = self.blindY[i] or bl.yUp
+            y = y + (tgt - y) * (1 - math.exp(-dt / tau))
+            self.blindY[i] = y
+            place(bl.ent, bl.x, y, bl.z)
+        end
+    end
+
+    -- ================================ v12: 膜の向こうの写し ================================
+    -- ★こちらで押した物が、向こうで【鏡の位置】へ動く。南北が逆になるので
+    --   「板へ寄せたい向き」と「押す向き」が食い違う。ここが頭のねじれ。
+    for _, mi in ipairs(self.cfg.mirrors or {}) do
+        local near = 0.0
+        for _, row in ipairs(mi.rows or {}) do
+            local ea, eb = ent(row.a), ent(row.b)
+            if ea and eb then
+                local q = ea.transform.position
+                local bx, bz = q.x, q.z
+                if mi.axis == "z" then bz = 2.0 * mi.c - q.z else bx = 2.0 * mi.c - q.x end
+                -- ★写しは KINEMATIC。KINEMATIC は【transform を書く】のが正しい道。
+                --   physics:setPosition(= body を直に置く)は動的剛体にしか効かず、
+                --   書いても次のフレームに transform から上書きされて戻る(実測)。
+                --   transform 経由ならコライダーのオフセットはエンジンが足すので不要。
+                eb.transform.position = Vec3.new(bx, q.y, bz)
+                local r = ea.transform.rotation
+                eb.transform.rotation = Vec3.new(-r.x, -r.y, r.z)
+                for _, pl in ipairs(self.cfg.plates or {}) do
+                    for _, nm in ipairs(pl.watch or {}) do
+                        if nm == row.b then
+                            local dd = math.sqrt((bx - pl.x) ^ 2 + (bz - pl.z) ^ 2)
+                            near = math.max(near, math.max(0.0, 1.0 - dd / 9.0))
+                        end
+                    end
+                end
+            end
+        end
+        for _, nm in ipairs(mi.mem or {}) do
+            local e = ent(nm)
+            if e then
+                pcall(function()
+                    scene:setMeshEffect(e, 0.16 + 0.70 * near)
+                    scene:setMeshParams(e, 0.5, 0.46, 0.30 + 1.5 * near, 0.0)
+                end)
+            end
+        end
+    end
+
+    -- ================================ v12: 首を振ると回る枠(回転台) ================================
+    -- ★奥の枠は回転台に載っていて、こちらが首を振ると【逆向きに】回る。
+    --   枠が自分の方を向いていて、かつ手前の枠の開口の中に見える角度は【正面ではない】。
+    --   横を向いたまま、横歩きでくぐることになる。
+    for _, tn in ipairs(self.cfg.turnts or {}) do
+        local g = (self.cfg.gates or {})[tn.gate]
+        if g then
+            local a = math.rad(tn.base + tn.k * loadNum("camYaw", 0))
+            local c, s2 = math.cos(a), math.sin(a)
+            g.nx = (g.bnx or 0) * c + (g.bnz or 1) * s2
+            g.nz = -(g.bnx or 0) * s2 + (g.bnz or 1) * c
+            g.alx, g.alz = -g.nz, g.nx
+            local yaw2 = math.deg(atan2(g.nx, g.nz))
+            for _, nm in ipairs({ tn.ent, g.ent, g.mem, "GateB_" .. g.id }) do
+                local e = ent(nm)
+                if e then e.transform.rotation = Vec3.new(0, yaw2, 0) end
+            end
+            -- 枠の柱(見えない当たり判定)も一緒に回す
+            for s3 = 0, 1 do
+                local e3 = ent(string.format("GateJ_%s_%d", g.id, s3))
+                local sg = (s3 == 1) and 1.0 or -1.0
+                if e3 then
+                    local q = e3.transform.position
+                    e3.transform.position = Vec3.new(g.x + g.alx * sg * (g.hw + 0.16 * g.size), q.y,
+                                                     g.z + g.alz * sg * (g.hw + 0.16 * g.size))
+                    e3.transform.rotation = Vec3.new(0, yaw2, 0)
+                end
+            end
+            local Lg = ent(g.light)
+            if Lg then
+                Lg.transform.position = Vec3.new(g.x - g.nx * 0.5, g.y0 + g.hh * 0.86,
+                                                 g.z - g.nz * 0.5)
             end
         end
     end
@@ -1191,7 +1571,12 @@ function OnUpdate(self, dt)
             local Y = x * sc2 + y * cc
             e.transform.position = Vec3.new(tl.x + X, tl.y + (Y * ca2 - z * sa2),
                                             tl.z + (Y * sa2 + z * ca2))
-            e.transform.rotation = Vec3.new(tl._a, 0, tl._c)
+            -- ★継電器の腕だけは向きを床に任せない。床と一緒に上下はするが、
+            --   倒れた角度(rotation.x)を毎フレーム 0 に戻されると【入ったのに戻る】。
+            --   実測: 傾く部屋の継電器が入っているのに腕が立ったままだった。
+            if nm:sub(1, 5) ~= "BrkL_" then
+                e.transform.rotation = Vec3.new(tl._a, 0, tl._c)
+            end
         end
         for _, row in ipairs(tl.ents) do place3(row[1], row[2], row[3], row[4]) end
         for _, nm in ipairs(tl.extra or {}) do

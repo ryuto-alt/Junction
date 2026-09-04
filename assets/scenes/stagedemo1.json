@@ -4734,6 +4734,27 @@
     },
     {
       "guid": "782e7197a9236a0c",
+      "name": "[v12]",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "2ee67d1bbb6f3d10",
       "name": "GoalM",
       "transform": {
         "position": [
@@ -4758,7 +4779,7 @@
       }
     },
     {
-      "guid": "2ee67d1bbb6f3d10",
+      "guid": "1927d2037d200969",
       "name": "Goal",
       "transform": {
         "position": [
@@ -4780,7 +4801,7 @@
       "parentGuid": "7743dc8ac80a99d1"
     },
     {
-      "guid": "1927d2037d200969",
+      "guid": "e8b99130000decc9",
       "name": "GoalLightF",
       "transform": {
         "position": [
@@ -4812,7 +4833,7 @@
       }
     },
     {
-      "guid": "e8b99130000decc9",
+      "guid": "d8a236e9494bee15",
       "name": "GoalLightB",
       "transform": {
         "position": [
@@ -4844,7 +4865,7 @@
       }
     },
     {
-      "guid": "d8a236e9494bee15",
+      "guid": "cebab1bf8a036d9a",
       "name": "GoalFx",
       "transform": {
         "position": [
@@ -4900,7 +4921,7 @@
       }
     },
     {
-      "guid": "cebab1bf8a036d9a",
+      "guid": "fff64f645f73db56",
       "name": "Pilot",
       "transform": {
         "position": [
@@ -4932,7 +4953,7 @@
       }
     },
     {
-      "guid": "fff64f645f73db56",
+      "guid": "9190fe136bbbfd1f",
       "name": "PilotLight",
       "transform": {
         "position": [
@@ -4964,7 +4985,7 @@
       }
     },
     {
-      "guid": "9190fe136bbbfd1f",
+      "guid": "f81ab60187738b35",
       "name": "Body_0",
       "transform": {
         "position": [
@@ -4999,7 +5020,7 @@
       }
     },
     {
-      "guid": "f81ab60187738b35",
+      "guid": "6178b262ed15396b",
       "name": "Body_1",
       "transform": {
         "position": [
@@ -5034,7 +5055,7 @@
       }
     },
     {
-      "guid": "6178b262ed15396b",
+      "guid": "05e2fae4a5007e6d",
       "name": "Body_2",
       "transform": {
         "position": [
@@ -5069,7 +5090,7 @@
       }
     },
     {
-      "guid": "05e2fae4a5007e6d",
+      "guid": "5999d68ba9e63490",
       "name": "Body_3",
       "transform": {
         "position": [
@@ -5104,7 +5125,7 @@
       }
     },
     {
-      "guid": "5999d68ba9e63490",
+      "guid": "02b5260dce5d0f72",
       "name": "Body_4",
       "transform": {
         "position": [
@@ -5139,7 +5160,7 @@
       }
     },
     {
-      "guid": "02b5260dce5d0f72",
+      "guid": "887146d6571afb51",
       "name": "MainCamera",
       "camera": {
         "farClip": 300.0,
@@ -5172,7 +5193,7 @@
       }
     },
     {
-      "guid": "887146d6571afb51",
+      "guid": "334a08452334ddad",
       "name": "Logic_Demo_1",
       "transform": {
         "position": [

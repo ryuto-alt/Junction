@@ -31,7 +31,10 @@ MANIFEST = os.path.join(MODELS, "gen", "manifest.json")
 _TRIM = ("column", "doorleaf", "eave", "seam", "divider", "blocker", "barrier", "railing", "fence")
 _PROPS = ("bench", "locker", "crate", "vent", "pipes", "troffer", "rack", "drum", "sign")
 _GAME = ("goal", "pin", "band", "lane", "figure", "hand", "joint", "jframe",
-         "membrane", "ball", "plate")
+         "membrane", "ball", "plate",
+         # v12: 5 つの継電器で出口の扉に電気を通す
+         "breaker", "lever", "busboard", "lamp", "blast", "socket",
+         "walkway", "shard", "turn", "stepblk", "cable")
 
 
 def dest_of(name):
@@ -135,10 +138,24 @@ SHAPES = {
                     lights=[(x, z) for z in (-5.0, 5.0) for x in (-7.5, 0.0, 7.5)], lrange=16.0),
     "tilt16": dict(ix=16.0, iz=16.0, h=6.0, tag="16", floor=None, ceil=None, mf=True,
                    lights=[(x, z) for z in (-5.0, 5.0) for x in (-5.0, 5.0)], lrange=18.0),
+    # ---------------- v12「配電盤」の 5 部屋 ----------------
+    # ★傾の間。24m 角。7 度傾けると隅は 1.5m 上下する = 部屋ごと持ち上がるのが分かる大きさ
+    "tilt24": dict(ix=24.0, iz=24.0, h=7.0, tag="24", floor=None, ceil=None, mf=True,
+                   lights=[(x, z) for z in (-7.5, 0.0, 7.5) for x in (-7.5, 0.0, 7.5)],
+                   lrange=22.0),
+    # ★画角の間。34 x 24。溝の【横】に立って見渡せる奥行きが要る(廊下だと欠片が重ならない)
+    "hall34": dict(ix=34.0, iz=24.0, h=8.0, tag="34", floor=None, ceil=None, mf=True,
+                   lights=[(x, z) for z in (-8.0, 0.0, 8.0) for x in (-12.0, -4.0, 4.0, 12.0)],
+                   lrange=24.0),
+    # ★見の間。30 x 18。暗い倉庫
+    "store30": dict(ix=30.0, iz=18.0, h=6.0, tag="30", floor=None, ceil=None, mf=True,
+                    lights=[(x, z) for z in (-6.0, 6.0) for x in (-11.0, 0.0, 11.0)],
+                    lrange=17.0),
 }
 WALLTAG = {"box12": ("", ""), "hall20": ("20", "20"), "corr18": ("18", "8"), "corr12": ("", ""),
            "atrium40": ("40", "40"), "hall26": ("26", "26"), "corr36": ("36", "9"),
-           "corr30": ("9", "30"), "store22": ("22", "16"), "tilt16": ("16", "16")}
+           "corr30": ("9", "30"), "store22": ("22", "16"), "tilt16": ("16", "16"),
+           "tilt24": ("24", "24"), "hall34": ("34", "24"), "store30": ("30", "18")}
 
 C_WALL = [0.62, 0.60, 0.55]
 C_FLOOR = [0.24, 0.20, 0.12]
@@ -389,6 +406,12 @@ class World:
         self._tiltprops = []
         self.marks = []        # v11.1: 立ち位置の印
         self.fovramps = []     # v11: 歩く位置で画角を変える帯
+        self.breakers = []     # v12: 継電器
+        self.power = None      # v12: 配電盤と出口の扉
+        self.aligns = []       # v12: 三枚の欠片が繋がると現れる橋
+        self.blinds = []       # v12: 見ていない時だけ在る段板
+        self.mirrors = []      # v12: 膜の向こうで対に動く物
+        self.turnts = []       # v12: 首を振ると回る枠
         self.noleaf = set()    # v10: 扉板を立てない口(継ぎ手と別棟の入口)
 
     # ---- 口。off は部屋の【単位】座標(縮尺前)。世界では off*k ----
@@ -823,10 +846,13 @@ class World:
         z = r["at"][1] + sp["at"][1] * k
         fy = floor_y(r)
         g = group(self.ents, "Plate %s" % pid, self.g_seams)
-        self.ents.append(model("Plate_%s" % pid, mdl("plate"), (x, fy, z), 0.0, g))
+        # ★受け皿(socket)は当たり判定を持たない。付けると玉が縁で弾かれて絶対に入らない
+        self.ents.append(model("Plate_%s" % pid, mdl(sp.get("model") or "plate"), (x, fy, z), 0.0, g))
         self.ents.append(plight("PlateL_%s" % pid, (x, fy + 0.5, z), (1.0, 0.45, 0.2), 2.6, 4.6, g))
         self.plates.append(dict(id=pid, ent="Plate_%s" % pid, light="PlateL_%s" % pid,
                                 x=x, z=z, y0=fy, r=sp.get("r", 1.05), room=sp["room"],
+                                ents=list(sp.get("ents") or ()),
+                                pin=1 if sp.get("model") == "socket" else 0,
                                 rgb=(1.0, 0.45, 0.2)))
 
     # ================================ v10: エイムズの部屋 ================================
@@ -995,6 +1021,287 @@ class World:
             self.fovramps.append(dict(axis=q.get("axis", "z"), a=q["a"], b=q["b"],
                                       f0=q["f0"], f1=q["f1"], x0=q["zone"][0], x1=q["zone"][1],
                                       z0=q["zone"][2], z1=q["zone"][3]))
+
+    # ================================ v12: 配電盤 ================================
+    def v12(self):
+        """★出口の扉に電気を通す仕掛け一式。部屋ごとの謎はここでは組まない
+        (床・壁・什器は build_room が組む)。ここが作るのは【電気の筋】だけ:
+          継電器 5 台 → 配電盤の灯り 5 つ → 出口の扉。
+        それと、部屋ごとの仕掛けに要る実体(欠片・段板・膜・回転台・橋)。"""
+        st = self.st
+        ents = self.ents
+        g0 = group(ents, "[v12]")
+
+        def W2(rid, at, dy=0.0):
+            """部屋の単位座標 -> 世界座標(x, y, z)。"""
+            r = self.rooms[rid]
+            k = r["scale"]
+            return (r["at"][0] + at[0] * k, floor_y(r) + dy, r["at"][1] + at[1] * k)
+
+        # ---------------- 継電器 ----------------
+        # ★腕(lever)は別エンティティ。Lua が rotation.x を 0 -> 78 度にして倒す。
+        #   倒れた瞬間に灯りが色を持つ = 「電気が入った」が文字なしで分かる。
+        for b in st.get("breakers", ()):
+            bid = b["id"]
+            x, y, z = W2(b["room"], b["at"])
+            yaw = b.get("yaw", 180.0)
+            g = group(ents, "Breaker %s" % bid, g0)
+            e = model("Brk_%s" % bid, mdl("breaker"), (x, y, z), yaw, g)
+            prop_body(e, PROPS["breaker"])
+            ents.append(e)
+            # 腕の軸は筐体の上(高さ 1.31)。yaw ぶん回した先に置く
+            a = math.radians(yaw)
+            fx, fz = math.sin(a), math.cos(a)
+            ents.append(model("BrkL_%s" % bid, mdl("lever"),
+                              (x - fx * 0.02, y + 1.31, z - fz * 0.02), yaw, g))
+            ents.append(model("BrkP_%s" % bid, mdl("lamp"),
+                              (x + fx * 0.245, y + 0.86, z + fz * 0.245), yaw, g))
+            ents.append(plight("BrkGL_%s" % bid, (x + fx * 0.9, y + 1.5, z + fz * 0.9),
+                               (0.55, 0.58, 0.62), 0.9, 5.0, g))
+            self.breakers.append(dict(id=bid, ent="Brk_%s" % bid, lever="BrkL_%s" % bid,
+                                      lamp="BrkP_%s" % bid, light="BrkGL_%s" % bid,
+                                      x=x, y=y, z=z, yaw=yaw, needs=list(b.get("needs", ())),
+                                      rgb=PAIRCOL[b.get("col", "cyan")]))
+
+        # ---------------- 配電盤 + 出口の扉 ----------------
+        pw = st.get("power")
+        if pw:
+            x, y, z = W2(pw["room"], pw["at"])
+            yaw = pw.get("yaw", 180.0)
+            a = math.radians(yaw)
+            fx, fz = math.sin(a), math.cos(a)          # 盤の正面(+Z を yaw 回した向き)
+            rx, rz = math.cos(a), -math.sin(a)         # 盤の右(+X を yaw 回した向き)
+            g = group(ents, "Power", g0)
+            bs = pw.get("bs", 1.0)
+            e = model("BusBoard", mdl("busboard"), (x, y, z), yaw, g, (bs, bs, bs))
+            prop_body(e, PROPS["busboard"], bs)
+            ents.append(e)
+            lamps = []
+            for i in range(5):
+                lx2 = (-1.6 + i * 0.8) * bs
+                px = x + rx * lx2 + fx * 0.36 * bs
+                pz = z + rz * lx2 + fz * 0.36 * bs
+                nm = "PwLamp%d" % (i + 1)
+                ents.append(model(nm, mdl("lamp"), (px, y + 1.86 * bs, pz), yaw, g,
+                                  (1.55 * bs, 1.55 * bs, bs)))
+                lamps.append(nm)
+            ents.append(plight("PwLight", (x + fx * 1.6 * bs, y + 2.2 * bs, z + fz * 1.6 * bs),
+                               (0.6, 0.66, 0.78), 1.5, 9.0 * bs, g))
+            # 出口の扉。2 枚を左右へ滑らせて開ける
+            doors = []
+            if pw.get("door"):
+                dx, dy, dz = W2(pw["room"], pw["door"][:2])
+                dyaw = pw["door"][2] if len(pw["door"]) > 2 else 180.0
+                da = math.radians(dyaw)
+                drx, drz = math.cos(da), -math.sin(da)
+                ds = pw.get("ds", 1.0)
+                for s2, tag in ((-1, "L"), (1, "R")):
+                    nm = "Exit%s" % tag
+                    e2 = model(nm, mdl("blast"),
+                               (dx + drx * s2 * 1.05 * ds, dy, dz + drz * s2 * 1.05 * ds),
+                               dyaw, g, (ds, ds, ds))
+                    # ★halfExtents は Transform.scale が掛かるのでモデル寸法のまま書く
+                    e2["boxCollider"] = {"halfExtents": [1.05, 2.30, 0.18],
+                                         "offset": [0.0, 2.30 * ds, 0.0]}
+                    e2["rigidBody"] = {"angularDamping": 0.01, "continuousCollision": False,
+                                       "friction": 0.6, "linearDamping": 0.02, "mass": 1.0,
+                                       "motionType": 1, "restitution": 0.0, "useGravity": False}
+                    ents.append(e2)
+                    doors.append(dict(ent=nm, x=dx + drx * s2 * 1.05 * ds, y=dy,
+                                      z=dz + drz * s2 * 1.05 * ds,
+                                      dx=drx * s2 * 2.15 * ds, dz=drz * s2 * 2.15 * ds))
+            self.power = dict(lamps=lamps, light="PwLight", doors=doors,
+                              x=x, y=y, z=z)
+
+        # ---------------- アナモルフォーシス(欠片と、現れる橋) ----------------
+        # ★仕掛けの肝: 欠片は【目からの直線の上】に、距離の倍率ぶんだけ縮めて吊る。
+        #   目 E から見ると幻の桁と 1 画素も違わないが、一歩ずれると三枚がばらける。
+        for al in st.get("aligns", ()):
+            aid = al["id"]
+            rid = al["room"]
+            r = self.rooms[rid]
+            k = r["scale"]
+            ex, ey, ez = W2(rid, al["eye"], EYE_H)
+            bx0, bx1, by, bhh, bz = al["beam"]
+            g = group(ents, "Align %s" % aid, g0)
+            segs = []
+            for j, (cx0, cx1, sc) in enumerate(al["cuts"]):
+                # 幻の桁の上の 4 隅 -> 目から sc 倍の距離へ
+                def P(u, v):
+                    wx, wy, wz = W2(rid, (u, bz), by + v * bhh)
+                    return (ex + (wx - ex) * sc, ey + (wy - ey) * sc, ez + (wz - ez) * sc)
+                lo, hi = P(cx0, -1.0), P(cx1, 1.0)
+                cx = (lo[0] + hi[0]) * 0.5
+                cy = (lo[1] + hi[1]) * 0.5
+                cz2 = (lo[2] + hi[2]) * 0.5
+                w2 = abs(hi[0] - lo[0])
+                h2 = abs(hi[1] - lo[1])
+                nm = "Shard_%s_%d" % (aid, j)
+                ents.append(model(nm, mdl("shard"), (cx, cy, cz2), 0.0, g, (w2, h2, 1.0)))
+                # 天井から吊る細い棒(浮いていると「置き忘れ」に見える)
+                top = SHAPES[r["shape"]]["h"] * k + floor_y(r)
+                for u2 in (-0.34, 0.34):
+                    ents.append(box("ShardR_%s_%d_%d" % (aid, j, u2 > 0),
+                                    (cx + w2 * u2, (cy + h2 * 0.5 + top) * 0.5, cz2),
+                                    (0.07, top - cy - h2 * 0.5, 0.07), C_DIV,
+                                    parent=g, collide=False))
+                segs.append(dict(x0=lo[0], x1=hi[0], yb=lo[1], yt=hi[1], z=cz2))
+            # 揃った時に現れる橋。ふだんは床下に隠しておく
+            gx, gy, gz = W2(rid, (al["bridge"][0], al["bridge"][2]), al["bridge"][1])
+            byaw = al["bridge"][3]
+            ln = al["bridge"][4]
+            e3 = model("Bridge_%s" % aid, mdl("walkway"), (gx, gy + HIDE_Y, gz), byaw, g,
+                       (1.0, 1.0, ln / 10.0))
+            # ★halfExtents には Transform.scale が掛かる(PhysicsSystem の BoxHalfExtents)。
+            #   長さは scale で伸ばすので、ここは【モデルのままの 10m ぶん = 5.0】。
+            e3["boxCollider"] = {"halfExtents": [1.2, 0.16, 5.0],
+                                 "offset": [0.0, -0.14, 0.0]}
+            e3["rigidBody"] = {"angularDamping": 0.01, "continuousCollision": False,
+                               "friction": 0.75, "linearDamping": 0.02, "mass": 1.0,
+                               "motionType": 1, "restitution": 0.0, "useGravity": False}
+            ents.append(e3)
+            self.aligns.append(dict(id=aid, ex=ex, ey=ey, ez=ez, segs=segs,
+                                    bridge="Bridge_%s" % aid, bx=gx, by=gy, bz=gz,
+                                    tol=al.get("tol", 1.6), hold=al.get("hold", 0.55)))
+
+        # ---------------- 見ていない時だけ在る段板 ----------------
+        for b in st.get("blinds", ()):
+            bid = b["id"]
+            x, y, z = W2(b["room"], b["at"])
+            g = group(ents, "Blind %s" % bid, g0)
+            yUp = y - 0.56          # 天板が床とちょうど同じ高さになる位置
+            e = model("Blind_%s" % bid, mdl("stepblk"), (x, yUp + 0.0, z), 0.0, g)
+            e["boxCollider"] = {"halfExtents": [1.30, 0.31, 1.30], "offset": [0.0, 0.31, 0.0]}
+            e["rigidBody"] = {"angularDamping": 0.01, "continuousCollision": False,
+                              "friction": 0.85, "linearDamping": 0.02, "mass": 1.0,
+                              "motionType": 1, "restitution": 0.0, "useGravity": False}
+            ents.append(e)
+            self.blinds.append(dict(ent="Blind_%s" % bid, x=x, z=z, yUp=yUp,
+                                    yDn=yUp - b.get("drop", 4.0),
+                                    cone=b.get("cone", 40.0), rng=b.get("rng", 26.0)))
+
+        # ---------------- 膜の向こうで対に動く物 ----------------
+        for mi in st.get("mirrors", ()):
+            mid = mi["id"]
+            rid = mi["room"]
+            r = self.rooms[rid]
+            k = r["scale"]
+            fy = floor_y(r)
+            g = group(ents, "Mirror %s" % mid, g0)
+            ax = mi.get("axis", "z")
+            c = mi.get("c", 0.0)
+            rows = []
+            for j, (kind, lx, lz, yaw) in enumerate(mi["rows"]):
+                P = PROPS[kind]
+                a_nm = "Mir_%s_a%d" % (mid, j)
+                b_nm = "Mir_%s_b%d" % (mid, j)
+                ax2, az2 = W2(rid, (lx, lz))[0], W2(rid, (lx, lz))[2]
+                if ax == "z":
+                    bx2, bz2 = ax2, W2(rid, (lx, 2.0 * c - lz))[2]
+                else:
+                    bx2, bz2 = W2(rid, (2.0 * c - lx, lz))[0], az2
+                ea = model(a_nm, P["path"], (ax2, fy, az2), yaw, g)
+                prop_body(ea, P)
+                ents.append(ea)
+                self.dynprops.append((a_nm, P["col"][1] if P["col"][0] == "sphere"
+                                      else P["col"][2] * 0.5))
+                eb = model(b_nm, P["path"], (bx2, fy, bz2), yaw, g)
+                prop_body(eb, P)
+                eb["rigidBody"]["motionType"] = 1      # 写しは動かされる側
+                eb["rigidBody"]["useGravity"] = False
+                ents.append(eb)
+                rows.append(dict(a=a_nm, b=b_nm))
+            # 膜の壁。見えるが通れない
+            if mi.get("wall"):
+                WL, WH = mi["wall"]
+                n2 = 1 + int(WL // 2.0)
+                for j in range(n2):
+                    t = (j + 0.5) / n2
+                    u = -WL * 0.5 + WL * t
+                    if ax == "z":
+                        px, pz = W2(rid, (u, c))[0], W2(rid, (u, c))[2]
+                        yaw2 = 0.0
+                    else:
+                        px, pz = W2(rid, (c, u))[0], W2(rid, (c, u))[2]
+                        yaw2 = 90.0
+                    m2 = model("MirM_%s_%d" % (mid, j), mdl("membrane"), (px, fy, pz), yaw2, g,
+                               (WL / n2 / 2.0, WH / 2.6, 1.0))
+                    m2["shader"] = "Membrane.hlsl"
+                    m2["shaderAlphaBlend"] = True
+                    m2["shaderEffectValue"] = 0.0
+                    m2["shaderParams"] = [round(t, 3), PAIRHUE["teal"], 0.30, 0.0]
+                    ents.append(m2)
+                if ax == "z":
+                    sc2 = (WL, WH, 0.24)
+                    px, pz = W2(rid, (0.0, c))[0], W2(rid, (0.0, c))[2]
+                else:
+                    sc2 = (0.24, WH, WL)
+                    px, pz = W2(rid, (c, 0.0))[0], W2(rid, (c, 0.0))[2]
+                ents.append(box("MirWall_%s" % mid, (px, fy + WH * 0.5, pz), sc2,
+                                C_WALL, parent=g, visible=False))
+            self.mirrors.append(dict(id=mid, axis=ax,
+                                     c=(W2(rid, (0.0, c))[2] if ax == "z" else W2(rid, (c, 0.0))[0]),
+                                     rows=rows,
+                                     mem=["MirM_%s_%d" % (mid, j)
+                                          for j in range(1 + int(mi["wall"][0] // 2.0))]
+                                     if mi.get("wall") else []))
+
+        # ---------------- 傾く床の部屋にある物を【全部】床へくっつける ----------------
+        # ★手で並べると必ず数え漏らす(v11 は板と継電器を取り残して床にめり込ませた)。
+        #   部屋の footprint に入っていて、床の近くにあって、動く剛体でない物は全部拾う。
+        #   拾った物は KINEMATIC にする。静止体(0)のままだと transform を書いても
+        #   当たり判定が動かず、見た目だけ動いて中身が置いていかれる。
+        SKIP = ("_Wall", "_WallM", "_Ceil", "_CeilM", "_Skirt", "_Troffer", "_Light",
+                "_Sill", "_Lintel", "_Floor", "_FloorM", "_PitS", "_Pit")
+        SKIPPRE = ("Tun_", "TunM_", "Glass_", "Grid", "[")
+        for tl in self.tilts:
+            rid = tl["room"]
+            r = self.rooms[rid]
+            hx, hz, _ch, _k = dims(r)
+            cx, cz = r["at"]
+            fy = floor_y(r)
+            have = set(row[0] for row in tl["ents"]) | set(tl.get("extra", ()))
+            add = []
+            for e in self.ents:
+                nm = e.get("name", "")
+                if nm in have or not nm:
+                    continue
+                if any(nm.startswith(q) for q in SKIPPRE):
+                    continue
+                if any(nm.startswith(rid + q) for q in SKIP):
+                    continue
+                if not ("meshRenderer" in e or "primitive" in e or "pointLight" in e):
+                    continue
+                px, py, pz = e["transform"]["position"]
+                if abs(px - cx) > hx + 0.4 or abs(pz - cz) > hz + 0.4:
+                    continue
+                if py > fy + 3.0:                       # 天井に付いている物は動かさない
+                    continue
+                rb = e.get("rigidBody")
+                if rb and rb.get("motionType") == 2:    # 転がる玉は物理に任せる
+                    continue
+                if rb:
+                    rb["motionType"] = 1                # ★当たり判定ごと動かす
+                add.append((nm, px, py, pz))
+                have.add(nm)
+            tl["ents"].extend(add)
+            tl["extra"] = []
+
+        # ---------------- 首を振ると回る枠(回転台) ----------------
+        for t in st.get("turnts", ()):
+            tid = t["id"]
+            x, y, z = W2(t["room"], t["at"])
+            g = group(ents, "Turn %s" % tid, g0)
+            e = model("Turn_%s" % tid, mdl("turn"), (x, y, z), 0.0, g)
+            prop_body(e, PROPS["turn"])
+            e["rigidBody"]["motionType"] = 1
+            ents.append(e)
+            gi = [i for i, q in enumerate(self.gates) if q["id"] == t["gate"]]
+            if not gi:
+                raise SystemExit("TURNT %s: 枠 %s が無い" % (tid, t["gate"]))
+            self.turnts.append(dict(id=tid, ent="Turn_%s" % tid, gate=gi[0] + 1,
+                                    x=x, y=y, z=z, k=t.get("k", -1.0),
+                                    base=t.get("base", 0.0), r=t.get("r", 1.9)))
 
     def link(self, sp):
         """継ぎ手 from の奥を越えたら to の奥へ出す。times>0 なら最初の times 回だけ。
@@ -1343,6 +1650,7 @@ class World:
             if abs(r.get("tilt", 0.0)) > 1e-6:
                 self.tilt_slice(r, i0, len(self.ents))
         self.extras()
+        self.v12()
         # ---- 黙って転送する面(warp)。同じ見た目の廊下の中に置くので見えない ----
         self.warps = []
         for wp in st.get("warps", ()):
@@ -1588,6 +1896,18 @@ PROPS = {
     "railing": dict(path=mdl("railing"), y=0.0, r=1.55, top=1.10, block=True),
     "vent":    dict(path=mdl("vent"),    y=None, r=0.4, top=0.0, block=False),
     "pipes":   dict(path=mdl("pipes"),   y=None, r=3.0, top=0.0, block=False),
+    # ---------------- v12 ----------------
+    # ★継電器。ベンチ 0.95 と ロッカー 1.95 の間 = 腰の高さの操作盤に見える
+    "breaker": dict(path=mdl("breaker"), y=0.0, r=0.75, top=1.45, block=True,
+                    phys="fix", col=("box", 1.16, 1.45, 0.70)),
+    # ★回転台。踏面 0.16 なので跨げる。上に立つと止まる
+    "turn":    dict(path=mdl("turn"),    y=0.0, r=1.85, top=0.32, block=True,
+                    phys="fix", col=("box", 3.60, 0.32, 3.60)),
+    # ★玉の受け皿。当たり判定は【付けない】。付けると玉が縁で弾かれて絶対に入らない。
+    #   入ったかどうかは重量板と同じ「近くに来たか」で見る
+    "socket":  dict(path=mdl("socket"),  y=0.0, r=1.10, top=0.12, block=False),
+    "busboard": dict(path=mdl("busboard"), y=0.0, r=2.40, top=2.90, block=True,
+                     phys="fix", col=("box", 4.60, 2.90, 0.76)),
 }
 
 
@@ -2210,9 +2530,11 @@ PAIRCOL = {
     "violet": (0.72, 0.46, 1.00),
     "red":    (1.00, 0.32, 0.28),
     "blue":   (0.38, 0.52, 1.00),
+    "rose":   (1.00, 0.42, 0.66),
+    "teal":   (0.18, 0.95, 0.82),
 }
 PAIRHUE = {"amber": 0.09, "cyan": 0.53, "green": 0.35, "violet": 0.76,
-           "red": 0.99, "blue": 0.62}
+           "red": 0.99, "blue": 0.62, "rose": 0.92, "teal": 0.46}
 
 
 def PAIR(a, b, both=True, needs=None, col="cyan", mark=0.0):
@@ -2223,15 +2545,66 @@ def PAIR(a, b, both=True, needs=None, col="cyan", mark=0.0):
     return dict(a=a, b=b, both=both, needs=needs, col=col, mark=mark)
 
 
-def PLATE(pid, room, at, r=1.05):
-    """重量板。動く剛体(玉・ドラム缶・木箱)が乗ると押される。"""
-    return dict(id=pid, room=room, at=at, r=r)
+def PLATE(pid, room, at, r=1.05, model=None, ents=()):
+    """重量板。動く剛体(玉・ドラム缶・木箱)が乗ると押される。
+    model … "socket" にすると板の代わりに玉の受け皿を置く(傾の間)
+    ents  … 動く剛体でない物(膜の向こうの写し等)も見たい時に名前を並べる"""
+    return dict(id=pid, room=room, at=at, r=r, model=model, ents=list(ents))
 
 
 def TILTF(deg=6.0, over=5.0, walls=(), withEnts=()):
     """視線で傾く床。★見ている方へ床が下がるので、玉は【見た方へ】転がる。
     walls = 床と一緒に傾く低い壁 (x, z, 幅, 奥行, 高さ)。withEnts = 一緒に傾ける物の名前。"""
     return dict(deg=deg, over=over, walls=list(walls), **{"with": list(withEnts)})
+
+
+# ================================ v12「配電盤」の語彙 ================================
+# ★出口の扉には電気が要る。5 つの部屋に 1 台ずつ継電器があり、その部屋の仕掛けを
+#   解くと腕が倒れて電気が通る。5 つ揃うと配電盤の灯りが 5 つとも点き、扉が開く。
+#   ★どの部屋も「継電器に触る」で終わる = 動詞が 1 つしかないので説明が要らない。
+def BRK(bid, room, at, yaw=180.0, needs=(), col="cyan"):
+    """継電器。needs が空なら【触れば入る】(= そこへ辿り着くこと自体が謎解き)。
+    needs に重量板の id を並べると、それが全部押されている時だけ腕が倒れる。"""
+    return dict(id=bid, room=room, at=at, yaw=yaw, needs=list(needs), col=col)
+
+
+def POWER(room, at, yaw=180.0, door=None, goal=None, bs=1.0, ds=1.0):
+    """配電盤と出口の扉。5 つ点いたら扉が左右へ開く。
+    bs / ds = 配電盤 / 扉の倍率。★大広間では等倍だと遠くて読めない。"""
+    return dict(room=room, at=at, yaw=yaw, door=door, goal=goal, bs=bs, ds=ds)
+
+
+def ALIGN(aid, room, eye, beam, cuts, bridge, tol=1.6, hold=0.55):
+    """★アナモルフォーシス。三枚の欠片が【或る一点から見た時だけ】1 本の桁に繋がる。
+    eye  = 正解の立ち位置(部屋の単位座標, x,z)。目の高さは EYE_H
+    beam = 見えるべき「幻の桁」 (x0, x1, y, 半分の高さ, z)。部屋の単位座標
+    cuts = 欠片ごとの [(桁の x0, 桁の x1, 目からの距離の倍率), ...]。
+           倍率 1 なら幻の桁の場所そのもの。0.5 なら【半分の距離に半分の大きさ】で
+           吊るす = 目からは同じ大きさに見えるが、一歩ずれると全く重ならない。
+    bridge = 揃った時に現れる橋 (x, y, z, yaw, 長さ)。部屋の単位座標
+    tol  = 許す角度のずれ(度)。hold = 何秒揃え続けたら実体化するか"""
+    return dict(id=aid, room=room, eye=eye, beam=beam, cuts=list(cuts),
+                bridge=bridge, tol=tol, hold=hold)
+
+
+def BLIND(bid, room, at, drop=4.0, cone=40.0, rng=26.0):
+    """★見ていない時だけ在る段板。視界に入れると沈む。
+    at=(x, z) 部屋の単位座標。drop = 沈む深さ。cone = 何度以内を「見ている」とするか。"""
+    return dict(id=bid, room=room, at=at, drop=drop, cone=cone, rng=rng)
+
+
+def MIRROR(mid, room, axis="z", c=0.0, rows=(), wall=None):
+    """★膜の向こうの部屋。こちらで押した物が、向こうで【鏡の位置】へ動く。
+    axis/c = 鏡の面(部屋の単位座標)。rows = [(こちらの什器の種類, x, z, yaw), ...]
+    wall = 膜の壁 (長さ, 高さ)。"""
+    return dict(id=mid, room=room, axis=axis, c=c, rows=list(rows), wall=wall)
+
+
+def TURNT(tid, room, at, gate, k=-1.0, base=0.0, r=1.9):
+    """★回転台に載った枠。【自分が首を振ると枠が回る】(向きは逆)。
+    枠が自分の方を向いていて、かつ手前の枠の開口の中に見えている角度を探す。
+    gate = 載せる枠の id。k = 首の角度に対する回り方(-1 で逆回し)。"""
+    return dict(id=tid, room=room, at=at, gate=gate, k=k, base=base, r=r)
 
 
 def FOVR(zone, axis="z", a=0.0, b=1.0, fov=(74.0, 74.0)):
@@ -2415,128 +2788,173 @@ STAGES = [
                ("H", (4.0, 1.7, 3.0), "H", (-2.0, 1.3, -2.0), 1.6)]),
 
     # ======================================================================================
-    # stagedemo3「継ぎ目の館 / SORTING HOUSE」 v11.2 — 4 回くぐって 1 つ解く
+    # stagedemo3「配電盤 / THE BUS」 v12 — 出口の扉に電気を通す
     # ======================================================================================
-    # ★指摘「その部屋でなにすればいいか分からん」への答えは【短くする】ことだった。
-    #   v11.1 は往復 3 回・板 2 枚・分岐 5 本で、道筋そのものが読めなかった。
+    # ★指摘:「ほかの部屋ももっといろんなギミックを。最後の扉の電源を入れるため、
+    #         5 つのトリックステージを」。
     #
-    #   必須はこれだけ:
-    #     1. 始まりの帯で【琥珀】の枠を重ねて柵を越える
-    #     2. 中の帯から【水色】の枠を重ねて傾く部屋へ(東の窓ごしに見える)
-    #     3. 傾く部屋で鋼球を【青い重量板】へ転がす  ← ここが唯一のパズル
-    #     4. 水色で戻り、【青】の枠を重ねて谷を渡る   ← 青い板が青い枠を点ける
+    #   受入ホール A の北の突き当りに【出口の扉】と【配電盤(灯り 5 つ)】がある。
+    #   扉の手前は 14m の谷。灯りが 5 つ点くまで谷は渡れない。
+    #   東西南の窓の向こうに 5 つの部屋が見えていて、部屋ごとに継電器が 1 台ある。
     #
-    #   ★中の帯に立つと、谷の向こうの出口と、消えている青い枠と、
-    #     東の窓の向こうの青い板が【全部同時に見える】。やる事は見れば分かる。
+    #   ★どの部屋も終わり方は同じ【継電器に触る】。動詞が 1 つしか無いので説明が要らない。
+    #     違うのは「そこへ辿り着く方法」だけ。5 つとも仕掛けが違う:
     #
-    #   寄り道(行かなくても終われる): 緑=機械室(エイムズの部屋)/ 赤=仕分け廊(画角の嘘)/
-    #   紫=保管庫(視線をふさぐ人型)。
+    #   1. G 傾の間   … 歩くと床が傾く。鋼球 2 つを、対角の受け皿へ転がす。
+    #                   床は 1 枚なので【片方を動かすともう片方も動く】。
+    #                   仕切りがあり、2 つの玉は真ん中の同じ隙間を逆向きに通る。
+    #   2. D 継の間   … 奥の枠が【回転台】に載っていて、自分が首を振ると逆向きに回る。
+    #                   枠がこちらを向き、かつ手前の枠の中に見える角度は【正面ではない】。
+    #                   横を向いたまま横歩きでくぐる。
+    #   3. B 画角の間 … 天井から吊るされた 3 枚の欠片。或る一点から見た時だけ
+    #                   【1 本のトラス橋】に繋がる。繋がった瞬間、本物の橋が現れる。
+    #   4. H 見の間   … 暗い倉庫。谷に架かる段板は【見ていない間だけ】迫り上がる。
+    #                   視界の真ん中に入れると沈む。目の端に置いたまま渡る。
+    #   5. M 膜の間   … 膜の向こうにもう一つ部屋がある。こちらで押した物が
+    #                   向こうで【鏡の位置】へ動く。南北が逆。向こうの板に載せる。
+    #
+    #   ★部屋どうしは【窓ごしに枠を重ねる】(v11 の継ぎ手)で行き来する。色が対。
     dict(name="stagedemo3", tag="Demo_3", title=3,
          intensity=5.2, exposure=0.82,
          rooms=[
+             # ---------------- A 受入ホール(母屋)。北の突き当りが出口 ----------------
              R("A", "atrium40", (0.0, 0.0), 1.0,
-               dict(bars=[("z", -13.0)], barMdl="fence", pits=[("z", 0.0, 14.0)],
+               dict(pits=[("z", 0.0, 14.0)],
                     props=[("rack", -17.0, -18.4, 0.0), ("rack", 17.0, -18.4, 0.0),
                            ("drum", -9.0, -17.8, 0.0), ("drum", -8.2, -18.3, 40.0),
                            ("bench", -2.0, -18.6, 0.0), ("bench", 2.0, -18.6, 0.0),
                            ("locker", 18.4, -16.0, 270.0), ("crate", 10.5, -17.5, 20.0),
-                           ("rack", -18.4, -10.0, 90.0), ("drum", 17.6, -8.4, 0.0),
+                           ("rack", -18.4, -10.0, 90.0), ("drum", 17.6, -9.0, 0.0),
                            ("crate", -16.0, -8.6, 35.0),
-                           ("column", -16.0, 16.0, 0.0), ("column", 16.0, 16.0, 0.0),
+                           ("column", -16.0, 15.0, 0.0), ("column", 16.0, 15.0, 0.0),
                            ("rack", -15.0, 18.4, 180.0), ("rack", 15.0, 18.4, 180.0),
                            ("drum", 12.0, 9.0, 0.0), ("bench", -6.0, 8.6, 180.0)]),
                floorMat="concrete", intensity=3.4),
-             # ★傾く部屋。受入ホールの【東】。中の帯から窓ごしに中が見える
-             R("G", "tilt16", (32.0, -10.0), 1.0,
-               dict(props=[("ball", 5.0, 4.0, 0.0),
-                           ("locker", -6.6, 6.6, 90.0), ("bench", -6.4, -5.6, 90.0)]),
-               floorMat="concrete", intensity=4.4,
-               tiltFloor=TILTF(deg=6.5, over=5.0,
-                               walls=[(0.0, -2.2, 4.6, 0.35, 0.55),
-                                      (-2.3, -1.0, 0.35, 2.4, 0.55),
-                                      (2.3, -1.0, 0.35, 2.4, 0.55)],
-                               withEnts=["Plate_p1", "PlateL_p1"])),
-             # ---- ここから下は寄り道 ----
-             R("D", "hall26", (-37.0, -10.0), 1.0,
-               dict(props=[("column", -8.0, -8.0, 0.0), ("column", 8.0, -8.0, 0.0),
-                           ("column", -8.0, 8.0, 0.0), ("column", 8.0, 8.0, 0.0),
-                           ("rack", 11.0, -4.0, 270.0), ("rack", 11.0, 4.0, 270.0),
-                           ("drum", 3.0, 8.4, 0.0), ("drum", 3.9, 8.9, 30.0),
-                           ("crate", -1.0, 9.6, 15.0),
-                           ("locker", 6.0, -11.4, 0.0), ("bench", -6.0, -3.0, 90.0),
-                           ("pipes", 0.0, -7.0, 0.0)]),
-               floorMat="concrete"),
-             R("B", "corr36", (0.0, -28.5), 1.0,
-               dict(props=[("rack", -10.0, -3.2, 0.0), ("rack", -6.0, -3.2, 0.0),
-                           ("rack", 6.0, -3.2, 0.0), ("rack", 10.0, -3.2, 0.0),
-                           ("rack", -8.0, 3.2, 180.0), ("rack", 8.0, 3.2, 180.0),
-                           ("drum", -2.6, 3.4, 0.0), ("crate", 2.0, -3.4, 0.0)]),
-               floorMat="concrete"),
-             R("H", "store22", (0.0, -45.0), 1.0,
-               dict(props=[("rack", -8.0, -4.5, 0.0), ("rack", -4.0, -4.5, 0.0),
-                           ("rack", 4.0, -4.5, 0.0), ("rack", 8.0, -4.5, 0.0),
-                           ("rack", -8.0, 3.5, 0.0), ("rack", 8.0, 3.5, 0.0),
-                           ("drum", -9.6, 6.4, 0.0), ("crate", 9.0, -6.6, 25.0),
-                           ("locker", 9.6, 6.4, 270.0)]),
-               floorMat="concrete", intensity=1.7, lightcol=(0.82, 0.87, 1.0)),
+             # ---------------- 1. G 傾の間 ----------------
+             # ★仕切りは【床と一緒に傾く】低い畝。玉 2 つは真ん中の隙間を逆向きに通る
+             R("G", "tilt24", (36.0, -12.0), 1.0,
+               dict(props=[("ball", -9.0, 9.0, 0.0), ("ball", 9.0, -9.0, 0.0),
+                           ("locker", -10.6, 10.6, 90.0), ("bench", 10.6, -10.6, 90.0)]),
+               floorMat="concrete", intensity=4.6,
+               tiltFloor=TILTF(deg=6.5, over=6.0,
+                               walls=[(-5.0, 2.0, 7.0, 0.5, 0.75),
+                                      (5.0, -2.0, 7.0, 0.5, 0.75),
+                                      (3.0, 8.0, 0.5, 8.0, 0.75),
+                                      (-3.0, -8.0, 0.5, 8.0, 0.75)])),
+             # ---------------- 2. D 継の間 ----------------
+             R("D", "hall26", (-37.0, -12.0), 1.0,
+               # ★溝。回転台の枠をくぐる以外に向こうへ行く道が無い
+               dict(pits=[("z", -4.0, 8.0)],
+                    props=[("rack", 11.4, 6.0, 270.0), ("rack", 11.4, 9.0, 270.0),
+                           ("drum", -11.0, 6.0, 0.0), ("drum", -10.2, 6.6, 30.0),
+                           ("crate", -11.4, 2.0, 15.0), ("bench", 6.0, 11.4, 180.0),
+                           ("locker", -11.4, -11.0, 90.0), ("crate", 8.0, -11.0, 25.0),
+                           ("pipes", 0.0, 6.0, 0.0)]),
+               floorMat="concrete", intensity=3.8),
+             # ---------------- 3. B 画角の間 ----------------
+             R("B", "hall34", (0.0, -36.0), 1.0,
+               # ★溝は【x 方向】。幻の桁も x 方向なので「見えた物」と「現れる橋」が同じ向き
+               dict(pits=[("x", 0.0, 14.0)],
+                    props=[("rack", -16.4, 9.0, 90.0), ("rack", -16.4, 6.0, 90.0),
+                           ("rack", 16.4, 9.0, 270.0), ("drum", 13.0, 10.4, 0.0),
+                           ("crate", -12.0, 10.6, 25.0), ("bench", 12.0, 6.0, 180.0),
+                           ("locker", -16.0, -9.0, 90.0), ("bench", -12.0, -10.6, 0.0)]),
+               floorMat="concrete", intensity=3.2),
+             # ---------------- 4. H 見の間(暗い倉庫) ----------------
+             R("H", "store30", (40.0, -37.0), 1.0,
+               dict(pits=[("z", 0.0, 10.0)],
+                    props=[("rack", -12.0, 7.0, 0.0), ("rack", -8.0, 7.0, 0.0),
+                           ("rack", 8.0, 7.0, 0.0), ("rack", 12.0, 7.0, 0.0),
+                           ("drum", -13.0, 5.0, 0.0), ("crate", 13.0, 5.6, 25.0),
+                           ("locker", 13.4, -7.0, 270.0), ("bench", -12.0, -7.0, 90.0)]),
+               floorMat="concrete", intensity=1.35, lightcol=(0.78, 0.85, 1.0)),
+             # ---------------- 5. M 膜の間 ----------------
+             R("M", "hall26", (-37.0, -42.0), 1.0,
+               dict(props=[("rack", -4.0, 4.0, 0.0), ("rack", 4.0, 4.0, 0.0),
+                           ("locker", -11.4, 11.0, 90.0), ("bench", 11.0, 11.4, 180.0),
+                           ("crate", 9.0, 7.0, 15.0)]),
+               floorMat="concrete", intensity=3.6),
          ],
-         # ---- 窓。隣の部屋は【見えるが入口が無い】 ----
-         windows=[WIN("A", "E", -10.0),     # 中の帯 -> 傾く部屋(青い板が見える)
-                  WIN("A", "W", -10.0),     # 中の帯 -> 機械室(寄り道)
-                  WIN("A", "S", -14.0),     # 始まりの帯 -> 仕分け廊(寄り道)
-                  WIN("B", "S", 0.0)],      # 仕分け廊 -> 保管庫(寄り道)
-         gates=[GATE("s1", "A", (6.0, -15.5), "S"),      # 1. 柵を越える
-                GATE("m1", "A", (6.0, -10.0), "S"),
-                GATE("m2", "A", (12.0, -10.0), "W"),     # 2. 東の窓ごしに傾く部屋
-                GATE("g1", "G", (-6.0, 0.0), "W"),
-                GATE("m3", "A", (0.0, -9.5), "S"),       # 4. 谷を渡る(青い板が要る)
-                GATE("n1", "A", (0.0, 12.0), "S"),
-                GATE("m4", "A", (-12.0, -10.0), "E"),    # 寄り道: 機械室
-                GATE("d1", "D", (11.0, 0.0), "E"),
-                GATE("s2", "A", (-14.0, -18.0), "N"),    # 寄り道: 仕分け廊
-                GATE("b1", "B", (-14.0, 1.5), "N"),
-                GATE("b2", "B", (0.0, -1.5), "N"),       # 寄り道: 保管庫
-                GATE("h1", "H", (0.0, 6.0), "N")],
-         # ★板は【玉が自然に止まる所】= 囲いの南の突き当りに置く。
-         #   真ん中に置いたら玉が板を通り過ぎて南壁で止まり、1.7m 手前で止まった(実測)。
-         plates=[PLATE("p1", "G", (0.0, -1.5), r=1.5)],
-         # ★青い板が青い枠を点ける。色だけが理屈。文字はいらない
-         pairs=[PAIR("s1", "m1", col="amber", mark=2.6),
-                PAIR("m2", "g1", col="cyan", mark=3.0),
-                PAIR("m3", "n1", col="blue", needs="p1", mark=3.0),
+         # ---- 窓。隣の部屋は【見えるが入口が無い】。枠を重ねるしか行き方が無い ----
+         windows=[WIN("A", "E", -12.0),      # A -> G 傾の間
+                  WIN("A", "W", -10.0),      # A -> D 継の間
+                  WIN("A", "S", -8.0),       # A -> B 画角の間
+                  WIN("G", "S", 0.0),        # G -> H 見の間
+                  WIN("D", "S", -9.0)],      # D -> M 膜の間
+         gates=[GATE("m2", "A", (12.0, -12.0), "W"),      # 水色: 傾の間へ
+                GATE("g1", "G", (-8.0, 0.0), "W"),
+                GATE("m4", "A", (-12.0, -10.0), "E"),     # 緑: 継の間へ
+                GATE("d1", "D", (9.0, 2.0), "E"),
+                GATE("m5", "A", (-8.0, -12.0), "N"),      # 赤: 画角の間へ
+                GATE("b1", "B", (-8.0, 9.0), "N"),
+                GATE("g2", "G", (0.0, -8.0), "N"),        # 紫: 傾の間 -> 見の間
+                GATE("h1", "H", (-4.0, 7.0), "N"),
+                GATE("d2", "D", (-9.0, 2.0), "N"),        # 桃: 継の間 -> 膜の間
+                GATE("n2", "M", (-9.0, 9.0), "N"),
+                # ★継の間の中。奥の枠は回転台に載っている
+                GATE("t1", "D", (0.0, 8.0), "N"),
+                GATE("t2", "D", (0.0, -10.0), "N"),
+                # ★最後。谷を渡って出口へ。5 つ点くまで繋がらない
+                GATE("m3", "A", (8.0, -9.5), "S"),
+                GATE("n1", "A", (8.0, 12.0), "S")],
+         pairs=[PAIR("m2", "g1", col="cyan", mark=3.0),
                 PAIR("m4", "d1", col="green"),
-                PAIR("s2", "b1", col="red"),
-                PAIR("b2", "h1", col="violet")],
+                PAIR("m5", "b1", col="red"),
+                PAIR("g2", "h1", col="violet"),
+                PAIR("d2", "n2", col="rose"),
+                PAIR("t1", "t2", col="teal"),
+                PAIR("m3", "n1", col="blue", needs="pw", mark=3.0)],
+         # ---- 回転台。★首を振ると枠が【逆向きに】回る。正面を向いたままでは繋がらない ----
+         turnts=[TURNT("r1", "D", (0.0, -10.0), gate="t2", k=-1.0, base=48.0, r=2.2)],
+         # ---- 受け皿(重量板)。傾の間の対角 ----
+         plates=[PLATE("p1", "G", (9.0, 9.0), r=1.30, model="socket"),
+                 PLATE("p2", "G", (-9.0, -9.0), r=1.30, model="socket"),
+                 # 膜の間。板は【向こう側】にあり、写しの什器が乗る
+                 PLATE("q1", "M", (-8.0, -8.0), r=1.45, ents=["Mir_w1_b0"]),
+                 PLATE("q2", "M", (8.0, -8.0), r=1.45, ents=["Mir_w1_b1"])],
+         # ---- 5 台の継電器 ----
+         breakers=[BRK("k1", "G", (0.0, 11.0), yaw=180.0, needs=["p1", "p2"], col="cyan"),
+                   BRK("k2", "D", (-4.5, -11.6), yaw=0.0, col="green"),
+                   BRK("k3", "B", (13.0, 0.0), yaw=270.0, col="red"),
+                   BRK("k4", "H", (0.0, -7.6), yaw=180.0, col="violet"),
+                   BRK("k5", "M", (0.0, 11.0), yaw=180.0, needs=["q1", "q2"], col="rose")],
+         # ---- 配電盤と出口の扉(母屋の北の突き当り) ----
+         power=POWER("A", (-11.5, 19.0), yaw=180.0, door=(0.0, 19.6, 180.0),
+                     bs=1.7, ds=1.9),
+         # ---- 3 枚の欠片。或る一点から見た時だけ 1 本の桁に繋がる ----
+         aligns=[ALIGN("a1", "B", eye=(-11.0, 7.0), beam=(-9.0, 9.0, 4.0, 0.80, 0.0),
+                       cuts=[(-9.0, -3.0, 0.60), (-3.0, 3.0, 1.40), (3.0, 9.0, 0.85)],
+                       bridge=(0.0, 0.02, 0.0, 90.0, 19.0), tol=3.0, hold=0.5)],
+         # ---- 見ていない時だけ在る段板(見の間) ----
+         blinds=[BLIND("s%d" % i, "H", at, drop=4.2, cone=34.0, rng=27.0)
+                 for i, at in enumerate([(-5.0, 4.0), (-3.6, 2.2), (-1.8, 0.8), (0.2, -0.4),
+                                         (2.2, -1.6), (3.6, -3.4), (3.2, -5.6)])],
+         # ---- 膜の向こうで対に動く物(膜の間) ----
+         mirrors=[MIRROR("w1", "M", axis="z", c=-2.0, wall=(26.0, 5.0),
+                         rows=[("drum", -6.0, 6.0, 0.0), ("drum", 6.0, 6.0, 0.0)])],
+         # ---- 画角。近づいても奥の壁が遠ざかる帯(画角の間) ----
+         fovramps=[FOVR(zone=(-17.0, 17.0, -48.0, -24.0), axis="z", a=-10.0, b=10.0,
+                        fov=(74.0, 54.0))],
          # ---- 案内。★文字ではなく【光の玉】が次にやる事の上に浮く ----
-         guide=[(6.0, -18.1, "cross:s1"),
-                (9.0, -10.0, "cross:m2"),
-                (32.0, -10.0, "plate:p1"),
-                (27.6, -10.0, "cross:g1"),
-                (0.0, -12.5, "cross:m3"),
-                (0.0, 17.0, "")],
-         ames=[AMES("E1", "D", "W", 0.0, w=9.0, d=15.0, h=5.0, alpha=0.07,
-                    props=[("locker", -3.6, 13.0, 0.0), ("locker", 3.6, 13.0, 0.0),
-                           ("bench", -3.6, 5.5, 0.0), ("bench", 3.6, 5.5, 0.0),
-                           ("drum", -1.6, 8.5, 0.0), ("drum", 1.6, 8.5, 0.0)])],
-         fakes=[FAKE("f_d", "D", "S", 0.0)],
-         anchors=[(16.5, -28.5, 270.0, 1.0, 31.0)],
-         watchers=[WATCH("W1", "H", (-4.0, 1.0), yaw=180.0, near=3.2, step=1.4, wait=1.0),
-                   WATCH("W2", "H", (3.0, 2.0), yaw=180.0, near=3.6, step=1.2, wait=1.3),
-                   WATCH("W3", "H", (7.0, 0.0), yaw=180.0, near=4.0, step=1.1, wait=1.6)],
-         fovramps=[FOVR(zone=(-19.0, 19.0, -34.0, -23.0), axis="x", a=-14.0, b=14.0,
-                        fov=(74.0, 46.0))],
-         rolls=[ROLL(zone=(-19.0, 19.0, -34.0, -23.0), axis="x", a=-12.0, b=14.0,
-                     deg=(0.0, 8.0))],
-         dolly=[(0.0, -8.5, 5.0, 54.0)],
-         morphs=[MORPH("m1", "A", at=(0.0, -10.0), r=15.0, delay=1.2,
-                       org=[("drum", 12.0, 9.0, 0.0), ("bench", -6.0, 8.6, 180.0)],
-                       alt=[("drum", -12.5, 9.6, 0.0), ("bench", 7.0, 12.0, 90.0)],
-                       light=(0.93, 0.93, 1.0))],
-         spawn=(6.0, -19.2, 0.0), goal=(0.0, 17.0), goalYaw=180.0,
-         start="A", goalRoom="A", minHops=2, teach=None,
-         hintPath=[(6.0, -18.1)],
-         cine=[("A", (11.0, 7.5, -18.0), "A", (0.0, 2.2, 14.0), 3.0),
-               ("A", (6.0, 2.7, -18.6), "A", (6.0, 2.5, 10.0), 1.8)]),
+         guide=[(12.0, -12.0, "cross:m2"),
+                (36.0, -1.0, "brk:k1"),
+                (36.0, -20.0, "cross:g2"),
+                (40.0, -44.6, "brk:k4"),
+                (-12.0, -10.0, "cross:m4"),
+                (-37.0, -2.0, "cross:t1"),
+                (-41.5, -23.6, "brk:k2"),
+                (-46.0, -8.0, "cross:d2"),
+                (-37.0, -31.0, "brk:k5"),
+                (-8.0, -12.0, "cross:m5"),
+                (-11.0, -29.0, "align:a1"),
+                (13.0, -36.0, "brk:k3"),
+                (8.0, -11.0, "cross:m3"),
+                (0.0, 18.6, "")],
+         spawn=(0.0, -18.0, 0.0), goal=(0.0, 18.6), goalYaw=180.0,
+         start="A", goalRoom="A", minHops=1, teach=None,
+         hintPath=[(12.0, -12.0)],
+         cine=[("A", (14.0, 9.0, -18.5), "A", (-4.0, 3.4, 18.0), 3.2),
+               ("A", (0.0, 2.7, -18.6), "A", (0.0, 2.6, 12.0), 1.8)]),
 
 
 ]
@@ -2672,8 +3090,10 @@ def main():
         for q in W.plates:
             c = pcol.get(q["id"], (1.0, 0.45, 0.2))
             L.append('            { id = "%s", ent = "%s", light = "%s", x = %.3f, z = %.3f, y0 = %.2f, r = %.2f, '
-                     'cr = %.3f, cg = %.3f, cb = %.3f },'
-                     % (q["id"], q["ent"], q["light"], q["x"], q["z"], q["y0"], q["r"], c[0], c[1], c[2]))
+                     'pin = %d, cr = %.3f, cg = %.3f, cb = %.3f, watch = { %s } },'
+                     % (q["id"], q["ent"], q["light"], q["x"], q["z"], q["y0"], q["r"],
+                        q.get("pin", 0), c[0], c[1], c[2],
+                        ", ".join('"%s"' % e for e in q.get("ents", ()))))
         L.append('        },')
         L.append('        guide = {')
         for q in st.get("guide", ()):
@@ -2699,6 +3119,55 @@ def main():
                      'x0 = %.2f, x1 = %.2f, z0 = %.2f, z1 = %.2f },'
                      % (q["axis"], q["a"], q["b"], q["f0"], q["f1"],
                         q["x0"], q["x1"], q["z0"], q["z1"]))
+        L.append('        },')
+        # ---------------- v12: 配電盤 ----------------
+        L.append('        breakers = {')
+        for q in W.breakers:
+            L.append('            { id = "%s", ent = "%s", lever = "%s", lamp = "%s", light = "%s", '
+                     'x = %.3f, y = %.3f, z = %.3f, yaw = %.1f, cr = %.3f, cg = %.3f, cb = %.3f, '
+                     'needs = { %s } },'
+                     % (q["id"], q["ent"], q["lever"], q["lamp"], q["light"], q["x"], q["y"],
+                        q["z"], q["yaw"], q["rgb"][0], q["rgb"][1], q["rgb"][2],
+                        ", ".join('"%s"' % n for n in q["needs"])))
+        L.append('        },')
+        if W.power:
+            L.append('        power = { lamps = { %s }, light = "%s", x = %.3f, y = %.3f, z = %.3f, doors = { %s } },'
+                     % (", ".join('"%s"' % n for n in W.power["lamps"]), W.power["light"],
+                        W.power["x"], W.power["y"], W.power["z"],
+                        ", ".join('{ ent = "%s", x = %.3f, y = %.3f, z = %.3f, dx = %.3f, dz = %.3f }'
+                                  % (d["ent"], d["x"], d["y"], d["z"], d["dx"], d["dz"])
+                                  for d in W.power["doors"])))
+        else:
+            L.append('        power = nil,')
+        L.append('        aligns = {')
+        for q in W.aligns:
+            L.append('            { id = "%s", ex = %.3f, ey = %.3f, ez = %.3f, tol = %.2f, hold = %.2f, '
+                     'bridge = "%s", bx = %.3f, by = %.3f, bz = %.3f, segs = { %s }, shards = { %s } },'
+                     % (q["id"], q["ex"], q["ey"], q["ez"], q["tol"], q["hold"], q["bridge"],
+                        q["bx"], q["by"], q["bz"],
+                        ", ".join('{ x0 = %.3f, x1 = %.3f, yb = %.3f, yt = %.3f, z = %.3f }'
+                                  % (g["x0"], g["x1"], g["yb"], g["yt"], g["z"]) for g in q["segs"]),
+                        ", ".join('"Shard_%s_%d"' % (q["id"], j) for j in range(len(q["segs"])))))
+        L.append('        },')
+        L.append('        blinds = {')
+        for q in W.blinds:
+            L.append('            { ent = "%s", x = %.3f, z = %.3f, yUp = %.3f, yDn = %.3f, '
+                     'cone = %.1f, rng = %.1f },'
+                     % (q["ent"], q["x"], q["z"], q["yUp"], q["yDn"], q["cone"], q["rng"]))
+        L.append('        },')
+        L.append('        mirrors = {')
+        for q in W.mirrors:
+            L.append('            { id = "%s", axis = "%s", c = %.3f, rows = { %s }, mem = { %s } },'
+                     % (q["id"], q["axis"], q["c"],
+                        ", ".join('{ a = "%s", b = "%s" }' % (r["a"], r["b"]) for r in q["rows"]),
+                        ", ".join('"%s"' % m for m in q["mem"])))
+        L.append('        },')
+        L.append('        turnts = {')
+        for q in W.turnts:
+            L.append('            { id = "%s", ent = "%s", gate = %d, x = %.3f, y = %.3f, z = %.3f, '
+                     'k = %.2f, base = %.1f, r = %.2f },'
+                     % (q["id"], q["ent"], q["gate"], q["x"], q["y"], q["z"], q["k"],
+                        q["base"], q["r"]))
         L.append('        },')
         L.append('        dynprops = { %s },'
                  % ", ".join('{ ent = "%s", off = %.3f }' % (e[0], e[1]) for e in W.dynprops))

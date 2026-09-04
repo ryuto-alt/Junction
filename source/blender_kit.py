@@ -29,7 +29,10 @@ MANIFEST = os.path.join(OUT, "gen", "manifest.json")
 _TRIM = ("column", "doorleaf", "eave", "seam", "divider", "blocker", "barrier", "railing", "fence")
 _PROPS = ("bench", "locker", "crate", "vent", "pipes", "troffer", "rack", "drum", "sign")
 _GAME = ("goal", "pin", "band", "lane", "figure", "hand", "joint", "jframe",
-         "membrane", "ball", "plate")
+         "membrane", "ball", "plate",
+         # v12「配電盤」: 5 つの継電器を入れて出口の扉を開ける
+         "breaker", "lever", "busboard", "lamp", "blast", "socket",
+         "walkway", "shard", "turn", "stepblk", "cable")
 
 
 def dest_of(name):
@@ -1122,5 +1125,9 @@ def build_doorleaf():
 
 build_doorleaf()
 build_v10()
+# v12 の部品は別ファイル。ここの名前空間で exec するので Build/mat/export が使える
+exec(compile(open(os.path.join(ROOT, "source", "blender_v12.py"), encoding="utf-8").read(),
+             "blender_v12.py", "exec"), globals())
+build_v12()
 build_manifest()
 print("KIT ALL DONE")
