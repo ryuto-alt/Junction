@@ -295,7 +295,29 @@ def glow():
     write_png(os.path.join(OUT, "glow_col.png"), srgb(g[None, None, :] * v[..., None]))
 
 
+# ---------------------------------------------------------------- 滝の縞(v13)
+def fallstripe():
+    """★G 滝の間の縞。運動残効(滝の錯覚)を起こすのが仕事なので、見た目の趣味より
+    【方向選択性ニューロンがよく順応する条件】を優先する:
+      ・縞は【横方向】に走らせる(下へ流すので、運動と直交する縞が要る)
+      ・矩形波ではなく緩い正弦波に寄せる(高次倍音は順応に効かない上にちらつく)
+      ・コントラストは高め(0.10 -> 0.92)。ただし真っ黒にはしない(暗部が潰れると縞が消える)
+      ・タイルの縦の周期は【整数本】。UV を V にタイリングして流すので、
+        ここが割り切れないと繋ぎ目で縞が飛ぶ = 一瞬で錯覚が切れる
+    UV は 1m = 1タイル で貼る(falls 側で v を 0..6 に伸ばしてある)。"""
+    BANDS = 6                                    # 1m あたり 6 本 = 16cm ピッチ
+    s = 0.5 + 0.5 * np.cos(yy * 2 * np.pi * BANDS)
+    s = np.clip((s - 0.5) * 1.35 + 0.5, 0, 1)    # 少しだけ角を立てる(矩形波にはしない)
+    v = 0.10 + 0.82 * s
+    # 濡れた石の樋を流れる水。横方向の細い筋を薄く重ねて「面」ではなく「流れ」に見せる
+    v = v * (1.0 - 0.10 * (fbm(4, 4, 0.55, 9311) - 0.5))
+    v = v * (1.0 - 0.05 * (0.5 + 0.5 * np.cos(xx * 2 * np.pi * 37)))
+    v = v + (rng.random((N, N)) - 0.5) * 0.010
+    tint = np.array([0.86, 0.92, 1.00])          # 青白い水。部屋の光(0.72,0.84,1.0)に合わせる
+    write_png(os.path.join(OUT, "falls_col.png"), srgb(tint[None, None, :] * v[..., None]))
+
+
 if __name__ == "__main__":
     wallpaper(); carpet(); ceiling(); paint(); metal(); concrete()
-    plain(); wood(); gate(); exitsign(); glow(); darkmetal()
+    plain(); wood(); gate(); exitsign(); glow(); darkmetal(); fallstripe()
     print("done")

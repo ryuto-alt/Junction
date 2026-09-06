@@ -66,6 +66,11 @@ local STAGES = {
         },
         turnts = {
         },
+        locks = {
+        },
+        falls = {
+        },
+        finale = nil,
         dynprops = { { ent = "A_crate_2", off = 0.375 } },
         anchors = {
         },
@@ -132,6 +137,11 @@ local STAGES = {
         },
         turnts = {
         },
+        locks = {
+        },
+        falls = {
+        },
+        finale = nil,
         dynprops = {  },
         anchors = {
             { ent = "Anchor_0", x = -7.000, z = 18.000, k = 0.550, d0 = 14.000 },
@@ -175,71 +185,74 @@ local STAGES = {
         },
         gates = {
             { id = "m2", ent = "Gate_m2", mem = "GateM_m2", light = "GateL_m2", x = 12.000, z = -12.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.240, cg = 0.820, cb = 1.000, hue = 0.530, needs = "" },
-            { id = "g1", ent = "Gate_g1", mem = "GateM_g1", light = "GateL_g1", x = 28.000, z = -12.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.240, cg = 0.820, cb = 1.000, hue = 0.530, needs = "" },
-            { id = "m4", ent = "Gate_m4", mem = "GateM_m4", light = "GateL_m4", x = -12.000, z = -10.000, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.320, cg = 1.000, cb = 0.480, hue = 0.350, needs = "" },
-            { id = "d1", ent = "Gate_d1", mem = "GateM_d1", light = "GateL_d1", x = -28.000, z = -10.000, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.320, cg = 1.000, cb = 0.480, hue = 0.350, needs = "" },
-            { id = "m5", ent = "Gate_m5", mem = "GateM_m5", light = "GateL_m5", x = -8.000, z = -12.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.320, cb = 0.280, hue = 0.990, needs = "" },
-            { id = "b1", ent = "Gate_b1", mem = "GateM_b1", light = "GateL_b1", x = -8.000, z = -27.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.320, cb = 0.280, hue = 0.990, needs = "" },
-            { id = "g2", ent = "Gate_g2", mem = "GateM_g2", light = "GateL_g2", x = 36.000, z = -20.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.720, cg = 0.460, cb = 1.000, hue = 0.760, needs = "" },
-            { id = "h1", ent = "Gate_h1", mem = "GateM_h1", light = "GateL_h1", x = 36.000, z = -30.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.720, cg = 0.460, cb = 1.000, hue = 0.760, needs = "" },
-            { id = "d2", ent = "Gate_d2", mem = "GateM_d2", light = "GateL_d2", x = -46.000, z = -10.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.420, cb = 0.660, hue = 0.920, needs = "" },
-            { id = "n2", ent = "Gate_n2", mem = "GateM_n2", light = "GateL_n2", x = -46.000, z = -33.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.420, cb = 0.660, hue = 0.920, needs = "" },
-            { id = "t1", ent = "Gate_t1", mem = "GateM_t1", light = "GateL_t1", x = -37.000, z = -4.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.180, cg = 0.950, cb = 0.820, hue = 0.460, needs = "" },
-            { id = "t2", ent = "Gate_t2", mem = "GateM_t2", light = "GateL_t2", x = -37.000, z = -22.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.180, cg = 0.950, cb = 0.820, hue = 0.460, needs = "" },
-            { id = "m3", ent = "Gate_m3", mem = "GateM_m3", light = "GateL_m3", x = 8.000, z = -9.500, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.380, cg = 0.520, cb = 1.000, hue = 0.620, needs = "pw" },
-            { id = "n1", ent = "Gate_n1", mem = "GateM_n1", light = "GateL_n1", x = 8.000, z = 12.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.380, cg = 0.520, cb = 1.000, hue = 0.620, needs = "pw" },
+            { id = "g1", ent = "Gate_g1", mem = "GateM_g1", light = "GateL_g1", x = 28.000, z = -5.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.240, cg = 0.820, cb = 1.000, hue = 0.530, needs = "" },
+            { id = "g2", ent = "Gate_g2", mem = "GateM_g2", light = "GateL_g2", x = 44.000, z = -20.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.720, cg = 0.460, cb = 1.000, hue = 0.760, needs = "k1" },
+            { id = "h1", ent = "Gate_h1", mem = "GateM_h1", light = "GateL_h1", x = 44.000, z = -29.000, y0 = 0.00, nx = 0.000, nz = 1.000, alx = -1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.720, cg = 0.460, cb = 1.000, hue = 0.760, needs = "k1" },
+            { id = "h2", ent = "Gate_h2", mem = "GateM_h2", light = "GateL_h2", x = 23.000, z = -43.500, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.320, cb = 0.280, hue = 0.990, needs = "k2" },
+            { id = "b2", ent = "Gate_b2", mem = "GateM_b2", light = "GateL_b2", x = 14.000, z = -43.500, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.320, cb = 0.280, hue = 0.990, needs = "k2" },
+            { id = "b3", ent = "Gate_b3", mem = "GateM_b3", light = "GateL_b3", x = -14.000, z = -38.000, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.420, cb = 0.660, hue = 0.920, needs = "k3" },
+            { id = "n3", ent = "Gate_n3", mem = "GateM_n3", light = "GateL_n3", x = -23.000, z = -38.000, y0 = 0.00, nx = 1.000, nz = 0.000, alx = -0.000, alz = 1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.420, cb = 0.660, hue = 0.920, needs = "k3" },
+            { id = "n4", ent = "Gate_n4", mem = "GateM_n4", light = "GateL_n4", x = -44.000, z = -38.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.320, cg = 1.000, cb = 0.480, hue = 0.350, needs = "k4" },
+            { id = "d3", ent = "Gate_d3", mem = "GateM_d3", light = "GateL_d3", x = -44.000, z = -24.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.320, cg = 1.000, cb = 0.480, hue = 0.350, needs = "k4" },
+            { id = "d4", ent = "Gate_d4", mem = "GateM_d4", light = "GateL_d4", x = -41.000, z = -10.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.620, cb = 0.180, hue = 0.090, needs = "k5" },
+            { id = "m4", ent = "Gate_m4", mem = "GateM_m4", light = "GateL_m4", x = -12.000, z = -10.000, y0 = 0.00, nx = -1.000, nz = 0.000, alx = -0.000, alz = -1.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 1.000, cg = 0.620, cb = 0.180, hue = 0.090, needs = "k5" },
+            { id = "t2", ent = "Gate_t2", mem = "GateM_t2", light = "GateL_t2", x = -37.000, z = -22.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.180, cg = 0.950, cb = 0.820, hue = 0.460, needs = "" },
+            { id = "t1", ent = "Gate_t1", mem = "GateM_t1", light = "GateL_t1", x = -37.000, z = -4.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.180, cg = 0.950, cb = 0.820, hue = 0.460, needs = "" },
+            { id = "m3", ent = "Gate_m3", mem = "GateM_m3", light = "GateL_m3", x = 8.000, z = -9.500, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.380, cg = 0.520, cb = 1.000, hue = 0.620, needs = "fin" },
+            { id = "n1", ent = "Gate_n1", mem = "GateM_n1", light = "GateL_n1", x = 8.000, z = 12.000, y0 = 0.00, nx = 0.000, nz = -1.000, alx = 1.000, alz = 0.000, hw = 1.00, hh = 2.60, size = 1.00, cr = 0.380, cg = 0.520, cb = 1.000, hue = 0.620, needs = "fin" },
         },
         pairs = {
             { a = 1, b = 2, both = 1, needs = "" },
-            { a = 3, b = 4, both = 1, needs = "" },
-            { a = 5, b = 6, both = 1, needs = "" },
-            { a = 7, b = 8, both = 1, needs = "" },
-            { a = 9, b = 10, both = 1, needs = "" },
-            { a = 11, b = 12, both = 1, needs = "" },
-            { a = 13, b = 14, both = 1, needs = "pw" },
+            { a = 3, b = 4, both = 1, needs = "k1" },
+            { a = 5, b = 6, both = 1, needs = "k2" },
+            { a = 7, b = 8, both = 1, needs = "k3" },
+            { a = 9, b = 10, both = 1, needs = "k4" },
+            { a = 11, b = 12, both = 1, needs = "k5" },
+            { a = 13, b = 14, both = 1, needs = "" },
+            { a = 15, b = 16, both = 1, needs = "fin" },
         },
         plates = {
-            { id = "p1", ent = "Plate_p1", light = "PlateL_p1", x = 45.000, z = -3.000, y0 = 0.00, r = 1.30, pin = 1, cr = 1.000, cg = 0.450, cb = 0.200, watch = {  } },
-            { id = "p2", ent = "Plate_p2", light = "PlateL_p2", x = 27.000, z = -21.000, y0 = 0.00, r = 1.30, pin = 1, cr = 1.000, cg = 0.450, cb = 0.200, watch = {  } },
-            { id = "q1", ent = "Plate_q1", light = "PlateL_q1", x = -45.000, z = -50.000, y0 = 0.00, r = 1.45, pin = 0, cr = 1.000, cg = 0.450, cb = 0.200, watch = { "Mir_w1_b0" } },
-            { id = "q2", ent = "Plate_q2", light = "PlateL_q2", x = -29.000, z = -50.000, y0 = 0.00, r = 1.45, pin = 0, cr = 1.000, cg = 0.450, cb = 0.200, watch = { "Mir_w1_b1" } },
+            { id = "q1", ent = "Plate_q1", light = "PlateL_q1", x = -42.000, z = -50.000, y0 = 0.00, r = 1.45, pin = 0, cr = 1.000, cg = 0.450, cb = 0.200, watch = { "Mir_w1_b0" } },
+            { id = "q2", ent = "Plate_q2", light = "PlateL_q2", x = -26.000, z = -50.000, y0 = 0.00, r = 1.45, pin = 0, cr = 1.000, cg = 0.450, cb = 0.200, watch = { "Mir_w1_b1" } },
         },
         guide = {
             { x = 12.00, z = -12.00, need = "cross:m2" },
-            { x = 36.00, z = -1.00, need = "brk:k1" },
-            { x = 36.00, z = -20.00, need = "cross:g2" },
-            { x = 40.00, z = -44.60, need = "brk:k4" },
-            { x = -12.00, z = -10.00, need = "cross:m4" },
-            { x = -37.00, z = -2.00, need = "cross:t1" },
-            { x = -41.50, z = -23.60, need = "brk:k2" },
-            { x = -46.00, z = -8.00, need = "cross:d2" },
-            { x = -37.00, z = -31.00, need = "brk:k5" },
-            { x = -8.00, z = -12.00, need = "cross:m5" },
-            { x = -11.00, z = -29.00, need = "align:a1" },
-            { x = 13.00, z = -36.00, need = "brk:k3" },
+            { x = 30.00, z = -12.00, need = "falls:wf" },
+            { x = 45.00, z = -12.00, need = "brk:k1" },
+            { x = 44.00, z = -18.00, need = "cross:g2" },
+            { x = 36.00, z = -44.60, need = "brk:k2" },
+            { x = 23.00, z = -43.50, need = "cross:h2" },
+            { x = 11.00, z = -29.00, need = "align:a1" },
+            { x = -13.00, z = -33.00, need = "brk:k3" },
+            { x = -14.00, z = -38.00, need = "cross:b3" },
+            { x = -34.00, z = -31.00, need = "brk:k4" },
+            { x = -44.00, z = -38.00, need = "cross:n4" },
+            { x = -33.00, z = -23.60, need = "brk:k5" },
+            { x = -37.00, z = -22.00, need = "cross:t2" },
+            { x = -41.00, z = -10.00, need = "cross:d4" },
+            { x = 0.00, z = -16.60, need = "fin" },
             { x = 8.00, z = -11.00, need = "cross:m3" },
             { x = 0.00, z = 18.60, need = "" },
         },
         marks = {
-            { ent = "MarkL_m2", light = "MarkLi_m2", x = 9.000, z = -12.000, cr = 0.240, cg = 0.820, cb = 1.000 },
+            { ent = "MarkL_m2", light = "MarkLi_m2", x = 9.252, z = -13.202, cr = 0.240, cg = 0.820, cb = 1.000 },
             { ent = "MarkL_m3", light = "MarkLi_m3", x = 8.000, z = -12.500, cr = 0.380, cg = 0.520, cb = 1.000 },
         },
         tilts = {
-            { x = 36.000, y = 0.000, z = -12.000, deg = 6.50, ents = { { "G_Floor", 36.000, -0.250, -12.000 }, { "G_FloorM", 36.000, 0.005, -12.000 }, { "G_TWall_0", 31.000, 0.375, -10.000 }, { "G_TWall_1", 41.000, 0.375, -14.000 }, { "G_TWall_2", 39.000, 0.375, -4.000 }, { "G_TWall_3", 33.000, 0.375, -20.000 }, { "G_locker_2", 25.400, 0.000, -1.400 }, { "G_bench_3", 46.600, 0.000, -22.600 }, { "Gate_g1", 28.000, 0.000, -12.000 }, { "GateB_g1", 28.000, 0.050, -12.000 }, { "GateM_g1", 28.000, 0.020, -12.000 }, { "GateL_g1", 28.500, 2.236, -12.000 }, { "Gate_g2", 36.000, 0.000, -20.000 }, { "GateB_g2", 36.000, 0.050, -20.000 }, { "GateM_g2", 36.000, 0.020, -20.000 }, { "GateL_g2", 36.000, 2.236, -20.500 }, { "Plate_p1", 45.000, 0.000, -3.000 }, { "PlateL_p1", 45.000, 0.500, -3.000 }, { "Plate_p2", 27.000, 0.000, -21.000 }, { "PlateL_p2", 27.000, 0.500, -21.000 }, { "Brk_k1", 36.000, 0.000, -1.000 }, { "BrkL_k1", 36.000, 1.310, -0.980 }, { "BrkP_k1", 36.000, 0.860, -1.245 }, { "BrkGL_k1", 36.000, 1.500, -1.900 } }, extra = {  } },
         },
         fovramps = {
             { axis = "z", a = -10.00, b = 10.00, f0 = 74.0, f1 = 54.0, x0 = -17.00, x1 = 17.00, z0 = -48.00, z1 = -24.00 },
         },
         breakers = {
-            { id = "k1", ent = "Brk_k1", lever = "BrkL_k1", lamp = "BrkP_k1", light = "BrkGL_k1", x = 36.000, y = 0.000, z = -1.000, yaw = 180.0, cr = 0.240, cg = 0.820, cb = 1.000, needs = { "p1", "p2" } },
-            { id = "k2", ent = "Brk_k2", lever = "BrkL_k2", lamp = "BrkP_k2", light = "BrkGL_k2", x = -41.500, y = 0.000, z = -23.600, yaw = 0.0, cr = 0.320, cg = 1.000, cb = 0.480, needs = {  } },
-            { id = "k3", ent = "Brk_k3", lever = "BrkL_k3", lamp = "BrkP_k3", light = "BrkGL_k3", x = 13.000, y = 0.000, z = -36.000, yaw = 270.0, cr = 1.000, cg = 0.320, cb = 0.280, needs = {  } },
-            { id = "k4", ent = "Brk_k4", lever = "BrkL_k4", lamp = "BrkP_k4", light = "BrkGL_k4", x = 40.000, y = 0.000, z = -44.600, yaw = 180.0, cr = 0.720, cg = 0.460, cb = 1.000, needs = {  } },
-            { id = "k5", ent = "Brk_k5", lever = "BrkL_k5", lamp = "BrkP_k5", light = "BrkGL_k5", x = -37.000, y = 0.000, z = -31.000, yaw = 180.0, cr = 1.000, cg = 0.420, cb = 0.660, needs = { "q1", "q2" } },
+            { id = "k1", ent = "Brk_k1", lever = "BrkL_k1", lamp = "BrkP_k1", light = "BrkGL_k1", x = 45.000, y = 0.000, z = -12.000, yaw = 270.0, cr = 0.240, cg = 0.820, cb = 1.000, needs = {  } },
+            { id = "k2", ent = "Brk_k2", lever = "BrkL_k2", lamp = "BrkP_k2", light = "BrkGL_k2", x = 36.000, y = 0.000, z = -44.600, yaw = 0.0, cr = 0.720, cg = 0.460, cb = 1.000, needs = {  } },
+            { id = "k3", ent = "Brk_k3", lever = "BrkL_k3", lamp = "BrkP_k3", light = "BrkGL_k3", x = -13.000, y = 0.000, z = -33.000, yaw = 90.0, cr = 1.000, cg = 0.320, cb = 0.280, needs = {  } },
+            { id = "k4", ent = "Brk_k4", lever = "BrkL_k4", lamp = "BrkP_k4", light = "BrkGL_k4", x = -34.000, y = 0.000, z = -31.000, yaw = 180.0, cr = 1.000, cg = 0.420, cb = 0.660, needs = { "q1", "q2" } },
+            { id = "k5", ent = "Brk_k5", lever = "BrkL_k5", lamp = "BrkP_k5", light = "BrkGL_k5", x = -33.000, y = 0.000, z = -23.600, yaw = 0.0, cr = 0.320, cg = 1.000, cb = 0.480, needs = {  } },
         },
         power = { lamps = { "PwLamp1", "PwLamp2", "PwLamp3", "PwLamp4", "PwLamp5" }, light = "PwLight", x = -11.500, y = 0.000, z = 19.000, doors = { { ent = "ExitL", x = 1.995, y = 0.000, z = 19.600, dx = 4.085, dz = 0.000 }, { ent = "ExitR", x = -1.995, y = 0.000, z = 19.600, dx = -4.085, dz = -0.000 } } },
         aligns = {
-            { id = "a1", ex = -11.000, ey = 1.700, ez = -29.000, tol = 3.00, hold = 0.50, bridge = "Bridge_a1", bx = 0.000, by = 0.020, bz = -36.000, segs = { { x0 = -9.800, x1 = -6.200, yb = 2.600, yt = 3.560, z = -33.200 }, { x0 = 0.200, x1 = 8.600, yb = 3.800, yt = 6.040, z = -38.800 }, { x0 = 0.900, x1 = 6.000, yb = 2.975, yt = 4.335, z = -34.950 } }, shards = { "Shard_a1_0", "Shard_a1_1", "Shard_a1_2" } },
+            { id = "a1", ex = 11.000, ey = 1.700, ez = -29.000, tol = 3.00, hold = 0.50, bridge = "Bridge_a1", bx = 0.000, by = 0.020, bz = -36.000, segs = { { x0 = -1.000, x1 = 2.600, yb = 2.600, yt = 3.560, z = -33.200 }, { x0 = -8.600, x1 = -0.200, yb = 3.800, yt = 6.040, z = -38.800 }, { x0 = 4.200, x1 = 9.300, yb = 2.975, yt = 4.335, z = -34.950 } }, shards = { "Shard_a1_0", "Shard_a1_1", "Shard_a1_2" } },
         },
         blinds = {
             { ent = "Blind_s0", x = 35.000, z = -33.000, yUp = -0.560, yDn = -4.760, cone = 34.0, rng = 27.0 },
@@ -254,9 +267,31 @@ local STAGES = {
             { id = "w1", axis = "z", c = -44.000, rows = { { a = "Mir_w1_a0", b = "Mir_w1_b0" }, { a = "Mir_w1_a1", b = "Mir_w1_b1" } }, mem = { "MirM_w1_0", "MirM_w1_1", "MirM_w1_2", "MirM_w1_3", "MirM_w1_4", "MirM_w1_5", "MirM_w1_6", "MirM_w1_7", "MirM_w1_8", "MirM_w1_9", "MirM_w1_10", "MirM_w1_11", "MirM_w1_12", "MirM_w1_13" } },
         },
         turnts = {
-            { id = "r1", ent = "Turn_r1", gate = 12, x = -37.000, y = 0.000, z = -22.000, k = -1.00, base = 48.0, r = 2.20 },
+            { id = "r1", ent = "Turn_r1", gate = 14, x = -37.000, y = 0.000, z = -4.000, k = -1.00, base = 132.0, r = 2.20 },
         },
-        dynprops = { { ent = "A_drum_2", off = 0.440 }, { ent = "A_drum_3", off = 0.440 }, { ent = "A_crate_7", off = 0.375 }, { ent = "A_drum_9", off = 0.440 }, { ent = "A_crate_10", off = 0.375 }, { ent = "A_drum_15", off = 0.440 }, { ent = "G_ball_0", off = 0.360 }, { ent = "G_ball_1", off = 0.360 }, { ent = "D_drum_2", off = 0.440 }, { ent = "D_drum_3", off = 0.440 }, { ent = "D_crate_4", off = 0.375 }, { ent = "D_crate_7", off = 0.375 }, { ent = "B_drum_3", off = 0.440 }, { ent = "B_crate_4", off = 0.375 }, { ent = "H_drum_4", off = 0.440 }, { ent = "H_crate_5", off = 0.375 }, { ent = "M_crate_4", off = 0.375 }, { ent = "Mir_w1_a0", off = 0.440 }, { ent = "Mir_w1_a1", off = 0.440 } },
+        locks = {
+            { gate = "g2", ent = "Lock_g2", needs = "k1", x = 44.000, y = 0.020, z = -20.000 },
+            { gate = "h1", ent = "Lock_h1", needs = "k1", x = 44.000, y = 0.020, z = -29.000 },
+            { gate = "h2", ent = "Lock_h2", needs = "k2", x = 23.000, y = 0.020, z = -43.500 },
+            { gate = "b2", ent = "Lock_b2", needs = "k2", x = 14.000, y = 0.020, z = -43.500 },
+            { gate = "b3", ent = "Lock_b3", needs = "k3", x = -14.000, y = 0.020, z = -38.000 },
+            { gate = "n3", ent = "Lock_n3", needs = "k3", x = -23.000, y = 0.020, z = -38.000 },
+            { gate = "n4", ent = "Lock_n4", needs = "k4", x = -44.000, y = 0.020, z = -38.000 },
+            { gate = "d3", ent = "Lock_d3", needs = "k4", x = -44.000, y = 0.020, z = -24.000 },
+            { gate = "d4", ent = "Lock_d4", needs = "k5", x = -41.000, y = 0.020, z = -10.000 },
+            { gate = "m4", ent = "Lock_m4", needs = "k5", x = -12.000, y = 0.020, z = -10.000 },
+            { gate = "m3", ent = "Lock_m3", needs = "fin", x = 8.000, y = 0.020, z = -9.500 },
+            { gate = "n1", ent = "Lock_n1", needs = "fin", x = 8.000, y = 0.020, z = 12.000 },
+        },
+        falls = {
+            { id = "wf", x = 24.300, y = 2.600, z = -12.000, nx = 1.000, nz = 0.000, cone = 26.0, rng = 14.0, rate = 1.00, cap = 6.00, hold = 2.60, decay = 0.50, hw = 6.00, face = "Falls_wf", light = "FallsL_wf",
+              steps = { { ent = "FallsStep_wf_0", x = 30.600, z = -12.000, y0 = -4.760, y1 = -0.560 }, { ent = "FallsStep_wf_1", x = 32.400, z = -12.000, y0 = -4.760, y1 = -0.560 }, { ent = "FallsStep_wf_2", x = 34.200, z = -12.000, y0 = -4.760, y1 = -0.560 }, { ent = "FallsStep_wf_3", x = 36.000, z = -12.000, y0 = -4.760, y1 = -0.560 }, { ent = "FallsStep_wf_4", x = 37.800, z = -12.000, y0 = -4.760, y1 = -0.560 }, { ent = "FallsStep_wf_5", x = 39.600, z = -12.000, y0 = -4.760, y1 = -0.560 }, { ent = "FallsStep_wf_6", x = 41.400, z = -12.000, y0 = -4.760, y1 = -0.560 } },
+              walls = { "G_WallM_N", "G_WallM_S", "G_WallM_E", "G_WallM_W" } },
+        },
+        finale = { room = "A", x = 0.000, y = 0.000, z = -19.600, redsec = 20.0, answer = 3, near = 2.00, arm = 13.00, nlight = 25, lit = 3.40,
+            panel = "Fin_Panel", white = "Fin_White", plug = "Fin_Plug", marks = { "Fin_M0", "Fin_M1", "Fin_M2" }, lights = { "Fin_L0", "Fin_L1" },
+            sockets = { { ent = "Fin_Sock0", x = -3.000, y = 0.000, z = -16.600, px = -3.000, py = 1.050, pz = -16.050, pyaw = 180.0 }, { ent = "Fin_Sock1", x = 0.000, y = 0.000, z = -16.600, px = 0.000, py = 1.050, pz = -16.050, pyaw = 180.0 }, { ent = "Fin_Sock2", x = 3.000, y = 0.000, z = -16.600, px = 3.000, py = 1.050, pz = -16.050, pyaw = 180.0 } } },
+        dynprops = { { ent = "A_drum_2", off = 0.440 }, { ent = "A_drum_3", off = 0.440 }, { ent = "A_crate_7", off = 0.375 }, { ent = "A_drum_9", off = 0.440 }, { ent = "A_crate_10", off = 0.375 }, { ent = "A_drum_15", off = 0.440 }, { ent = "G_crate_2", off = 0.375 }, { ent = "D_drum_2", off = 0.440 }, { ent = "D_drum_3", off = 0.440 }, { ent = "D_crate_4", off = 0.375 }, { ent = "D_crate_7", off = 0.375 }, { ent = "B_drum_3", off = 0.440 }, { ent = "B_crate_4", off = 0.375 }, { ent = "H_drum_4", off = 0.440 }, { ent = "H_crate_5", off = 0.375 }, { ent = "M_crate_4", off = 0.375 }, { ent = "Mir_w1_a0", off = 0.440 }, { ent = "Mir_w1_a1", off = 0.440 } },
         anchors = {
         },
         dolly = {
@@ -268,11 +303,11 @@ local STAGES = {
         hint = { { 12.00, -12.00 } },
         startScale = 1.000,
         start = "A", goalRoom = "A",
-        spawn = { 0.0, -18.0, 0.0 }, teach = nil,
+        spawn = { 7.0, -18.0, 0.0 }, teach = nil,
         cine = {
             { 14.00, 9.00, -18.50, -4.00, 3.40, 18.00, 3.20 },
-            { 0.00, 2.70, -18.60, 0.00, 2.60, 12.00, 1.80 },
-            { 0.00, 1.70, -18.00, 0.00, 1.70, -10.00, 1.40 },
+            { 7.00, 2.70, -18.60, 4.00, 2.60, 12.00, 1.80 },
+            { 7.00, 1.70, -18.00, 7.00, 1.70, -10.00, 1.40 },
         } },
     -- <<<STAGES
 }
@@ -518,6 +553,69 @@ local function resetRun(self)
         self.blindY[i] = bl.yUp
         place(bl.ent, bl.x, bl.yUp, bl.z)
     end
+    -- ---- v13: 錠(順序解放) / 滝の間(運動残効) / フィナーレ(補色残像) ----
+    -- ★錠は【被さっている】のが初期状態。needs が満ちた瞬間に床へ落ちて消える。
+    --   これが「解放された」の唯一の合図なので、文字は 1 文字も出さない。
+    self.lockK = {}
+    for i, lk in ipairs(self.cfg.locks or {}) do
+        self.lockK[i] = 0
+        place(lk.ent, lk.x, lk.y, lk.z)
+    end
+    self.fallsC, self.fallsA, self.fallsK, self.fallsLook, self.fallsSeen = {}, {}, {}, {}, {}
+    self.fallsUV = {}
+    for i, fa in ipairs(self.cfg.falls or {}) do
+        self.fallsC[i], self.fallsA[i], self.fallsK[i] = 0, 0, 0
+        self.fallsUV[i] = false
+        for _, sp in ipairs(fa.steps or {}) do place(sp.ent, sp.x, sp.y0, sp.z) end
+        -- 滝は【常に下へ流れている】。これが順応させる刺激そのもの
+        pcall(function()
+            local e = ent(fa.face)
+            if e then scene:setMeshUvScroll(e, 0.0, 0.9) end
+        end)
+        for _, nm in ipairs(fa.walls or {}) do
+            local e = ent(nm)
+            if e then pcall(function() scene:setMeshUvScroll(e, 0.0, 0.0) end) end
+        end
+    end
+    self.finDone, self.finPhase, self.finT, self.finSock, self.finDim = false, nil, 0, nil, false
+    do
+        local fi = self.cfg.finale
+        if fi then
+            hide(fi.panel); hide(fi.white); hide(fi.plug)
+            -- ★印の高さは生成時に焼いてある。隠す【前に】控えておく(hide は y を潰す)
+            self.finMY = self.finMY or {}
+            for j, nm in ipairs(fi.marks or {}) do
+                local e = ent(nm)
+                -- ★【隠れている高さを控えない】こと。ホットリロードや R で
+                --   resetRun がもう一度走ると、印はすでに HIDE_Y にいる。それを控えると
+                --   赤面の時に印が -200 へ戻されて【印の無い赤い板】になる(実測)。
+                if e and not self.finMY[j] and e.transform.position.y > HIDE_Y * 0.5 then
+                    self.finMY[j] = e.transform.position.y
+                end
+                hide(nm)
+            end
+            for _, nm in ipairs(fi.lights or {}) do
+                local L = ent(nm)
+                if L and L:light() then L:light().intensity = 0.0 end
+            end
+            -- ★赤面は【素の白テクスチャ】。赤 (0.86,0.05,0.05) は setColor(乗算)で作る。
+            --   ここは 1 回だけでいい(毎フレーム撃つと GPU 同期を招く)
+            local pn = ent(fi.panel)
+            -- ★赤は【飽和しているほど強い】。白へクリップさせると salmon に見えて
+            --   錐体の順応が分散し、緑の残像が弱くなる(実測で淡い桃色になっていた)。
+            if pn then pcall(function() scene:setColor(pn, 1.00, 0.03, 0.03) end) end
+            local wh = ent(fi.white)
+            if wh then pcall(function() scene:setColor(wh, 0.97, 0.97, 0.97) end) end
+            for _, nm in ipairs(fi.marks or {}) do
+                local e = ent(nm)
+                if e then pcall(function() scene:setColor(e, 0.04, 0.02, 0.02) end) end
+            end
+            for n = 1, (fi.nlight or 25) do
+                local L = ent(fi.room .. "_Light_" .. n)
+                if L and L:light() then L:light().intensity = fi.lit end
+            end
+        end
+    end
     -- ★枠の【もとの向き】を覚える。回転台に載った枠はここから毎フレーム回す
     for _, g in ipairs(self.cfg.gates or {}) do
         g.bnx, g.bnz = g.bnx or g.nx, g.bnz or g.nz
@@ -672,6 +770,11 @@ local function pilot(self, t, p)
                 ok = (self.brkOn or {})[st.need:sub(5)] == true
             elseif st.need:sub(1, 6) == "align:" then
                 ok = (self.alignDone or {})[st.need:sub(7)] == true
+            elseif st.need:sub(1, 6) == "falls:" then
+                -- ★v13: 滝を見つめて【一度でも残効を起こした】ら次へ進む
+                ok = (self.fallsSeen or {})[st.need:sub(7)] == true
+            elseif st.need == "fin" then
+                ok = self.finDone == true
             end
             if ok then self.gi = self.gi + 1 else break end
         end
@@ -1307,6 +1410,21 @@ function OnUpdate(self, dt)
         -- ★「5 つ揃った」は板と同じ扱いにする。こうすると青い枠の needs = "pw" が
         --   既存の plateDone の仕組みだけで動く(枠側のコードを一行も足さなくていい)
         self.plateDone["pw"] = (nb > 0 and on >= nb)
+        -- ★★v13: 継電器そのものも【重量板と同じ帳簿】に載せる。これだけで
+        --   PAIR(a, b, needs="k1") = 順序解放になる(枠の live 判定 / 膜の色 / 灯り /
+        --   案内の光 / 錠 は全部 plateDone を見ているので、表示系ごと自動で追従する)。
+        -- ★検証用フック(MCP から): saveNum("dbg_pw", 1) で 5 台とも入った事にする。
+        --   錠の連鎖とフィナーレを、全部解かずに実機で確かめるためのもの。
+        if loadNum("dbg_pw", 0) > 0.5 then
+            for _, bk2 in ipairs(self.cfg.breakers or {}) do self.brkOn[bk2.id] = true end
+            on, self.pwOn = nb, nb
+            self.plateDone["pw"] = (nb > 0)
+        end
+        for _, bk2 in ipairs(self.cfg.breakers or {}) do
+            self.plateDone[bk2.id] = self.brkOn[bk2.id] or false
+        end
+        -- ★フィナーレ(補色残像)を解いたら通電。谷を渡る枠 needs="fin" がこれで開く
+        self.plateDone["fin"] = self.finDone or false
         self.pwOn = on
 
         local pw = self.cfg.power
@@ -1326,8 +1444,11 @@ function OnUpdate(self, dt)
                 L:light():setColor(0.35 + 0.2 * on / math.max(1, nb), 0.55 + 0.45 * on / math.max(1, nb), 0.7)
                 L:light().intensity = 1.2 + 1.4 * on / math.max(1, nb)
             end
-            -- 扉。5 つ揃うと左右へ開く
-            local want = self.plateDone["pw"] and 1.0 or 0.0
+            -- 扉。★v13: フィナーレのある面は【回路図を読んで通電した時】に開く。
+            --   5/5 は「配電盤に電気が来た」までで、扉を開けるのはその先の一手
+            local opened = self.plateDone["pw"]
+            if self.cfg.finale then opened = self.finDone end
+            local want = opened and 1.0 or 0.0
             self.doorK = (self.doorK or 0) + (want - (self.doorK or 0)) * (1 - math.exp(-1.5 * dt))
             for _, d in ipairs(pw.doors or {}) do
                 local e = ent(d.ent)
@@ -1456,6 +1577,225 @@ function OnUpdate(self, dt)
             y = y + (tgt - y) * (1 - math.exp(-dt / tau))
             self.blindY[i] = y
             place(bl.ent, bl.x, y, bl.z)
+        end
+    end
+
+    -- ================================ v13: 錠(順序解放) ================================
+    -- ★needs が満ちた瞬間に、枠に被さっていた格子が【床へ落ちて消える】。
+    --   0.6 秒 + ui/open.wav。これが「解放された」の唯一の合図で、文字は出さない。
+    for i, lk in ipairs(self.cfg.locks or {}) do
+        local k2 = self.lockK[i] or 0
+        if k2 < 1.0 then
+            local live = (lk.needs == "") or self.plateDone[lk.needs]
+            if live then
+                if k2 <= 0 then
+                    sfx("open", 0.85, 0.85)
+                    fx:burst{ x = lk.x, y = lk.y + 1.3, z = lk.z, kind = "spark",
+                              count = 26, size = 0.28, r = 0.9, g = 0.85, b = 0.7 }
+                    log("JUNCTION lock " .. lk.gate .. " released")
+                end
+                k2 = math.min(1.0, k2 + dt / 0.6)
+                self.lockK[i] = k2
+                local e = ent(lk.ent)
+                if e then
+                    if k2 >= 1.0 then
+                        e.transform.position = Vec3.new(lk.x, HIDE_Y, lk.z)
+                    else
+                        e.transform.position = Vec3.new(lk.x, lk.y - 4.2 * k2 * k2, lk.z)
+                    end
+                end
+            end
+        end
+    end
+
+    -- ================================ v13: 滝の間(運動残効) ================================
+    -- ★下へ流れ続ける縞を【じっと見つめる】と、目を離した先が逆向きに流れて見える
+    --   (Motion Aftereffect / 滝の錯覚)。残効の長さは適応時間の【平方根】で伸びる
+    --   (Anstis, Verstraten & Mather 1998)。だから難度曲線を設計者がでっち上げなくていい。
+    --   ★その残効が生きている間だけ、谷に架かる板が本当に迫り上がっている。
+    --   ★合図は文字でも UI でもない: 壁のテクスチャが【逆向きにドリフトする】。
+    --     プレイヤーの脳内で起きているのと同じ事を、世界の側でも起こす。
+    do
+        local yawc = math.rad(loadNum("camYaw", 0))
+        local fx0, fz0 = math.sin(yawc), math.cos(yawc)
+        for i, fa in ipairs(self.cfg.falls or {}) do
+            -- ★【面の最近点】を見る。中心点だけで判定すると、幅 12m の滝の
+            --   目の前に立っていても軸から外れた瞬間に「見ていない」になる(実測で
+            --   z が 4m ずれると 61 度。cone 26 度に入らない)。滝は壁であって点ではない。
+            local hw2 = fa.hw or 0.0
+            local alx, alz = -fa.nz, fa.nx
+            local lat = (p.x - fa.x) * alx + (p.z - fa.z) * alz
+            if lat > hw2 then lat = hw2 elseif lat < -hw2 then lat = -hw2 end
+            local cx2, cz2 = fa.x + alx * lat, fa.z + alz * lat
+            local dx, dz = cx2 - p.x, cz2 - p.z
+            local d = math.sqrt(dx * dx + dz * dz)
+            local look = false
+            if d > 0.001 and d < fa.rng then
+                look = ((dx * fx0 + dz * fz0) / d) > math.cos(math.rad(fa.cone))
+            end
+            local c2 = self.fallsC[i] or 0
+            if look then
+                c2 = math.min(fa.cap, c2 + fa.rate * dt)
+            else
+                c2 = math.max(0.0, c2 - fa.decay * dt)
+            end
+            -- ★目を離した【その瞬間】に残効が始まる。長さは sqrt(溜め / 上限)
+            if (self.fallsLook[i] == true) and (not look) and c2 > 0.05 then
+                self.fallsA[i] = fa.hold * math.sqrt(c2 / fa.cap)
+                self.fallsSeen[fa.id] = true
+                sfx("grow", 0.55, 0.35)
+            end
+            self.fallsLook[i] = look
+            self.fallsC[i] = c2
+            local a2 = self.fallsA[i] or 0
+            if a2 > 0 then a2 = math.max(0.0, a2 - dt); self.fallsA[i] = a2 end
+            local live = (a2 > 0.0)
+            -- 板。迫り上がるのは速く(0.25 秒)、落ちるのは 0.8 秒(踏み外しても即死にしない)
+            local k2 = self.fallsK[i] or 0
+            if live then k2 = math.min(1.0, k2 + dt / 0.25)
+            else k2 = math.max(0.0, k2 - dt / 0.8) end
+            self.fallsK[i] = k2
+            for _, sp in ipairs(fa.steps or {}) do
+                place(sp.ent, sp.x, sp.y0 + (sp.y1 - sp.y0) * k2, sp.z)
+            end
+            -- 滝の面。★残効の間だけ【逆向きに】流れる
+            if self.fallsUV[i] ~= live then
+                self.fallsUV[i] = live
+                pcall(function()
+                    local e = ent(fa.face)
+                    if e then scene:setMeshUvScroll(e, 0.0, live and -0.9 or 0.9) end
+                    for _, nm in ipairs(fa.walls or {}) do
+                        local w2 = ent(nm)
+                        if w2 then scene:setMeshUvScroll(w2, 0.0, live and -0.22 or 0.0) end
+                    end
+                end)
+            end
+            local L = ent(fa.light)
+            if L and L:light() then
+                local g2 = 0.35 + 0.65 * (c2 / fa.cap)
+                L:light().intensity = 4.2 + 3.4 * g2 + (live and 2.0 or 0.0)
+            end
+        end
+    end
+
+    -- ================================ v13: フィナーレ(補色残像) ================================
+    -- ★5/5 で母屋が暗くなり、真っ赤な大面が 20 秒灯る。中には黒く抜かれた印が 3 つ。
+    --   赤が消えて白い壁になった瞬間、プレイヤーの【網膜が】緑の残像で回路図を描く。
+    --   ゲームは白い壁しか描いていない。攻略サイトのスクリーンショットには絶対に写らない。
+    --   ★間違えても失敗しない(deny が鳴って赤面がもう一度出るだけ)。
+    --   ★残像が見えなくても【印の位置を覚えていれば解ける】。印は差込口の真上にある。
+    do
+        local fi = self.cfg.finale
+        if fi and not self.finDone then
+            local nb = #(self.cfg.breakers or {})
+            -- ★5/5 になった【その場】では始めない。まだ D に居るうちに 20 秒が過ぎて
+            --   赤面を一度も見られない、という事故になる。母屋へ戻って来てから始める
+            -- ★始まるまでは毎フレーム隠し続ける。resetRun で 1 回 hide() するだけだと
+            --   【Play 直後のシーン復元が transform を書き戻す】ので、赤面と印が
+            --   開幕から母屋に立ったままになる(2026-09-05 実測)。答えが最初から見えていた。
+            if not self.finPhase then
+                local pn = ent(fi.panel)
+                if pn and pn.transform.position.y > HIDE_Y * 0.5 then hide(fi.panel) end
+                for _, nm in ipairs(fi.marks or {}) do
+                    local e2 = ent(nm)
+                    if e2 and e2.transform.position.y > HIDE_Y * 0.5 then hide(nm) end
+                end
+            end
+            local dd = math.sqrt((p.x - fi.x) ^ 2 + (p.z - fi.z) ^ 2)
+            if (not self.finPhase) and nb > 0 and (self.pwOn or 0) >= nb
+               and dd < (fi.arm or 13.0) and math.abs(p.y - fi.y) < 6.0 then
+                self.finPhase, self.finT = "red", 0.0
+                sfx("connect", 0.45, 0.9)
+                log("JUNCTION finale start")
+            end
+            if self.finPhase then
+                self.finT = (self.finT or 0) + dt
+                -- 母屋を暗くする。★残像は網膜の順応なので【画面を暗くしすぎない】。
+                --   落とすのは部屋の灯りだけで、露出(exposure)には触らない
+                if not self.finDim then
+                    self.finDim = true
+                    for n = 1, (fi.nlight or 25) do
+                        local L = ent(fi.room .. "_Light_" .. n)
+                        if L and L:light() then L:light().intensity = fi.lit * 0.10 end
+                    end
+                end
+                local red = (self.finPhase == "red")
+                if red and self.finT >= fi.redsec then
+                    self.finPhase = "white"
+                    self.finT = 0.0
+                    red = false
+                    sfx("detent", 0.7, 0.5)
+                end
+                -- 赤面(+ 印)と白面の出し入れ。位置は生成時のまま、y だけで隠す
+                local pn = ent(fi.panel)
+                if pn then
+                    local q = pn.transform.position
+                    pn.transform.position = Vec3.new(q.x, red and fi.y or HIDE_Y, q.z)
+                end
+                local wh = ent(fi.white)
+                if wh then
+                    local q = wh.transform.position
+                    wh.transform.position = Vec3.new(q.x, red and HIDE_Y or fi.y, q.z)
+                end
+                for j, nm in ipairs(fi.marks or {}) do
+                    local e = ent(nm)
+                    if e then
+                        local q = e.transform.position
+                        e.transform.position = Vec3.new(
+                            q.x, red and ((self.finMY or {})[j] or q.y) or HIDE_Y, q.z)
+                    end
+                end
+                for _, nm in ipairs(fi.lights or {}) do
+                    local L = ent(nm)
+                    if L and L:light() then
+                        if red then
+                            -- ★緑と青を落とし切る。ここが残像の濃さを決める。
+                            --   強すぎると白飛びして逆に飽和度が落ちるので 6.5 まで。
+                            L:light():setColor(1.0, 0.05, 0.03)
+                            L:light().intensity = 6.5
+                        else
+                            L:light():setColor(0.95, 0.96, 1.0)
+                            L:light().intensity = 5.5
+                        end
+                    end
+                end
+                -- ★差込口。継電器と同じ「近づくだけ」の動詞。一番近い 1 つだけを見る
+                if self.finPhase == "white" then
+                    local best, bi = fi.near or 2.0, nil
+                    for j, so in ipairs(fi.sockets or {}) do
+                        local d = math.sqrt((p.x - so.x) ^ 2 + (p.z - so.z) ^ 2)
+                        if d < best then best, bi = d, j end
+                    end
+                    if bi and self.finSock ~= bi then
+                        self.finSock = bi
+                        if bi == fi.answer then
+                            self.finDone = true
+                            self.finPhase = nil
+                            local so = fi.sockets[bi]
+                            place(fi.plug, so.px, so.py, so.pz, so.pyaw)
+                            hide(fi.white)
+                            for _, nm in ipairs(fi.lights or {}) do
+                                local L = ent(nm)
+                                if L and L:light() then L:light().intensity = 0.0 end
+                            end
+                            for n = 1, (fi.nlight or 25) do
+                                local L = ent(fi.room .. "_Light_" .. n)
+                                if L and L:light() then L:light().intensity = fi.lit end
+                            end
+                            sfx("clear", 1.0, 0.8)
+                            fx:burst{ x = so.x, y = so.y + 1.1, z = so.z, kind = "spark",
+                                      count = 80, size = 0.42, r = 0.4, g = 1.0, b = 0.7 }
+                            log("JUNCTION finale solved")
+                        else
+                            -- ★間違えても罰は無い。赤面がもう一度出るだけ
+                            sfx("deny", 0.9, 0.7)
+                            self.finPhase, self.finT = "red", 0.0
+                        end
+                    elseif not bi then
+                        self.finSock = nil
+                    end
+                end
+            end
         end
     end
 
@@ -1875,38 +2215,6 @@ function OnUpdate(self, dt)
     -- ================================ HUD ================================
     ui:rect(W * 0.5 - 4, H * 0.5 - 4, 8, 8, 0, 0, 0, 0.5, 4)
     ui:rect(W * 0.5 - 2, H * 0.5 - 2, 4, 4, 1, 1, 1, 0.95, 2)
-
-    -- ★v11: 重なり具合。文字は出さない。照準の真下の細い線 1 本だけ。
-    --   枠の正面に立つと出て、動くと伸び縮みする = 手探りで正しい立ち位置を探せる。
-    do
-        local gates = self.cfg.gates or {}
-        local best, bi = 0.0, nil
-        for i, g in ipairs(gates) do
-            local ax, az = p.x - g.x, p.z - g.z
-            local fa = ax * g.nx + az * g.nz
-            local lat = math.abs(ax * g.alx + az * g.alz)
-            local d = math.sqrt(ax * ax + az * az)
-            if fa > 0.2 and d < 9.0 and lat < g.hw + 2.6 then
-                local sc2 = (1.0 - d / 9.0) * (1.0 - math.min(1.0, lat / (g.hw + 2.6)))
-                if sc2 > best then best, bi = sc2, i end
-            end
-        end
-        if bi then
-            local g = gates[bi]
-            local live = (g.needs == "") or self.plateDone[g.needs]
-            local str = self.gStr[bi] or 0
-            local bw, bx, by = 96, W * 0.5 - 48, H * 0.5 + 26
-            if live then
-                ui:rect(bx, by, bw, 3, 0.10, 0.11, 0.13, 0.55, 2)
-                if str > 0.01 then
-                    ui:rect(bx, by, bw * math.min(1, str), 3,
-                            g.cr or 0.7, g.cg or 0.8, g.cb or 1.0, 0.95, 2)
-                end
-            else
-                ui:rect(bx, by, bw, 3, 0.42, 0.10, 0.09, 0.6, 2)
-            end
-        end
-    end
 
     local help = keyDown("H")
     local stuck = self.noAct > 12.0

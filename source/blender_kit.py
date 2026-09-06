@@ -32,7 +32,11 @@ _GAME = ("goal", "pin", "band", "lane", "figure", "hand", "joint", "jframe",
          "membrane", "ball", "plate",
          # v12「配電盤」: 5 つの継電器を入れて出口の扉を開ける
          "breaker", "lever", "busboard", "lamp", "blast", "socket",
-         "walkway", "shard", "turn", "stepblk", "cable")
+         "walkway", "shard", "turn", "stepblk", "cable",
+         # v13「観測が世界を確定させる」: 順序解放の錠・滝(運動残効)・補色残像のフィナーレ
+         "lockplate", "falls", "fallsrail",
+         "redpanel", "redmark_circle", "redmark_triangle", "redmark_cross",
+         "busplug", "bussocket_circle", "bussocket_triangle", "bussocket_cross")
 
 
 def dest_of(name):
@@ -1074,8 +1078,19 @@ def build_manifest():
             export(b.make("jx_" + name, [M_C2, M_CE, M_WA, M_WA]), name + ".gltf")
         elif spec.get("floor"):
             # ★施設の床はコンクリート。v9 までのカーペットと混ぜると「同じ建物」に見えない
-            M_F = (mat("jx_conc", "concrete_col.png", 0.92, 0.0, "concrete_nrm.png")
-                   if spec.get("mat") == "concrete" else M_CARPET)
+            # ★v13: 部屋ごとに床の表情を変える。知らない名前はカーペットへ落ちるので、
+            #   gen_stages.py の floorMat に足した名前はここにも足すこと(黙って絨毯になる)
+            _FLOORMAT = {
+                "concrete": ("jx_conc", "concrete_col.png", 0.92, 0.0, "concrete_nrm.png"),
+                # 滝の間。濡れた石 = コンクリと同じ絵をつるつるにする(反射で光が伸びる)
+                "wetstone": ("jx_wet", "concrete_col.png", 0.30, 0.0, "concrete_nrm.png"),
+                # 膜の間。塗装したタイル
+                "tile": ("jx_tile", "paint_col.png", 0.35),
+                # 継の間。金属の踏み板
+                "metal": ("jx_floormetal", "metal_col.png", 0.45, 0.85),
+            }
+            _fm = _FLOORMAT.get(spec.get("mat"))
+            M_F = mat(*_fm) if _fm else M_CARPET
             b = Build()
             b.floorquad(-spec["sx"] / 2, spec["sx"] / 2, -spec["sz"] / 2, spec["sz"] / 2, 0.0, 0)
             export(b.make("jx_" + name, [M_F]), name + ".gltf")
@@ -1129,5 +1144,8 @@ build_v10()
 exec(compile(open(os.path.join(ROOT, "source", "blender_v12.py"), encoding="utf-8").read(),
              "blender_v12.py", "exec"), globals())
 build_v12()
+exec(compile(open(os.path.join(ROOT, "source", "blender_v13.py"), encoding="utf-8").read(),
+             "blender_v13.py", "exec"), globals())
+build_v13()
 build_manifest()
 print("KIT ALL DONE")
