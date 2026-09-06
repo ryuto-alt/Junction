@@ -133,6 +133,12 @@ CONNS = {
     },
     hinges={
 
+    },
+    shines={
+
+    },
+    excl={
+
     }
   },
   {
@@ -295,6 +301,12 @@ CONNS = {
 
     },
     hinges={
+
+    },
+    shines={
+
+    },
+    excl={
 
     }
   },
@@ -607,6 +619,12 @@ CONNS = {
     },
     hinges={
 
+    },
+    shines={
+
+    },
+    excl={
+
     }
   },
   {
@@ -816,8 +834,911 @@ CONNS = {
         dur=1.5,
         delay=0.9
       }
+    },
+    shines={
+
+    },
+    excl={
+
+    }
+  },
+  {
+    id=5.0,
+    focus={6.6,5.1,92.0},
+    lock=4.2,
+    warn=26.0,
+    center={6.0,5.5,103.8},
+    note="shutter",
+    shards={
+      {
+        k=1.0,
+        ents={
+          {
+            n="C5_ll",
+            p={4.75,4.45,103.84},
+            s={2.47,2.07,0.14}
+          },
+          {
+            n="C5_lr",
+            p={7.25,4.45,103.84},
+            s={2.47,2.07,0.14}
+          },
+          {
+            n="C5_ur",
+            p={7.25,6.55,103.84},
+            s={2.47,2.07,0.14}
+          }
+        },
+        pts={
+          {8.485,7.585,103.91},
+          {3.515,7.585,103.91},
+          {8.485,3.415,103.91},
+          {3.515,3.415,103.91},
+          {8.485,7.585,103.77},
+          {3.515,7.585,103.77},
+          {8.485,3.415,103.77},
+          {3.515,3.415,103.77}
+        }
+      },
+      {
+        k=0.16,
+        ents={
+          {
+            n="C5_ul",
+            p={4.75,6.55,103.84},
+            s={2.47,2.07,0.14}
+          },
+          {
+            n="C5_ul_r0",
+            p={4.75,5.76,103.75},
+            s={2.38,0.07,0.05}
+          },
+          {
+            n="C5_ul_r1",
+            p={4.75,6.26,103.75},
+            s={2.38,0.07,0.05}
+          },
+          {
+            n="C5_ul_r2",
+            p={4.75,6.76,103.75},
+            s={2.38,0.07,0.05}
+          },
+          {
+            n="C5_ul_r3",
+            p={4.75,7.26,103.75},
+            s={2.38,0.07,0.05}
+          },
+          {
+            n="C5_ulg0",
+            p={4.75,7.58,103.755},
+            s={2.47,0.05,0.05}
+          },
+          {
+            n="C5_ulg1",
+            p={5.98,6.55,103.755},
+            s={0.05,2.07,0.05}
+          }
+        },
+        pts={
+          {6.005,7.605,103.91},
+          {3.515,7.605,103.91},
+          {6.005,5.515,103.91},
+          {3.515,5.515,103.91},
+          {6.005,7.605,103.725},
+          {3.515,7.605,103.725},
+          {6.005,5.515,103.725},
+          {3.515,5.515,103.725}
+        }
+      }
+    },
+    glows={
+      "C5_ulg0",
+      "C5_ulg1"
+    },
+    solids={
+
+    },
+    movers={
+      {
+        n="C5_ll",
+        to={4.75,8.8,103.84},
+        dur=2.2,
+        delay=0.5
+      },
+      {
+        n="C5_lr",
+        to={7.25,8.8,103.84},
+        dur=2.2,
+        delay=0.5
+      },
+      {
+        n="C5_ur",
+        to={7.25,10.9,103.84},
+        dur=2.2,
+        delay=0.5
+      },
+      {
+        n="C5_ul",
+        to={6.304,9.682,93.8944},
+        dur=2.2,
+        delay=0.5
+      },
+      {
+        n="C5_ul_r0",
+        to={6.304,9.5556,93.88},
+        dur=2.2,
+        delay=0.5
+      },
+      {
+        n="C5_ul_r1",
+        to={6.304,9.6356,93.88},
+        dur=2.2,
+        delay=0.5
+      },
+      {
+        n="C5_ul_r2",
+        to={6.304,9.7156,93.88},
+        dur=2.2,
+        delay=0.5
+      },
+      {
+        n="C5_ul_r3",
+        to={6.304,9.7956,93.88},
+        dur=2.2,
+        delay=0.5
+      },
+      {
+        n="C5_ulg0",
+        to={6.304,9.8468,93.8808},
+        dur=2.2,
+        delay=0.5
+      },
+      {
+        n="C5_ulg1",
+        to={6.5008,9.682,93.8808},
+        dur=2.2,
+        delay=0.5
+      }
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+
+    },
+    excl={
+
+    }
+  },
+  {
+    id=6.0,
+    focus={7.4,5.1,118.6},
+    lock=1.0,
+    warn=11.0,
+    center={17.8,4.6,110.5},
+    note="behind",
+    shards={
+      {
+        k=1.0,
+        ents={
+          {
+            n="C6_R_jamb",
+            p={17.89,4.65,111.15},
+            s={0.22,2.3,0.2}
+          },
+          {
+            n="C6_R_head",
+            p={17.89,5.7,110.825},
+            s={0.22,0.2,0.65}
+          },
+          {
+            n="C6_R_sill",
+            p={17.89,3.45,110.825},
+            s={0.22,0.1,0.65}
+          },
+          {
+            n="C6_R_g1",
+            p={17.768,4.55,111.065},
+            s={0.03,2.1,0.03}
+          },
+          {
+            n="C6_R_g2",
+            p={17.768,5.585,110.775},
+            s={0.03,0.03,0.55}
+          },
+          {
+            n="C6_R_g3",
+            p={17.768,3.515,110.775},
+            s={0.03,0.03,0.55}
+          }
+        },
+        pts={
+          {18.0,5.8,111.25},
+          {17.753,5.8,111.25},
+          {18.0,3.4,111.25},
+          {17.753,3.4,111.25},
+          {18.0,5.8,110.5},
+          {17.753,5.8,110.5},
+          {18.0,3.4,110.5},
+          {17.753,3.4,110.5}
+        }
+      },
+      {
+        k=0.46,
+        ents={
+          {
+            n="C6_L_jamb",
+            p={17.89,4.65,109.85},
+            s={0.22,2.3,0.2}
+          },
+          {
+            n="C6_L_head",
+            p={17.89,5.7,110.175},
+            s={0.22,0.2,0.65}
+          },
+          {
+            n="C6_L_sill",
+            p={17.89,3.45,110.175},
+            s={0.22,0.1,0.65}
+          },
+          {
+            n="C6_L_g1",
+            p={17.768,4.55,109.935},
+            s={0.03,2.1,0.03}
+          },
+          {
+            n="C6_L_g2",
+            p={17.768,5.585,110.225},
+            s={0.03,0.03,0.55}
+          },
+          {
+            n="C6_L_g3",
+            p={17.768,3.515,110.225},
+            s={0.03,0.03,0.55}
+          }
+        },
+        pts={
+          {18.0,5.8,110.5},
+          {17.753,5.8,110.5},
+          {18.0,3.4,110.5},
+          {17.753,3.4,110.5},
+          {18.0,5.8,109.75},
+          {17.753,5.8,109.75},
+          {18.0,3.4,109.75},
+          {17.753,3.4,109.75}
+        }
+      }
+    },
+    glows={
+      "C6_R_g1",
+      "C6_R_g2",
+      "C6_R_g3",
+      "C6_L_g1",
+      "C6_L_g2",
+      "C6_L_g3"
+    },
+    solids={
+
+    },
+    movers={
+      {
+        n="C6_Panel",
+        to={18.15,2.1,110.5},
+        dur=1.5,
+        delay=0.55
+      }
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+
+    },
+    excl={
+
+    }
+  },
+  {
+    id=7.0,
+    focus={18.71,5.1,126.5},
+    lock=1.5,
+    warn=12.0,
+    center={26.0,3.4,132.0},
+    note="bridge-east",
+    shards={
+      {
+        k=0.44,
+        ents={
+          {
+            n="C7_s0",
+            p={26.0,3.28,130.22},
+            s={1.8,0.24,1.7}
+          },
+          {
+            n="C7_s1",
+            p={26.0,3.28,132.0},
+            s={1.8,0.24,1.7}
+          },
+          {
+            n="C7_s2",
+            p={26.0,3.28,133.78},
+            s={1.8,0.24,1.7}
+          },
+          {
+            n="C7_e0",
+            p={25.14,3.42,132.0},
+            s={0.06,0.05,5.2}
+          },
+          {
+            n="C7_e1",
+            p={26.86,3.42,132.0},
+            s={0.06,0.05,5.2}
+          }
+        },
+        pts={
+          {26.9,3.445,134.63},
+          {25.1,3.445,134.63},
+          {26.9,3.16,134.63},
+          {25.1,3.16,134.63},
+          {26.9,3.445,129.37},
+          {25.1,3.445,129.37},
+          {26.9,3.16,129.37},
+          {25.1,3.16,129.37}
+        }
+      }
+    },
+    glows={
+      "C7_e0",
+      "C7_e1"
+    },
+    solids={
+      {
+        n="C7_hit",
+        p={26.0,3.28,132.0}
+      }
+    },
+    movers={
+
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+
+    },
+    excl={8.0}
+  },
+  {
+    id=8.0,
+    focus={25.0,5.1,126.5},
+    lock=1.5,
+    warn=12.0,
+    center={18.0,3.4,132.0},
+    note="bridge-west",
+    shards={
+      {
+        k=0.44,
+        ents={
+          {
+            n="C7_s0",
+            p={17.9945,3.28,130.22},
+            s={1.8,0.24,1.7}
+          },
+          {
+            n="C7_s1",
+            p={17.9945,3.28,132.0},
+            s={1.8,0.24,1.7}
+          },
+          {
+            n="C7_s2",
+            p={17.9945,3.28,133.78},
+            s={1.8,0.24,1.7}
+          },
+          {
+            n="C7_e0",
+            p={17.1345,3.42,132.0},
+            s={0.06,0.05,5.2}
+          },
+          {
+            n="C7_e1",
+            p={18.8545,3.42,132.0},
+            s={0.06,0.05,5.2}
+          }
+        },
+        pts={
+          {18.8945,3.445,134.63},
+          {17.0945,3.445,134.63},
+          {18.8945,3.16,134.63},
+          {17.0945,3.16,134.63},
+          {18.8945,3.445,129.37},
+          {17.0945,3.445,129.37},
+          {18.8945,3.16,129.37},
+          {17.0945,3.16,129.37}
+        }
+      }
+    },
+    glows={
+      "C7_e0",
+      "C7_e1"
+    },
+    solids={
+      {
+        n="C8_hit",
+        p={18.0,3.28,132.0}
+      }
+    },
+    movers={
+
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+
+    },
+    excl={7.0}
+  },
+  {
+    id=9.0,
+    focus={18.2,5.1,146.6},
+    lock=3.0,
+    warn=15.0,
+    center={22.0,4.6,151.0},
+    note="drift",
+    shards={
+      {
+        k=1.0,
+        ents={
+          {
+            n="C9_s0",
+            p={22.0,3.59,148.35},
+            s={1.7,0.22,0.7}
+          },
+          {
+            n="C9_r0",
+            p={22.0,3.385,148.02},
+            s={1.7,0.3,0.04}
+          },
+          {
+            n="C9_e0",
+            p={21.18,3.705,148.35},
+            s={0.055,0.04,0.66}
+          },
+          {
+            n="C9_s1",
+            p={22.0,3.89,149.05},
+            s={1.7,0.22,0.7}
+          },
+          {
+            n="C9_r1",
+            p={22.0,3.685,148.72},
+            s={1.7,0.3,0.04}
+          },
+          {
+            n="C9_e1",
+            p={21.18,4.005,149.05},
+            s={0.055,0.04,0.66}
+          }
+        },
+        pts={
+          {22.85,4.025,149.4},
+          {21.15,4.025,149.4},
+          {22.85,3.235,149.4},
+          {21.15,3.235,149.4},
+          {22.85,4.025,148.0},
+          {21.15,4.025,148.0},
+          {22.85,3.235,148.0},
+          {21.15,3.235,148.0}
+        }
+      },
+      {
+        k=0.52,
+        ents={
+          {
+            n="C9_s2",
+            p={22.0,4.19,149.75},
+            s={1.7,0.22,0.7}
+          },
+          {
+            n="C9_r2",
+            p={22.0,3.985,149.42},
+            s={1.7,0.3,0.04}
+          },
+          {
+            n="C9_e2",
+            p={21.18,4.305,149.75},
+            s={0.055,0.04,0.66}
+          },
+          {
+            n="C9_s3",
+            p={22.0,4.49,150.45},
+            s={1.7,0.22,0.7}
+          },
+          {
+            n="C9_r3",
+            p={22.0,4.285,150.12},
+            s={1.7,0.3,0.04}
+          },
+          {
+            n="C9_e3",
+            p={21.18,4.605,150.45},
+            s={0.055,0.04,0.66}
+          },
+          {
+            n="C9_s4",
+            p={22.0,4.79,151.15},
+            s={1.7,0.22,0.7}
+          },
+          {
+            n="C9_r4",
+            p={22.0,4.585,150.82},
+            s={1.7,0.3,0.04}
+          },
+          {
+            n="C9_e4",
+            p={21.18,4.905,151.15},
+            s={0.055,0.04,0.66}
+          }
+        },
+        pts={
+          {22.85,4.925,151.5},
+          {21.15,4.925,151.5},
+          {22.85,3.835,151.5},
+          {21.15,3.835,151.5},
+          {22.85,4.925,149.4},
+          {21.15,4.925,149.4},
+          {22.85,3.835,149.4},
+          {21.15,3.835,149.4}
+        },
+        osc={0.62,0.34,0.0,5.0}
+      },
+      {
+        k=0.36,
+        ents={
+          {
+            n="C9_s5",
+            p={22.0,5.09,151.85},
+            s={1.7,0.22,0.7}
+          },
+          {
+            n="C9_r5",
+            p={22.0,4.885,151.52},
+            s={1.7,0.3,0.04}
+          },
+          {
+            n="C9_e5",
+            p={21.18,5.205,151.85},
+            s={0.055,0.04,0.66}
+          },
+          {
+            n="C9_s6",
+            p={22.0,5.39,152.55},
+            s={1.7,0.22,0.7}
+          },
+          {
+            n="C9_r6",
+            p={22.0,5.185,152.22},
+            s={1.7,0.3,0.04}
+          },
+          {
+            n="C9_e6",
+            p={21.18,5.505,152.55},
+            s={0.055,0.04,0.66}
+          },
+          {
+            n="C9_s7",
+            p={22.0,5.69,153.25},
+            s={1.7,0.22,0.7}
+          },
+          {
+            n="C9_r7",
+            p={22.0,5.485,152.92},
+            s={1.7,0.3,0.04}
+          },
+          {
+            n="C9_e7",
+            p={21.18,5.805,153.25},
+            s={0.055,0.04,0.66}
+          }
+        },
+        pts={
+          {22.85,5.825,153.6},
+          {21.15,5.825,153.6},
+          {22.85,4.735,153.6},
+          {21.15,4.735,153.6},
+          {22.85,5.825,151.5},
+          {21.15,5.825,151.5},
+          {22.85,4.735,151.5},
+          {21.15,4.735,151.5}
+        }
+      }
+    },
+    glows={
+      "C9_e2",
+      "C9_e3",
+      "C9_e4",
+      "C9_e5",
+      "C9_e6",
+      "C9_e7"
+    },
+    solids={
+      {
+        n="C9_h2",
+        p={22.0,4.19,149.75}
+      },
+      {
+        n="C9_h3",
+        p={22.0,4.49,150.45}
+      },
+      {
+        n="C9_h4",
+        p={22.0,4.79,151.15}
+      },
+      {
+        n="C9_h5",
+        p={22.0,5.09,151.85}
+      },
+      {
+        n="C9_h6",
+        p={22.0,5.39,152.55}
+      },
+      {
+        n="C9_h7",
+        p={22.0,5.69,153.25}
+      }
+    },
+    movers={
+
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+
+    },
+    excl={
+
+    }
+  },
+  {
+    id=10.0,
+    focus={22.0,7.5,158.2},
+    lock=3.2,
+    warn=16.0,
+    center={22.0,7.0,164.0},
+    note="gate",
+    shards={
+      {
+        k=0.72,
+        ents={
+          {
+            n="C10_jl",
+            p={21.23,7.095,164.0},
+            s={0.24,2.59,0.3}
+          },
+          {
+            n="C10_g0",
+            p={21.33,6.975,164.16},
+            s={0.04,2.35,0.04}
+          }
+        },
+        pts={
+          {21.35,8.39,164.18},
+          {21.11,8.39,164.18},
+          {21.35,5.8,164.18},
+          {21.11,5.8,164.18},
+          {21.35,8.39,163.85},
+          {21.11,8.39,163.85},
+          {21.35,5.8,163.85},
+          {21.11,5.8,163.85}
+        }
+      },
+      {
+        k=0.6,
+        ents={
+          {
+            n="C10_jr",
+            p={22.77,7.095,164.0},
+            s={0.24,2.59,0.3}
+          },
+          {
+            n="C10_g1",
+            p={22.67,6.975,164.16},
+            s={0.04,2.35,0.04}
+          }
+        },
+        pts={
+          {22.89,8.39,164.18},
+          {22.65,8.39,164.18},
+          {22.89,5.8,164.18},
+          {22.65,5.8,164.18},
+          {22.89,8.39,163.85},
+          {22.65,8.39,163.85},
+          {22.89,5.8,163.85},
+          {22.65,5.8,163.85}
+        }
+      },
+      {
+        k=0.5,
+        ents={
+          {
+            n="C10_hd",
+            p={22.0,8.27,164.0},
+            s={1.78,0.24,0.3}
+          },
+          {
+            n="C10_g2",
+            p={22.0,8.17,164.16},
+            s={1.3,0.04,0.04}
+          }
+        },
+        pts={
+          {22.89,8.39,164.18},
+          {21.11,8.39,164.18},
+          {22.89,8.15,164.18},
+          {21.11,8.15,164.18},
+          {22.89,8.39,163.85},
+          {21.11,8.39,163.85},
+          {22.89,8.15,163.85},
+          {21.11,8.15,163.85}
+        }
+      },
+      {
+        k=0.42,
+        ents={
+          {
+            n="C10_sl",
+            p={22.0,5.86,164.0},
+            s={1.78,0.12,0.3}
+          },
+          {
+            n="C10_g3",
+            p={22.0,5.94,164.16},
+            s={1.3,0.04,0.04}
+          }
+        },
+        pts={
+          {22.89,5.96,164.18},
+          {21.11,5.96,164.18},
+          {22.89,5.8,164.18},
+          {21.11,5.8,164.18},
+          {22.89,5.96,163.85},
+          {21.11,5.96,163.85},
+          {22.89,5.8,163.85},
+          {21.11,5.8,163.85}
+        }
+      }
+    },
+    glows={
+      "C10_g0",
+      "C10_g1",
+      "C10_g2",
+      "C10_g3"
+    },
+    solids={
+
+    },
+    movers={
+
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+      {
+        n="C10_in",
+        c={1.0,0.99,0.96,1.3}
+      }
+    },
+    excl={
+
     }
   }
+}
+CHECKS = {
+  {
+    x=0.0,
+    y=0.9,
+    z=-6.0,
+    at=-1000000000.0
+  },
+  {
+    x=0.0,
+    y=0.9,
+    z=16.6,
+    at=15.6
+  },
+  {
+    x=-4.6,
+    y=0.9,
+    z=17.0,
+    at=17.6
+  },
+  {
+    x=5.3,
+    y=0.9,
+    z=36.4,
+    at=35.6
+  },
+  {
+    x=5.5,
+    y=0.9,
+    z=47.6,
+    at=46.6
+  },
+  {
+    x=6.1,
+    y=4.3,
+    z=63.6,
+    at=62.6
+  },
+  {
+    x=6.1,
+    y=4.3,
+    z=82.0,
+    at=80.6
+  },
+  {
+    x=6.1,
+    y=4.3,
+    z=87.5,
+    at=86.2
+  },
+  {
+    x=6.0,
+    y=4.3,
+    z=106.6,
+    at=105.2
+  },
+  {
+    x=7.0,
+    y=4.3,
+    z=111.0,
+    at=109.6
+  },
+  {
+    x=22.5,
+    y=4.3,
+    z=126.0,
+    at=124.8
+  },
+  {
+    x=22.0,
+    y=4.3,
+    z=144.0,
+    at=142.8
+  },
+  {
+    x=22.0,
+    y=6.7,
+    z=158.0,
+    at=156.8
+  }
+}
+GOAL = {
+  x=22.0,
+  y=5.8,
+  z=163.82,
+  r=0.62,
+  need=10.0
 }
 -- <<<DATA
 
@@ -827,16 +1748,11 @@ local ACCEL   = 13.0
 local SENS    = 0.082
 local CONE    = 26.0          -- 「見ている」と認める視野角(度)
 local DWELL   = 0.28          -- 合った状態を保つ時間
-
--- 到達点(落ちた時の戻り先)。z を越えると進む
-local CHECKS = {
-    {x =  0.00, y = 0.90, z = -6.0, at = -1e9},
-    {x =  0.00, y = 0.90, z = 16.6, at = 15.6},
-    {x = -4.60, y = 0.90, z = 17.0, at = 17.6},   -- ★F2 の上に置かない(戻った瞬間に解ける)
-    {x =  5.30, y = 0.90, z = 36.4, at = 35.6},
-    {x =  5.50, y = 0.90, z = 47.6, at = 46.6},
-    {x =  6.10, y = 4.30, z = 63.6, at = 62.6},
-}
+-- ★★焦点からの距離で足切りする。これが無いと【遠くから勝手に揃う】。
+--   角度差は対象までの距離に反比例して小さくなるので、30m 離れると
+--   焦点の線から外れていても lock を割ってしまう(実機の通しで踏んだ)。
+local FOCUS_WARN = 9.0        -- ここから環と光が反応する
+local FOCUS_LOCK = 7.0        -- ここまで近づかないと確定しない
 
 local function V(x, y, z) return Vec3.new(x, y, z) end
 local function find(n)
@@ -850,14 +1766,15 @@ local function smooth(t) t = clamp(t, 0, 1) return t * t * (3 - 2 * t) end
 -- 対応点への視線の角度差(度)の最大値。atan2 版で 0 付近も安定して出る
 -- ★Lua 5.4 は math.atan2 が消えて math.atan(y,x) になった。両方で動くようにする
 local atan2 = math.atan2 or math.atan
-local function alignError(ex, ey, ez, F, k, pts)
+local function alignError(ex, ey, ez, F, k, pts, ox, oy, oz)
     local worst = 0.0
+    ox, oy, oz = ox or 0, oy or 0, oz or 0
     for i = 1, #pts do
         local p = pts[i]
         local ax, ay, az = p[1] - ex, p[2] - ey, p[3] - ez
-        local bx = F[1] + k * (p[1] - F[1]) - ex
-        local by = F[2] + k * (p[2] - F[2]) - ey
-        local bz = F[3] + k * (p[3] - F[3]) - ez
+        local bx = F[1] + k * (p[1] - F[1]) + ox - ex
+        local by = F[2] + k * (p[2] - F[2]) + oy - ey
+        local bz = F[3] + k * (p[3] - F[3]) + oz - ez
         local cx = ay * bz - az * by
         local cy = az * bx - ax * bz
         local cz = ax * by - ay * bx
@@ -869,17 +1786,27 @@ local function alignError(ex, ey, ez, F, k, pts)
     return worst
 end
 
-local function applyShard(sh, kk)
+local function applyShard(sh, kk, ox, oy, oz)
     local F = sh.F
+    ox, oy, oz = ox or 0, oy or 0, oz or 0
     for i = 1, #sh.ents do
         local r = sh.ents[i]
         if r.e then
-            r.e.transform.position = V(F[1] + kk * (r.p[1] - F[1]),
-                                       F[2] + kk * (r.p[2] - F[2]),
-                                       F[3] + kk * (r.p[3] - F[3]))
+            r.e.transform.position = V(F[1] + kk * (r.p[1] - F[1]) + ox,
+                                       F[2] + kk * (r.p[2] - F[2]) + oy,
+                                       F[3] + kk * (r.p[3] - F[3]) + oz)
             r.e.transform.scale = V(r.s[1] * kk, r.s[2] * kk, r.s[3] * kk)
         end
     end
+end
+
+-- 揺れる破片。★合う姿勢(o=0)で【速度も 0 になる】式にすること。
+--   ここが最速だと「合う瞬間」が一瞬すぎて理不尽になる。(1-cos)/2 なら端で止まる。
+local function shardOffset(sh, t)
+    local o = sh.osc
+    if not o then return 0, 0, 0 end
+    local w = (1.0 - math.cos(2 * math.pi * ((t / o[4]) % 1.0))) * 0.5
+    return o[1] * w, o[2] * w, o[3] * w
 end
 
 local function setGlow(c, power)
@@ -892,7 +1819,6 @@ function OnStart(self)
     self.body = find("LM_Player")
     self.cam  = find("LM_Camera")
     self.ring = find("LM_Ring")
-    self.dot  = find("LM_Dot")
     self.hint = find("LM_Hint")
     self.endt = find("LM_End")
 
@@ -902,6 +1828,7 @@ function OnStart(self)
     self.done, self.doneT = false, 0.0
     self.tweens = {}
     self.swings = {}
+    self.lockedIds = {}
     self.ringA, self.ringF = 0.0, 0.0
 
     -- 継ぎ目のテーブルを実体化(entity をここで 1 回だけ引く)
@@ -910,11 +1837,13 @@ function OnStart(self)
         local d = CONNS[i]
         local c = { id = d.id, F = d.focus, lock = d.lock, warn = d.warn, center = d.center,
                     note = d.note, shards = {}, glowE = {}, solids = d.solids, movers = d.movers,
-                    lights = d.lights, hinges = d.hinges or {}, locked = false, anim = -1,
+                    lights = d.lights, hinges = d.hinges or {}, excl = d.excl or {},
+                    shines = d.shines or {},
+                    locked = false, cancelled = false, anim = -1,
                     a = 0.0, err = 999.0, hold = 0.0, tick = 0 }
         for s = 1, #d.shards do
             local sd = d.shards[s]
-            local sh = { k = sd.k, pts = sd.pts, F = d.focus, ents = {} }
+            local sh = { k = sd.k, pts = sd.pts, F = d.focus, osc = sd.osc, ents = {} }
             for j = 1, #sd.ents do
                 local r = sd.ents[j]
                 local e = find(r.n)
@@ -935,13 +1864,16 @@ function OnStart(self)
     self.drone = audio:playSFXId("audio/lm/drone.wav", true, 0.0)
     self.hum = {}
     for _, p in ipairs({ { 0, 2.4, 1 }, { 0, 2.4, 13 }, { -4.5, 3.0, 20.6 }, { 0, 3.0, 28.8 },
-                         { 4.9, 5.6, 55.5 }, { 6.1, 6.0, 68.5 } }) do
+                         { 4.9, 5.6, 55.5 }, { 6.1, 6.0, 68.5 },
+                         { 1.5, 8.5, 89.0 }, { 6.0, 6.4, 106.4 }, { 6.0, 6.9, 112.0 },
+                         { 17.0, 8.4, 127.0 }, { 17.5, 8.6, 145.0 } }) do
         self.hum[#self.hum + 1] = audio:playSpatialId("audio/lm/buzz.wav", p[1], p[2], p[3],
                                                       2.0, 13.0, 0.30, true)
     end
 
     -- ★蛍光灯の明滅。1 部屋に 1 本だけ。全部やると「演出」になって嘘くさくなる
-    for _, n in ipairs({ "A_tr+09_l", "B_tr9_29_l", "C_tr14_56_l" }) do
+    for _, n in ipairs({ "A_tr+09_l", "B_tr9_29_l", "C_tr14_56_l",
+                         "T1_tr6_112_l", "M1_tr17_138_l" }) do
         local e = scene:findEntity(n)
         if e and e:isValid() then
             local l = e:light()
@@ -952,7 +1884,7 @@ function OnStart(self)
     -- ★MCP 検証用フックは Play のたびに必ず落とす(前回の値が残ると
     --   人が遊んだときに勝手に歩き出す)
     saveNum("lm_auto", 0); saveNum("lm_test", 0); saveNum("lm_warp", 0); saveNum("lm_tp", 0)
-    for i = 1, 4 do saveNum(string.format("lm_c%d", i), 0) end
+    for i = 1, 12 do saveNum(string.format("lm_c%d", i), 0) end
     saveNum("lm_clear", 0)
 
     scene:setUiColor(self.ring, 1.0, 0.86, 0.55, 0.0)
@@ -1056,8 +1988,27 @@ local function finishLock(self, c)
                                               dur = h.dur, t = -(h.delay or 0) }
         end
     end
+    for i = 1, #(c.shines or {}) do
+        local sh = c.shines[i]
+        local e = find(sh.n)
+        if e then scene:setMeshParams(e, sh.c[1], sh.c[2], sh.c[3], sh.c[4]) end
+    end
     if #c.movers > 0 then audio:playSFX("audio/lm/reveal.wav") end
     c.locked = true
+    self.lockedIds[c.id] = true
+    -- ★同じ破片を取り合う継ぎ目(多義)。片方が決まったら、もう片方は永久に成立しない。
+    --   「どちらの世界にするか」をプレイヤーが選んだ、という事にする
+    for i = 1, #c.excl do
+        for j = 1, #self.conns do
+            local o = self.conns[j]
+            if o.id == c.excl[i] and not o.locked then
+                o.locked = true
+                o.cancelled = true
+                o.anim = -1
+                log("LIMINAL joint " .. o.id .. " (" .. o.note .. ") is now impossible")
+            end
+        end
+    end
     local n = 0
     for i = 1, #self.conns do if self.conns[i].locked then n = n + 1 end end
     saveNum("lm_locked", n)
@@ -1146,7 +2097,7 @@ function OnUpdate(self, dt)
     for i = self.cp + 1, #CHECKS do
         if p.z > CHECKS[i].at then self.cp = i end
     end
-    if p.y < -3.2 and not self.done then
+    if p.y < CHECKS[self.cp].y - 2.0 and not self.done then
         local c = CHECKS[self.cp]
         physics:setPosition(self.body, V(c.x, c.y, c.z))
         self.vx, self.vz = 0, 0
@@ -1176,12 +2127,13 @@ function OnUpdate(self, dt)
     for i = 1, #self.conns do
         local c = self.conns[i]
         if c.anim >= 0 then
-            -- 溶接中: k を 1 へ
+            -- 溶接中: k を 1 へ。揺れも同時に 0 へ寄せる
             c.anim = c.anim + dt / 0.85
             local u = smooth(c.anim)
             for s = 1, #c.shards do
                 local sh = c.shards[s]
-                applyShard(sh, sh.k + (1.0 - sh.k) * u)
+                local ox, oy, oz = shardOffset(sh, self.t)
+                applyShard(sh, sh.k + (1.0 - sh.k) * u, ox * (1 - u), oy * (1 - u), oz * (1 - u))
             end
             setGlow(c, 5.2 * (1.0 - u) + 0.85)
             if c.anim >= 1.0 then
@@ -1190,18 +2142,24 @@ function OnUpdate(self, dt)
                 finishLock(self, c)
             end
         elseif c.locked then
-            setGlow(c, math.max(0.55, 0.85 - (self.t - (c.doneAt or self.t)) * 0.25))
+            if not c.cancelled then
+                setGlow(c, math.max(0.55, 0.85 - (self.t - (c.doneAt or self.t)) * 0.25))
+            end
         else
             local dx, dy, dz = c.center[1] - ex, c.center[2] - ey, c.center[3] - ez
             local dist = math.sqrt(dx * dx + dy * dy + dz * dz)
+            local fdx, fdy, fdz = c.F[1] - ex, c.F[2] - ey, c.F[3] - ez
+            local fdist = math.sqrt(fdx * fdx + fdy * fdy + fdz * fdz)
             local err, n = 0.0, 0
             -- ★遠すぎる継ぎ目は評価しない。ここで err を 0 のままにすると
             --   「遠くから覗いただけで確定」になるので、必ず 999 を入れること
-            if dist < 34.0 then
+            if fdist < FOCUS_WARN then
                 for s = 1, #c.shards do
                     local sh = c.shards[s]
-                    if sh.k < 0.999 then
-                        local e2 = alignError(ex, ey, ez, sh.F, sh.k, sh.pts)
+                    local ox, oy, oz = shardOffset(sh, self.t)
+                    if sh.osc then applyShard(sh, sh.k, ox, oy, oz) end   -- 揺れる破片
+                    if sh.k < 0.999 or sh.osc then
+                        local e2 = alignError(ex, ey, ez, sh.F, sh.k, sh.pts, ox, oy, oz)
                         if e2 > err then err = e2 end
                         n = n + 1
                     end
@@ -1217,7 +2175,7 @@ function OnUpdate(self, dt)
             c.a = a
             if a > best and looking then best = a; bestC = c end
             setGlow(c, 1.25 + 4.4 * a * a * a)
-            if looking and err < c.lock then
+            if looking and err < c.lock and fdist < FOCUS_LOCK then
                 c.hold = c.hold + dt
                 if c.hold >= DWELL then beginLock(self, c); c.doneAt = self.t end
             else
@@ -1251,7 +2209,8 @@ function OnUpdate(self, dt)
     end
 
     -- ------------------------------------------------ 終わり
-    if not self.done and p.z > 81.4 and p.y > 2.5 then
+    if not self.done and self.lockedIds[GOAL.need]
+       and p.z > GOAL.z and math.abs(p.x - GOAL.x) < GOAL.r and p.y > GOAL.y - 1.2 then
         self.done = true
         self.doneT = 0.0
         input:setMouseCapture(false)

@@ -10,6 +10,8 @@
 
 -- >>>DATA (gen_liminal.py が書く。手で触らない)
 CONNS = {}
+CHECKS = {}
+GOAL = {}
 -- <<<DATA
 
 local EYE_OFF = 0.80          -- 体の中心から目まで
@@ -18,16 +20,11 @@ local ACCEL   = 13.0
 local SENS    = 0.082
 local CONE    = 26.0          -- 「見ている」と認める視野角(度)
 local DWELL   = 0.28          -- 合った状態を保つ時間
-
--- 到達点(落ちた時の戻り先)。z を越えると進む
-local CHECKS = {
-    {x =  0.00, y = 0.90, z = -6.0, at = -1e9},
-    {x =  0.00, y = 0.90, z = 16.6, at = 15.6},
-    {x = -4.60, y = 0.90, z = 17.0, at = 17.6},   -- ★F2 の上に置かない(戻った瞬間に解ける)
-    {x =  5.30, y = 0.90, z = 36.4, at = 35.6},
-    {x =  5.50, y = 0.90, z = 47.6, at = 46.6},
-    {x =  6.10, y = 4.30, z = 63.6, at = 62.6},
-}
+-- ★★焦点からの距離で足切りする。これが無いと【遠くから勝手に揃う】。
+--   角度差は対象までの距離に反比例して小さくなるので、30m 離れると
+--   焦点の線から外れていても lock を割ってしまう(実機の通しで踏んだ)。
+local FOCUS_WARN = 9.0        -- ここから環と光が反応する
+local FOCUS_LOCK = 7.0        -- ここまで近づかないと確定しない
 
 local function V(x, y, z) return Vec3.new(x, y, z) end
 local function find(n)
@@ -41,14 +38,15 @@ local function smooth(t) t = clamp(t, 0, 1) return t * t * (3 - 2 * t) end
 -- 対応点への視線の角度差(度)の最大値。atan2 版で 0 付近も安定して出る
 -- ★Lua 5.4 は math.atan2 が消えて math.atan(y,x) になった。両方で動くようにする
 local atan2 = math.atan2 or math.atan
-local function alignError(ex, ey, ez, F, k, pts)
+local function alignError(ex, ey, ez, F, k, pts, ox, oy, oz)
     local worst = 0.0
+    ox, oy, oz = ox or 0, oy or 0, oz or 0
     for i = 1, #pts do
         local p = pts[i]
         local ax, ay, az = p[1] - ex, p[2] - ey, p[3] - ez
-        local bx = F[1] + k * (p[1] - F[1]) - ex
-        local by = F[2] + k * (p[2] - F[2]) - ey
-        local bz = F[3] + k * (p[3] - F[3]) - ez
+        local bx = F[1] + k * (p[1] - F[1]) + ox - ex
+        local by = F[2] + k * (p[2] - F[2]) + oy - ey
+        local bz = F[3] + k * (p[3] - F[3]) + oz - ez
         local cx = ay * bz - az * by
         local cy = az * bx - ax * bz
         local cz = ax * by - ay * bx
@@ -60,17 +58,27 @@ local function alignError(ex, ey, ez, F, k, pts)
     return worst
 end
 
-local function applyShard(sh, kk)
+local function applyShard(sh, kk, ox, oy, oz)
     local F = sh.F
+    ox, oy, oz = ox or 0, oy or 0, oz or 0
     for i = 1, #sh.ents do
         local r = sh.ents[i]
         if r.e then
-            r.e.transform.position = V(F[1] + kk * (r.p[1] - F[1]),
-                                       F[2] + kk * (r.p[2] - F[2]),
-                                       F[3] + kk * (r.p[3] - F[3]))
+            r.e.transform.position = V(F[1] + kk * (r.p[1] - F[1]) + ox,
+                                       F[2] + kk * (r.p[2] - F[2]) + oy,
+                                       F[3] + kk * (r.p[3] - F[3]) + oz)
             r.e.transform.scale = V(r.s[1] * kk, r.s[2] * kk, r.s[3] * kk)
         end
     end
+end
+
+-- 揺れる破片。★合う姿勢(o=0)で【速度も 0 になる】式にすること。
+--   ここが最速だと「合う瞬間」が一瞬すぎて理不尽になる。(1-cos)/2 なら端で止まる。
+local function shardOffset(sh, t)
+    local o = sh.osc
+    if not o then return 0, 0, 0 end
+    local w = (1.0 - math.cos(2 * math.pi * ((t / o[4]) % 1.0))) * 0.5
+    return o[1] * w, o[2] * w, o[3] * w
 end
 
 local function setGlow(c, power)
@@ -83,7 +91,6 @@ function OnStart(self)
     self.body = find("LM_Player")
     self.cam  = find("LM_Camera")
     self.ring = find("LM_Ring")
-    self.dot  = find("LM_Dot")
     self.hint = find("LM_Hint")
     self.endt = find("LM_End")
 
@@ -93,6 +100,7 @@ function OnStart(self)
     self.done, self.doneT = false, 0.0
     self.tweens = {}
     self.swings = {}
+    self.lockedIds = {}
     self.ringA, self.ringF = 0.0, 0.0
 
     -- 継ぎ目のテーブルを実体化(entity をここで 1 回だけ引く)
@@ -101,11 +109,13 @@ function OnStart(self)
         local d = CONNS[i]
         local c = { id = d.id, F = d.focus, lock = d.lock, warn = d.warn, center = d.center,
                     note = d.note, shards = {}, glowE = {}, solids = d.solids, movers = d.movers,
-                    lights = d.lights, hinges = d.hinges or {}, locked = false, anim = -1,
+                    lights = d.lights, hinges = d.hinges or {}, excl = d.excl or {},
+                    shines = d.shines or {},
+                    locked = false, cancelled = false, anim = -1,
                     a = 0.0, err = 999.0, hold = 0.0, tick = 0 }
         for s = 1, #d.shards do
             local sd = d.shards[s]
-            local sh = { k = sd.k, pts = sd.pts, F = d.focus, ents = {} }
+            local sh = { k = sd.k, pts = sd.pts, F = d.focus, osc = sd.osc, ents = {} }
             for j = 1, #sd.ents do
                 local r = sd.ents[j]
                 local e = find(r.n)
@@ -126,13 +136,16 @@ function OnStart(self)
     self.drone = audio:playSFXId("audio/lm/drone.wav", true, 0.0)
     self.hum = {}
     for _, p in ipairs({ { 0, 2.4, 1 }, { 0, 2.4, 13 }, { -4.5, 3.0, 20.6 }, { 0, 3.0, 28.8 },
-                         { 4.9, 5.6, 55.5 }, { 6.1, 6.0, 68.5 } }) do
+                         { 4.9, 5.6, 55.5 }, { 6.1, 6.0, 68.5 },
+                         { 1.5, 8.5, 89.0 }, { 6.0, 6.4, 106.4 }, { 6.0, 6.9, 112.0 },
+                         { 17.0, 8.4, 127.0 }, { 17.5, 8.6, 145.0 } }) do
         self.hum[#self.hum + 1] = audio:playSpatialId("audio/lm/buzz.wav", p[1], p[2], p[3],
                                                       2.0, 13.0, 0.30, true)
     end
 
     -- ★蛍光灯の明滅。1 部屋に 1 本だけ。全部やると「演出」になって嘘くさくなる
-    for _, n in ipairs({ "A_tr+09_l", "B_tr9_29_l", "C_tr14_56_l" }) do
+    for _, n in ipairs({ "A_tr+09_l", "B_tr9_29_l", "C_tr14_56_l",
+                         "T1_tr6_112_l", "M1_tr17_138_l" }) do
         local e = scene:findEntity(n)
         if e and e:isValid() then
             local l = e:light()
@@ -143,7 +156,7 @@ function OnStart(self)
     -- ★MCP 検証用フックは Play のたびに必ず落とす(前回の値が残ると
     --   人が遊んだときに勝手に歩き出す)
     saveNum("lm_auto", 0); saveNum("lm_test", 0); saveNum("lm_warp", 0); saveNum("lm_tp", 0)
-    for i = 1, 4 do saveNum(string.format("lm_c%d", i), 0) end
+    for i = 1, 12 do saveNum(string.format("lm_c%d", i), 0) end
     saveNum("lm_clear", 0)
 
     scene:setUiColor(self.ring, 1.0, 0.86, 0.55, 0.0)
@@ -247,8 +260,27 @@ local function finishLock(self, c)
                                               dur = h.dur, t = -(h.delay or 0) }
         end
     end
+    for i = 1, #(c.shines or {}) do
+        local sh = c.shines[i]
+        local e = find(sh.n)
+        if e then scene:setMeshParams(e, sh.c[1], sh.c[2], sh.c[3], sh.c[4]) end
+    end
     if #c.movers > 0 then audio:playSFX("audio/lm/reveal.wav") end
     c.locked = true
+    self.lockedIds[c.id] = true
+    -- ★同じ破片を取り合う継ぎ目(多義)。片方が決まったら、もう片方は永久に成立しない。
+    --   「どちらの世界にするか」をプレイヤーが選んだ、という事にする
+    for i = 1, #c.excl do
+        for j = 1, #self.conns do
+            local o = self.conns[j]
+            if o.id == c.excl[i] and not o.locked then
+                o.locked = true
+                o.cancelled = true
+                o.anim = -1
+                log("LIMINAL joint " .. o.id .. " (" .. o.note .. ") is now impossible")
+            end
+        end
+    end
     local n = 0
     for i = 1, #self.conns do if self.conns[i].locked then n = n + 1 end end
     saveNum("lm_locked", n)
@@ -337,7 +369,7 @@ function OnUpdate(self, dt)
     for i = self.cp + 1, #CHECKS do
         if p.z > CHECKS[i].at then self.cp = i end
     end
-    if p.y < -3.2 and not self.done then
+    if p.y < CHECKS[self.cp].y - 2.0 and not self.done then
         local c = CHECKS[self.cp]
         physics:setPosition(self.body, V(c.x, c.y, c.z))
         self.vx, self.vz = 0, 0
@@ -367,12 +399,13 @@ function OnUpdate(self, dt)
     for i = 1, #self.conns do
         local c = self.conns[i]
         if c.anim >= 0 then
-            -- 溶接中: k を 1 へ
+            -- 溶接中: k を 1 へ。揺れも同時に 0 へ寄せる
             c.anim = c.anim + dt / 0.85
             local u = smooth(c.anim)
             for s = 1, #c.shards do
                 local sh = c.shards[s]
-                applyShard(sh, sh.k + (1.0 - sh.k) * u)
+                local ox, oy, oz = shardOffset(sh, self.t)
+                applyShard(sh, sh.k + (1.0 - sh.k) * u, ox * (1 - u), oy * (1 - u), oz * (1 - u))
             end
             setGlow(c, 5.2 * (1.0 - u) + 0.85)
             if c.anim >= 1.0 then
@@ -381,18 +414,24 @@ function OnUpdate(self, dt)
                 finishLock(self, c)
             end
         elseif c.locked then
-            setGlow(c, math.max(0.55, 0.85 - (self.t - (c.doneAt or self.t)) * 0.25))
+            if not c.cancelled then
+                setGlow(c, math.max(0.55, 0.85 - (self.t - (c.doneAt or self.t)) * 0.25))
+            end
         else
             local dx, dy, dz = c.center[1] - ex, c.center[2] - ey, c.center[3] - ez
             local dist = math.sqrt(dx * dx + dy * dy + dz * dz)
+            local fdx, fdy, fdz = c.F[1] - ex, c.F[2] - ey, c.F[3] - ez
+            local fdist = math.sqrt(fdx * fdx + fdy * fdy + fdz * fdz)
             local err, n = 0.0, 0
             -- ★遠すぎる継ぎ目は評価しない。ここで err を 0 のままにすると
             --   「遠くから覗いただけで確定」になるので、必ず 999 を入れること
-            if dist < 34.0 then
+            if fdist < FOCUS_WARN then
                 for s = 1, #c.shards do
                     local sh = c.shards[s]
-                    if sh.k < 0.999 then
-                        local e2 = alignError(ex, ey, ez, sh.F, sh.k, sh.pts)
+                    local ox, oy, oz = shardOffset(sh, self.t)
+                    if sh.osc then applyShard(sh, sh.k, ox, oy, oz) end   -- 揺れる破片
+                    if sh.k < 0.999 or sh.osc then
+                        local e2 = alignError(ex, ey, ez, sh.F, sh.k, sh.pts, ox, oy, oz)
                         if e2 > err then err = e2 end
                         n = n + 1
                     end
@@ -408,7 +447,7 @@ function OnUpdate(self, dt)
             c.a = a
             if a > best and looking then best = a; bestC = c end
             setGlow(c, 1.25 + 4.4 * a * a * a)
-            if looking and err < c.lock then
+            if looking and err < c.lock and fdist < FOCUS_LOCK then
                 c.hold = c.hold + dt
                 if c.hold >= DWELL then beginLock(self, c); c.doneAt = self.t end
             else
@@ -442,7 +481,8 @@ function OnUpdate(self, dt)
     end
 
     -- ------------------------------------------------ 終わり
-    if not self.done and p.z > 81.4 and p.y > 2.5 then
+    if not self.done and self.lockedIds[GOAL.need]
+       and p.z > GOAL.z and math.abs(p.x - GOAL.x) < GOAL.r and p.y > GOAL.y - 1.2 then
         self.done = true
         self.doneT = 0.0
         input:setMouseCapture(false)

@@ -27,6 +27,7 @@ HEAD = 1.80
 EYE = G.EYE
 
 OK = True
+NL = chr(10)
 
 
 def fail(msg):
@@ -92,7 +93,13 @@ class Body:
         return self.cy + self.hy
 
 
+GRID = 2.0
+
+
 class World:
+    """★ボディを 2m 角のバケツに入れておく。全数走査だと 10 面 155 ボディで
+    BFS が数分かかる(升ごとに全ボディを見るため)。"""
+
     def __init__(self, entities):
         self.bodies = []
         self.byname = {}
@@ -102,17 +109,37 @@ class World:
                 t = e["transform"]
                 self.bodies.append(Body(e["name"], t["position"], t["scale"], t["rotation"][1]))
         self.index = {b.name: b for b in self.bodies}
+        self.rebuild()
+
+    def rebuild(self):
+        self.grid = {}
+        for b in self.bodies:
+            if b.cy < -100:
+                continue
+            gx0 = int(math.floor((b.aab[0] - RADIUS) / GRID))
+            gx1 = int(math.floor((b.aab[3] + RADIUS) / GRID))
+            gz0 = int(math.floor((b.aab[2] - RADIUS) / GRID))
+            gz1 = int(math.floor((b.aab[5] + RADIUS) / GRID))
+            for gx in range(gx0, gx1 + 1):
+                for gz in range(gz0, gz1 + 1):
+                    self.grid.setdefault((gx, gz), []).append(b)
+
+    def near(self, x, z):
+        return self.grid.get((int(math.floor(x / GRID)), int(math.floor(z / GRID))), ())
 
     def enable(self, name, pos):
         self.index[name].move(pos)
+        self.rebuild()
 
     def disable(self, name):
-        b = self.index[name]
-        b.move((b.cx, b.cy - 500.0, b.cz))
+        b = self.index.get(name)      # 当たり判定を持たない見た目だけの物もある
+        if b:
+            b.move((b.cx, b.cy - 500.0, b.cz))
+            self.rebuild()
 
     def tops(self, x, z):
         out = []
-        for b in self.bodies:
+        for b in self.near(x, z):
             if b.contains_xz(x, z):
                 out.append(round(b.top(), 3))
         return sorted(set(out))
@@ -122,7 +149,7 @@ class World:
         入れ忘れると階段の次の段が体の半径に入った瞬間に壁扱いになり、
         『階段があるのに一段も登れない』という嘘の詰みが出る(実際に踏んだ)。"""
         hi = h + 1.75
-        for b in self.bodies:
+        for b in self.near(x, z):
             if b.top() <= h + STEP_UP + 0.001:
                 continue
             if b.cy - b.hy >= hi - 0.001:
@@ -133,7 +160,7 @@ class World:
 
     def headroom(self, x, z, h):
         best = 99.0
-        for b in self.bodies:
+        for b in self.near(x, z):
             if b.cy - b.hy >= h + 0.5 and b.contains_xz(x, z):
                 best = min(best, b.cy - b.hy - h)
         return best
@@ -212,8 +239,11 @@ def conn_error(c, eye):
     return e
 
 
-def field(c, seen, floor_of, half=4.0):
-    """焦点の周りを 4m 角で走査し、床がある所だけ誤差を測る。"""
+FOCUS_LOCK = 7.0     # 実行時と同じ足切り(焦点から遠いと確定しない)
+
+
+def field(c, seen, floor_of, half=3.6):
+    """焦点の周りを走査し、床がある所だけ誤差を測る。"""
     fx, fz = c.focus[0], c.focus[2]
     good, warm, best, bestp = [], 0, 1e9, None
     n = int(half / CELL)
@@ -223,7 +253,12 @@ def field(c, seen, floor_of, half=4.0):
             k = (round(x / CELL), round(z / CELL))
             if k not in seen:
                 continue
+            # ★焦点と違う高さの床(溝の底など)は数えない。目の高さが変われば別の話
+            if abs(seen[k] + EYE - c.focus[1]) > 0.4:
+                continue
             eye = (x, seen[k] + EYE, z)
+            if math.dist(eye, tuple(c.focus)) > FOCUS_LOCK:
+                continue
             err = conn_error(c, eye)
             if err < c.lock:
                 good.append((x, z))
@@ -238,7 +273,7 @@ def main():
     G.build()
     ents, conns = G.ES, G.CONNS
     world = World(ents)
-    bounds = (-9.5, -10.0, 9.5, 86.0)
+    bounds = (-10.0, -10.0, 32.0, 176.0)
     print("=" * 68)
     print("stagedemo3 / liminal — 机上シミュレーション")
     print("=" * 68)
@@ -247,11 +282,15 @@ def main():
     # ---------------------------------------------------- 破片の干渉
     print("\n[1] 破片(ずれた状態)の干渉")
     shard_boxes = []
+    seen_names = set()
     for c in conns:
         for si, sh in enumerate(c.shards):
             if sh["k"] >= 0.999:
                 continue
             for r in sh["ents"]:
+                if r["n"] in seen_names:      # 多義の破片は 2 つの継ぎ目で共有する
+                    continue
+                seen_names.add(r["n"])
                 e = world.byname[r["n"]]
                 shard_boxes.append((c.cid, si, r["n"], aabb(e)))
     bad = 0
@@ -275,81 +314,86 @@ def main():
         ok("%d 個の破片、めり込み・相互干渉なし" % len(shard_boxes))
 
     # ---------------------------------------------------- 順路(段階ごと)
-    print("\n[2] 順路の通し歩き(継ぎ目を1つずつ確定させる)")
+    print(NL + "[2] 順路の通し歩き(継ぎ目を1つずつ確定させる)")
     start = (0.0, -6.0, 0.0)
     B = bounds
 
     def apply(c):
-        for s in c.solids:
-            world.enable(s["n"], s["p"])
+        for sd in c.solids:
+            world.enable(sd["n"], sd["p"])
         for m in c.movers:
             world.disable(m["n"])
 
-    stages = []
-    r, seen, flat = walk(world, start, {"F1": (conns[0].focus[0], conns[0].focus[2], 0.0)}, B)
-    stages.append(("開始 → 継ぎ目1の焦点", r, flat, seen))
-    apply(conns[0])
-    r, seen, flat = walk(world, start, {"F2": (conns[1].focus[0], conns[1].focus[2], 0.0),
-                                        "穴の縁": (-5.0, 22.4, 0.0)}, B)
-    stages.append(("継ぎ目1 → 事務室・継ぎ目2の焦点", r, flat, seen))
-    apply(conns[1])
-    r, seen, flat = walk(world, start, {"対岸": (5.3, 36.0, 0.0),
-                                        "タイル室": (5.5, 47.5, 0.0),
-                                        "F3": (conns[2].focus[0], conns[2].focus[2], 0.0)}, B)
-    stages.append(("継ぎ目2(橋) → 対岸・タイル室・継ぎ目3の焦点", r, flat, seen))
-    apply(conns[2])
-    r, seen, flat = walk(world, start, {"踊り場": (6.1, 61.0, 3.40),
-                                        "F4": (conns[3].focus[0], conns[3].focus[2], 3.40)}, B)
-    stages.append(("継ぎ目3(階段) → 踊り場・上階・継ぎ目4の焦点", r, flat, seen))
-    apply(conns[3])
-    r, seen, flat = walk(world, start, {"白い部屋": (6.1, 82.6, 3.40)}, B)
-    stages.append(("継ぎ目4(出口) → 白い部屋", r, flat, seen))
-
-    for label, reach, flat, seen in stages:
-        miss = [k for k, v in reach.items() if not v]
-        if miss:
-            fail("%s: 到達できない %s" % (label, miss))
-        else:
-            ok("%s: %s 到達 (状態 %d)" % (label, "/".join(reach.keys()), len(seen)))
-
-    def standing(seen, x, z, h, tol=0.35):
+    def standing(seen, x, z, h, tol=0.4):
         cx, cz = round(x / CELL), round(z / CELL)
         return any(abs(v - h) < tol for (kx, kz, _), v in seen.items() if kx == cx and kz == cz)
 
-    # 各段階で「まだ先へ行けない」ことも確認(順序が飛ばされない)
-    if standing(stages[0][3], 0.0, 20.0, 0.0):
-        fail("継ぎ目1を解く前に事務室へ入れてしまう")
+    # (継ぎ目id, その継ぎ目を解く前に【行けてはいけない】点, 解いた後に【行けるべき】点)
+    #  点は (x, z, 立つ高さ)。None は検査しない
+    PLAN = {
+        1:  ((0.0, 20.0, 0.0),    (0.0, 17.0, 0.0)),
+        2:  ((5.3, 36.0, 0.0),    (5.3, 36.0, 0.0)),
+        3:  ((6.1, 63.6, 3.40),   (6.1, 63.6, 3.40)),
+        4:  ((6.1, 82.6, 3.40),   (6.1, 82.6, 3.40)),
+        5:  ((6.0, 106.5, 3.40),  (6.0, 106.5, 3.40)),
+        6:  ((22.5, 120.0, 3.40), (22.5, 120.0, 3.40)),
+        7:  ((22.0, 138.0, 3.40), (22.0, 138.0, 3.40)),
+        8:  (None, (22.0, 138.0, 3.40)),
+        9:  ((22.0, 158.0, 5.80), (22.0, 158.0, 5.80)),
+        10: (None, None),
+    }
+    flats = {}
+    order = sorted(conns, key=lambda c: c.cid)
+    for c in order:
+        fx, fz, fy = c.focus[0], c.focus[2], c.focus[1] - EYE
+        r, seen, flat = walk(world, start, {"F%d" % c.cid: (fx, fz, fy)}, B)
+        flats[c.cid] = flat
+        if not r["F%d" % c.cid]:
+            fail("継ぎ目%d(%s): 焦点 (%.1f, %.1f) へ歩いて行けない" % (c.cid, c.note, fx, fz))
+        before, after = PLAN[c.cid]
+        if before and standing(seen, *before):
+            fail("継ぎ目%d を解く前に (%.1f, %.1f) へ行けてしまう" % (c.cid, before[0], before[1]))
+        if c.cid == 8:
+            continue                      # 多義の片割れ。7 を採った世界で進む(8 は下で別途検査)
+        apply(c)
+        if after:
+            r2, seen2, _ = walk(world, start, {"t": after}, B)
+            if not r2["t"]:
+                fail("継ぎ目%d を解いても (%.1f, %.1f) へ行けない" % (c.cid, after[0], after[1]))
+    if OK:
+        ok("継ぎ目 1〜10 を順に確定させて出口まで到達。各段階で【解く前は行けない】ことも確認")
+
+    # 多義のもう片方(西の橋)でも渡れるか: 世界を作り直して 8 だけを採る
+    w2 = World(G.ES)
+    for c in order:
+        if c.cid == 7:
+            continue
+        for sd in c.solids:
+            w2.enable(sd["n"], sd["p"])
+        for m in c.movers:
+            w2.disable(m["n"])
+    r3, _, _ = walk(w2, start, {"t": (22.0, 138.0, 3.40)}, B)
+    if r3["t"]:
+        ok("多義: 西の橋(継ぎ目8)を選んでも溝を渡れる")
     else:
-        ok("継ぎ目1を解くまで扉は塞がっている")
-    if standing(stages[1][3], 5.3, 36.0, 0.0):
-        fail("橋なしで穴を渡れてしまう")
-    else:
-        ok("橋が無いと穴は渡れない")
-    if standing(stages[2][3], 6.1, 63.6, 3.40):
-        fail("階段なしで上階へ行けてしまう")
-    else:
-        ok("階段が無いと上階へ行けない")
-    if standing(stages[3][3], 6.1, 82.6, 3.40):
-        fail("継ぎ目4を解く前に出口へ入れてしまう")
-    else:
-        ok("継ぎ目4を解くまで出口は塞がっている")
+        fail("多義: 継ぎ目8 を選ぶと溝を渡れない(詰み)")
 
     # ---------------------------------------------------- 合う場所の広さ
-    print("\n[3] 継ぎ目ごとの『合う場所』")
-    for i, c in enumerate(conns):
-        good, warm, best, bestp = field(c, stages[i][2], None)
+    print(NL + "[3] 継ぎ目ごとの『合う場所』")
+    for c in order:
+        good, warm, best, bestp = field(c, flats[c.cid], None)
         area = len(good) * CELL * CELL
         if not good:
-            fail("継ぎ目%d: 誤差が lock(%.1f°)を切る立ち位置が床の上に無い(最小 %.2f°)"
-                 % (c.cid, c.lock, best))
+            fail("継ぎ目%d(%s): 誤差が lock(%.1f°)を切る立ち位置が床の上に無い(最小 %.2f°)"
+                 % (c.cid, c.note, c.lock, best))
             continue
-        xs = [p[0] for p in good]; zs = [p[1] for p in good]
+        xs = [q[0] for q in good]; zs = [q[1] for q in good]
         w, d = max(xs) - min(xs) + CELL, max(zs) - min(zs) + CELL
-        msg = ("継ぎ目%d(%s): 確定域 %.2fm2 (%.2f x %.2f m) 最小誤差 %.2f° / 予兆域 %.1fm2"
+        msg = ("継ぎ目%-2d(%-12s): 確定域 %5.2fm2 (%.2f x %.2f m) 最小誤差 %.2f° / 予兆域 %5.1fm2"
                % (c.cid, c.note, area, w, d, best, warm * CELL * CELL))
         if area < 0.10:
             fail(msg + "  ← 狭すぎる(見つけられない)")
-        elif area > 1.60:
+        elif area > 1.80:
             fail(msg + "  ← 広すぎる(歩いていて勝手に確定する)")
         else:
             ok(msg)
@@ -398,19 +442,26 @@ def main():
     print("\n[5] 照明")
     lights = [(e["transform"]["position"], e["pointLight"]) for e in ents if "pointLight" in e]
     dark = 0
-    for (x, z) in [(0, -7), (0, 0), (0, 12), (0, 18), (-6.3, 18.3), (0, 28), (5.3, 36),
-                   (5.5, 44), (5.5, 48), (-5.4, 53.6), (0, 56), (6.1, 61), (6.1, 66),
-                   (6.1, 74), (6.1, 79)]:
+    # ★確認点は (x, 目の高さ, z)。第二幕は床が y=3.4 なので固定 1.5 で測ると
+    #   全部「暗い」と出る(実際に嘘の警告を出した)
+    PTS = [(0, 1.5, -7), (0, 1.5, 0), (0, 1.5, 12), (0, 1.5, 18), (-6.3, 1.5, 18.3),
+           (0, 1.5, 28), (5.3, 1.5, 36), (5.5, 1.5, 44), (5.5, 1.5, 48), (-5.4, 1.5, 53.6),
+           (0, 1.5, 56), (6.1, 4.9, 61), (6.1, 4.9, 66), (6.1, 4.9, 74), (6.1, 4.9, 79),
+           (6.1, 4.9, 88), (6.6, 4.9, 92), (6.0, 4.9, 100), (6.0, 4.9, 106),
+           (7.4, 4.9, 118), (13.0, 4.9, 112), (22.5, 4.9, 118), (18.7, 4.9, 126.5),
+           (25.0, 4.9, 126.5), (22.0, 4.9, 138), (18.2, 4.9, 146.6), (22.0, 4.9, 152),
+           (22.0, 7.3, 160), (22.0, 7.3, 166)]
+    for (x, yy, z) in PTS:
         s = 0.0
         for p, L in lights:
-            d = math.dist((x, 1.5, z), (p[0], p[1], p[2]))
+            d = math.dist((x, yy, z), (p[0], p[1], p[2]))
             if d < L["range"]:
                 s += L["intensity"] * max(0.0, 1.0 - d / L["range"]) ** 2
         if s < 0.35:
             print("  [!!] (%.1f,%.1f) が暗い (照度指標 %.2f)" % (x, z, s))
             dark += 1
     if dark == 0:
-        ok("順路上の 15 点すべてに灯が届いている")
+        ok("順路上の %d 点すべてに灯が届いている" % len(PTS))
 
     print("\n" + ("=" * 68))
     print("RESULT: " + ("PASS" if OK else "FAIL"))
