@@ -6,7 +6,16 @@
 --   (F 中心の相似変換 P' = F + k(P-F))。プレイヤーの目がその位置へ来ると、対応点への
 --   視線の角度差が 0 に近づく。lock 度未満まで詰めて【見て】いれば、破片は本物になる。
 -- ★押すボタンは無い。歩いて、見る。それだけ。
--- ★画面に文字を出さない。合い具合は中央の環・継ぎ目の光・音の高さで伝える。
+--
+-- ★★2026-09-06 改訂「しれっとつながる」:
+--   つながる演出を全部やめた。環(HUD)・近づく合図の音・確定音・粒子・継ぎ目の光の増減・
+--   ドローンの音程 — 全部削除。合い具合を伝えるのは【破片そのものの重なり】だけ。
+--   確定の瞬間は k を 1 へ【一瞬で】飛ばす。焦点から見た投影は元々一致しているので、
+--   この飛びは画面上まったく見えない(＝合った瞬間には何も起きない)。
+--   目に見える変化(扉が開く・塞ぎ板が消える・標識が点く)は、その継ぎ目が
+--   【視界の外に出るまで待ってから】無音・無補間で適用する。振り返ると開いている。
+--   これは変化の見落とし(change blindness)そのもので、この作品の主題に合っている。
+--   ★保険: 6 秒たっても視界から外れなければ適用する(見つめ続けて詰むのを防ぐ)。
 
 -- >>>DATA (gen_liminal.py が書く。手で触らない)
 CONNS = {
@@ -137,9 +146,16 @@ CONNS = {
     shines={
 
     },
+    hides={
+
+    },
     excl={
 
-    }
+    },
+    needs={
+
+    },
+    anti=false
   },
   {
     id=2.0,
@@ -306,9 +322,16 @@ CONNS = {
     shines={
 
     },
+    hides={
+
+    },
     excl={
 
-    }
+    },
+    needs={
+
+    },
+    anti=false
   },
   {
     id=3.0,
@@ -623,9 +646,16 @@ CONNS = {
     shines={
 
     },
+    hides={
+
+    },
     excl={
 
-    }
+    },
+    needs={
+
+    },
+    anti=false
   },
   {
     id=4.0,
@@ -812,35 +842,36 @@ CONNS = {
     hinges={
       {
         n="C4_Leaf",
-        p={5.946,4.668,76.832},
+        p={6.1,4.5,79.8},
         piv={5.55,4.5,79.8},
-        deg=-82.0,
-        dur=1.5,
-        delay=0.9
+        deg=-82.0
       },
       {
         n="C4_Knob",
-        p={6.2268,4.6104,76.7816},
+        p={6.49,4.42,79.73},
         piv={5.55,4.5,79.8},
-        deg=-82.0,
-        dur=1.5,
-        delay=0.9
+        deg=-82.0
       },
       {
         n="C4_Lfink",
-        p={5.946,3.8976,76.832},
+        p={6.1,3.43,79.8},
         piv={5.55,4.5,79.8},
-        deg=-82.0,
-        dur=1.5,
-        delay=0.9
+        deg=-82.0
       }
     },
     shines={
 
     },
+    hides={
+
+    },
     excl={
 
-    }
+    },
+    needs={
+
+    },
+    anti=false
   },
   {
     id=5.0,
@@ -1009,9 +1040,16 @@ CONNS = {
     shines={
 
     },
+    hides={
+
+    },
     excl={
 
-    }
+    },
+    needs={
+
+    },
+    anti=false
   },
   {
     id=6.0,
@@ -1140,9 +1178,16 @@ CONNS = {
     shines={
 
     },
+    hides={
+
+    },
     excl={
 
-    }
+    },
+    needs={
+
+    },
+    anti=false
   },
   {
     id=7.0,
@@ -1215,7 +1260,14 @@ CONNS = {
     shines={
 
     },
-    excl={8.0}
+    hides={
+
+    },
+    excl={8.0},
+    needs={
+
+    },
+    anti=false
   },
   {
     id=8.0,
@@ -1288,7 +1340,14 @@ CONNS = {
     shines={
 
     },
-    excl={7.0}
+    hides={
+
+    },
+    excl={7.0},
+    needs={
+
+    },
+    anti=false
   },
   {
     id=9.0,
@@ -1511,9 +1570,16 @@ CONNS = {
     shines={
 
     },
+    hides={
+
+    },
     excl={
 
-    }
+    },
+    needs={
+
+    },
+    anti=false
   },
   {
     id=10.0,
@@ -1634,7 +1700,12 @@ CONNS = {
 
     },
     movers={
-
+      {
+        n="C10_Panel",
+        to={22.0,4.45,170.15},
+        dur=1.1,
+        delay=0.0
+      }
     },
     lights={
 
@@ -1648,9 +1719,861 @@ CONNS = {
         c={1.0,0.99,0.96,1.3}
       }
     },
+    hides={
+
+    },
     excl={
 
-    }
+    },
+    needs={
+
+    },
+    anti=false
+  },
+  {
+    id=11.0,
+    focus={18.0,7.5,180.0},
+    lock=3.0,
+    warn=14.0,
+    center={22.0,5.8,184.0},
+    note="decoys",
+    shards={
+      {
+        k=0.42,
+        ents={
+          {
+            n="C11_p0",
+            p={22.0,5.72,182.6667},
+            s={2.2,0.16,1.3333}
+          }
+        },
+        pts={
+          {23.1,5.8,183.3333},
+          {20.9,5.8,183.3333},
+          {23.1,5.64,183.3333},
+          {20.9,5.64,183.3333},
+          {23.1,5.8,182.0},
+          {20.9,5.8,182.0},
+          {23.1,5.64,182.0},
+          {20.9,5.64,182.0}
+        }
+      },
+      {
+        k=0.55,
+        ents={
+          {
+            n="C11_p1",
+            p={22.0,5.72,184.0},
+            s={2.2,0.16,1.3333}
+          }
+        },
+        pts={
+          {23.1,5.8,184.6667},
+          {20.9,5.8,184.6667},
+          {23.1,5.64,184.6667},
+          {20.9,5.64,184.6667},
+          {23.1,5.8,183.3333},
+          {20.9,5.8,183.3333},
+          {23.1,5.64,183.3333},
+          {20.9,5.64,183.3333}
+        }
+      },
+      {
+        k=0.68,
+        ents={
+          {
+            n="C11_p2",
+            p={22.0,5.72,185.3333},
+            s={2.2,0.16,1.3333}
+          }
+        },
+        pts={
+          {23.1,5.8,186.0},
+          {20.9,5.8,186.0},
+          {23.1,5.64,186.0},
+          {20.9,5.64,186.0},
+          {23.1,5.8,184.6667},
+          {20.9,5.8,184.6667},
+          {23.1,5.64,184.6667},
+          {20.9,5.64,184.6667}
+        }
+      }
+    },
+    glows={
+
+    },
+    solids={
+      {
+        n="C11_h0",
+        p={22.0,5.72,182.6667}
+      },
+      {
+        n="C11_h1",
+        p={22.0,5.72,184.0}
+      },
+      {
+        n="C11_h2",
+        p={22.0,5.72,185.3333}
+      }
+    },
+    movers={
+
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+
+    },
+    hides={
+
+    },
+    excl={
+
+    },
+    needs={
+
+    },
+    anti=false
+  },
+  {
+    id=12.0,
+    focus={18.3,9.3,195.025},
+    lock=4.5,
+    warn=16.0,
+    center={24.5,7.6,195.2},
+    note="which-step",
+    shards={
+      {
+        k=0.45,
+        ents={
+          {
+            n="C12_p0",
+            p={22.7,7.51,195.2},
+            s={2.2,0.18,1.6}
+          },
+          {
+            n="C12_g0",
+            p={22.7,7.61,194.45},
+            s={2.1,0.04,0.06}
+          }
+        },
+        pts={
+          {23.8,7.63,196.0},
+          {21.6,7.63,196.0},
+          {23.8,7.42,196.0},
+          {21.6,7.42,196.0},
+          {23.8,7.63,194.4},
+          {21.6,7.63,194.4},
+          {23.8,7.42,194.4},
+          {21.6,7.42,194.4}
+        }
+      },
+      {
+        k=0.58,
+        ents={
+          {
+            n="C12_p1",
+            p={24.9,7.51,195.2},
+            s={2.2,0.18,1.6}
+          },
+          {
+            n="C12_g1",
+            p={24.9,7.61,194.45},
+            s={2.1,0.04,0.06}
+          }
+        },
+        pts={
+          {26.0,7.63,196.0},
+          {23.8,7.63,196.0},
+          {26.0,7.42,196.0},
+          {23.8,7.42,196.0},
+          {26.0,7.63,194.4},
+          {23.8,7.63,194.4},
+          {26.0,7.42,194.4},
+          {23.8,7.42,194.4}
+        }
+      },
+      {
+        k=0.7,
+        ents={
+          {
+            n="C12_p2",
+            p={27.1,7.51,195.2},
+            s={2.2,0.18,1.6}
+          },
+          {
+            n="C12_g2",
+            p={27.1,7.61,194.45},
+            s={2.1,0.04,0.06}
+          }
+        },
+        pts={
+          {28.2,7.63,196.0},
+          {26.0,7.63,196.0},
+          {28.2,7.42,196.0},
+          {26.0,7.42,196.0},
+          {28.2,7.63,194.4},
+          {26.0,7.63,194.4},
+          {28.2,7.42,194.4},
+          {26.0,7.42,194.4}
+        }
+      },
+      {
+        k=0.82,
+        ents={
+          {
+            n="C12_p3",
+            p={29.3,7.51,195.2},
+            s={2.2,0.18,1.6}
+          },
+          {
+            n="C12_g3",
+            p={29.3,7.61,194.45},
+            s={2.1,0.04,0.06}
+          }
+        },
+        pts={
+          {30.4,7.63,196.0},
+          {28.2,7.63,196.0},
+          {30.4,7.42,196.0},
+          {28.2,7.42,196.0},
+          {30.4,7.63,194.4},
+          {28.2,7.63,194.4},
+          {30.4,7.42,194.4},
+          {28.2,7.42,194.4}
+        }
+      }
+    },
+    glows={
+      "C12_g0",
+      "C12_g1",
+      "C12_g2",
+      "C12_g3"
+    },
+    solids={
+      {
+        n="C12_h0",
+        p={22.7,7.51,195.2}
+      },
+      {
+        n="C12_h1",
+        p={24.9,7.51,195.2}
+      },
+      {
+        n="C12_h2",
+        p={27.1,7.51,195.2}
+      },
+      {
+        n="C12_h3",
+        p={29.3,7.51,195.2}
+      }
+    },
+    movers={
+      {
+        n="C12_Panel",
+        to={30.15,6.2,195.2},
+        dur=1.1,
+        delay=0.0
+      }
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+
+    },
+    hides={
+
+    },
+    excl={
+
+    },
+    needs={
+
+    },
+    anti=false,
+    minY=9.12,
+    maxY=9.48
+  },
+  {
+    id=13.0,
+    focus={32.0,9.3,195.4},
+    lock=2.6,
+    warn=16.0,
+    center={36.5,7.6,195.4},
+    note="giant",
+    shards={
+      {
+        k=2.4,
+        ents={
+          {
+            n="C13_p0",
+            p={34.6,7.51,195.4},
+            s={2.2,0.18,2.0}
+          },
+          {
+            n="C13_g0",
+            p={34.6,7.61,194.44},
+            s={2.1,0.04,0.06}
+          }
+        },
+        pts={
+          {35.7,7.63,196.4},
+          {33.5,7.63,196.4},
+          {35.7,7.42,196.4},
+          {33.5,7.42,196.4},
+          {35.7,7.63,194.4},
+          {33.5,7.63,194.4},
+          {35.7,7.42,194.4},
+          {33.5,7.42,194.4}
+        }
+      },
+      {
+        k=1.9,
+        ents={
+          {
+            n="C13_p1",
+            p={36.8,7.51,195.4},
+            s={2.2,0.18,2.0}
+          },
+          {
+            n="C13_g1",
+            p={36.8,7.61,194.44},
+            s={2.1,0.04,0.06}
+          }
+        },
+        pts={
+          {37.9,7.63,196.4},
+          {35.7,7.63,196.4},
+          {37.9,7.42,196.4},
+          {35.7,7.42,196.4},
+          {37.9,7.63,194.4},
+          {35.7,7.63,194.4},
+          {37.9,7.42,194.4},
+          {35.7,7.42,194.4}
+        }
+      },
+      {
+        k=1.55,
+        ents={
+          {
+            n="C13_p2",
+            p={38.6,7.51,195.4},
+            s={1.4,0.18,2.0}
+          },
+          {
+            n="C13_g2",
+            p={38.6,7.61,194.44},
+            s={1.3,0.04,0.06}
+          }
+        },
+        pts={
+          {39.3,7.63,196.4},
+          {37.9,7.63,196.4},
+          {39.3,7.42,196.4},
+          {37.9,7.42,196.4},
+          {39.3,7.63,194.4},
+          {37.9,7.63,194.4},
+          {39.3,7.42,194.4},
+          {37.9,7.42,194.4}
+        }
+      }
+    },
+    glows={
+      "C13_g0",
+      "C13_g1",
+      "C13_g2"
+    },
+    solids={
+      {
+        n="C13_h0",
+        p={34.6,7.51,195.4}
+      },
+      {
+        n="C13_h1",
+        p={36.8,7.51,195.4}
+      },
+      {
+        n="C13_h2",
+        p={38.6,7.51,195.4}
+      }
+    },
+    movers={
+
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+
+    },
+    hides={
+
+    },
+    excl={
+
+    },
+    needs={
+
+    },
+    anti=false
+  },
+  {
+    id=14.0,
+    focus={49.6,9.3,195.4},
+    lock=2.6,
+    warn=12.0,
+    center={53.0,9.05,195.4},
+    note="do-not-look",
+    shards={
+      {
+        k=0.55,
+        ents={
+          {
+            n="C14_s0",
+            p={53.0,8.0833,195.4},
+            s={0.3,0.9467,3.2}
+          }
+        },
+        pts={
+          {53.15,8.5566,197.0},
+          {52.85,8.5566,197.0},
+          {53.15,7.6099,197.0},
+          {52.85,7.6099,197.0},
+          {53.15,8.5566,193.8},
+          {52.85,8.5566,193.8},
+          {53.15,7.6099,193.8},
+          {52.85,7.6099,193.8}
+        }
+      },
+      {
+        k=0.68,
+        ents={
+          {
+            n="C14_s1",
+            p={53.0,9.05,195.4},
+            s={0.3,0.9467,3.2}
+          }
+        },
+        pts={
+          {53.15,9.5234,197.0},
+          {52.85,9.5234,197.0},
+          {53.15,8.5767,197.0},
+          {52.85,8.5767,197.0},
+          {53.15,9.5234,193.8},
+          {52.85,9.5234,193.8},
+          {53.15,8.5767,193.8},
+          {52.85,8.5767,193.8}
+        }
+      },
+      {
+        k=0.8,
+        ents={
+          {
+            n="C14_s2",
+            p={53.0,10.0167,195.4},
+            s={0.3,0.9467,3.2}
+          }
+        },
+        pts={
+          {53.15,10.4901,197.0},
+          {52.85,10.4901,197.0},
+          {53.15,9.5434,197.0},
+          {52.85,9.5434,197.0},
+          {53.15,10.4901,193.8},
+          {52.85,10.4901,193.8},
+          {53.15,9.5434,193.8},
+          {52.85,9.5434,193.8}
+        }
+      }
+    },
+    glows={
+
+    },
+    solids={
+      {
+        n="C14_h",
+        p={53.0,9.05,195.4}
+      }
+    },
+    movers={
+
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+
+    },
+    hides={
+
+    },
+    excl={
+
+    },
+    needs={
+
+    },
+    anti=true
+  },
+  {
+    id=15.0,
+    focus={68.0,9.3,191.0},
+    lock=2.0,
+    warn=14.0,
+    center={68.0,9.05,199.5},
+    note="maquette",
+    shards={
+      {
+        k=0.52,
+        ents={
+          {
+            n="C15_w",
+            p={66.45,9.05,200.425},
+            s={0.3,2.9,10.85}
+          }
+        },
+        pts={
+          {66.6,10.5,205.85},
+          {66.3,10.5,205.85},
+          {66.6,7.6,205.85},
+          {66.3,7.6,205.85},
+          {66.6,10.5,195.0},
+          {66.3,10.5,195.0},
+          {66.6,7.6,195.0},
+          {66.3,7.6,195.0}
+        }
+      },
+      {
+        k=0.52,
+        ents={
+          {
+            n="C15_e",
+            p={69.55,9.05,200.425},
+            s={0.3,2.9,10.85}
+          }
+        },
+        pts={
+          {69.7,10.5,205.85},
+          {69.4,10.5,205.85},
+          {69.7,7.6,205.85},
+          {69.4,7.6,205.85},
+          {69.7,10.5,195.0},
+          {69.4,10.5,195.0},
+          {69.7,7.6,195.0},
+          {69.4,7.6,195.0}
+        }
+      },
+      {
+        k=0.52,
+        ents={
+          {
+            n="C15_c",
+            p={68.0,10.65,200.425},
+            s={3.4,0.3,10.85}
+          }
+        },
+        pts={
+          {69.7,10.8,205.85},
+          {66.3,10.8,205.85},
+          {69.7,10.5,205.85},
+          {66.3,10.5,205.85},
+          {69.7,10.8,195.0},
+          {66.3,10.8,195.0},
+          {69.7,10.5,195.0},
+          {66.3,10.5,195.0}
+        }
+      },
+      {
+        k=0.52,
+        ents={
+          {
+            n="C15_g",
+            p={68.0,7.62,195.09},
+            s={2.8,0.04,0.06}
+          }
+        },
+        pts={
+          {69.4,7.64,195.12},
+          {66.6,7.64,195.12},
+          {69.4,7.6,195.12},
+          {66.6,7.6,195.12},
+          {69.4,7.64,195.06},
+          {66.6,7.64,195.06},
+          {69.4,7.6,195.06},
+          {66.6,7.6,195.06}
+        }
+      }
+    },
+    glows={
+      "C15_g"
+    },
+    solids={
+      {
+        n="C15_hw",
+        p={66.45,9.05,200.425}
+      },
+      {
+        n="C15_he",
+        p={69.55,9.05,200.425}
+      }
+    },
+    movers={
+      {
+        n="C15_Panel",
+        to={68.0,6.2,206.15},
+        dur=1.1,
+        delay=0.0
+      }
+    },
+    lights={
+
+    },
+    hinges={
+
+    },
+    shines={
+
+    },
+    hides={
+
+    },
+    excl={
+
+    },
+    needs={
+
+    },
+    anti=false
+  },
+  {
+    id=16.0,
+    focus={67.45,9.3,207.6},
+    lock=2.0,
+    warn=13.0,
+    center={68.0,8.8,213.9},
+    note="door",
+    shards={
+      {
+        k=1.0,
+        ents={
+          {
+            n="C16_signb",
+            p={68.0,10.16,213.9},
+            s={0.68,0.32,0.06}
+          },
+          {
+            n="C16_sign",
+            p={68.0,10.16,213.855},
+            s={0.62,0.26,0.03}
+          }
+        },
+        pts={
+          {68.34,10.32,213.93},
+          {67.66,10.32,213.93},
+          {68.34,10.0,213.93},
+          {67.66,10.0,213.93},
+          {68.34,10.32,213.84},
+          {67.66,10.32,213.84},
+          {68.34,10.0,213.84},
+          {67.66,10.0,213.84}
+        }
+      },
+      {
+        k=0.55,
+        ents={
+          {
+            n="C16_L_jamb",
+            p={67.35,8.85,213.92},
+            s={0.2,2.3,0.22}
+          },
+          {
+            n="C16_L_head",
+            p={67.675,9.9,213.92},
+            s={0.65,0.2,0.22}
+          },
+          {
+            n="C16_L_sill",
+            p={67.675,7.65,213.92},
+            s={0.65,0.1,0.22}
+          },
+          {
+            n="C16_L_g1",
+            p={67.435,8.75,214.042},
+            s={0.03,2.1,0.03}
+          },
+          {
+            n="C16_L_g2",
+            p={67.725,9.785,214.042},
+            s={0.55,0.03,0.03}
+          },
+          {
+            n="C16_L_g3",
+            p={67.725,7.715,214.042},
+            s={0.55,0.03,0.03}
+          }
+        },
+        pts={
+          {68.0,10.0,214.057},
+          {67.25,10.0,214.057},
+          {68.0,7.6,214.057},
+          {67.25,7.6,214.057},
+          {68.0,10.0,213.81},
+          {67.25,10.0,213.81},
+          {68.0,7.6,213.81},
+          {67.25,7.6,213.81}
+        }
+      },
+      {
+        k=0.38,
+        ents={
+          {
+            n="C16_R_jamb",
+            p={68.65,8.85,213.92},
+            s={0.2,2.3,0.22}
+          },
+          {
+            n="C16_R_head",
+            p={68.325,9.9,213.92},
+            s={0.65,0.2,0.22}
+          },
+          {
+            n="C16_R_sill",
+            p={68.325,7.65,213.92},
+            s={0.65,0.1,0.22}
+          },
+          {
+            n="C16_R_g1",
+            p={68.565,8.75,214.042},
+            s={0.03,2.1,0.03}
+          },
+          {
+            n="C16_R_g2",
+            p={68.275,9.785,214.042},
+            s={0.55,0.03,0.03}
+          },
+          {
+            n="C16_R_g3",
+            p={68.275,7.715,214.042},
+            s={0.55,0.03,0.03}
+          }
+        },
+        pts={
+          {68.75,10.0,214.057},
+          {68.0,10.0,214.057},
+          {68.75,7.6,214.057},
+          {68.0,7.6,214.057},
+          {68.75,10.0,213.81},
+          {68.0,10.0,213.81},
+          {68.75,7.6,213.81},
+          {68.0,7.6,213.81}
+        }
+      },
+      {
+        k=0.71,
+        ents={
+          {
+            n="C16_Leaf",
+            p={68.0,8.7,213.8},
+            s={1.06,2.16,0.06}
+          },
+          {
+            n="C16_Knob",
+            p={68.39,8.62,213.73},
+            s={0.07,0.07,0.07}
+          },
+          {
+            n="C16_Lfink",
+            p={68.0,7.63,213.8},
+            s={1.04,0.03,0.03}
+          }
+        },
+        pts={
+          {68.53,9.78,213.83},
+          {67.47,9.78,213.83},
+          {68.53,7.615,213.83},
+          {67.47,7.615,213.83},
+          {68.53,9.78,213.695},
+          {67.47,9.78,213.695},
+          {68.53,7.615,213.695},
+          {67.47,7.615,213.695}
+        }
+      }
+    },
+    glows={
+      "C16_L_g1",
+      "C16_L_g2",
+      "C16_L_g3",
+      "C16_R_g1",
+      "C16_R_g2",
+      "C16_R_g3",
+      "C16_Lfink"
+    },
+    solids={
+
+    },
+    movers={
+      {
+        n="C16_Panel",
+        to={68.0,6.2,214.15},
+        dur=1.1,
+        delay=0.0
+      }
+    },
+    lights={
+      {
+        n="C16_sign",
+        to=1.0,
+        dur=0.8,
+        delay=0.0
+      }
+    },
+    hinges={
+      {
+        n="C16_Leaf",
+        p={68.0,8.7,213.8},
+        piv={67.45,8.7,213.8},
+        deg=-82.0
+      },
+      {
+        n="C16_Knob",
+        p={68.39,8.62,213.73},
+        piv={67.45,8.7,213.8},
+        deg=-82.0
+      },
+      {
+        n="C16_Lfink",
+        p={68.0,7.63,213.8},
+        piv={67.45,8.7,213.8},
+        deg=-82.0
+      }
+    },
+    shines={
+
+    },
+    hides={
+
+    },
+    excl={
+
+    },
+    needs={
+
+    },
+    anti=false
   }
 }
 CHECKS = {
@@ -1658,87 +2581,153 @@ CHECKS = {
     x=0.0,
     y=0.9,
     z=-6.0,
-    at=-1000000000.0
+    r=99.0
   },
   {
     x=0.0,
     y=0.9,
     z=16.6,
-    at=15.6
+    r=2.4
   },
   {
     x=-4.6,
     y=0.9,
     z=17.0,
-    at=17.6
+    r=2.0
   },
   {
     x=5.3,
     y=0.9,
     z=36.4,
-    at=35.6
+    r=2.6
   },
   {
     x=5.5,
     y=0.9,
     z=47.6,
-    at=46.6
+    r=2.6
   },
   {
     x=6.1,
     y=4.3,
     z=63.6,
-    at=62.6
+    r=2.4
   },
   {
     x=6.1,
     y=4.3,
     z=82.0,
-    at=80.6
+    r=2.4
   },
   {
     x=6.1,
     y=4.3,
     z=87.5,
-    at=86.2
+    r=2.6
   },
   {
     x=6.0,
     y=4.3,
     z=106.6,
-    at=105.2
+    r=2.4
   },
   {
     x=7.0,
     y=4.3,
     z=111.0,
-    at=109.6
+    r=2.6
   },
   {
     x=22.5,
     y=4.3,
     z=126.0,
-    at=124.8
+    r=2.6
   },
   {
     x=22.0,
     y=4.3,
     z=144.0,
-    at=142.8
+    r=2.6
   },
   {
     x=22.0,
     y=6.7,
     z=158.0,
-    at=156.8
+    r=2.6
+  },
+  {
+    x=22.0,
+    y=6.7,
+    z=173.0,
+    r=2.4
+  },
+  {
+    x=22.0,
+    y=6.7,
+    z=179.0,
+    r=2.6
+  },
+  {
+    x=22.0,
+    y=6.7,
+    z=188.2,
+    r=2.4
+  },
+  {
+    x=22.0,
+    y=6.7,
+    z=192.4,
+    r=2.6
+  },
+  {
+    x=28.8,
+    y=8.5,
+    z=195.2,
+    r=1.8
+  },
+  {
+    x=32.0,
+    y=8.5,
+    z=195.4,
+    r=2.0
+  },
+  {
+    x=43.2,
+    y=8.5,
+    z=195.4,
+    r=2.2
+  },
+  {
+    x=47.6,
+    y=8.5,
+    z=195.4,
+    r=1.8
+  },
+  {
+    x=58.6,
+    y=8.5,
+    z=195.4,
+    r=2.0
+  },
+  {
+    x=68.0,
+    y=8.5,
+    z=192.6,
+    r=2.6
+  },
+  {
+    x=68.0,
+    y=8.5,
+    z=208.6,
+    r=2.4
   }
 }
 GOAL = {
-  x=22.0,
-  y=5.8,
-  z=163.82,
+  x=68.0,
+  y=7.6,
+  z=213.9,
   r=0.62,
-  need=10.0
+  need=16.0
 }
 -- <<<DATA
 
@@ -1748,6 +2737,11 @@ local ACCEL   = 13.0
 local SENS    = 0.082
 local CONE    = 26.0          -- 「見ている」と認める視野角(度)
 local DWELL   = 0.28          -- 合った状態を保つ時間
+-- ★目に見える変化を「視界の外」でやるための角度と保険の時間
+-- ★fov 72(縦)・16:9 の画面の端はちょうど 52 度。60 度なら【確実に画面の外】
+local AWAY    = 60.0          -- これより外に出たら『見ていない』
+local AWAY_T  = 0.20          -- 視界の外に居続ける時間(端でチラつかせない)
+local FORCE_T = 6.0           -- 保険: 見つめ続けても、この秒数で適用する(詰み防止)
 -- ★★焦点からの距離で足切りする。これが無いと【遠くから勝手に揃う】。
 --   角度差は対象までの距離に反比例して小さくなるので、30m 離れると
 --   焦点の線から外れていても lock を割ってしまう(実機の通しで踏んだ)。
@@ -1761,6 +2755,7 @@ local function find(n)
     return e
 end
 local function clamp(v, a, b) if v < a then return a elseif v > b then return b end return v end
+-- (smooth は補間用だった。つながる演出を全部やめたので、いま使うのは昇降床だけ)
 local function smooth(t) t = clamp(t, 0, 1) return t * t * (3 - 2 * t) end
 
 -- 対応点への視線の角度差(度)の最大値。atan2 版で 0 付近も安定して出る
@@ -1809,6 +2804,10 @@ local function shardOffset(sh, t)
     return o[1] * w, o[2] * w, o[3] * w
 end
 
+-- 継ぎ目の輪郭線。★合い具合では【絶対に動かさない】(動かした瞬間に「演出」になる)。
+--   壁より少し明るい金色の線として最初に一度だけ点け、以後そのまま。
+--   これは信号ではなく「破片の形を読ませるための線」＝建物の一部という扱い。
+local GLOW_BASE = 1.25
 local function setGlow(c, power)
     for i = 1, #c.glowE do
         scene:setMeshParams(c.glowE[i], 1.0, 0.84, 0.52, power)
@@ -1818,7 +2817,8 @@ end
 function OnStart(self)
     self.body = find("LM_Player")
     self.cam  = find("LM_Camera")
-    self.ring = find("LM_Ring")
+    local r = scene:findEntity("LM_Ring")       -- ★環は廃止。古いシーンでも落ちないように
+    self.ring = (r and r:isValid()) and r or nil
     self.hint = find("LM_Hint")
     self.endt = find("LM_End")
 
@@ -1826,10 +2826,8 @@ function OnStart(self)
     self.vx, self.vz = 0.0, 0.0
     self.t, self.cp, self.stepT = 0.0, 1, 0.0
     self.done, self.doneT = false, 0.0
-    self.tweens = {}
-    self.swings = {}
     self.lockedIds = {}
-    self.ringA, self.ringF = 0.0, 0.0
+    self.pending = {}          -- 確定はしたが【まだ目に見える変化を出していない】継ぎ目
 
     -- 継ぎ目のテーブルを実体化(entity をここで 1 回だけ引く)
     self.conns = {}
@@ -1838,9 +2836,10 @@ function OnStart(self)
         local c = { id = d.id, F = d.focus, lock = d.lock, warn = d.warn, center = d.center,
                     note = d.note, shards = {}, glowE = {}, solids = d.solids, movers = d.movers,
                     lights = d.lights, hinges = d.hinges or {}, excl = d.excl or {},
-                    shines = d.shines or {},
-                    locked = false, cancelled = false, anim = -1,
-                    a = 0.0, err = 999.0, hold = 0.0, tick = 0 }
+                    shines = d.shines or {}, hides = d.hides or {}, needs = d.needs or {},
+                    anti = d.anti or false, minY = d.minY, maxY = d.maxY,
+                    locked = false, cancelled = false,
+                    a = 0.0, err = 999.0, hold = 0.0 }
         for s = 1, #d.shards do
             local sd = d.shards[s]
             local sh = { k = sd.k, pts = sd.pts, F = d.focus, osc = sd.osc, ents = {} }
@@ -1856,24 +2855,27 @@ function OnStart(self)
             local e = find(d.glows[g])
             if e then c.glowE[#c.glowE + 1] = e end
         end
-        setGlow(c, 1.25)
+        setGlow(c, GLOW_BASE)
         self.conns[#self.conns + 1] = c
     end
 
-    -- 音: 部屋の唸りと、合い具合のドローン(音量 0 から始める)
-    self.drone = audio:playSFXId("audio/lm/drone.wav", true, 0.0)
+    -- 音: 部屋の唸りだけ。★合い具合のドローンは廃止(音程が上がる = つながる演出そのもの)
     self.hum = {}
     for _, p in ipairs({ { 0, 2.4, 1 }, { 0, 2.4, 13 }, { -4.5, 3.0, 20.6 }, { 0, 3.0, 28.8 },
                          { 4.9, 5.6, 55.5 }, { 6.1, 6.0, 68.5 },
                          { 1.5, 8.5, 89.0 }, { 6.0, 6.4, 106.4 }, { 6.0, 6.9, 112.0 },
-                         { 17.0, 8.4, 127.0 }, { 17.5, 8.6, 145.0 } }) do
+                         { 17.0, 8.4, 127.0 }, { 17.5, 8.6, 145.0 },
+                         -- 第三幕
+                         { 22.0, 8.4, 173.2 }, { 17.0, 8.6, 179.0 }, { 25.0, 8.6, 194.0 },
+                         { 43.4, 10.7, 198.6 }, { 51.6, 10.5, 195.4 }, { 63.5, 12.5, 203.0 } }) do
         self.hum[#self.hum + 1] = audio:playSpatialId("audio/lm/buzz.wav", p[1], p[2], p[3],
                                                       2.0, 13.0, 0.30, true)
     end
 
     -- ★蛍光灯の明滅。1 部屋に 1 本だけ。全部やると「演出」になって嘘くさくなる
     for _, n in ipairs({ "A_tr+09_l", "B_tr9_29_l", "C_tr14_56_l",
-                         "T1_tr6_112_l", "M1_tr17_138_l" }) do
+                         "T1_tr6_112_l", "M1_tr17_138_l",
+                         "W1_tr_l", "T3_tr59_l", "T3d_tr53_203_l", "X3_tr209_l" }) do
         local e = scene:findEntity(n)
         if e and e:isValid() then
             local l = e:light()
@@ -1884,11 +2886,11 @@ function OnStart(self)
     -- ★MCP 検証用フックは Play のたびに必ず落とす(前回の値が残ると
     --   人が遊んだときに勝手に歩き出す)
     saveNum("lm_auto", 0); saveNum("lm_test", 0); saveNum("lm_warp", 0); saveNum("lm_tp", 0)
-    for i = 1, 12 do saveNum(string.format("lm_c%d", i), 0) end
+    for i = 1, 24 do saveNum(string.format("lm_c%d", i), 0) end
     saveNum("lm_clear", 0)
 
-    scene:setUiColor(self.ring, 1.0, 0.86, 0.55, 0.0)
-    scene:setUiFill(self.ring, 0.0)
+    -- ★環(合い具合のHUD)は廃止。画面の中央は最後まで完全に空のまま。
+    if self.ring then scene:setUiVisible(self.ring, false) end
     scene:setUiText(self.endt, "")
     scene:setUiColor(self.endt, 0.94, 0.93, 0.86, 0.0)
     input:setMouseCapture(true)
@@ -1896,64 +2898,27 @@ function OnStart(self)
     log("LIMINAL: " .. #self.conns .. " joints. look, and it becomes.")
 end
 
-local function tweenTo(self, e, to, dur, delay)
-    self.tweens[#self.tweens + 1] = { e = e, from = nil, to = to, dur = dur, t = -(delay or 0) }
+-- ================================================================ 扉(Door)
+-- ★丁番まわりの回転。エンジンの yaw は行ベクトル系なので
+--     (x,z) -> (x cos + z sin, -x sin + z cos)。符号を間違えると扉が壁側へ開く。
+-- ★★以前の版はここで【生成時に焼き込んだ座標】を使っていた。ところが扉板は破片でもあり、
+--   その座標は shard() が縮めた後の値だった ＝ 開くと同時に扉が 3m 手前へ飛んでから回る、
+--   という壊れ方をしていた(これが「ドアの開閉がおかしい」の正体)。
+--   直し方は【焼き込みを使わず、その場の transform を読む】こと。
+--   確定時点で破片は既に k=1 へ戻っているので、これが常に正しい閉扉姿勢になる。
+--   基準回転も足し込む(壁向きの扉は yaw=90 を持っているので、上書きすると横を向く)。
+local function openDoor(e, piv, deg)
+    local p, r = e.transform.position, e.transform.rotation
+    local dx, dz = p.x - piv[1], p.z - piv[3]
+    local th = math.rad(deg)
+    local c_, s_ = math.cos(th), math.sin(th)
+    e.transform.position = V(piv[1] + dx * c_ + dz * s_, p.y, piv[3] - dx * s_ + dz * c_)
+    e.transform.rotation = V(r.x, r.y + deg, r.z)
 end
 
--- 丁番まわりの回転。★エンジンの yaw は行ベクトル系なので
---   (x,z) -> (x cos + z sin, -x sin + z cos)。符号を間違えると扉が壁側へ開く
-local function runSwings(self, dt)
-    local i = 1
-    while i <= #self.swings do
-        local w = self.swings[i]
-        w.t = w.t + dt
-        if w.t >= 0 then
-            local u = smooth(w.t / w.dur)
-            local th = math.rad(w.deg * u)
-            local dx, dz = w.p[1] - w.piv[1], w.p[3] - w.piv[3]
-            local c_, s_ = math.cos(th), math.sin(th)
-            w.e.transform.position = V(w.piv[1] + dx * c_ + dz * s_, w.p[2],
-                                       w.piv[3] - dx * s_ + dz * c_)
-            w.e.transform.rotation = V(0, w.deg * u, 0)
-        end
-        if w.t >= w.dur then table.remove(self.swings, i) else i = i + 1 end
-    end
-end
-
-
-local function runTweens(self, dt)
-    local i = 1
-    while i <= #self.tweens do
-        local w = self.tweens[i]
-        w.t = w.t + dt
-        if w.t >= 0 then
-            if not w.from then
-                local p = w.e.transform.position
-                w.from = { p.x, p.y, p.z }
-            end
-            local u = smooth(w.t / w.dur)
-            w.e.transform.position = V(w.from[1] + (w.to[1] - w.from[1]) * u,
-                                       w.from[2] + (w.to[2] - w.from[2]) * u,
-                                       w.from[3] + (w.to[3] - w.from[3]) * u)
-        end
-        if w.t >= w.dur then
-            table.remove(self.tweens, i)
-        else
-            i = i + 1
-        end
-    end
-end
-
-local function beginLock(self, c)
-    c.anim = 0.0
-    audio:playSFX("audio/lm/lock.wav")
-    fx:burst{ x = c.center[1], y = c.center[2], z = c.center[3], kind = "glow", count = 26,
-              size = 0.30, sizeEnd = 0.0, life = 0.9, speed = 1.6, spread = 1.0,
-              r = 1.0, g = 0.86, b = 0.55, intensity = 2.0, drag = 1.4 }
-    log("LIMINAL joint " .. c.id .. " (" .. c.note .. ") resolved")
-end
-
-local function finishLock(self, c)
+-- ---------------------------------------------------------------- 確定
+-- 見えない変化(当たり判定)だけを、確定した瞬間に無音で入れる。
+local function applySilent(self, c)
     for i = 1, #c.solids do
         local e = find(c.solids[i].n)
         if e then
@@ -1962,12 +2927,16 @@ local function finishLock(self, c)
             physics:addRigidBody(e, 0, 1)
         end
     end
+end
+
+-- 目に見える変化。★視界の外に出てから、無音・無補間で一度に適用する。
+local function applyVisible(self, c)
     for i = 1, #c.movers do
         local m = c.movers[i]
         local e = find(m.n)
         if e then
             physics:removeRigidBody(e)
-            tweenTo(self, e, m.to, m.dur, m.delay)
+            e.transform.position = V(m.to[1], m.to[2], m.to[3])
         end
     end
     for i = 1, #c.lights do
@@ -1983,19 +2952,31 @@ local function finishLock(self, c)
     for i = 1, #c.hinges do
         local h = c.hinges[i]
         local e = find(h.n)
-        if e then
-            self.swings[#self.swings + 1] = { e = e, p = h.p, piv = h.piv, deg = h.deg,
-                                              dur = h.dur, t = -(h.delay or 0) }
-        end
+        if e then openDoor(e, h.piv, h.deg) end
     end
-    for i = 1, #(c.shines or {}) do
+    for i = 1, #c.shines do
         local sh = c.shines[i]
         local e = find(sh.n)
         if e then scene:setMeshParams(e, sh.c[1], sh.c[2], sh.c[3], sh.c[4]) end
     end
-    if #c.movers > 0 then audio:playSFX("audio/lm/reveal.wav") end
+    -- 消える物(負の継ぎ目で塞がれた道の反対側 / 多義で選ばれなかった方)
+    for i = 1, #c.hides do
+        local e = find(c.hides[i])
+        if e then
+            physics:removeRigidBody(e)
+            local p = e.transform.position
+            e.transform.position = V(p.x, p.y - 400.0, p.z)
+        end
+    end
+end
+
+local function resolve(self, c)
+    -- ★k を 1 へ【一瞬で】飛ばす。焦点から見た投影は元々一致しているので画面は変わらない
+    for s = 1, #c.shards do applyShard(c.shards[s], 1.0) end
+    applySilent(self, c)
     c.locked = true
     self.lockedIds[c.id] = true
+    self.pending[#self.pending + 1] = { c = c, t = 0.0, away = 0.0 }
     -- ★同じ破片を取り合う継ぎ目(多義)。片方が決まったら、もう片方は永久に成立しない。
     --   「どちらの世界にするか」をプレイヤーが選んだ、という事にする
     for i = 1, #c.excl do
@@ -2004,7 +2985,6 @@ local function finishLock(self, c)
             if o.id == c.excl[i] and not o.locked then
                 o.locked = true
                 o.cancelled = true
-                o.anim = -1
                 log("LIMINAL joint " .. o.id .. " (" .. o.note .. ") is now impossible")
             end
         end
@@ -2013,6 +2993,7 @@ local function finishLock(self, c)
     for i = 1, #self.conns do if self.conns[i].locked then n = n + 1 end end
     saveNum("lm_locked", n)
     saveNum(string.format("lm_c%d", c.id), 1)
+    log("LIMINAL joint " .. c.id .. " (" .. c.note .. ") resolved")
 end
 
 function OnUpdate(self, dt)
@@ -2094,8 +3075,11 @@ function OnUpdate(self, dt)
     end
 
     -- 到達点の更新と落下復帰
+    -- ★z のしきい値ではなく【半径】で進める。第三幕は東へ折れるので z 単調ではない
     for i = self.cp + 1, #CHECKS do
-        if p.z > CHECKS[i].at then self.cp = i end
+        local ck = CHECKS[i]
+        local dx, dz = p.x - ck.x, p.z - ck.z
+        if dx * dx + dz * dz < ck.r * ck.r and math.abs(p.y - ck.y) < 2.0 then self.cp = i end
     end
     if p.y < CHECKS[self.cp].y - 2.0 and not self.done then
         local c = CHECKS[self.cp]
@@ -2123,29 +3107,9 @@ function OnUpdate(self, dt)
     local fx_, fy_, fz_ = math.sin(yr) * math.cos(math.rad(self.pitch)),
                           math.sin(math.rad(self.pitch)),
                           math.cos(yr) * math.cos(math.rad(self.pitch))
-    local best, bestC = 0.0, nil
     for i = 1, #self.conns do
         local c = self.conns[i]
-        if c.anim >= 0 then
-            -- 溶接中: k を 1 へ。揺れも同時に 0 へ寄せる
-            c.anim = c.anim + dt / 0.85
-            local u = smooth(c.anim)
-            for s = 1, #c.shards do
-                local sh = c.shards[s]
-                local ox, oy, oz = shardOffset(sh, self.t)
-                applyShard(sh, sh.k + (1.0 - sh.k) * u, ox * (1 - u), oy * (1 - u), oz * (1 - u))
-            end
-            setGlow(c, 5.2 * (1.0 - u) + 0.85)
-            if c.anim >= 1.0 then
-                c.anim = -1
-                for s = 1, #c.shards do applyShard(c.shards[s], 1.0) end
-                finishLock(self, c)
-            end
-        elseif c.locked then
-            if not c.cancelled then
-                setGlow(c, math.max(0.55, 0.85 - (self.t - (c.doneAt or self.t)) * 0.25))
-            end
-        else
+        if not c.locked then
             local dx, dy, dz = c.center[1] - ex, c.center[2] - ey, c.center[3] - ez
             local dist = math.sqrt(dx * dx + dy * dy + dz * dz)
             local fdx, fdy, fdz = c.F[1] - ex, c.F[2] - ey, c.F[3] - ez
@@ -2158,7 +3122,9 @@ function OnUpdate(self, dt)
                     local sh = c.shards[s]
                     local ox, oy, oz = shardOffset(sh, self.t)
                     if sh.osc then applyShard(sh, sh.k, ox, oy, oz) end   -- 揺れる破片
-                    if sh.k < 0.999 or sh.osc then
+                    -- ★k>1 の破片(遠くの巨大 → 手元の小)も必ず評価すること。
+                    --   以前は k<0.999 でしか見ておらず、k=3.4 の破片が永久に解けなかった
+                    if math.abs(sh.k - 1.0) > 0.001 or sh.osc then
                         local e2 = alignError(ex, ey, ez, sh.F, sh.k, sh.pts, ox, oy, oz)
                         if e2 > err then err = e2 end
                         n = n + 1
@@ -2167,39 +3133,59 @@ function OnUpdate(self, dt)
             end
             if n == 0 then err = 999.0 end
             c.err = err
-            local a = clamp(1.0 - err / c.warn, 0, 1)
             -- 見ているか(視線と継ぎ目の中心の角度)
             local dl = math.max(dist, 0.001)
             local cosv = (dx * fx_ + dy * fy_ + dz * fz_) / dl
             local looking = cosv > math.cos(math.rad(CONE))
-            c.a = a
-            if a > best and looking then best = a; bestC = c end
-            setGlow(c, 1.25 + 4.4 * a * a * a)
-            if looking and err < c.lock and fdist < FOCUS_LOCK then
+            c.a = clamp(1.0 - err / c.warn, 0, 1)
+            -- ★目の高さの窓。「何段目に立つか」を問う継ぎ目はここで足切りする
+            --   (床の x/z だけでは決まらない ＝ 高さが解の一部になる)
+            local hOK = (not c.minY or ey >= c.minY) and (not c.maxY or ey <= c.maxY)
+            -- ★前提の継ぎ目(連鎖)。順序が意味を持つ
+            local needOK = true
+            for q = 1, #c.needs do
+                if not self.lockedIds[c.needs[q]] then needOK = false end
+            end
+            if looking and needOK and hOK and err < c.lock and fdist < FOCUS_LOCK then
                 c.hold = c.hold + dt
-                if c.hold >= DWELL then beginLock(self, c); c.doneAt = self.t end
+                if c.hold >= DWELL then resolve(self, c) end
             else
                 c.hold = 0.0
             end
-            -- 近づいた合図(段階が上がった時だけ)
-            local step = (a > 0.92 and 3) or (a > 0.75 and 2) or (a > 0.5 and 1) or 0
-            if looking and step > c.tick then audio:playSFX("audio/lm/tick.wav") end
-            c.tick = step
             saveNum(string.format("lm_e%d", c.id), err)
-            saveNum(string.format("lm_a%d", c.id), a)
+            saveNum(string.format("lm_a%d", c.id), c.a)
         end
     end
 
-    -- ------------------------------------------------ HUD(環ひとつ)
-    local ta = best
-    self.ringA = self.ringA + (ta - self.ringA) * clamp(9.0 * dt, 0, 1)
-    self.ringF = self.ringF + (ta - self.ringF) * clamp(14.0 * dt, 0, 1)
-    scene:setUiColor(self.ring, 1.0, 0.86, 0.55, 0.86 * self.ringA ^ 0.8)
-    scene:setUiFill(self.ring, self.ringF)
-    if self.drone then
-        audio:setVoiceVolume(self.drone, 0.34 * self.ringA ^ 1.4)
-        audio:setVoicePitch(self.drone, 0.70 + 0.68 * self.ringA)
+    -- ------------------------------------------------ しれっと変える
+    -- ★確定した継ぎ目の【目に見える変化】は、視界から外れてから無音で一度に入れる。
+    --   だから合った瞬間には何も起きない。振り返ると、もう開いている。
+    do
+        local i = 1
+        while i <= #self.pending do
+            local q = self.pending[i]
+            local c = q.c
+            q.t = q.t + dt
+            local dx, dy, dz = c.center[1] - ex, c.center[2] - ey, c.center[3] - ez
+            local dl = math.max(math.sqrt(dx * dx + dy * dy + dz * dz), 0.001)
+            local cosv = (dx * fx_ + dy * fy_ + dz * fz_) / dl
+            if cosv < math.cos(math.rad(AWAY)) then
+                q.away = q.away + dt
+            else
+                q.away = 0.0
+            end
+            if q.away >= AWAY_T or q.t >= FORCE_T then
+                applyVisible(self, c)
+                table.remove(self.pending, i)
+            else
+                i = i + 1
+            end
+        end
     end
+
+    -- ------------------------------------------------ HUD
+    -- ★環も、合い具合のドローンも無い。画面中央は最後まで空。
+    --   合っているかどうかは【破片が重なって見えるか】だけで判断する。
     -- 操作の案内は 9 秒で消える(以後、画面に文字は出ない)
     local ha = clamp((11.0 - self.t) / 2.0, 0, 1) * 0.55
     if ha <= 0.005 then
@@ -2228,7 +3214,6 @@ function OnUpdate(self, dt)
         post.set("exposure", 1.06 + 0.70 * flash - 0.45 * settle)
         local ta = clamp((self.doneT - 1.1) / 1.0, 0, 1)
         scene:setUiColor(self.endt, 0.12, 0.12, 0.11, ta)
-        scene:setUiColor(self.ring, 1, 1, 1, 0)
         scene:setUiVisible(self.hint, self.doneT > 2.4)
         if self.doneT > 2.4 then
             if not self.endHint then
@@ -2240,8 +3225,6 @@ function OnUpdate(self, dt)
         if self.doneT > 2.6 and keyPressed("ENTER") then loadScene("scenes/stagedemo3.json") end
     end
 
-    runTweens(self, dt)
-    runSwings(self, dt)
     saveNum("lm_px", p.x); saveNum("lm_py", p.y); saveNum("lm_pz", p.z)
     saveNum("lm_yawr", self.yaw)
 end

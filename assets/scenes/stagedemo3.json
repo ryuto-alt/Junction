@@ -26871,67 +26871,6 @@
    }
   },
   {
-   "name": "Z1_n",
-   "guid": "1fb744b6bfcc6de7",
-   "transform": {
-    "position": [
-     22.0,
-     8.8,
-     170.15
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     16.0,
-     6.0,
-     0.3
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0.0,
-    "roughness": 0.9
-   },
-   "materialTextureOverrides": [
-    {
-     "albedo": "models/tex/lm_paint_col.png"
-    }
-   ],
-   "uvTiling": {
-    "u": 8.0,
-    "v": 3.0
-   },
-   "color": [
-    1,
-    1,
-    1
-   ],
-   "boxCollider": {
-    "halfExtents": [
-     0.5,
-     0.5,
-     0.5
-    ],
-    "offset": [
-     0,
-     0,
-     0
-    ]
-   },
-   "rigidBody": {
-    "motionType": 0,
-    "mass": 1,
-    "friction": 0.75,
-    "restitution": 0,
-    "useGravity": false,
-    "linearDamping": 0.02,
-    "angularDamping": 0.01
-   }
-  },
-  {
    "name": "Z1_s_0",
    "guid": "7a314c8c49b4adc9",
    "transform": {
@@ -27112,6 +27051,420 @@
     "useGravity": false,
     "linearDamping": 0.02,
     "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Z1_n_0",
+   "guid": "fbf880d7d4c1493b",
+   "transform": {
+    "position": [
+     17.575,
+     8.8,
+     170.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     7.75,
+     6.0,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.875,
+    "v": 3.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Z1_n_1",
+   "guid": "afb397301bc7017a",
+   "transform": {
+    "position": [
+     26.425,
+     8.8,
+     170.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     7.75,
+     6.0,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.875,
+    "v": 3.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Z1_n_hd",
+   "guid": "098a8385b41bf68b",
+   "transform": {
+    "position": [
+     22.0,
+     9.9,
+     170.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.1,
+     3.8,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.55,
+    "v": 1.9
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Z1_nc_cl",
+   "guid": "c7a7923d40220a04",
+   "transform": {
+    "position": [
+     21.4,
+     6.9,
+     169.98
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.1,
+     2.3,
+     0.16
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.05,
+    "v": 1.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Z1_nc_cr",
+   "guid": "684564fa233aff10",
+   "transform": {
+    "position": [
+     22.6,
+     6.9,
+     169.98
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.1,
+     2.3,
+     0.16
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.05,
+    "v": 1.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Z1_nc_ct",
+   "guid": "6eb5361944e26bd0",
+   "transform": {
+    "position": [
+     22.0,
+     8.05,
+     169.98
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.3,
+     0.1,
+     0.16
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.65,
+    "v": 0.05
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Z1_exit_b",
+   "guid": "791e8a146cb7405b",
+   "transform": {
+    "position": [
+     22.0,
+     8.36,
+     169.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.68,
+     0.32,
+     0.06
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.34,
+    "v": 0.16
+   },
+   "color": [
+    0.35,
+    0.35,
+    0.34
+   ]
+  },
+  {
+   "name": "Z1_exit",
+   "guid": "b7564a06055e993d",
+   "transform": {
+    "position": [
+     22.0,
+     8.36,
+     169.855
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.62,
+     0.26,
+     0.03
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_exit_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Z1_exit_l",
+   "guid": "1f58662ba4f33590",
+   "transform": {
+    "position": [
+     22.0,
+     8.06,
+     169.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     0.42,
+     1.0,
+     0.66
+    ],
+    "intensity": 0.35,
+    "range": 1.8,
+    "castShadows": false
    }
   },
   {
@@ -27772,6 +28125,13463 @@
    ]
   },
   {
+   "name": "C10_Panel",
+   "guid": "0c88fea15b17f9d4",
+   "transform": {
+    "position": [
+     22.0,
+     6.9,
+     170.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.1,
+     2.2,
+     0.28
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.92
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.55,
+    "v": 1.1
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "W1_flr",
+   "guid": "e77bd0e9f23f8e09",
+   "transform": {
+    "position": [
+     22.0,
+     5.65,
+     173.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     4.2,
+     0.3,
+     6.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_carpet_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.15,
+    "v": 2.1
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "W1_cil",
+   "guid": "83bbfc42af5d9bd8",
+   "transform": {
+    "position": [
+     22.0,
+     8.85,
+     173.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     4.2,
+     0.3,
+     6.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_ceil_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.15,
+    "v": 2.1
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "W1_w",
+   "guid": "2943d2190f27456c",
+   "transform": {
+    "position": [
+     20.05,
+     7.25,
+     173.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     6.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.45,
+    "v": 3.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "W1_wb",
+   "guid": "279e186afcad099c",
+   "transform": {
+    "position": [
+     20.22,
+     5.87,
+     173.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.14,
+     5.7
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.55
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.07,
+    "v": 2.85
+   },
+   "color": [
+    0.62,
+    0.6,
+    0.55
+   ]
+  },
+  {
+   "name": "W1_e",
+   "guid": "df3c3da8a0ba0fb5",
+   "transform": {
+    "position": [
+     23.95,
+     7.25,
+     173.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     6.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.45,
+    "v": 3.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "W1_eb",
+   "guid": "81dbb84a80f37cf7",
+   "transform": {
+    "position": [
+     23.78,
+     5.87,
+     173.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.14,
+     5.7
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.55
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.07,
+    "v": 2.85
+   },
+   "color": [
+    0.62,
+    0.6,
+    0.55
+   ]
+  },
+  {
+   "name": "W1_tr_f",
+   "guid": "fc727c264f5470cf",
+   "transform": {
+    "position": [
+     22.0,
+     8.66,
+     173.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4,
+     0.08,
+     0.46
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.23,
+    "v": 0.7
+   },
+   "color": [
+    0.55,
+    0.55,
+    0.53
+   ]
+  },
+  {
+   "name": "W1_tr_p",
+   "guid": "ceb0a8397e71117b",
+   "transform": {
+    "position": [
+     22.0,
+     8.615,
+     173.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.24,
+     0.03,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.35
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "W1_tr_l",
+   "guid": "a819d6a3abe69b08",
+   "transform": {
+    "position": [
+     22.0,
+     8.35,
+     173.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 8.0,
+    "range": 7.2,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "W1_d1_l",
+   "guid": "784857b8d3bfb3c3",
+   "transform": {
+    "position": [
+     20.27,
+     6.85,
+     173.845
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.14,
+     2.19,
+     0.09
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.095,
+    "v": 0.045
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "W1_d1_r",
+   "guid": "35b3ddde482492af",
+   "transform": {
+    "position": [
+     20.27,
+     6.85,
+     174.955
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.14,
+     2.19,
+     0.09
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.095,
+    "v": 0.045
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "W1_d1_t",
+   "guid": "840c0b272774b99b",
+   "transform": {
+    "position": [
+     20.27,
+     7.945,
+     174.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.14,
+     0.09,
+     1.2
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.045,
+    "v": 0.6
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "W1_d1_d",
+   "guid": "e2528d8387507253",
+   "transform": {
+    "position": [
+     20.225,
+     6.85,
+     174.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.06,
+     2.1,
+     1.02
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.55
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_door_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.05,
+    "v": 0.51
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "W1_d1_k",
+   "guid": "55a331e61d37d050",
+   "transform": {
+    "position": [
+     20.165,
+     6.82,
+     174.77
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.06,
+     0.07,
+     0.07
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.8,
+    "roughness": 0.35
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.035,
+    "v": 0.035
+   },
+   "color": [
+    0.75,
+    0.72,
+    0.62
+   ]
+  },
+  {
+   "name": "P1_cil",
+   "guid": "649d7ce5874244bf",
+   "transform": {
+    "position": [
+     22.0,
+     14.35,
+     183.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     16.6,
+     0.3,
+     14.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 7.15,
+    "v": 8.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "P1_w",
+   "guid": "4183c07ffd1bce3f",
+   "transform": {
+    "position": [
+     13.85,
+     10.0,
+     183.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     8.4,
+     14.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 4.2,
+    "v": 7.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_e",
+   "guid": "57764f2207f9b941",
+   "transform": {
+    "position": [
+     30.15,
+     10.0,
+     183.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     8.4,
+     14.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 4.2,
+    "v": 7.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_s_0",
+   "guid": "5a0340df2d92a74d",
+   "transform": {
+    "position": [
+     17.575,
+     10.0,
+     176.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     7.75,
+     8.4,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.875,
+    "v": 4.2
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_s_1",
+   "guid": "e75612aee296bcd2",
+   "transform": {
+    "position": [
+     26.425,
+     10.0,
+     176.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     7.75,
+     8.4,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.875,
+    "v": 4.2
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_s_hd",
+   "guid": "3fcdd9e592e43ed0",
+   "transform": {
+    "position": [
+     22.0,
+     11.1,
+     176.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.1,
+     6.2,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.55,
+    "v": 3.1
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_n_0",
+   "guid": "940657c7fe3d1be0",
+   "transform": {
+    "position": [
+     17.575,
+     10.0,
+     190.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     7.75,
+     8.4,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.875,
+    "v": 4.2
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_n_1",
+   "guid": "d7732129cb2ca3cc",
+   "transform": {
+    "position": [
+     26.425,
+     10.0,
+     190.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     7.75,
+     8.4,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.875,
+    "v": 4.2
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_n_hd",
+   "guid": "8ebad763ddc0907b",
+   "transform": {
+    "position": [
+     22.0,
+     11.1,
+     190.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.1,
+     6.2,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.55,
+    "v": 3.1
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_nc_cl",
+   "guid": "27af374b7c4d16e9",
+   "transform": {
+    "position": [
+     21.4,
+     6.9,
+     189.98
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.1,
+     2.3,
+     0.16
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.05,
+    "v": 1.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "P1_nc_cr",
+   "guid": "4a737f050898bfc9",
+   "transform": {
+    "position": [
+     22.6,
+     6.9,
+     189.98
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.1,
+     2.3,
+     0.16
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.05,
+    "v": 1.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "P1_nc_ct",
+   "guid": "8e7288b3ea263863",
+   "transform": {
+    "position": [
+     22.0,
+     8.05,
+     189.98
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.3,
+     0.1,
+     0.16
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.65,
+    "v": 0.05
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "P1_exit_b",
+   "guid": "f5fc138f9c8a3a47",
+   "transform": {
+    "position": [
+     22.0,
+     8.36,
+     189.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.68,
+     0.32,
+     0.06
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.34,
+    "v": 0.16
+   },
+   "color": [
+    0.35,
+    0.35,
+    0.34
+   ]
+  },
+  {
+   "name": "P1_exit",
+   "guid": "c4b6097010b2814a",
+   "transform": {
+    "position": [
+     22.0,
+     8.36,
+     189.855
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.62,
+     0.26,
+     0.03
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_exit_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "P1_exit_l",
+   "guid": "a30c121e6bdce583",
+   "transform": {
+    "position": [
+     22.0,
+     8.06,
+     189.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     0.42,
+     1.0,
+     0.66
+    ],
+    "intensity": 0.35,
+    "range": 1.8,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "P1_fs",
+   "guid": "f9774669de754e16",
+   "transform": {
+    "position": [
+     22.0,
+     5.65,
+     179.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     16.6,
+     0.3,
+     6.0
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.0,
+    "v": 8.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_fn",
+   "guid": "3e2ece845855b6f4",
+   "transform": {
+    "position": [
+     22.0,
+     5.65,
+     188.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     16.6,
+     0.3,
+     4.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.15,
+    "v": 8.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_pit",
+   "guid": "602121ef2c52c701",
+   "transform": {
+    "position": [
+     22.0,
+     2.25,
+     184.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     16.6,
+     0.3,
+     4.0
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.0,
+    "v": 8.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "P1_pf182",
+   "guid": "b78a9892e81a6167",
+   "transform": {
+    "position": [
+     22.0,
+     4.1,
+     182.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     16.6,
+     3.4,
+     0.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.92
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 8.3,
+    "v": 1.7
+   },
+   "color": [
+    0.58,
+    0.58,
+    0.56
+   ]
+  },
+  {
+   "name": "P1_pf186",
+   "guid": "62173df122aba043",
+   "transform": {
+    "position": [
+     22.0,
+     4.1,
+     186.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     16.6,
+     3.4,
+     0.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.92
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 8.3,
+    "v": 1.7
+   },
+   "color": [
+    0.58,
+    0.58,
+    0.56
+   ]
+  },
+  {
+   "name": "P1_pl",
+   "guid": "b3a2801745130c6c",
+   "transform": {
+    "position": [
+     22.0,
+     3.7,
+     184.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     0.76,
+     0.94,
+     0.94
+    ],
+    "intensity": 3.5,
+    "range": 6.5,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "P1_ls17_179",
+   "guid": "749a3a235fc983ad",
+   "transform": {
+    "position": [
+     17.0,
+     13.85,
+     179.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.9,
+     0.24,
+     0.9
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.45,
+    "v": 0.45
+   },
+   "color": [
+    0.42,
+    0.42,
+    0.4
+   ]
+  },
+  {
+   "name": "P1_lg17_179",
+   "guid": "a276ab98576dacaf",
+   "transform": {
+    "position": [
+     17.0,
+     13.71,
+     179.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.64,
+     0.05,
+     0.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "P1_ll17_179",
+   "guid": "970c425f2f987bf6",
+   "transform": {
+    "position": [
+     17.0,
+     13.3,
+     179.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 12.0,
+    "range": 15.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "P1_ls27_179",
+   "guid": "23c5ecc51f7f11d5",
+   "transform": {
+    "position": [
+     27.0,
+     13.85,
+     179.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.9,
+     0.24,
+     0.9
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.45,
+    "v": 0.45
+   },
+   "color": [
+    0.42,
+    0.42,
+    0.4
+   ]
+  },
+  {
+   "name": "P1_ls17_188",
+   "guid": "07d332c5bcc4b7c6",
+   "transform": {
+    "position": [
+     17.0,
+     13.85,
+     188.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.9,
+     0.24,
+     0.9
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.45,
+    "v": 0.45
+   },
+   "color": [
+    0.42,
+    0.42,
+    0.4
+   ]
+  },
+  {
+   "name": "P1_ls27_188",
+   "guid": "3f9991a5c71416f5",
+   "transform": {
+    "position": [
+     27.0,
+     13.85,
+     188.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.9,
+     0.24,
+     0.9
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.45,
+    "v": 0.45
+   },
+   "color": [
+    0.42,
+    0.42,
+    0.4
+   ]
+  },
+  {
+   "name": "P1_lg27_188",
+   "guid": "3dd187632ee9c4e7",
+   "transform": {
+    "position": [
+     27.0,
+     13.71,
+     188.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.64,
+     0.05,
+     0.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "P1_ll27_188",
+   "guid": "8b85322a75b56a5b",
+   "transform": {
+    "position": [
+     27.0,
+     13.3,
+     188.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 12.0,
+    "range": 15.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "P1_ls22_179",
+   "guid": "d30b2b128bf8b0ab",
+   "transform": {
+    "position": [
+     22.0,
+     13.85,
+     179.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.9,
+     0.24,
+     0.9
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.45,
+    "v": 0.45
+   },
+   "color": [
+    0.42,
+    0.42,
+    0.4
+   ]
+  },
+  {
+   "name": "P1_lg22_179",
+   "guid": "514bf3064e762113",
+   "transform": {
+    "position": [
+     22.0,
+     13.71,
+     179.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.64,
+     0.05,
+     0.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "P1_ll22_179",
+   "guid": "f906bf2f9439d7b2",
+   "transform": {
+    "position": [
+     22.0,
+     13.3,
+     179.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 12.0,
+    "range": 15.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "C11_p0",
+   "guid": "2419ebaa467ef7ea",
+   "transform": {
+    "position": [
+     19.68,
+     6.7524,
+     181.12
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.924,
+     0.0672,
+     0.56
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.6667,
+    "v": 1.1
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "C11_h0",
+   "guid": "8cd8e962d06f4f8b",
+   "transform": {
+    "position": [
+     22.0,
+     -74.28,
+     182.6667
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.3,
+     0.16,
+     1.6333
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C11_p1",
+   "guid": "846004f0b8b8cc65",
+   "transform": {
+    "position": [
+     20.2,
+     6.521,
+     182.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.21,
+     0.088,
+     0.7333
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.6667,
+    "v": 1.1
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "C11_h1",
+   "guid": "f5bde9402ad6e77d",
+   "transform": {
+    "position": [
+     22.0,
+     -74.28,
+     184.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.3,
+     0.16,
+     1.6333
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C11_p2",
+   "guid": "37df59302c6dab0d",
+   "transform": {
+    "position": [
+     20.72,
+     6.2896,
+     183.6266
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.496,
+     0.1088,
+     0.9066
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.6667,
+    "v": 1.1
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "C11_h2",
+   "guid": "8ee688e1eb2baf84",
+   "transform": {
+    "position": [
+     22.0,
+     -74.28,
+     185.3333
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.3,
+     0.16,
+     1.6333
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C11_fill",
+   "guid": "50d8a23062fa2224",
+   "transform": {
+    "position": [
+     19.4,
+     9.0,
+     179.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 10.0,
+    "range": 14.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "P1_fk0",
+   "guid": "d6c988fb209a5607",
+   "transform": {
+    "position": [
+     25.8578,
+     8.6455,
+     179.744
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.6721,
+     0.16,
+     0.4322
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.2161,
+    "v": 0.836
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk1",
+   "guid": "b946a39bdd4a7fb4",
+   "transform": {
+    "position": [
+     27.3597,
+     6.7646,
+     187.964
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.7119,
+     0.16,
+     0.6429
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.3214,
+    "v": 0.356
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk2",
+   "guid": "2dfe658c194cfc2b",
+   "transform": {
+    "position": [
+     18.6285,
+     8.1201,
+     178.0695
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.8615,
+     0.16,
+     0.4948
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.2474,
+    "v": 0.9308
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk3",
+   "guid": "bb0bc0e841572beb",
+   "transform": {
+    "position": [
+     18.3637,
+     8.4224,
+     185.6944
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4801,
+     0.16,
+     0.5976
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.2988,
+    "v": 0.7401
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk4",
+   "guid": "84ff716e0d8373ac",
+   "transform": {
+    "position": [
+     25.4771,
+     8.5196,
+     183.9001
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.2967,
+     0.16,
+     0.4648
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.2324,
+    "v": 1.1483
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk5",
+   "guid": "44a856b4bc2f2a26",
+   "transform": {
+    "position": [
+     28.8229,
+     7.2864,
+     183.3188
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.3386,
+     0.16,
+     1.2077
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.6038,
+    "v": 1.1693
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk6",
+   "guid": "63aed1bc02e260af",
+   "transform": {
+    "position": [
+     27.2694,
+     7.8985,
+     180.8585
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.8401,
+     0.16,
+     1.2265
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.6132,
+    "v": 0.92
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk7",
+   "guid": "848373f66fd9726c",
+   "transform": {
+    "position": [
+     27.5479,
+     8.1164,
+     185.4558
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.3601,
+     0.16,
+     0.974
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.487,
+    "v": 0.6801
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk8",
+   "guid": "17591fad1cc61b8c",
+   "transform": {
+    "position": [
+     15.4107,
+     6.5581,
+     182.8551
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.8174,
+     0.16,
+     0.6622
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.3311,
+    "v": 0.4087
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk9",
+   "guid": "794e00efdecf4167",
+   "transform": {
+    "position": [
+     25.8348,
+     6.4911,
+     181.4823
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.345,
+     0.16,
+     1.1299
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.5649,
+    "v": 0.6725
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk10",
+   "guid": "c0f00b3caef788f5",
+   "transform": {
+    "position": [
+     15.6127,
+     7.5285,
+     184.7992
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.6563,
+     0.16,
+     1.3286
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.6643,
+    "v": 0.3281
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk11",
+   "guid": "e1dbfe442c40da21",
+   "transform": {
+    "position": [
+     16.5892,
+     8.6014,
+     178.1464
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.7459,
+     0.16,
+     1.0058
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.5029,
+    "v": 0.373
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk12",
+   "guid": "f9b52783c8c30049",
+   "transform": {
+    "position": [
+     28.2786,
+     8.5873,
+     177.9923
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.0185,
+     0.16,
+     1.0176
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.5088,
+    "v": 0.5093
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk13",
+   "guid": "2d2ec0cf6a6fbf60",
+   "transform": {
+    "position": [
+     27.1531,
+     7.3337,
+     180.4545
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.6301,
+     0.16,
+     1.2375
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.6188,
+    "v": 0.3151
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk14",
+   "guid": "bf1c5043c8c37b7a",
+   "transform": {
+    "position": [
+     25.4072,
+     8.2539,
+     177.9777
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.5654,
+     0.16,
+     1.2121
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.606,
+    "v": 0.7827
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk15",
+   "guid": "d8b73ef087e90139",
+   "transform": {
+    "position": [
+     20.6532,
+     8.2984,
+     185.0359
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4973,
+     0.16,
+     0.6945
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.3473,
+    "v": 0.7487
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk16",
+   "guid": "5280166833a0d175",
+   "transform": {
+    "position": [
+     15.5175,
+     7.7225,
+     186.4468
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.6924,
+     0.16,
+     0.85
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.425,
+    "v": 0.8462
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk17",
+   "guid": "2ca13d75dc74791c",
+   "transform": {
+    "position": [
+     18.3864,
+     8.4401,
+     183.5087
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.2359,
+     0.16,
+     0.7817
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.3909,
+    "v": 1.118
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk18",
+   "guid": "d372a9cb0e86331b",
+   "transform": {
+    "position": [
+     21.2275,
+     8.6273,
+     183.1597
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.2142,
+     0.16,
+     0.9651
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.4826,
+    "v": 0.6071
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk19",
+   "guid": "e863b5d380286458",
+   "transform": {
+    "position": [
+     26.8531,
+     8.272,
+     187.0032
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.3671,
+     0.16,
+     1.1585
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.5793,
+    "v": 1.1836
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk20",
+   "guid": "174d930986af7601",
+   "transform": {
+    "position": [
+     28.1607,
+     6.5498,
+     184.8719
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.6307,
+     0.16,
+     0.6583
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.3292,
+    "v": 0.8154
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk21",
+   "guid": "1e149a3640ba9e7c",
+   "transform": {
+    "position": [
+     26.0548,
+     7.8356,
+     183.8078
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.8877,
+     0.16,
+     1.1959
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.5979,
+    "v": 0.9439
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk22",
+   "guid": "c259826ac357ec36",
+   "transform": {
+    "position": [
+     27.9589,
+     6.961,
+     177.5956
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.6494,
+     0.16,
+     0.6925
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.3463,
+    "v": 0.3247
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "P1_fk23",
+   "guid": "4bae9db4f677826b",
+   "transform": {
+    "position": [
+     28.6012,
+     6.7174,
+     180.9573
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.3332,
+     0.16,
+     1.1729
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.45,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.5864,
+    "v": 1.1666
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "Q1_flr",
+   "guid": "ec60e407a8cfa951",
+   "transform": {
+    "position": [
+     23.0,
+     5.65,
+     197.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     14.6,
+     0.3,
+     14.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 7.15,
+    "v": 7.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_cil",
+   "guid": "92b9172ff3bee651",
+   "transform": {
+    "position": [
+     23.0,
+     14.35,
+     197.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     14.6,
+     0.3,
+     14.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 7.15,
+    "v": 7.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_w",
+   "guid": "17ce3490dd7a37d8",
+   "transform": {
+    "position": [
+     15.85,
+     10.0,
+     197.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     8.4,
+     14.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 4.2,
+    "v": 7.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_n",
+   "guid": "92d6037ff36d006a",
+   "transform": {
+    "position": [
+     23.0,
+     10.0,
+     204.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     14.0,
+     8.4,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 7.0,
+    "v": 4.2
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_e_a",
+   "guid": "a2b4a26001a98cef",
+   "transform": {
+    "position": [
+     30.15,
+     10.0,
+     192.325
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     8.4,
+     4.65
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 4.2,
+    "v": 2.325
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_e_b",
+   "guid": "1ec7566129799b81",
+   "transform": {
+    "position": [
+     30.15,
+     10.0,
+     200.025
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     8.4,
+     8.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 4.2,
+    "v": 4.275
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_e_c",
+   "guid": "d1af545ee3e7d960",
+   "transform": {
+    "position": [
+     30.15,
+     6.7,
+     195.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     1.8,
+     1.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.9,
+    "v": 0.55
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_e_d",
+   "guid": "ca1dab16215b4cea",
+   "transform": {
+    "position": [
+     30.15,
+     12.0,
+     195.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     4.4,
+     1.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.2,
+    "v": 0.55
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_ec_cl",
+   "guid": "b00c0a0bf019c500",
+   "transform": {
+    "position": [
+     29.98,
+     8.7,
+     194.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.16,
+     2.3,
+     0.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.15,
+    "v": 0.05
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_ec_cr",
+   "guid": "75ef1826b33e47fb",
+   "transform": {
+    "position": [
+     29.98,
+     8.7,
+     195.8
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.16,
+     2.3,
+     0.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.15,
+    "v": 0.05
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_ec_ct",
+   "guid": "4de0571854ae9709",
+   "transform": {
+    "position": [
+     29.98,
+     9.85,
+     195.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.16,
+     0.1,
+     1.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.05,
+    "v": 0.65
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_exit_b",
+   "guid": "8d6bcb4339f8bb00",
+   "transform": {
+    "position": [
+     29.84,
+     10.2,
+     195.2
+    ],
+    "rotation": [
+     0,
+     90,
+     0
+    ],
+    "scale": [
+     0.68,
+     0.32,
+     0.06
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.34,
+    "v": 0.16
+   },
+   "color": [
+    0.35,
+    0.35,
+    0.34
+   ]
+  },
+  {
+   "name": "Q1_exit",
+   "guid": "986b1e23dca47453",
+   "transform": {
+    "position": [
+     29.794999999999998,
+     10.200000000000001,
+     195.2
+    ],
+    "rotation": [
+     0,
+     90,
+     0
+    ],
+    "scale": [
+     0.62,
+     0.26,
+     0.03
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_exit_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_exit_l",
+   "guid": "84235e69f3bb9451",
+   "transform": {
+    "position": [
+     29.54,
+     9.9,
+     195.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     0.42,
+     1.0,
+     0.66
+    ],
+    "intensity": 0.35,
+    "range": 1.8,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "C12_Panel",
+   "guid": "a278799e8a3ce54d",
+   "transform": {
+    "position": [
+     30.15,
+     8.7,
+     195.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.28,
+     2.2,
+     1.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.92
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.1,
+    "v": 0.55
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st1",
+   "guid": "e618286493934055",
+   "transform": {
+    "position": [
+     18.3,
+     5.95,
+     192.275
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     0.3,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st2",
+   "guid": "3cae8ee35519367b",
+   "transform": {
+    "position": [
+     18.3,
+     6.1,
+     192.825
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     0.6,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st3",
+   "guid": "00fd0965dad8b5ce",
+   "transform": {
+    "position": [
+     18.3,
+     6.25,
+     193.375
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     0.9,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st4",
+   "guid": "368918be2dd5b563",
+   "transform": {
+    "position": [
+     18.3,
+     6.4,
+     193.925
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     1.2,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st5",
+   "guid": "a844ada662450b5e",
+   "transform": {
+    "position": [
+     18.3,
+     6.55,
+     194.475
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     1.5,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st6",
+   "guid": "affa632deb6c4649",
+   "transform": {
+    "position": [
+     18.3,
+     6.7,
+     195.025
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     1.8,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st7",
+   "guid": "4bd9d6ef90bc139f",
+   "transform": {
+    "position": [
+     18.3,
+     6.85,
+     195.575
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     2.1,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st8",
+   "guid": "6ef72ad958e179b1",
+   "transform": {
+    "position": [
+     18.3,
+     7.0,
+     196.125
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     2.4,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st9",
+   "guid": "bdd30e4e3acc588e",
+   "transform": {
+    "position": [
+     18.3,
+     7.15,
+     196.675
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     2.7,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st10",
+   "guid": "5d233c7d2937acd1",
+   "transform": {
+    "position": [
+     18.3,
+     7.3,
+     197.225
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     3.0,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st11",
+   "guid": "dae101a68c80303e",
+   "transform": {
+    "position": [
+     18.3,
+     7.45,
+     197.775
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     3.3,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_st12",
+   "guid": "591949201ef657b9",
+   "transform": {
+    "position": [
+     18.3,
+     7.6,
+     198.325
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     3.6,
+     0.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.275,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_land",
+   "guid": "c203b62799b09b05",
+   "transform": {
+    "position": [
+     18.3,
+     9.25,
+     201.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     0.3,
+     5.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.55,
+    "v": 1.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Q1_dead_l",
+   "guid": "e590df1f4f7f2465",
+   "transform": {
+    "position": [
+     17.745,
+     10.45,
+     203.66
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.09,
+     2.19,
+     0.14
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.045,
+    "v": 1.095
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_dead_r",
+   "guid": "a82503681a1372d0",
+   "transform": {
+    "position": [
+     18.855,
+     10.45,
+     203.66
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.09,
+     2.19,
+     0.14
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.045,
+    "v": 1.095
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_dead_t",
+   "guid": "d417cc7429ef6024",
+   "transform": {
+    "position": [
+     18.3,
+     11.545,
+     203.66
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.2,
+     0.09,
+     0.14
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.6,
+    "v": 0.045
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_dead_d",
+   "guid": "cf795a98e8937751",
+   "transform": {
+    "position": [
+     18.3,
+     10.45,
+     203.615
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.02,
+     2.1,
+     0.06
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.55
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_door_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.51,
+    "v": 1.05
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_dead_k",
+   "guid": "c5ead9c46cd9fb83",
+   "transform": {
+    "position": [
+     18.67,
+     10.42,
+     203.555
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.07,
+     0.07,
+     0.06
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.8,
+    "roughness": 0.35
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.035,
+    "v": 0.035
+   },
+   "color": [
+    0.75,
+    0.72,
+    0.62
+   ]
+  },
+  {
+   "name": "Q1_ls18_193",
+   "guid": "b032f131ae9ef845",
+   "transform": {
+    "position": [
+     18.3,
+     13.85,
+     193.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.9,
+     0.24,
+     0.9
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.45,
+    "v": 0.45
+   },
+   "color": [
+    0.42,
+    0.42,
+    0.4
+   ]
+  },
+  {
+   "name": "Q1_lg18_193",
+   "guid": "68fe6fb0d383208a",
+   "transform": {
+    "position": [
+     18.3,
+     13.71,
+     193.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.64,
+     0.05,
+     0.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_ll18_193",
+   "guid": "03f30ab591f642e4",
+   "transform": {
+    "position": [
+     18.3,
+     13.3,
+     193.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 13.0,
+    "range": 16.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "Q1_ls18_201",
+   "guid": "f226ec887f693610",
+   "transform": {
+    "position": [
+     18.3,
+     13.85,
+     200.8
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.9,
+     0.24,
+     0.9
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.45,
+    "v": 0.45
+   },
+   "color": [
+    0.42,
+    0.42,
+    0.4
+   ]
+  },
+  {
+   "name": "Q1_lg18_201",
+   "guid": "23670dcf9fd4b3a1",
+   "transform": {
+    "position": [
+     18.3,
+     13.71,
+     200.8
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.64,
+     0.05,
+     0.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_ll18_201",
+   "guid": "0e9321e838eee0fa",
+   "transform": {
+    "position": [
+     18.3,
+     13.3,
+     200.8
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 13.0,
+    "range": 16.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "Q1_ls25_194",
+   "guid": "24297d24292798b3",
+   "transform": {
+    "position": [
+     25.0,
+     13.85,
+     194.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.9,
+     0.24,
+     0.9
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.45,
+    "v": 0.45
+   },
+   "color": [
+    0.42,
+    0.42,
+    0.4
+   ]
+  },
+  {
+   "name": "Q1_lg25_194",
+   "guid": "09d487bce9a29b42",
+   "transform": {
+    "position": [
+     25.0,
+     13.71,
+     194.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.64,
+     0.05,
+     0.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_ll25_194",
+   "guid": "c133c27acfd88132",
+   "transform": {
+    "position": [
+     25.0,
+     13.3,
+     194.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 13.0,
+    "range": 16.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "Q1_ls25_201",
+   "guid": "dc7a55ed25945a9c",
+   "transform": {
+    "position": [
+     25.0,
+     13.85,
+     201.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.9,
+     0.24,
+     0.9
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.45,
+    "v": 0.45
+   },
+   "color": [
+    0.42,
+    0.42,
+    0.4
+   ]
+  },
+  {
+   "name": "Q1_ls22_197",
+   "guid": "9d11ac46a5e811aa",
+   "transform": {
+    "position": [
+     22.0,
+     13.85,
+     197.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.9,
+     0.24,
+     0.9
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.45,
+    "v": 0.45
+   },
+   "color": [
+    0.42,
+    0.42,
+    0.4
+   ]
+  },
+  {
+   "name": "Q1_lg22_197",
+   "guid": "fc370949858d45fe",
+   "transform": {
+    "position": [
+     22.0,
+     13.71,
+     197.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.64,
+     0.05,
+     0.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Q1_ll22_197",
+   "guid": "d08bbe22b890b975",
+   "transform": {
+    "position": [
+     22.0,
+     13.3,
+     197.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 13.0,
+    "range": 16.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "C12_anchor",
+   "guid": "b8643b3b58b96555",
+   "transform": {
+    "position": [
+     20.5,
+     7.51,
+     195.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.2,
+     0.18,
+     1.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.8,
+    "v": 1.1
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C12_p0",
+   "guid": "a4c90f7c007030a8",
+   "transform": {
+    "position": [
+     20.28,
+     8.4945,
+     195.1037
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.99,
+     0.081,
+     0.72
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.8,
+    "v": 1.1
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "C12_g0",
+   "guid": "acfed8bbebf3ce20",
+   "transform": {
+    "position": [
+     20.28,
+     8.5395,
+     194.7662
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.945,
+     0.018,
+     0.027
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_h0",
+   "guid": "7cba8b08de0e9225",
+   "transform": {
+    "position": [
+     22.7,
+     -72.49,
+     195.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.5,
+     0.18,
+     1.6
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C12_p1",
+   "guid": "9589d74bb4efa428",
+   "transform": {
+    "position": [
+     22.128,
+     8.2618,
+     195.1265
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.276,
+     0.1044,
+     0.928
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.8,
+    "v": 1.1
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "C12_g1",
+   "guid": "9805a3af0026d9fa",
+   "transform": {
+    "position": [
+     22.128,
+     8.3198,
+     194.6915
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.218,
+     0.0232,
+     0.0348
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_h1",
+   "guid": "101d48ca15407bb2",
+   "transform": {
+    "position": [
+     24.9,
+     -72.49,
+     195.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.5,
+     0.18,
+     1.6
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C12_p2",
+   "guid": "05faec4e2dd86843",
+   "transform": {
+    "position": [
+     24.46,
+     8.047,
+     195.1475
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.54,
+     0.126,
+     1.12
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.8,
+    "v": 1.1
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "C12_g2",
+   "guid": "fc0e080bae92d8f9",
+   "transform": {
+    "position": [
+     24.46,
+     8.117,
+     194.6225
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.47,
+     0.028,
+     0.042
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_h2",
+   "guid": "6e6a46ae47304ed2",
+   "transform": {
+    "position": [
+     27.1,
+     -72.49,
+     195.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.5,
+     0.18,
+     1.6
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C12_p3",
+   "guid": "9030bf4238f43b59",
+   "transform": {
+    "position": [
+     27.32,
+     7.8322,
+     195.1685
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.804,
+     0.1476,
+     1.312
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.8,
+    "v": 1.1
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "C12_g3",
+   "guid": "6ecc8cee2556af41",
+   "transform": {
+    "position": [
+     27.32,
+     7.9142,
+     194.5535
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.722,
+     0.0328,
+     0.0492
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_h3",
+   "guid": "50cfd6cca2f606c3",
+   "transform": {
+    "position": [
+     29.3,
+     -72.49,
+     195.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.5,
+     0.18,
+     1.6
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C12_fill",
+   "guid": "b2c9453dcc12d9fe",
+   "transform": {
+    "position": [
+     23.0,
+     10.0,
+     192.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 9.0,
+    "range": 13.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "R1_flr",
+   "guid": "d48227fed1e6c4d1",
+   "transform": {
+    "position": [
+     38.15,
+     -0.15,
+     198.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     16.3,
+     0.3,
+     16.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 8.3,
+    "v": 8.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_cil",
+   "guid": "a460b1773cf5968a",
+   "transform": {
+    "position": [
+     38.15,
+     16.15,
+     198.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     16.3,
+     0.3,
+     16.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 8.3,
+    "v": 8.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "R1_s",
+   "guid": "0399a15fc92b6215",
+   "transform": {
+    "position": [
+     38.15,
+     8.0,
+     189.85
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     15.7,
+     16.0,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 7.85,
+    "v": 8.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_n",
+   "guid": "ff7a4db1089c1ece",
+   "transform": {
+    "position": [
+     38.15,
+     8.0,
+     206.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     15.7,
+     16.0,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 7.85,
+    "v": 8.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_wlo",
+   "guid": "b9704ff888d40843",
+   "transform": {
+    "position": [
+     30.15,
+     2.9,
+     198.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     5.8,
+     16.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.9,
+    "v": 8.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_whi",
+   "guid": "1a88b920d6b661b2",
+   "transform": {
+    "position": [
+     30.15,
+     15.1,
+     198.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     1.8,
+     16.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.9,
+    "v": 8.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_e_a",
+   "guid": "81791f18955edc2b",
+   "transform": {
+    "position": [
+     46.15,
+     8.0,
+     192.275
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     16.0,
+     5.15
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 8.0,
+    "v": 2.575
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_e_b",
+   "guid": "609922a3e263f2da",
+   "transform": {
+    "position": [
+     46.15,
+     8.0,
+     201.125
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     16.0,
+     10.35
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 8.0,
+    "v": 5.175
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_e_c",
+   "guid": "aeed7cb2c88f6974",
+   "transform": {
+    "position": [
+     46.15,
+     3.8,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     7.6,
+     1.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.8,
+    "v": 0.55
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_e_d",
+   "guid": "67011d221e30ca34",
+   "transform": {
+    "position": [
+     46.15,
+     12.9,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     6.2,
+     1.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.1,
+    "v": 0.55
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_lw",
+   "guid": "8013d1702a93110e",
+   "transform": {
+    "position": [
+     31.85,
+     7.45,
+     195.75
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     3.7,
+     0.3,
+     6.5
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.25,
+    "v": 1.85
+   },
+   "color": [
+    0.48,
+    0.48,
+    0.46
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_le",
+   "guid": "b4184acb20da4f3e",
+   "transform": {
+    "position": [
+     43.65,
+     7.45,
+     195.75
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     5.3,
+     0.3,
+     6.5
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.25,
+    "v": 2.65
+   },
+   "color": [
+    0.48,
+    0.48,
+    0.46
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C13_anchor",
+   "guid": "931863275ae88db8",
+   "transform": {
+    "position": [
+     40.25,
+     7.51,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.9,
+     0.18,
+     2.0
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 0.95
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "R1_lg32_193",
+   "guid": "6e68c19e4445e838",
+   "transform": {
+    "position": [
+     32.2,
+     11.0,
+     192.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.0,
+     0.05,
+     1.0
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "R1_ll32_193",
+   "guid": "231512aa040dd876",
+   "transform": {
+    "position": [
+     32.2,
+     10.7,
+     192.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 11.0,
+    "range": 14.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "R1_lg32_199",
+   "guid": "f16349a484a8b83a",
+   "transform": {
+    "position": [
+     32.2,
+     11.0,
+     198.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.0,
+     0.05,
+     1.0
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "R1_ll32_199",
+   "guid": "7ebb6612fea289e9",
+   "transform": {
+    "position": [
+     32.2,
+     10.7,
+     198.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 11.0,
+    "range": 14.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "R1_lg43_193",
+   "guid": "fb177e140bfcac4d",
+   "transform": {
+    "position": [
+     43.4,
+     11.0,
+     192.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.0,
+     0.05,
+     1.0
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "R1_ll43_193",
+   "guid": "828b1f939119bf9c",
+   "transform": {
+    "position": [
+     43.4,
+     10.7,
+     192.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 11.0,
+    "range": 14.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "R1_lg43_199",
+   "guid": "2bbdcce23ea5ac1f",
+   "transform": {
+    "position": [
+     43.4,
+     11.0,
+     198.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.0,
+     0.05,
+     1.0
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.5
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "R1_ll43_199",
+   "guid": "00a701f366641138",
+   "transform": {
+    "position": [
+     43.4,
+     10.7,
+     198.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 11.0,
+    "range": 14.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "R1_deep38",
+   "guid": "2d236c0fd588adcb",
+   "transform": {
+    "position": [
+     38.5,
+     8.8,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     0.76,
+     0.94,
+     0.94
+    ],
+    "intensity": 16.0,
+    "range": 18.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "R1_deep42",
+   "guid": "a722fe81019a276f",
+   "transform": {
+    "position": [
+     42.5,
+     8.8,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     0.76,
+     0.94,
+     0.94
+    ],
+    "intensity": 16.0,
+    "range": 18.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "R1_exit_b",
+   "guid": "e673fbb604e28361",
+   "transform": {
+    "position": [
+     45.84,
+     10.2,
+     195.4
+    ],
+    "rotation": [
+     0,
+     90,
+     0
+    ],
+    "scale": [
+     0.68,
+     0.32,
+     0.06
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.34,
+    "v": 0.16
+   },
+   "color": [
+    0.35,
+    0.35,
+    0.34
+   ]
+  },
+  {
+   "name": "R1_exit",
+   "guid": "7a669ad224f53f44",
+   "transform": {
+    "position": [
+     45.795,
+     10.200000000000001,
+     195.4
+    ],
+    "rotation": [
+     0,
+     90,
+     0
+    ],
+    "scale": [
+     0.62,
+     0.26,
+     0.03
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_exit_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "R1_exit_l",
+   "guid": "27a8c039db340437",
+   "transform": {
+    "position": [
+     45.54,
+     9.9,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     0.42,
+     1.0,
+     0.66
+    ],
+    "intensity": 0.35,
+    "range": 1.8,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "C13_p0",
+   "guid": "fba400b86f8e2fb3",
+   "transform": {
+    "position": [
+     38.24,
+     5.004,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     5.28,
+     0.432,
+     4.8
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.1
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "C13_g0",
+   "guid": "78fa51c568b3b07b",
+   "transform": {
+    "position": [
+     38.24,
+     5.244,
+     193.096
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     5.04,
+     0.096,
+     0.144
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C13_h0",
+   "guid": "b5b2b730bb5e1419",
+   "transform": {
+    "position": [
+     34.6,
+     -72.49,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     0.18,
+     2.0
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C13_p1",
+   "guid": "713df4fa93bcd565",
+   "transform": {
+    "position": [
+     41.12,
+     5.899,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     4.18,
+     0.342,
+     3.8
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.1
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "C13_g1",
+   "guid": "86003cfe871810dd",
+   "transform": {
+    "position": [
+     41.12,
+     6.089,
+     193.576
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     3.99,
+     0.076,
+     0.114
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C13_h1",
+   "guid": "1d4b7c5bb338f1c9",
+   "transform": {
+    "position": [
+     36.8,
+     -72.49,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.6,
+     0.18,
+     2.0
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C13_p2",
+   "guid": "3d65c62381b5d427",
+   "transform": {
+    "position": [
+     42.23,
+     6.5255,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.17,
+     0.279,
+     3.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 0.7
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.47
+   ]
+  },
+  {
+   "name": "C13_g2",
+   "guid": "c1eb7a8ef5e48170",
+   "transform": {
+    "position": [
+     42.23,
+     6.6805,
+     193.912
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.015,
+     0.062,
+     0.093
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C13_h2",
+   "guid": "1cf67cc6980f5239",
+   "transform": {
+    "position": [
+     38.6,
+     -72.49,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.8,
+     0.18,
+     2.0
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3_flr",
+   "guid": "3fbd0b4bcf68de66",
+   "transform": {
+    "position": [
+     53.15,
+     7.45,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     14.3,
+     0.3,
+     3.8
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_carpet_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.9,
+    "v": 7.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3_cil",
+   "guid": "efe1f6193e9976c9",
+   "transform": {
+    "position": [
+     53.15,
+     10.65,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     14.3,
+     0.3,
+     3.8
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_ceil_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.9,
+    "v": 7.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3_s",
+   "guid": "fd17a4662ce6aa48",
+   "transform": {
+    "position": [
+     53.15,
+     9.05,
+     193.65
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     14.3,
+     2.9,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 7.15,
+    "v": 1.45
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3_n0",
+   "guid": "379ae54c623452ba",
+   "transform": {
+    "position": [
+     47.2,
+     9.05,
+     197.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.4,
+     2.9,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.2,
+    "v": 1.45
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3_n1",
+   "guid": "cfa50e5ebe8082da",
+   "transform": {
+    "position": [
+     53.0,
+     9.05,
+     197.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     4.0,
+     2.9,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.0,
+    "v": 1.45
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3_n2",
+   "guid": "411f26217558f892",
+   "transform": {
+    "position": [
+     58.95,
+     9.05,
+     197.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.7,
+     2.9,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.35,
+    "v": 1.45
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3_e_a",
+   "guid": "49de87104ba1d766",
+   "transform": {
+    "position": [
+     60.15,
+     9.05,
+     194.175
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     1.35
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.45,
+    "v": 0.675
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3_e_b",
+   "guid": "81d6588371a00f10",
+   "transform": {
+    "position": [
+     60.15,
+     9.05,
+     196.625
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     1.35
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.45,
+    "v": 0.675
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3_e_d",
+   "guid": "720622f0daf14eda",
+   "transform": {
+    "position": [
+     60.15,
+     10.15,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     0.7,
+     1.1
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.35,
+    "v": 0.55
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3_tr48_f",
+   "guid": "704585e3d2f6656a",
+   "transform": {
+    "position": [
+     48.0,
+     10.46,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4,
+     0.08,
+     0.46
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.23,
+    "v": 0.7
+   },
+   "color": [
+    0.55,
+    0.55,
+    0.53
+   ]
+  },
+  {
+   "name": "T3_tr48_p",
+   "guid": "2c5b3c8432e736c7",
+   "transform": {
+    "position": [
+     48.0,
+     10.415,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.24,
+     0.03,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.35
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3_tr48_l",
+   "guid": "c06c014135893ad0",
+   "transform": {
+    "position": [
+     48.0,
+     10.15,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 8.0,
+    "range": 7.2,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "T3_tr52_f",
+   "guid": "67b71ac4179c3178",
+   "transform": {
+    "position": [
+     51.6,
+     10.46,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4,
+     0.08,
+     0.46
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.23,
+    "v": 0.7
+   },
+   "color": [
+    0.55,
+    0.55,
+    0.53
+   ]
+  },
+  {
+   "name": "T3_tr52_p",
+   "guid": "9b7ff7379c40dce6",
+   "transform": {
+    "position": [
+     51.6,
+     10.415,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.24,
+     0.03,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.6
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_lamp_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.15,
+    "v": 0.62
+   },
+   "color": [
+    0.3,
+    0.3,
+    0.29
+   ]
+  },
+  {
+   "name": "T3_tr56_f",
+   "guid": "fd13f60d918e3406",
+   "transform": {
+    "position": [
+     56.4,
+     10.46,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4,
+     0.08,
+     0.46
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.23,
+    "v": 0.7
+   },
+   "color": [
+    0.55,
+    0.55,
+    0.53
+   ]
+  },
+  {
+   "name": "T3_tr56_p",
+   "guid": "76ecc118c08d8472",
+   "transform": {
+    "position": [
+     56.4,
+     10.415,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.24,
+     0.03,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.35
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3_tr56_l",
+   "guid": "8ac6df9077e68fea",
+   "transform": {
+    "position": [
+     56.4,
+     10.15,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 8.0,
+    "range": 7.2,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "T3_tr59_f",
+   "guid": "5a341762798ef03a",
+   "transform": {
+    "position": [
+     59.0,
+     10.46,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4,
+     0.08,
+     0.46
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.23,
+    "v": 0.7
+   },
+   "color": [
+    0.55,
+    0.55,
+    0.53
+   ]
+  },
+  {
+   "name": "T3_tr59_p",
+   "guid": "13dad4e29249cd2e",
+   "transform": {
+    "position": [
+     59.0,
+     10.415,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.24,
+     0.03,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.35
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3_tr59_l",
+   "guid": "292e2ed75baf5122",
+   "transform": {
+    "position": [
+     59.0,
+     10.15,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 8.0,
+    "range": 7.2,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "T3_exit_b",
+   "guid": "c81fa6d954277909",
+   "transform": {
+    "position": [
+     58.6,
+     10.2,
+     196.88
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.68,
+     0.32,
+     0.06
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.34,
+    "v": 0.16
+   },
+   "color": [
+    0.35,
+    0.35,
+    0.34
+   ]
+  },
+  {
+   "name": "T3_exit",
+   "guid": "09f2be3dd1344c7a",
+   "transform": {
+    "position": [
+     58.6,
+     10.2,
+     196.835
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.62,
+     0.26,
+     0.03
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_exit_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3_exit_l",
+   "guid": "22d0b338e0367e58",
+   "transform": {
+    "position": [
+     58.6,
+     9.9,
+     196.58
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     0.42,
+     1.0,
+     0.66
+    ],
+    "intensity": 0.35,
+    "range": 1.8,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "T3dA_flr",
+   "guid": "671641f5d1ba22b6",
+   "transform": {
+    "position": [
+     49.7,
+     7.45,
+     198.925
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.9,
+     0.3,
+     4.15
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_carpet_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.075,
+    "v": 1.45
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3dA_cil",
+   "guid": "8e91b9073c65a01f",
+   "transform": {
+    "position": [
+     49.7,
+     10.65,
+     198.925
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.9,
+     0.3,
+     4.15
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_ceil_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.075,
+    "v": 1.45
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3dB_flr",
+   "guid": "c6481c9946a99d08",
+   "transform": {
+    "position": [
+     53.0,
+     7.45,
+     202.575
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     9.5,
+     0.3,
+     3.15
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_carpet_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.575,
+    "v": 4.75
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3dB_cil",
+   "guid": "514e9bf8935ee6f2",
+   "transform": {
+    "position": [
+     53.0,
+     10.65,
+     202.575
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     9.5,
+     0.3,
+     3.15
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_ceil_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.575,
+    "v": 4.75
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3dC_flr",
+   "guid": "39dc976587cf2aaa",
+   "transform": {
+    "position": [
+     56.3,
+     7.45,
+     198.925
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.9,
+     0.3,
+     4.15
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_carpet_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.075,
+    "v": 1.45
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3dC_cil",
+   "guid": "504cecafd1e5fa29",
+   "transform": {
+    "position": [
+     56.3,
+     10.65,
+     198.925
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     2.9,
+     0.3,
+     4.15
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_ceil_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.075,
+    "v": 1.45
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3d_w1",
+   "guid": "95dd9d7b62077a30",
+   "transform": {
+    "position": [
+     48.25,
+     9.05,
+     200.575
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     7.45
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.45,
+    "v": 3.725
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3d_w2",
+   "guid": "d53fd78b578a0e54",
+   "transform": {
+    "position": [
+     51.15,
+     9.05,
+     199.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     4.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.45,
+    "v": 2.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3d_w3",
+   "guid": "4e8beac5d2060202",
+   "transform": {
+    "position": [
+     54.85,
+     9.05,
+     199.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     4.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.45,
+    "v": 2.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3d_w4",
+   "guid": "803c2aeecb7b3d6b",
+   "transform": {
+    "position": [
+     57.75,
+     9.05,
+     200.575
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     7.45
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.45,
+    "v": 3.725
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3d_n",
+   "guid": "d85ccb74aab27482",
+   "transform": {
+    "position": [
+     53.0,
+     9.05,
+     204.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     9.8,
+     2.9,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 4.9,
+    "v": 1.45
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3d_s",
+   "guid": "e842ee3514a83a4a",
+   "transform": {
+    "position": [
+     53.0,
+     9.05,
+     200.85
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     3.7,
+     2.9,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.85,
+    "v": 1.45
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3d_tr50_199_f",
+   "guid": "aae8e3b621fc8894",
+   "transform": {
+    "position": [
+     49.7,
+     10.46,
+     199.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4,
+     0.08,
+     0.46
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.23,
+    "v": 0.7
+   },
+   "color": [
+    0.55,
+    0.55,
+    0.53
+   ]
+  },
+  {
+   "name": "T3d_tr50_199_p",
+   "guid": "3003c9188c23ce29",
+   "transform": {
+    "position": [
+     49.7,
+     10.415,
+     199.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.24,
+     0.03,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.35
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3d_tr50_199_l",
+   "guid": "6919f9e740c2dbeb",
+   "transform": {
+    "position": [
+     49.7,
+     10.15,
+     199.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 8.0,
+    "range": 7.2,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "T3d_tr53_203_f",
+   "guid": "19b0e2cc3a04c613",
+   "transform": {
+    "position": [
+     53.0,
+     10.46,
+     202.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4,
+     0.08,
+     0.46
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.23,
+    "v": 0.7
+   },
+   "color": [
+    0.55,
+    0.55,
+    0.53
+   ]
+  },
+  {
+   "name": "T3d_tr53_203_p",
+   "guid": "53e028878e10cd29",
+   "transform": {
+    "position": [
+     53.0,
+     10.415,
+     202.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.24,
+     0.03,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.35
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3d_tr53_203_l",
+   "guid": "766cdd6f5996ce23",
+   "transform": {
+    "position": [
+     53.0,
+     10.15,
+     202.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 8.0,
+    "range": 7.2,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "T3d_tr56_199_f",
+   "guid": "d632ab1afdb4c5ac",
+   "transform": {
+    "position": [
+     56.3,
+     10.46,
+     199.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4,
+     0.08,
+     0.46
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.23,
+    "v": 0.7
+   },
+   "color": [
+    0.55,
+    0.55,
+    0.53
+   ]
+  },
+  {
+   "name": "T3d_tr56_199_p",
+   "guid": "99d846e292538f18",
+   "transform": {
+    "position": [
+     56.3,
+     10.415,
+     199.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.24,
+     0.03,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.35
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "T3d_tr56_199_l",
+   "guid": "b4f2e0d3c43bf97a",
+   "transform": {
+    "position": [
+     56.3,
+     10.15,
+     199.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 8.0,
+    "range": 7.2,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "C14_s0",
+   "guid": "16f99169e8ab1543",
+   "transform": {
+    "position": [
+     51.47,
+     8.6308,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.165,
+     0.5207,
+     1.76
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.4733,
+    "v": 1.6
+   },
+   "color": [
+    0.56,
+    0.56,
+    0.54
+   ]
+  },
+  {
+   "name": "C14_s1",
+   "guid": "dcdb5c171c40ad37",
+   "transform": {
+    "position": [
+     51.912,
+     9.13,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.204,
+     0.6438,
+     2.176
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.4733,
+    "v": 1.6
+   },
+   "color": [
+    0.56,
+    0.56,
+    0.54
+   ]
+  },
+  {
+   "name": "C14_s2",
+   "guid": "2773b543c0497089",
+   "transform": {
+    "position": [
+     52.32,
+     9.8734,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.24,
+     0.7574,
+     2.56
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.4733,
+    "v": 1.6
+   },
+   "color": [
+    0.56,
+    0.56,
+    0.54
+   ]
+  },
+  {
+   "name": "C14_h",
+   "guid": "5597bfe167c92ce9",
+   "transform": {
+    "position": [
+     53.0,
+     -70.95,
+     195.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     3.2
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "T3_worn",
+   "guid": "7d8fc2257a790832",
+   "transform": {
+    "position": [
+     49.7,
+     7.606,
+     197.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.7,
+     0.012,
+     1.7
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.98
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_carpet_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.85,
+    "v": 0.85
+   },
+   "color": [
+    0.72,
+    0.7,
+    0.66
+   ]
+  },
+  {
+   "name": "U3_flr",
+   "guid": "1e61037d0e859927",
+   "transform": {
+    "position": [
+     68.15,
+     7.45,
+     198.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     16.3,
+     0.3,
+     16.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 8.3,
+    "v": 8.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "U3_cil",
+   "guid": "0d8fe529c50fa40f",
+   "transform": {
+    "position": [
+     68.15,
+     12.75,
+     198.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     16.3,
+     0.3,
+     16.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 8.3,
+    "v": 8.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "U3_e",
+   "guid": "ef1b0e8050ffc3de",
+   "transform": {
+    "position": [
+     76.15,
+     10.1,
+     198.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     5.0,
+     16.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.5,
+    "v": 8.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "U3_s",
+   "guid": "99111bdf96c59c53",
+   "transform": {
+    "position": [
+     68.15,
+     10.1,
+     189.85
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     15.7,
+     5.0,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 7.85,
+    "v": 2.5
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "U3_n_0",
+   "guid": "0de3c6b3c361d06d",
+   "transform": {
+    "position": [
+     63.725,
+     10.1,
+     206.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     7.45,
+     5.0,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.725,
+    "v": 2.5
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "U3_n_1",
+   "guid": "c8f77a60fd26b663",
+   "transform": {
+    "position": [
+     72.425,
+     10.1,
+     206.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     7.75,
+     5.0,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 3.875,
+    "v": 2.5
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "U3_n_hd",
+   "guid": "17c97971ee55e4cc",
+   "transform": {
+    "position": [
+     68.0,
+     11.2,
+     206.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.1,
+     2.8,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.55,
+    "v": 1.4
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "U3_nc_cl",
+   "guid": "22e77bb74c39dbee",
+   "transform": {
+    "position": [
+     67.4,
+     8.7,
+     205.98
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.1,
+     2.3,
+     0.16
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.05,
+    "v": 1.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "U3_nc_cr",
+   "guid": "ba75ab26e45b52c6",
+   "transform": {
+    "position": [
+     68.6,
+     8.7,
+     205.98
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.1,
+     2.3,
+     0.16
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.05,
+    "v": 1.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "U3_nc_ct",
+   "guid": "bc408a2de458e2ff",
+   "transform": {
+    "position": [
+     68.0,
+     9.85,
+     205.98
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.3,
+     0.1,
+     0.16
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.65,
+    "v": 0.05
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "U3_exit_b",
+   "guid": "da15d7f643ac2f35",
+   "transform": {
+    "position": [
+     68.0,
+     10.16,
+     205.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.68,
+     0.32,
+     0.06
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.34,
+    "v": 0.16
+   },
+   "color": [
+    0.35,
+    0.35,
+    0.34
+   ]
+  },
+  {
+   "name": "U3_exit",
+   "guid": "8dfd8e417e94203f",
+   "transform": {
+    "position": [
+     68.0,
+     10.16,
+     205.855
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.62,
+     0.26,
+     0.03
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_exit_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "U3_exit_l",
+   "guid": "faf0227b6c952686",
+   "transform": {
+    "position": [
+     68.0,
+     9.86,
+     205.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     0.42,
+     1.0,
+     0.66
+    ],
+    "intensity": 0.35,
+    "range": 1.8,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "C15_Panel",
+   "guid": "16962f6ec0deda04",
+   "transform": {
+    "position": [
+     68.0,
+     8.7,
+     206.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.1,
+     2.2,
+     0.28
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.92
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.55,
+    "v": 1.1
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "U3_lg64_193",
+   "guid": "4d0b86c80a6f60e3",
+   "transform": {
+    "position": [
+     63.5,
+     12.48,
+     193.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.5,
+     0.06,
+     1.5
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.99,
+    0.96,
+    1.15
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "U3_ll64_193",
+   "guid": "ab7b75d04dca43bf",
+   "transform": {
+    "position": [
+     63.5,
+     12.1,
+     193.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.99,
+     0.96
+    ],
+    "intensity": 10.0,
+    "range": 16.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "U3_lg73_193",
+   "guid": "f608d595716f726f",
+   "transform": {
+    "position": [
+     73.0,
+     12.48,
+     193.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.5,
+     0.06,
+     1.5
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.99,
+    0.96,
+    1.15
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "U3_ll73_193",
+   "guid": "f52e92a08db0b4cf",
+   "transform": {
+    "position": [
+     73.0,
+     12.1,
+     193.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.99,
+     0.96
+    ],
+    "intensity": 10.0,
+    "range": 16.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "U3_lg64_203",
+   "guid": "2c857059a3aa499a",
+   "transform": {
+    "position": [
+     63.5,
+     12.48,
+     203.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.5,
+     0.06,
+     1.5
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.99,
+    0.96,
+    1.15
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "U3_ll64_203",
+   "guid": "c4e8ae8be0e7fc0f",
+   "transform": {
+    "position": [
+     63.5,
+     12.1,
+     203.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.99,
+     0.96
+    ],
+    "intensity": 10.0,
+    "range": 16.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "U3_lg73_203",
+   "guid": "08c829ee110fc825",
+   "transform": {
+    "position": [
+     73.0,
+     12.48,
+     203.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.5,
+     0.06,
+     1.5
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.99,
+    0.96,
+    1.15
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "U3_ll73_203",
+   "guid": "9ab4d31e0171acce",
+   "transform": {
+    "position": [
+     73.0,
+     12.1,
+     203.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.99,
+     0.96
+    ],
+    "intensity": 10.0,
+    "range": 16.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "C15_w",
+   "guid": "3d3cf49be55433ae",
+   "transform": {
+    "position": [
+     67.194,
+     9.17,
+     195.901
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.156,
+     1.508,
+     5.642
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.45,
+    "v": 5.425
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C15_hw",
+   "guid": "d75c7798646f0d91",
+   "transform": {
+    "position": [
+     66.45,
+     -70.95,
+     200.425
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     10.85
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C15_e",
+   "guid": "1691ede5ccc6dca3",
+   "transform": {
+    "position": [
+     68.806,
+     9.17,
+     195.901
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.156,
+     1.508,
+     5.642
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.45,
+    "v": 5.425
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C15_he",
+   "guid": "f8e5b418a38384c6",
+   "transform": {
+    "position": [
+     69.55,
+     -70.95,
+     200.425
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     2.9,
+     10.85
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C15_c",
+   "guid": "9052696929573054",
+   "transform": {
+    "position": [
+     68.0,
+     10.002,
+     195.901
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.768,
+     0.156,
+     5.642
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_ceil_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 5.425,
+    "v": 1.7
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C15_g",
+   "guid": "dbae6ebeeabc6a15",
+   "transform": {
+    "position": [
+     68.0,
+     8.4264,
+     193.1268
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.456,
+     0.0208,
+     0.0312
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C15_fill",
+   "guid": "10cdd0def6a554d9",
+   "transform": {
+    "position": [
+     68.0,
+     10.1,
+     196.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.99,
+     0.96
+    ],
+    "intensity": 9.0,
+    "range": 13.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "C15_mark",
+   "guid": "5a6ea039798b260b",
+   "transform": {
+    "position": [
+     66.9,
+     7.606,
+     191.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.5,
+     0.012,
+     1.5
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.75,
+    "v": 0.75
+   },
+   "color": [
+    0.8,
+    0.79,
+    0.75
+   ]
+  },
+  {
+   "name": "X3_flr",
+   "guid": "b971c95d194976dc",
+   "transform": {
+    "position": [
+     68.0,
+     7.45,
+     210.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     8.6,
+     0.3,
+     8.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.95
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_carpet_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 4.15,
+    "v": 4.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "X3_cil",
+   "guid": "487fe2ad602c672f",
+   "transform": {
+    "position": [
+     68.0,
+     10.75,
+     210.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     8.6,
+     0.3,
+     8.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.94
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_ceil_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 4.15,
+    "v": 4.3
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "X3_w",
+   "guid": "97e3dc5f6cf42179",
+   "transform": {
+    "position": [
+     63.85,
+     9.1,
+     210.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     3.0,
+     8.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.5,
+    "v": 4.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "X3_wb",
+   "guid": "a73fa9ae3ce89368",
+   "transform": {
+    "position": [
+     64.02,
+     7.67,
+     210.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.14,
+     7.7
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.55
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.07,
+    "v": 3.85
+   },
+   "color": [
+    0.62,
+    0.6,
+    0.55
+   ]
+  },
+  {
+   "name": "X3_e",
+   "guid": "a8cd5c62648aa2cb",
+   "transform": {
+    "position": [
+     72.15,
+     9.1,
+     210.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     3.0,
+     8.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.5,
+    "v": 4.15
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "X3_eb",
+   "guid": "26ba9098e0faf5d6",
+   "transform": {
+    "position": [
+     71.98,
+     7.67,
+     210.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.14,
+     7.7
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.55
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.07,
+    "v": 3.85
+   },
+   "color": [
+    0.62,
+    0.6,
+    0.55
+   ]
+  },
+  {
+   "name": "X3_tr209_f",
+   "guid": "f3aa6ebb00800fe4",
+   "transform": {
+    "position": [
+     68.0,
+     10.56,
+     208.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4,
+     0.08,
+     0.46
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.23,
+    "v": 0.7
+   },
+   "color": [
+    0.55,
+    0.55,
+    0.53
+   ]
+  },
+  {
+   "name": "X3_tr209_p",
+   "guid": "5e7df47fbf5df977",
+   "transform": {
+    "position": [
+     68.0,
+     10.515,
+     208.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.24,
+     0.03,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.96,
+    0.86,
+    1.35
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "X3_tr209_l",
+   "guid": "b655d8ee78c96430",
+   "transform": {
+    "position": [
+     68.0,
+     10.25,
+     208.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 8.0,
+    "range": 7.2,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "X3_tr212_f",
+   "guid": "edce0a1238d07ab6",
+   "transform": {
+    "position": [
+     68.0,
+     10.56,
+     212.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.4,
+     0.08,
+     0.46
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.23,
+    "v": 0.7
+   },
+   "color": [
+    0.55,
+    0.55,
+    0.53
+   ]
+  },
+  {
+   "name": "X3_tr212_p",
+   "guid": "f7d6647270e7614e",
+   "transform": {
+    "position": [
+     68.0,
+     10.515,
+     212.0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.24,
+     0.03,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.6
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_lamp_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.15,
+    "v": 0.62
+   },
+   "color": [
+    0.3,
+    0.3,
+    0.29
+   ]
+  },
+  {
+   "name": "X3_bench",
+   "guid": "f6fe0fe964de22d7",
+   "transform": {
+    "position": [
+     65.3,
+     8.04,
+     211.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.7,
+     0.07,
+     0.44
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.22,
+    "v": 0.85
+   },
+   "color": [
+    0.72,
+    0.7,
+    0.63
+   ]
+  },
+  {
+   "name": "X3_bench_l-0.69",
+   "guid": "55365b176d5b91af",
+   "transform": {
+    "position": [
+     64.61,
+     7.82,
+     211.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.06,
+     0.44,
+     0.34
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.03,
+    "v": 0.22
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.48
+   ]
+  },
+  {
+   "name": "X3_bench_l0.69",
+   "guid": "b0faa879a0cc7cfe",
+   "transform": {
+    "position": [
+     65.99,
+     7.82,
+     211.2
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.06,
+     0.44,
+     0.34
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.6,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.03,
+    "v": 0.22
+   },
+   "color": [
+    0.5,
+    0.5,
+    0.48
+   ]
+  },
+  {
+   "name": "X3_d1_l",
+   "guid": "a217c5d89203bf18",
+   "transform": {
+    "position": [
+     71.93,
+     8.65,
+     209.045
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.14,
+     2.19,
+     0.09
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.095,
+    "v": 0.045
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "X3_d1_r",
+   "guid": "80c988b946ff9a45",
+   "transform": {
+    "position": [
+     71.93,
+     8.65,
+     210.155
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.14,
+     2.19,
+     0.09
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.095,
+    "v": 0.045
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "X3_d1_t",
+   "guid": "c025de2da8af48f9",
+   "transform": {
+    "position": [
+     71.93,
+     9.745,
+     209.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.14,
+     0.09,
+     1.2
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.045,
+    "v": 0.6
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "X3_d1_d",
+   "guid": "9cd9df23ff87d647",
+   "transform": {
+    "position": [
+     71.975,
+     8.65,
+     209.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.06,
+     2.1,
+     1.02
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.55
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_door_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.05,
+    "v": 0.51
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "X3_d1_k",
+   "guid": "86071fc006ae56e5",
+   "transform": {
+    "position": [
+     72.035,
+     8.62,
+     209.97
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.06,
+     0.07,
+     0.07
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.8,
+    "roughness": 0.35
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.035,
+    "v": 0.035
+   },
+   "color": [
+    0.75,
+    0.72,
+    0.62
+   ]
+  },
+  {
+   "name": "X3_n_0",
+   "guid": "13cd35b6dc1df716",
+   "transform": {
+    "position": [
+     65.575,
+     9.1,
+     214.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     3.75,
+     3.0,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.875,
+    "v": 1.5
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "X3_n_1",
+   "guid": "a9e5752972a7c39a",
+   "transform": {
+    "position": [
+     70.425,
+     9.1,
+     214.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     3.75,
+     3.0,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.875,
+    "v": 1.5
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "X3_n_hd",
+   "guid": "3e44a3a88d434115",
+   "transform": {
+    "position": [
+     68.0,
+     10.2,
+     214.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.1,
+     0.8,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.55,
+    "v": 0.4
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C16_Panel",
+   "guid": "8fa91d894d8adc35",
+   "transform": {
+    "position": [
+     68.0,
+     8.7,
+     214.15
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.1,
+     2.2,
+     0.28
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.92
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_wall_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.55,
+    "v": 1.1
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Y3_flr",
+   "guid": "873c4436836da0d9",
+   "transform": {
+    "position": [
+     68.0,
+     7.45,
+     216.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     4.4,
+     0.3,
+     5.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.8,
+    "v": 2.2
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Y3_cil",
+   "guid": "20a6bf4380883a17",
+   "transform": {
+    "position": [
+     68.0,
+     10.8,
+     216.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     4.4,
+     0.3,
+     5.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.8,
+    "v": 2.2
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Y3_w-1",
+   "guid": "b2c79dec81358250",
+   "transform": {
+    "position": [
+     65.8,
+     9.2,
+     216.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     3.2,
+     5.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.6,
+    "v": 2.8
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Y3_w1",
+   "guid": "101da23727c2d2da",
+   "transform": {
+    "position": [
+     70.2,
+     9.2,
+     216.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3,
+     3.2,
+     5.6
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.6,
+    "v": 2.8
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Y3_n",
+   "guid": "8ea45244e6f18c20",
+   "transform": {
+    "position": [
+     68.0,
+     9.2,
+     219.7
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     4.7,
+     3.2,
+     0.3
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 2.35,
+    "v": 1.6
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "Y3_g-1",
+   "guid": "decb3c97e7b162a1",
+   "transform": {
+    "position": [
+     66.5,
+     9.1,
+     219.52
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.3,
+     2.9,
+     0.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.98,
+    0.94,
+    1.05
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Y3_g1",
+   "guid": "153ba03e7664d478",
+   "transform": {
+    "position": [
+     69.5,
+     9.1,
+     219.52
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.3,
+     2.9,
+     0.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.98,
+    0.94,
+    1.05
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "Y3_l1",
+   "guid": "1fe2ac5733a6879d",
+   "transform": {
+    "position": [
+     68.0,
+     9.8,
+     217.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.98,
+     0.94
+    ],
+    "intensity": 10.0,
+    "range": 9.0,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "C16_signb",
+   "guid": "85ccbdb597c32cdc",
+   "transform": {
+    "position": [
+     68.0,
+     10.16,
+     213.9
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.68,
+     0.32,
+     0.06
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.5
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.34,
+    "v": 0.16
+   },
+   "color": [
+    0.35,
+    0.35,
+    0.34
+   ]
+  },
+  {
+   "name": "C16_sign",
+   "guid": "8ea3733d81df9acf",
+   "transform": {
+    "position": [
+     68.0,
+     10.16,
+     213.855
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.62,
+     0.26,
+     0.03
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_exit_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.0
+   },
+   "color": [
+    0.34,
+    0.38,
+    0.35
+   ]
+  },
+  {
+   "name": "C16_sign_l",
+   "guid": "7cd851a8ae396abb",
+   "transform": {
+    "position": [
+     68.0,
+     9.86,
+     213.57
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     0.42,
+     1.0,
+     0.66
+    ],
+    "intensity": 0.0,
+    "range": 1.8,
+    "castShadows": false
+   }
+  },
+  {
+   "name": "C16_L_jamb",
+   "guid": "eadad26f6ecc1e0d",
+   "transform": {
+    "position": [
+     67.395,
+     9.0525,
+     211.076
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.11,
+     1.265,
+     0.121
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.1,
+    "v": 1.15
+   },
+   "color": [
+    0.44,
+    0.46,
+    0.42
+   ]
+  },
+  {
+   "name": "C16_L_head",
+   "guid": "01b14016a41e6f75",
+   "transform": {
+    "position": [
+     67.5738,
+     9.63,
+     211.076
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3575,
+     0.11,
+     0.121
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.325,
+    "v": 0.1
+   },
+   "color": [
+    0.44,
+    0.46,
+    0.42
+   ]
+  },
+  {
+   "name": "C16_L_sill",
+   "guid": "059829c193bcf86d",
+   "transform": {
+    "position": [
+     67.5738,
+     8.3925,
+     211.076
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3575,
+     0.055,
+     0.121
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.325,
+    "v": 0.05
+   },
+   "color": [
+    0.44,
+    0.46,
+    0.42
+   ]
+  },
+  {
+   "name": "C16_L_g1",
+   "guid": "f3a1c0f47415e027",
+   "transform": {
+    "position": [
+     67.4417,
+     8.9975,
+     211.1431
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.0165,
+     1.155,
+     0.0165
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_L_g2",
+   "guid": "270eeb5fde7dab40",
+   "transform": {
+    "position": [
+     67.6012,
+     9.5667,
+     211.1431
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3025,
+     0.0165,
+     0.0165
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_L_g3",
+   "guid": "0421719806115875",
+   "transform": {
+    "position": [
+     67.6012,
+     8.4282,
+     211.1431
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.3025,
+     0.0165,
+     0.0165
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_R_jamb",
+   "guid": "fc0ca9f811030e9b",
+   "transform": {
+    "position": [
+     67.906,
+     9.129,
+     210.0016
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.076,
+     0.874,
+     0.0836
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.1,
+    "v": 1.15
+   },
+   "color": [
+    0.44,
+    0.46,
+    0.42
+   ]
+  },
+  {
+   "name": "C16_R_head",
+   "guid": "0cf53f729c899eac",
+   "transform": {
+    "position": [
+     67.7825,
+     9.528,
+     210.0016
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.247,
+     0.076,
+     0.0836
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.325,
+    "v": 0.1
+   },
+   "color": [
+    0.44,
+    0.46,
+    0.42
+   ]
+  },
+  {
+   "name": "C16_R_sill",
+   "guid": "910ca43e120918ba",
+   "transform": {
+    "position": [
+     67.7825,
+     8.673,
+     210.0016
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.247,
+     0.038,
+     0.0836
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.45
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_paint_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.325,
+    "v": 0.05
+   },
+   "color": [
+    0.44,
+    0.46,
+    0.42
+   ]
+  },
+  {
+   "name": "C16_R_g1",
+   "guid": "2be0d66762c221e6",
+   "transform": {
+    "position": [
+     67.8737,
+     9.091,
+     210.048
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.0114,
+     0.798,
+     0.0114
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_R_g2",
+   "guid": "f48944827b9bb8ca",
+   "transform": {
+    "position": [
+     67.7635,
+     9.4843,
+     210.048
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.209,
+     0.0114,
+     0.0114
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_R_g3",
+   "guid": "bc905abe730f83b3",
+   "transform": {
+    "position": [
+     67.7635,
+     8.6977,
+     210.048
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.209,
+     0.0114,
+     0.0114
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_Leaf",
+   "guid": "55cc3bcd143c4a59",
+   "transform": {
+    "position": [
+     67.8405,
+     8.874,
+     212.002
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.7526,
+     1.5336,
+     0.0426
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.55
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_door_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.55,
+    "v": 1.1
+   },
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_Knob",
+   "guid": "9446bcf29b5a8c13",
+   "transform": {
+    "position": [
+     68.1174,
+     8.8172,
+     211.9523
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.0497,
+     0.0497,
+     0.0497
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.8,
+    "roughness": 0.35
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.035,
+    "v": 0.035
+   },
+   "color": [
+    0.75,
+    0.72,
+    0.62
+   ]
+  },
+  {
+   "name": "C16_Lfink",
+   "guid": "e8bcdb24f16f04ee",
+   "transform": {
+    "position": [
+     67.8405,
+     8.1143,
+     212.002
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.7384,
+     0.0213,
+     0.0213
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_fill",
+   "guid": "9d27e3314f07e318",
+   "transform": {
+    "position": [
+     68.0,
+     10.0,
+     210.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 8.0,
+    "range": 10.0,
+    "castShadows": false
+   }
+  },
+  {
    "name": "LM_Player",
    "guid": "269773cf13d6f561",
    "transform": {
@@ -27885,67 +41695,6 @@
     "scaleMode": 0,
     "sortOrder": 0,
     "visible": true
-   }
-  },
-  {
-   "name": "LM_Ring",
-   "guid": "04de5141741d913e",
-   "transform": {
-    "position": [
-     0,
-     0,
-     0
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     1,
-     1,
-     1
-    ]
-   },
-   "parentGuid": "7b73021e2decafaa",
-   "uiRect": {
-    "anchorMin": [
-     0.5,
-     0.5
-    ],
-    "anchorMax": [
-     0.5,
-     0.5
-    ],
-    "pivot": [
-     0.5,
-     0.5
-    ],
-    "offsetMin": [
-     -26,
-     -26
-    ],
-    "offsetMax": [
-     26,
-     26
-    ],
-    "visible": true,
-    "order": 1
-   },
-   "uiImage": {
-    "texturePath": "",
-    "color": [
-     1.0,
-     0.86,
-     0.55,
-     0.0
-    ],
-    "shape": 2,
-    "ringThickness": 2.6,
-    "fillAmount": 0.0,
-    "fillDir": 4,
-    "fillOrigin": 0.0,
-    "raycastBlock": false
    }
   },
   {

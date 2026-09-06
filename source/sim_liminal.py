@@ -137,10 +137,13 @@ class World:
             b.move((b.cx, b.cy - 500.0, b.cz))
             self.rebuild()
 
+    SUPPORT_PAD = 0.06        # ★足場は点で見ない。板の継ぎ目(数 cm)で落ちる嘘の失敗が出る
+                              #   (実機の CharacterController は半径 0.34 なので落ちない)
+
     def tops(self, x, z):
         out = []
         for b in self.near(x, z):
-            if b.contains_xz(x, z):
+            if b.contains_xz(x, z, self.SUPPORT_PAD):
                 out.append(round(b.top(), 3))
         return sorted(set(out))
 
@@ -166,7 +169,7 @@ class World:
         return best
 
 
-def walk(world, start, targets, bounds, maxcells=900000):
+def walk(world, start, targets, bounds, maxcells=3000000):
     """BFS。★同じ升でも【高さが違えば別の状態】として扱う(階段の下に床があると、
     先に床側で升を潰してしまい『階段を登れない』という嘘の失敗が出る)。
     targets は {名前: (x, z)} か {名前: (x, z, 高さ)}。"""
@@ -234,7 +237,9 @@ def align_error(eye, F, k, pts):
 def conn_error(c, eye):
     e = 0.0
     for sh in c.shards:
-        if sh["k"] < 0.999:
+        # ★k>1(遠くの巨大 -> 手元の小)も必ず数える。k<0.999 だけ見ていると
+        #   継ぎ目13 のような逆スケールの破片が「誤差 0」に見えて検査をすり抜ける
+        if abs(sh["k"] - 1.0) > 0.001:
             e = max(e, align_error(eye, c.focus, sh["k"], sh["pts"]))
     return e
 
@@ -257,6 +262,11 @@ def field(c, seen, floor_of, half=3.6):
             if abs(seen[k] + EYE - c.focus[1]) > 0.4:
                 continue
             eye = (x, seen[k] + EYE, z)
+            # ★「何段目に立つか」を問う継ぎ目は、実行時と同じ高さの窓で足切りする
+            if c.min_y is not None and eye[1] < c.min_y:
+                continue
+            if c.max_y is not None and eye[1] > c.max_y:
+                continue
             if math.dist(eye, tuple(c.focus)) > FOCUS_LOCK:
                 continue
             err = conn_error(c, eye)
@@ -273,7 +283,7 @@ def main():
     G.build()
     ents, conns = G.ES, G.CONNS
     world = World(ents)
-    bounds = (-10.0, -10.0, 32.0, 176.0)
+    bounds = (-10.0, -12.0, 80.0, 224.0)
     print("=" * 68)
     print("stagedemo3 / liminal — 机上シミュレーション")
     print("=" * 68)
@@ -340,7 +350,14 @@ def main():
         7:  ((22.0, 138.0, 3.40), (22.0, 138.0, 3.40)),
         8:  (None, (22.0, 138.0, 3.40)),
         9:  ((22.0, 158.0, 5.80), (22.0, 158.0, 5.80)),
-        10: (None, None),
+        10: ((22.0, 173.0, 5.80), (22.0, 173.0, 5.80)),
+        # ---- 第三幕 ----
+        11: ((22.0, 188.2, 5.80), (22.0, 188.2, 5.80)),   # 溝を渡る
+        12: ((32.0, 195.4, 7.60), (32.0, 195.4, 7.60)),   # 渡り廊下 -> 吹き抜けへ
+        13: ((43.2, 195.4, 7.60), (43.2, 195.4, 7.60)),   # 巨人の板 -> 東の桟へ
+        14: (None, None),                                  # ★負の継ぎ目。解かないのが正解
+        15: ((68.0, 208.6, 7.60), (68.0, 208.6, 7.60)),   # 模型 -> 本物の廊下
+        16: ((68.0, 217.0, 7.60), (68.0, 217.0, 7.60)),   # 扉 -> 白い部屋
     }
     flats = {}
     order = sorted(conns, key=lambda c: c.cid)
@@ -355,6 +372,10 @@ def main():
             fail("継ぎ目%d を解く前に (%.1f, %.1f) へ行けてしまう" % (c.cid, before[0], before[1]))
         if c.cid == 8:
             continue                      # 多義の片割れ。7 を採った世界で進む(8 は下で別途検査)
+        if c.anti:
+            # ★負の継ぎ目は【解かずに】進むのが正解なので、順路には適用しない。
+            #   解いてしまった世界(迂回路)は下で別に検査する
+            continue
         apply(c)
         if after:
             r2, seen2, _ = walk(world, start, {"t": after}, B)
@@ -377,6 +398,24 @@ def main():
         ok("多義: 西の橋(継ぎ目8)を選んでも溝を渡れる")
     else:
         fail("多義: 継ぎ目8 を選ぶと溝を渡れない(詰み)")
+
+    # ★負の継ぎ目(見ると壁が建つ)を【解いてしまった世界】でも先へ行けるか。
+    #   ここが通らないと「見ただけで詰む」= 一番たちの悪い作りになる
+    anti = [c for c in order if c.anti]
+    if anti:
+        w3 = World(G.ES)
+        for c in order:
+            if c.cid == 8:
+                continue
+            for sd in c.solids:
+                w3.enable(sd["n"], sd["p"])
+            for m in c.movers:
+                w3.disable(m["n"])
+        r4, _, _ = walk(w3, start, {"t": (58.6, 195.4, 7.60)}, B)
+        if r4["t"]:
+            ok("負の継ぎ目: 壁が建ってしまっても迂回路で先へ行ける(詰まない)")
+        else:
+            fail("負の継ぎ目: 壁が建つと詰む(迂回路が通っていない)")
 
     # ---------------------------------------------------- 合う場所の広さ
     print(NL + "[3] 継ぎ目ごとの『合う場所』")
@@ -429,6 +468,21 @@ def main():
         okstair = False
     if okstair:
         ok("階段 %d 段 + 踊り場、段差はすべて %.2f m 以下" % (len(st), STEP_UP))
+    # 第三幕の大階段(実在。継ぎ目ではない)
+    st3 = []
+    for name, e in world.byname.items():
+        if name.startswith("Q1_st"):
+            t = e["transform"]
+            st3.append((t["position"][2], t["position"][1] + t["scale"][1] / 2, name))
+    st3.sort()
+    prev3, ok3 = G.CHECKS[16]["y"] - 0.90, True
+    for _z, top, name in st3:
+        if top - prev3 > STEP_UP + 0.001:
+            fail("第三幕の階段の蹴上げが %.3f m: %s" % (top - prev3, name))
+            ok3 = False
+        prev3 = top
+    if ok3:
+        ok("第三幕の大階段 %d 段、蹴上げはすべて %.2f m 以下" % (len(st3), STEP_UP))
 
     # 橋の高さ(床と面一か)
     for s in conns[1].solids:
@@ -450,7 +504,13 @@ def main():
            (6.1, 4.9, 88), (6.6, 4.9, 92), (6.0, 4.9, 100), (6.0, 4.9, 106),
            (7.4, 4.9, 118), (13.0, 4.9, 112), (22.5, 4.9, 118), (18.7, 4.9, 126.5),
            (25.0, 4.9, 126.5), (22.0, 4.9, 138), (18.2, 4.9, 146.6), (22.0, 4.9, 152),
-           (22.0, 7.3, 160), (22.0, 7.3, 166)]
+           (22.0, 7.3, 160), (22.0, 7.3, 166),
+           # ---- 第三幕(床 5.8 -> 目 7.5 / 床 7.6 -> 目 9.3) ----
+           (22.0, 7.3, 173), (18.0, 7.3, 180), (22.0, 7.3, 179), (22.0, 7.3, 188),
+           (22.0, 7.3, 192.5), (18.3, 9.3, 195.0), (24.0, 9.1, 195.2), (18.3, 8.9, 200.5),
+           (32.0, 9.1, 195.4), (38.0, 9.1, 195.4), (43.2, 9.1, 195.4),
+           (49.6, 9.1, 195.4), (53.0, 9.1, 202.6), (58.6, 9.1, 195.4),
+           (68.0, 9.1, 192.6), (68.0, 9.1, 200.0), (68.0, 9.1, 209.0), (68.0, 9.1, 213.0)]
     for (x, yy, z) in PTS:
         s = 0.0
         for p, L in lights:
