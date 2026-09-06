@@ -474,7 +474,10 @@ def main():
                    % (tag, area, w, d, best, warm * CELL * CELL))
             if area < 0.08:
                 fail(msg + "  ← 狭すぎる(見つけられない)")
-            elif area > 5.00:
+            elif area > 10.00:
+                # ★上限は昔 1.80 だった。当時は「広い = 歩いていたら勝手に確定する」だったが、
+                #   いまは STILL(1.10m/s 以下)・DWELL 0.36 秒・視野 26 度の 3 つが要るので
+                #   通りすがりでは決まらない。そして【印の上ならどこでも繋がる】方が大事。
                 fail(msg + "  ← 広すぎる(歩いていて勝手に確定する)")
             else:
                 ok(msg)
@@ -538,8 +541,59 @@ def main():
     # ★この作品で一番効く罠。「同じ場所に壁を 2 枚建てない」を機械で見張る。
     #   面が同じ平面に乗っていて、その面の上で 0.35m 角より広く重なっている組だけを拾う
     #   (0.30 = 壁厚 ぶんの角の柱は部屋の外なので無視してよい)。
+    # ---------------------------------------------------- 床の目印は嘘をついていないか
+    # ★この作品で一番人を殺した罠。確定域は【焦点と対象を結ぶ方向へ伸びた細長い管】
+    #   なので、そこへ四角い印を被せると「印の上に立ってるのに繋がらない」になる。
+    #   印の大きさ/向きは source/calib_marks.py が実測で決める。ここはその見張り。
     print("")
-    print("[5] 同一平面の面(z ファイティング)")
+    print("[5] 床の目印(印の上ならどこに立っても繋がるか)")
+    ISLN = {0: "A", 1: "D", 2: "C", 3: "B"}
+    marks = {e["name"]: e for e in ents if e["name"].endswith("_mark")
+             or e["name"].startswith("G1_ib")}
+    nbad = 0
+    for c in sorted(conns, key=lambda x: x.cid):
+        slots = list(range(len(c.shards))) if c.per_shard else [None]
+        for only in slots:
+            nm = ("G1_ib" + ISLN[only]) if only is not None else ("C%d_mark" % c.cid)
+            mk = marks.get(nm)
+            if mk is None:
+                continue
+            mp = mk["transform"]["position"]
+            ms = mk["transform"]["scale"]
+            yaw = mk["transform"]["rotation"][1]
+            F = (c.shards[only].get("focus") or c.focus) if only is not None else c.focus
+            sn, cs = math.sin(math.radians(yaw)), math.cos(math.radians(yaw))
+            hit = tot = 0
+            worst = 0.0
+            for a in range(11):
+                for b in range(11):
+                    u = -ms[0] / 2 + ms[0] * a / 10.0
+                    v = -ms[2] / 2 + ms[2] * b / 10.0
+                    x = mp[0] + u * cs + v * sn
+                    z = mp[2] - u * sn + v * cs
+                    k = (round(x / CELL), round(z / CELL))
+                    if k not in flats[c.cid]:
+                        continue
+                    eye = (x, flats[c.cid][k] + EYE, z)
+                    tot += 1
+                    e2 = conn_error(c, eye, only)
+                    worst = max(worst, e2)
+                    if e2 < c.lock:
+                        hit += 1
+            if tot == 0:
+                fail("%s: 印が床の上に無い" % nm)
+                nbad += 1
+                continue
+            cov = 100.0 * hit / tot
+            if cov < 99.9:
+                fail("%s(継ぎ目%d): 印の上でも %.0f%% しか繋がらない(最悪 %.2f度 / lock %.2f度)"
+                     % (nm, c.cid, cov, worst, c.lock))
+                nbad += 1
+    if nbad == 0:
+        ok("印 %d 個すべて、上に立てばどこでも繋がる" % len(marks))
+
+    print("")
+    print("[6] 同一平面の面(z ファイティング)")
     EPSP, MINOV = 0.006, 0.35
     bx = []
     for e in ents:
@@ -583,7 +637,7 @@ def main():
         ok("見える箱 %d 個、同一平面で重なっている面は無し" % len(bx))
 
     # ---------------------------------------------------- 明るさの粗い確認
-    print("\n[6] 照明")
+    print("\n[7] 照明")
     lights = [(e["transform"]["position"], e["pointLight"]) for e in ents if "pointLight" in e]
     dark = 0
     # ★確認点は (x, 目の高さ, z)。第二幕は床が y=3.4 なので固定 1.5 で測ると
