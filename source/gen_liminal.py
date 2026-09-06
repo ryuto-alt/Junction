@@ -521,12 +521,14 @@ class Conn:
                     return list(r["p"])
         return list(e["transform"]["position"])
 
-    def hinge(self, e, pivot, deg):
+    def hinge(self, e, pivot, deg, dur=1.4, delay=0.45):
         """接続後に扉が開く。pivot(丁番)まわりに deg 度回す。
-        ★実行時は焼き込んだ座標を使わず【その場の transform】を回す(runtime の openDoor)。
-        ここに残す p は机上シミュレータと目視デバッグ用の実体位置。"""
+        ★実行時は焼き込んだ座標を使わず【その場の transform】を回す(runtime の easeSwing)。
+        ここに残す p は机上シミュレータと目視デバッグ用の実体位置。
+        dur/delay は【見られている時】のイージング用(視界の外なら一度に置く)。"""
         self.hinges.append(dict(n=e["name"], p=[round(v, 4) for v in self.real_pos(e)],
-                                piv=[round(v, 4) for v in pivot], deg=deg))
+                                piv=[round(v, 4) for v in pivot], deg=deg,
+                                dur=dur, delay=delay))
         return e
 
     def hide(self, e):
@@ -620,7 +622,7 @@ def act2(Y2, DW, DH):
     c5.shard(0.16, [miss] + ribs + mg, glows=mg)
     for p in panels + [miss] + ribs + mg:                          # 揃うとシャッターが巻き上がる
         c5.mover(p, (p["transform"]["position"][0], p["transform"]["position"][1] + SHH + 0.15,
-                     p["transform"]["position"][2]), dur=2.2, delay=0.5)
+                     p["transform"]["position"][2]), dur=2.2, delay=0.0)
     # ★破片は【照らさないと真っ黒の穴に見える】。合っているのに合っていないように見えるので致命的。
     #   焦点の斜め後ろから当てる灯りを 1 つ足す(床の目印も一緒に見える)
     plight("C5_fill", (6.0, Y2 + 5.0, 89.6), WARM, 8.0, 12.0)
@@ -657,7 +659,7 @@ def act2(Y2, DW, DH):
     c6.shard(0.46, lp, glows=lg)
     panel6 = box("C6_Panel", (TX1 + WT / 2, Y2 + DH / 2, TDZ), (WT - 0.02, DH, DW), T_WALL, "x",
                  solid=True)
-    c6.mover(panel6, (TX1 + WT / 2, Y2 - DH / 2 - 0.2, TDZ), dur=1.5, delay=0.55)
+    c6.mover(panel6, (TX1 + WT / 2, Y2 - DH / 2 - 0.2, TDZ), dur=1.3, delay=0.0)
     plight("C6_fill", (9.4, Y2 + 2.9, 115.4), WARM, 5.0, 8.0)
     box("C6_mark", (F6[0], Y2 + 0.006, F6[2]), (1.5, 0.012, 1.5), T_CARPET, "y", rough=0.98,
         color=[0.72, 0.70, 0.66], tile=(0.75, 0.75))
@@ -1148,7 +1150,7 @@ def act3(Y3, DW, DH):
     kick16 = glow("C16_Lfink", (68.0, Y4 + 0.03, ZF16 - 0.12), (DW - 0.06, 0.03, 0.03), GOLD, 1.25)
     c16.shard(0.71, [leaf16, knob16, kick16], glows=[kick16])
     c16.mover(xpanel, (68.0, Y4 - DH / 2 - 0.30, XZ1 + WT / 2))
-    c16.lamp("C16_sign", 1.0)
+    c16.lamp("C16_sign", 1.0, dur=0.7, delay=0.15)
     # ★丁番。shard() の後に呼んでも【実体の位置】から回る(Conn.real_pos が引き直す)。
     #   焼き込んだ座標をそのまま使っていたのが「扉が飛んでから回る」不具合の原因だった。
     HINGE16 = (68.0 - DW / 2, Y4 + DH / 2, ZF16 - 0.12)
@@ -1200,7 +1202,7 @@ def build():
     c1.shard(1.0, rp, glows=rg)
     lp, lg = frame_half("C1_L", -1, 0.0, 0.0, ZF, DW, DH)
     c1.shard(0.42, lp, glows=lg)
-    c1.mover(panel, (0.0, -DH / 2 - 0.15, ZW + WT / 2), dur=1.5, delay=0.55)
+    c1.mover(panel, (0.0, -DH / 2 - 0.15, ZW + WT / 2), dur=1.3, delay=0.0)
     # 床の擦れ跡(焦点の目印)。案内の文字の代わり
     box("C1_mark", (F1[0], 0.006, F1[2]), (1.5, 0.012, 1.5), T_CARPET, "y",
         rough=0.98, color=[0.72, 0.70, 0.66], tile=(0.75, 0.75))
@@ -1438,8 +1440,8 @@ def build():
                rough=0.35, metal=0.8, color=[0.75, 0.72, 0.62])
     lgk = glow("C4_Lfink", (DX3, YD + 0.03, ZF4 - 0.12), (DW - 0.06, 0.03, 0.03), GOLD, 1.25)
     c4.shard(0.72, [leaf, knob, lgk], glows=[lgk])
-    c4.mover(epanel, (DX3, YD - DH / 2 - 0.25, ZE + WT / 2), dur=1.6, delay=0.5)
-    c4.lamp("C4_sign", 1.0, dur=0.6, delay=0.35)
+    c4.mover(epanel, (DX3, YD - DH / 2 - 0.25, ZE + WT / 2), dur=1.3, delay=0.0)
+    c4.lamp("C4_sign", 1.0, dur=0.7, delay=0.15)
     # ★扉は【開く】。閉じたままだと『見た目は閉扉なのにすり抜けられる』一番悪い絵になる
     HINGE = (DX3 - DW / 2, YD + DH / 2, ZF4 - 0.12)
     for _e in (leaf, knob, lgk):

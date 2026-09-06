@@ -12,10 +12,14 @@
 --   ドローンの音程 — 全部削除。合い具合を伝えるのは【破片そのものの重なり】だけ。
 --   確定の瞬間は k を 1 へ【一瞬で】飛ばす。焦点から見た投影は元々一致しているので、
 --   この飛びは画面上まったく見えない(＝合った瞬間には何も起きない)。
---   目に見える変化(扉が開く・塞ぎ板が消える・標識が点く)は、その継ぎ目が
---   【視界の外に出るまで待ってから】無音・無補間で適用する。振り返ると開いている。
---   これは変化の見落とし(change blindness)そのもので、この作品の主題に合っている。
---   ★保険: 6 秒たっても視界から外れなければ適用する(見つめ続けて詰むのを防ぐ)。
+--   目に見える変化(扉が開く・塞ぎ板が消える・標識が点く)は 2 通りに分ける:
+--     ・その継ぎ目が【視界の外】なら … 一度に置く。どうせ見えないので一番きれい
+--       (振り返るともう開いている ＝ 変化の見落とし change blindness)
+--     ・【見られている】なら       … 0.5 秒後からイージングで動かす。
+--       音も光も粒子も足さない。扉は扉の速さで、静かに開くだけ。
+--   ★どちらの道でも【待たせない・カクッとさせない】のが条件。
+--     待たせると「解いたのに開かない」、瞬間移動させると板に体を押しつけたまま消えて
+--     前へつんのめる。2026-09-06 に実際に両方やらかした。
 
 -- >>>DATA (gen_liminal.py が書く。手で触らない)
 CONNS = {
@@ -133,8 +137,8 @@ CONNS = {
       {
         n="C1_Panel",
         to={0.0,-1.25,14.65},
-        dur=1.5,
-        delay=0.55
+        dur=1.3,
+        delay=0.0
       }
     },
     lights={
@@ -827,16 +831,16 @@ CONNS = {
       {
         n="C4_Panel",
         to={6.1,2.05,80.15},
-        dur=1.6,
-        delay=0.5
+        dur=1.3,
+        delay=0.0
       }
     },
     lights={
       {
         n="C4_sign",
         to=1.0,
-        dur=0.6,
-        delay=0.35
+        dur=0.7,
+        delay=0.15
       }
     },
     hinges={
@@ -844,19 +848,25 @@ CONNS = {
         n="C4_Leaf",
         p={6.1,4.5,79.8},
         piv={5.55,4.5,79.8},
-        deg=-82.0
+        deg=-82.0,
+        dur=1.4,
+        delay=0.45
       },
       {
         n="C4_Knob",
         p={6.49,4.42,79.73},
         piv={5.55,4.5,79.8},
-        deg=-82.0
+        deg=-82.0,
+        dur=1.4,
+        delay=0.45
       },
       {
         n="C4_Lfink",
         p={6.1,3.43,79.8},
         piv={5.55,4.5,79.8},
-        deg=-82.0
+        deg=-82.0,
+        dur=1.4,
+        delay=0.45
       }
     },
     shines={
@@ -974,61 +984,61 @@ CONNS = {
         n="C5_ll",
         to={4.75,8.8,103.84},
         dur=2.2,
-        delay=0.5
+        delay=0.0
       },
       {
         n="C5_lr",
         to={7.25,8.8,103.84},
         dur=2.2,
-        delay=0.5
+        delay=0.0
       },
       {
         n="C5_ur",
         to={7.25,10.9,103.84},
         dur=2.2,
-        delay=0.5
+        delay=0.0
       },
       {
         n="C5_ul",
         to={6.304,9.682,93.8944},
         dur=2.2,
-        delay=0.5
+        delay=0.0
       },
       {
         n="C5_ul_r0",
         to={6.304,9.5556,93.88},
         dur=2.2,
-        delay=0.5
+        delay=0.0
       },
       {
         n="C5_ul_r1",
         to={6.304,9.6356,93.88},
         dur=2.2,
-        delay=0.5
+        delay=0.0
       },
       {
         n="C5_ul_r2",
         to={6.304,9.7156,93.88},
         dur=2.2,
-        delay=0.5
+        delay=0.0
       },
       {
         n="C5_ul_r3",
         to={6.304,9.7956,93.88},
         dur=2.2,
-        delay=0.5
+        delay=0.0
       },
       {
         n="C5_ulg0",
         to={6.304,9.8468,93.8808},
         dur=2.2,
-        delay=0.5
+        delay=0.0
       },
       {
         n="C5_ulg1",
         to={6.5008,9.682,93.8808},
         dur=2.2,
-        delay=0.5
+        delay=0.0
       }
     },
     lights={
@@ -1165,8 +1175,8 @@ CONNS = {
       {
         n="C6_Panel",
         to={18.15,2.1,110.5},
-        dur=1.5,
-        delay=0.55
+        dur=1.3,
+        delay=0.0
       }
     },
     lights={
@@ -2537,8 +2547,8 @@ CONNS = {
       {
         n="C16_sign",
         to=1.0,
-        dur=0.8,
-        delay=0.0
+        dur=0.7,
+        delay=0.15
       }
     },
     hinges={
@@ -2546,19 +2556,25 @@ CONNS = {
         n="C16_Leaf",
         p={68.0,8.7,213.8},
         piv={67.45,8.7,213.8},
-        deg=-82.0
+        deg=-82.0,
+        dur=1.4,
+        delay=0.45
       },
       {
         n="C16_Knob",
         p={68.39,8.62,213.73},
         piv={67.45,8.7,213.8},
-        deg=-82.0
+        deg=-82.0,
+        dur=1.4,
+        delay=0.45
       },
       {
         n="C16_Lfink",
         p={68.0,7.63,213.8},
         piv={67.45,8.7,213.8},
-        deg=-82.0
+        deg=-82.0,
+        dur=1.4,
+        delay=0.45
       }
     },
     shines={
@@ -2737,11 +2753,15 @@ local ACCEL   = 13.0
 local SENS    = 0.082
 local CONE    = 26.0          -- 「見ている」と認める視野角(度)
 local DWELL   = 0.28          -- 合った状態を保つ時間
--- ★目に見える変化を「視界の外」でやるための角度と保険の時間
+-- ★目に見える変化を「視界の外」でやるための角度と、見ている時に動き出すまでの間。
 -- ★fov 72(縦)・16:9 の画面の端はちょうど 52 度。60 度なら【確実に画面の外】
+-- ★★FORCE_T は【6 秒にしてはいけない】。扉へ向かって歩く間ずっと扉を見ているので
+--   away が溜まらず、6 秒間ドアが開かない＝「解いたのに開かない」になる。
+--   しかも待たされた末に瞬間移動するので、板に体を押しつけた状態で消えて【前へつんのめる】。
+--   0.5 秒で動き出し、あとはイージングで開く(見ていなければ一度に置く)。
 local AWAY    = 60.0          -- これより外に出たら『見ていない』
-local AWAY_T  = 0.20          -- 視界の外に居続ける時間(端でチラつかせない)
-local FORCE_T = 6.0           -- 保険: 見つめ続けても、この秒数で適用する(詰み防止)
+local AWAY_T  = 0.12          -- 視界の外に居続ける時間(端でチラつかせない)
+local FORCE_T = 0.50          -- 見ていても、この秒数で動き出す(イージングで)
 -- ★★焦点からの距離で足切りする。これが無いと【遠くから勝手に揃う】。
 --   角度差は対象までの距離に反比例して小さくなるので、30m 離れると
 --   焦点の線から外れていても lock を割ってしまう(実機の通しで踏んだ)。
@@ -2828,6 +2848,9 @@ function OnStart(self)
     self.done, self.doneT = false, 0.0
     self.lockedIds = {}
     self.pending = {}          -- 確定はしたが【まだ目に見える変化を出していない】継ぎ目
+    self.tweens = {}           -- 塞ぎ板が沈む / シャッターが巻き上がる(イージング)
+    self.swings = {}           -- 扉が丁番でひらく(イージング)
+    self.lamps  = {}           -- 標識が点く(イージング)
 
     -- 継ぎ目のテーブルを実体化(entity をここで 1 回だけ引く)
     self.conns = {}
@@ -2916,6 +2939,90 @@ local function openDoor(e, piv, deg)
     e.transform.rotation = V(r.x, r.y + deg, r.z)
 end
 
+-- ---------------------------------------------------------------- 機構の補間
+-- ★これは「つながる演出」ではない。音も光も粒子も足さない。
+--   ただ【瞬間移動でカクッとさせない】ためだけにある。扉は扉の速さで開く。
+local function easeTo(self, e, to, dur, delay)
+    self.tweens[#self.tweens + 1] = { e = e, from = nil, to = to,
+                                      dur = math.max(dur or 1.1, 0.05), t = -(delay or 0.0) }
+end
+
+local function easeSwing(self, e, piv, deg, dur, delay)
+    self.swings[#self.swings + 1] = { e = e, piv = piv, deg = deg, from = nil, base = nil,
+                                      dur = math.max(dur or 1.3, 0.05), t = -(delay or 0.0) }
+end
+
+local function easeLamp(self, name, to, dur, delay)
+    self.lamps[#self.lamps + 1] = { n = name, to = to,
+                                    dur = math.max(dur or 0.8, 0.05), t = -(delay or 0.0) }
+end
+
+local function runTweens(self, dt)
+    local i = 1
+    while i <= #self.tweens do
+        local w = self.tweens[i]
+        w.t = w.t + dt
+        if w.t >= 0 then
+            if not w.from then
+                local p = w.e.transform.position
+                w.from = { p.x, p.y, p.z }
+                -- ★当たり判定は【動き出す瞬間】に外す。先に外すと閉じた板をすり抜け、
+                --   最後まで残すと板に体を押しつけたまま消えて【前へつんのめる】
+                physics:removeRigidBody(w.e)
+            end
+            local u = smooth(w.t / w.dur)
+            w.e.transform.position = V(w.from[1] + (w.to[1] - w.from[1]) * u,
+                                       w.from[2] + (w.to[2] - w.from[2]) * u,
+                                       w.from[3] + (w.to[3] - w.from[3]) * u)
+        end
+        if w.t >= w.dur then table.remove(self.tweens, i) else i = i + 1 end
+    end
+end
+
+local function runSwings(self, dt)
+    local i = 1
+    while i <= #self.swings do
+        local w = self.swings[i]
+        w.t = w.t + dt
+        if w.t >= 0 then
+            if not w.from then
+                -- ★焼き込みではなく【その場の姿勢】を掴む(これが扉の飛びを直した肝)
+                local p, r = w.e.transform.position, w.e.transform.rotation
+                w.from = { p.x, p.y, p.z }
+                w.base = { r.x, r.y, r.z }
+            end
+            local u = smooth(w.t / w.dur)
+            local th = math.rad(w.deg * u)
+            local dx, dz = w.from[1] - w.piv[1], w.from[3] - w.piv[3]
+            local c_, s_ = math.cos(th), math.sin(th)
+            w.e.transform.position = V(w.piv[1] + dx * c_ + dz * s_, w.from[2],
+                                       w.piv[3] - dx * s_ + dz * c_)
+            w.e.transform.rotation = V(w.base[1], w.base[2] + w.deg * u, w.base[3])
+        end
+        if w.t >= w.dur then table.remove(self.swings, i) else i = i + 1 end
+    end
+end
+
+local function runLamps(self, dt)
+    local i = 1
+    while i <= #self.lamps do
+        local w = self.lamps[i]
+        w.t = w.t + dt
+        if w.t >= 0 then
+            local u = smooth(w.t / w.dur)
+            local v = 0.36 + (w.to - 0.36) * u          -- 消灯時の板の色から立ち上げる
+            local e = scene:findEntity(w.n)
+            if e and e:isValid() then scene:setColor(e, v, v, v) end
+            local le = scene:findEntity(w.n .. "_l")
+            if le and le:isValid() then
+                local lt = le:light()
+                if lt then lt.intensity = 0.35 * u end
+            end
+        end
+        if w.t >= w.dur then table.remove(self.lamps, i) else i = i + 1 end
+    end
+end
+
 -- ---------------------------------------------------------------- 確定
 -- 見えない変化(当たり判定)だけを、確定した瞬間に無音で入れる。
 local function applySilent(self, c)
@@ -2929,30 +3036,43 @@ local function applySilent(self, c)
     end
 end
 
--- 目に見える変化。★視界の外に出てから、無音・無補間で一度に適用する。
-local function applyVisible(self, c)
+-- 目に見える変化。音も光の増減も足さない。
+--   instant=true (継ぎ目が視界の外) … 一度に置く。どうせ見えないので一番きれい
+--   instant=false(見られている)     … イージングで動かす。カクッとさせない
+local function applyVisible(self, c, instant)
     for i = 1, #c.movers do
         local m = c.movers[i]
         local e = find(m.n)
         if e then
-            physics:removeRigidBody(e)
-            e.transform.position = V(m.to[1], m.to[2], m.to[3])
+            if instant then
+                physics:removeRigidBody(e)
+                e.transform.position = V(m.to[1], m.to[2], m.to[3])
+            else
+                easeTo(self, e, m.to, m.dur, m.delay)
+            end
         end
     end
     for i = 1, #c.lights do
         local l = c.lights[i]
-        local e = find(l.n)
-        if e then scene:setColor(e, l.to, l.to, l.to) end
-        local le = scene:findEntity(l.n .. "_l")
-        if le and le:isValid() then
-            local lt = le:light()
-            if lt then lt.intensity = 0.35 end
+        if instant then
+            local e = find(l.n)
+            if e then scene:setColor(e, l.to, l.to, l.to) end
+            local le = scene:findEntity(l.n .. "_l")
+            if le and le:isValid() then
+                local lt = le:light()
+                if lt then lt.intensity = 0.35 end
+            end
+        else
+            easeLamp(self, l.n, l.to, l.dur, l.delay)
         end
     end
     for i = 1, #c.hinges do
         local h = c.hinges[i]
         local e = find(h.n)
-        if e then openDoor(e, h.piv, h.deg) end
+        if e then
+            if instant then openDoor(e, h.piv, h.deg)
+            else easeSwing(self, e, h.piv, h.deg, h.dur, h.delay) end
+        end
     end
     for i = 1, #c.shines do
         local sh = c.shines[i]
@@ -3174,8 +3294,13 @@ function OnUpdate(self, dt)
             else
                 q.away = 0.0
             end
-            if q.away >= AWAY_T or q.t >= FORCE_T then
-                applyVisible(self, c)
+            -- 視界の外なら一度に置く(見えないので一番きれい)。
+            -- 見られているなら FORCE_T でイージング開始 ＝ 待たせないし、カクッともしない
+            if q.away >= AWAY_T then
+                applyVisible(self, c, true)
+                table.remove(self.pending, i)
+            elseif q.t >= FORCE_T then
+                applyVisible(self, c, false)
                 table.remove(self.pending, i)
             else
                 i = i + 1
@@ -3225,6 +3350,12 @@ function OnUpdate(self, dt)
         if self.doneT > 2.6 and keyPressed("ENTER") then loadScene("scenes/stagedemo3.json") end
     end
 
+    runTweens(self, dt)
+    runSwings(self, dt)
+    runLamps(self, dt)
+    -- 検証用: いま動いている機構の数(0 なら止まっている)と、適用待ちの継ぎ目の数
+    saveNum("lm_anim", #self.tweens + #self.swings + #self.lamps)
+    saveNum("lm_pend", #self.pending)
     saveNum("lm_px", p.x); saveNum("lm_py", p.y); saveNum("lm_pz", p.z)
     saveNum("lm_yawr", self.yaw)
 end
