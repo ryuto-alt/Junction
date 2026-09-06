@@ -32,7 +32,20 @@ local SPEED   = 3.05
 local ACCEL   = 13.0
 local SENS    = 0.082
 local CONE    = 26.0          -- 「見ている」と認める視野角(度)
-local DWELL   = 0.28          -- 合った状態を保つ時間
+local PERI_IN = 24.0          -- 【直視しない】規則: これより内側だと成立しない
+local PERI_OUT= 62.0          -- 【直視しない】規則: これより外だと視界の外
+local DWELL   = 0.36          -- 合った状態を保つ時間(★歩き抜けで暴発しない長さ)
+local STILL   = 1.10          -- この速さ以下でないと確定しない(通りすがりで決まらない)
+-- ★★「くっついたのがすぐ分かる」対策 = 変化の見落とし(change blindness)の実装。
+--   破片を実体へ寄せるのは【視線が動いている / 歩いている / 視界の端】のどれかが
+--   成立した瞬間。人間はその間の局所的な変化をほぼ検出できない(サッカード抑制)。
+--   どれも来なければ WELD_WAIT で諦めて、WELD_T のイージングで静かに寄せる。
+local WELD_WAIT = 0.45        -- マスクを待つ上限
+local WELD_T    = 0.18        -- 寄せる時間
+local MASK_TURN = 55.0        -- 視線の角速度(度/秒)。これ以上ならマスクが効く
+local MASK_MOVE = 1.20        -- 歩く速さ(m/s)。これ以上ならマスクが効く
+local DARK_PERIOD = 3.60      -- 明滅する部屋の周期
+local DARK_LEN    = 1.05      -- そのうち「暗」の長さ
 -- ★目に見える変化を「視界の外」でやるための角度と、見ている時に動き出すまでの間。
 -- ★fov 72(縦)・16:9 の画面の端はちょうど 52 度。60 度なら【確実に画面の外】
 -- ★★FORCE_T は【6 秒にしてはいけない】。扉へ向かって歩く間ずっと扉を見ているので
@@ -81,9 +94,40 @@ local function alignError(ex, ey, ez, F, k, pts, ox, oy, oz)
     return worst
 end
 
-local function applyShard(sh, kk, ox, oy, oz)
-    local F = sh.F
+-- 2 点が【画面上で重なって見えるか】の角度差(度)。「触れる」規則で使う。
+-- ★これは焦点を使わない。見えている 2 つの物を一直線に並べるだけなので、
+--   隠された焦点を探す規則よりずっと読みやすい ＝ 別の考え方の puzzle になる。
+local function pairAngle(ex, ey, ez, a, b)
+    local ax, ay, az = a[1] - ex, a[2] - ey, a[3] - ez
+    local bx, by, bz = b[1] - ex, b[2] - ey, b[3] - ez
+    local cx = ay * bz - az * by
+    local cy = az * bx - ax * bz
+    local cz = ax * by - ay * bx
+    return math.deg(atan2(math.sqrt(cx * cx + cy * cy + cz * cz),
+                          ax * bx + ay * by + az * bz))
+end
+
+-- u = 0 で【浮遊姿勢】、u = 1 で【実体】。
+--   通常の破片は焦点まわりの相似変換(k -> 1)。
+--   disp を持つ破片(「触れる」規則用)は、相似の縛りが無い自由な浮遊姿勢からの補間。
+local function applyShard(sh, u, ox, oy, oz)
     ox, oy, oz = ox or 0, oy or 0, oz or 0
+    if sh.disp then
+        local w = 1.0 - u
+        local sc = 1.0 + (sh.dk - 1.0) * w
+        for i = 1, #sh.ents do
+            local r = sh.ents[i]
+            if r.e then
+                r.e.transform.position = V(r.p[1] + sh.disp[1] * w + ox,
+                                           r.p[2] + sh.disp[2] * w + oy,
+                                           r.p[3] + sh.disp[3] * w + oz)
+                r.e.transform.scale = V(r.s[1] * sc, r.s[2] * sc, r.s[3] * sc)
+            end
+        end
+        return
+    end
+    local F = sh.F
+    local kk = sh.k + (1.0 - sh.k) * u
     for i = 1, #sh.ents do
         local r = sh.ents[i]
         if r.e then
@@ -141,17 +185,34 @@ function OnStart(self)
                     lights = d.lights, hinges = d.hinges or {}, excl = d.excl or {},
                     shines = d.shines or {}, hides = d.hides or {}, needs = d.needs or {},
                     anti = d.anti or false, minY = d.minY, maxY = d.maxY,
+                    -- 新しい規則
+                    perShard = d.perShard or false,   -- 破片を 1 つずつ、別の場所から
+                    peri     = d.peri or false,       -- 【直視しない】周辺視でだけ合う
+                    dark     = d.dark or false,       -- 暗くなった一瞬だけ合わせられる
+                    touch    = d.touch,               -- 2 点が画面上で重なったら成立
+                    darkLights = d.darkLights or {},
                     locked = false, cancelled = false,
                     a = 0.0, err = 999.0, hold = 0.0 }
         for s = 1, #d.shards do
             local sd = d.shards[s]
-            local sh = { k = sd.k, pts = sd.pts, F = d.focus, osc = sd.osc, ents = {} }
+            -- ★焦点は【破片ごと】に持てる。これで新しい 2 つの規則が作れる:
+            --   ・巡る    … 破片ごとに別の立ち位置。1 つずつ実体化していく
+            --   ・二重拘束… 別々の焦点を【同時に】満たす 1 点を探す
+            local sh = { k = sd.k, pts = sd.pts, F = sd.focus or d.focus, osc = sd.osc,
+                         disp = sd.disp, dk = sd.dk or 1.0, ents = {},
+                         done = false, hold = 0.0, anim = -1 }
+            local lo, hi = { 1e9, 1e9, 1e9 }, { -1e9, -1e9, -1e9 }
             for j = 1, #sd.ents do
                 local r = sd.ents[j]
                 local e = find(r.n)
                 sh.ents[#sh.ents + 1] = { e = e, p = r.p, s = r.s }
+                for q = 1, 3 do
+                    if r.p[q] < lo[q] then lo[q] = r.p[q] end
+                    if r.p[q] > hi[q] then hi[q] = r.p[q] end
+                end
             end
-            applyShard(sh, sd.k)
+            sh.center = { (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2, (lo[3] + hi[3]) / 2 }
+            applyShard(sh, 0.0)
             c.shards[#c.shards + 1] = sh
         end
         for g = 1, #d.glows do
@@ -160,6 +221,25 @@ function OnStart(self)
         end
         setGlow(c, GLOW_BASE)
         self.conns[#self.conns + 1] = c
+    end
+
+    -- 明滅する部屋の灯り(継ぎ目が「暗の一瞬だけ」成立するために自分で振る)。
+    -- ★troffer は <名前>_l が点光源、<名前>_p が乳白カバー。両方落とさないと
+    --   ライトだけ消えてカバーが光ったままになり、暗くならない
+    self.darkE = {}
+    for i = 1, #self.conns do
+        for j = 1, #self.conns[i].darkLights do
+            local n = self.conns[i].darkLights[j]
+            local le = scene:findEntity(n .. "_l")
+            local pe = scene:findEntity(n .. "_p")
+            local rec = {}
+            if le and le:isValid() then
+                rec.l = le:light()
+                rec.base = rec.l and rec.l.intensity or 0.0
+            end
+            if pe and pe:isValid() then rec.p = pe end
+            if rec.l or rec.p then self.darkE[#self.darkE + 1] = rec end
+        end
     end
 
     -- 音: 部屋の唸りだけ。★合い具合のドローンは廃止(音程が上がる = つながる演出そのもの)
@@ -370,9 +450,43 @@ local function applyVisible(self, c, instant)
     end
 end
 
+-- 破片を「決めた」ことにする。実際に寄せるのはマスクが来てから(下の runShards)
+local function decideShard(sh)
+    if sh.decided then return end
+    sh.decided = true
+    sh.queued = true
+    sh.qt = 0.0
+end
+
+-- 決まった破片を、マスクが効いた瞬間に静かに寄せる
+local function runShards(self, dt, masked)
+    for i = 1, #self.conns do
+        local c = self.conns[i]
+        for s = 1, #c.shards do
+            local sh = c.shards[s]
+            if sh.queued then
+                sh.qt = sh.qt + dt
+                if masked or sh.qt >= WELD_WAIT then
+                    sh.queued = false
+                    sh.anim = 0.0
+                end
+            elseif sh.anim >= 0.0 then
+                sh.anim = sh.anim + dt / WELD_T
+                local u = smooth(sh.anim)
+                local ox, oy, oz = shardOffset(sh, self.t)
+                applyShard(sh, u, ox * (1 - u), oy * (1 - u), oz * (1 - u))
+                if sh.anim >= 1.0 then
+                    sh.anim = -1.0
+                    sh.done = true
+                    applyShard(sh, 1.0)
+                end
+            end
+        end
+    end
+end
+
 local function resolve(self, c)
-    -- ★k を 1 へ【一瞬で】飛ばす。焦点から見た投影は元々一致しているので画面は変わらない
-    for s = 1, #c.shards do applyShard(c.shards[s], 1.0) end
+    for s = 1, #c.shards do decideShard(c.shards[s]) end
     applySilent(self, c)
     c.locked = true
     self.lockedIds[c.id] = true
@@ -507,55 +621,135 @@ function OnUpdate(self, dt)
     local fx_, fy_, fz_ = math.sin(yr) * math.cos(math.rad(self.pitch)),
                           math.sin(math.rad(self.pitch)),
                           math.cos(yr) * math.cos(math.rad(self.pitch))
+    -- 見ているか(角度差の度)
+    local function offAxis(px, py, pz)
+        local dx, dy, dz = px - ex, py - ey, pz - ez
+        local dl = math.max(math.sqrt(dx * dx + dy * dy + dz * dz), 0.001)
+        return math.deg(math.acos(clamp((dx * fx_ + dy * fy_ + dz * fz_) / dl, -1, 1)))
+    end
+    -- ★変化を隠すマスク: 視線が動いている / 歩いている
+    local turnSpd = (math.abs(((self.yaw - (self.pyaw or self.yaw) + 180) % 360) - 180)
+                     + math.abs(self.pitch - (self.ppitch or self.pitch))) / math.max(dt, 1e-4)
+    self.pyaw, self.ppitch = self.yaw, self.pitch
+    local moveSpd = math.sqrt(self.vx * self.vx + self.vz * self.vz)
+    local masked = (turnSpd > MASK_TURN) or (moveSpd > MASK_MOVE)
+    local still = moveSpd < STILL
+    -- 明滅する部屋の位相(暗の一瞬だけ合わせられる継ぎ目のため)
+    self.darkNow = ((self.t % DARK_PERIOD) < DARK_LEN)
+    for i = 1, #self.darkE do
+        local d = self.darkE[i]
+        if d.l then d.l.intensity = self.darkNow and 0.0 or d.base end
+        if d.p then scene:setMeshParams(d.p, 1.0, 0.96, 0.86, self.darkNow and 0.06 or 1.35) end
+    end
+
     for i = 1, #self.conns do
         local c = self.conns[i]
         if not c.locked then
-            local dx, dy, dz = c.center[1] - ex, c.center[2] - ey, c.center[3] - ez
-            local dist = math.sqrt(dx * dx + dy * dy + dz * dz)
-            local fdx, fdy, fdz = c.F[1] - ex, c.F[2] - ey, c.F[3] - ez
-            local fdist = math.sqrt(fdx * fdx + fdy * fdy + fdz * fdz)
-            local err, n = 0.0, 0
-            -- ★遠すぎる継ぎ目は評価しない。ここで err を 0 のままにすると
-            --   「遠くから覗いただけで確定」になるので、必ず 999 を入れること
-            if fdist < FOCUS_WARN then
+            -- 前提の継ぎ目(連鎖)と、暗の一瞬
+            local gate = ((not c.dark) or self.darkNow) and still
+            for q = 1, #c.needs do
+                if not self.lockedIds[c.needs[q]] then gate = false end
+            end
+            -- ★目の高さの窓。「何段目に立つか」を問う継ぎ目はここで足切りする
+            if c.minY and ey < c.minY then gate = false end
+            if c.maxY and ey > c.maxY then gate = false end
+
+            if c.touch then
+                -- ---- 規則B「触れる」: 2 つの物が画面の上で重なったら成立 ----
+                --   焦点は無い。見えている 2 点を一直線に並べるだけなので、
+                --   奥行きには寛容で【向き】に厳しい ＝ 今までと真逆の手触りになる
+                local mx = (c.touch.a[1] + c.touch.b[1]) * 0.5
+                local my = (c.touch.a[2] + c.touch.b[2]) * 0.5
+                local mz = (c.touch.a[3] + c.touch.b[3]) * 0.5
+                local err = pairAngle(ex, ey, ez, c.touch.a, c.touch.b)
+                c.err = err
+                c.a = clamp(1.0 - err / c.warn, 0, 1)
+                -- ★★遠ざかると 2 点の見かけの間隔も縮むので、【遠くから勝手に揃う】。
+                --   相似規則で FOCUS_LOCK を入れたのと同じ罠。触れる規則にも上限が要る
+                --   (入れ忘れて、ステージの反対側 240m 先から継ぎ目19 が確定した)。
+                local d2 = math.sqrt((mx - ex) ^ 2 + (my - ey) ^ 2 + (mz - ez) ^ 2)
+                if gate and offAxis(mx, my, mz) < CONE and err < c.lock
+                   and d2 > (c.touch.near or 1.5) and d2 < (c.touch.far or 13.0) then
+                    c.hold = c.hold + dt
+                    if c.hold >= DWELL then resolve(self, c) end
+                else
+                    c.hold = 0.0
+                end
+                saveNum(string.format("lm_e%d", c.id), err)
+
+            elseif c.perShard then
+                -- ---- 規則C「巡る」: 破片ごとに別の立ち位置。1 つずつ実体化する ----
+                local worst, left = 999.0, 0
+                for s = 1, #c.shards do
+                    local sh = c.shards[s]
+                    if not sh.decided then
+                        left = left + 1
+                        local ox, oy, oz = shardOffset(sh, self.t)
+                        if sh.osc then applyShard(sh, 0.0, ox, oy, oz) end
+                        local fd = math.sqrt((sh.F[1] - ex) ^ 2 + (sh.F[2] - ey) ^ 2
+                                             + (sh.F[3] - ez) ^ 2)
+                        local err = 999.0
+                        if fd < FOCUS_WARN then
+                            err = alignError(ex, ey, ez, sh.F, sh.k, sh.pts, ox, oy, oz)
+                        end
+                        if err < worst then worst = err end
+                        if gate and err < c.lock and fd < FOCUS_LOCK
+                           and offAxis(sh.center[1], sh.center[2], sh.center[3]) < CONE then
+                            sh.hold = sh.hold + dt
+                            if sh.hold >= DWELL then
+                                decideShard(sh)
+                                left = left - 1
+                                log("LIMINAL joint " .. c.id .. " piece " .. s .. " placed")
+                            end
+                        else
+                            sh.hold = 0.0
+                        end
+                    end
+                end
+                c.err = worst
+                c.a = clamp(1.0 - worst / c.warn, 0, 1)
+                saveNum(string.format("lm_e%d", c.id), worst)
+                saveNum(string.format("lm_n%d", c.id), left)
+                if left == 0 then resolve(self, c) end
+
+            else
+                -- ---- 規則A(既定): 焦点まわりの相似。破片ごとに別の焦点も持てる ----
+                local err, n, fdmax = 0.0, 0, 0.0
                 for s = 1, #c.shards do
                     local sh = c.shards[s]
                     local ox, oy, oz = shardOffset(sh, self.t)
-                    if sh.osc then applyShard(sh, sh.k, ox, oy, oz) end   -- 揺れる破片
-                    -- ★k>1 の破片(遠くの巨大 → 手元の小)も必ず評価すること。
-                    --   以前は k<0.999 でしか見ておらず、k=3.4 の破片が永久に解けなかった
+                    if sh.osc then applyShard(sh, 0.0, ox, oy, oz) end
+                    local fd = math.sqrt((sh.F[1] - ex) ^ 2 + (sh.F[2] - ey) ^ 2
+                                         + (sh.F[3] - ez) ^ 2)
+                    if fd > fdmax then fdmax = fd end
+                    -- ★k>1 の破片(遠くの巨大 → 手元の小)も必ず評価すること
                     if math.abs(sh.k - 1.0) > 0.001 or sh.osc then
                         local e2 = alignError(ex, ey, ez, sh.F, sh.k, sh.pts, ox, oy, oz)
                         if e2 > err then err = e2 end
                         n = n + 1
                     end
                 end
+                -- ★遠すぎる継ぎ目は評価しない。ここで err を 0 のままにすると
+                --   「遠くから覗いただけで確定」になるので、必ず 999 を入れること
+                if n == 0 or fdmax > FOCUS_WARN then err = 999.0 end
+                c.err = err
+                c.a = clamp(1.0 - err / c.warn, 0, 1)
+                local off = offAxis(c.center[1], c.center[2], c.center[3])
+                -- ★規則D「直視しない」: 周辺視でだけ成立する。正面で見ると絶対に決まらない
+                local looking = c.peri and (off > PERI_IN and off < PERI_OUT) or
+                                (not c.peri and off < CONE)
+                if looking and gate and err < c.lock and fdmax < FOCUS_LOCK then
+                    c.hold = c.hold + dt
+                    if c.hold >= DWELL then resolve(self, c) end
+                else
+                    c.hold = 0.0
+                end
+                saveNum(string.format("lm_e%d", c.id), err)
+                saveNum(string.format("lm_a%d", c.id), c.a)
             end
-            if n == 0 then err = 999.0 end
-            c.err = err
-            -- 見ているか(視線と継ぎ目の中心の角度)
-            local dl = math.max(dist, 0.001)
-            local cosv = (dx * fx_ + dy * fy_ + dz * fz_) / dl
-            local looking = cosv > math.cos(math.rad(CONE))
-            c.a = clamp(1.0 - err / c.warn, 0, 1)
-            -- ★目の高さの窓。「何段目に立つか」を問う継ぎ目はここで足切りする
-            --   (床の x/z だけでは決まらない ＝ 高さが解の一部になる)
-            local hOK = (not c.minY or ey >= c.minY) and (not c.maxY or ey <= c.maxY)
-            -- ★前提の継ぎ目(連鎖)。順序が意味を持つ
-            local needOK = true
-            for q = 1, #c.needs do
-                if not self.lockedIds[c.needs[q]] then needOK = false end
-            end
-            if looking and needOK and hOK and err < c.lock and fdist < FOCUS_LOCK then
-                c.hold = c.hold + dt
-                if c.hold >= DWELL then resolve(self, c) end
-            else
-                c.hold = 0.0
-            end
-            saveNum(string.format("lm_e%d", c.id), err)
-            saveNum(string.format("lm_a%d", c.id), c.a)
         end
     end
+    runShards(self, dt, masked)
 
     -- ------------------------------------------------ しれっと変える
     -- ★確定した継ぎ目の【目に見える変化】は、視界から外れてから無音で一度に入れる。
@@ -574,12 +768,19 @@ function OnUpdate(self, dt)
             else
                 q.away = 0.0
             end
+            -- ★★破片が実体へ寄り切るまで、目に見える変化を始めてはいけない。
+            --   先に始めると塞ぎ板やシャッターが【浮遊姿勢のまま】動き出して、
+            --   「急にでっかくなって変な所へ飛ぶ」ように見える(実際にそう見えた)。
+            local ready = true
+            for s2 = 1, #c.shards do
+                if not c.shards[s2].done then ready = false end
+            end
             -- 視界の外なら一度に置く(見えないので一番きれい)。
             -- 見られているなら FORCE_T でイージング開始 ＝ 待たせないし、カクッともしない
-            if q.away >= AWAY_T then
+            if ready and q.away >= AWAY_T then
                 applyVisible(self, c, true)
                 table.remove(self.pending, i)
-            elseif q.t >= FORCE_T then
+            elseif ready and q.t >= FORCE_T then
                 applyVisible(self, c, false)
                 table.remove(self.pending, i)
             else
@@ -635,6 +836,15 @@ function OnUpdate(self, dt)
     runLamps(self, dt)
     -- 検証用: いま動いている機構の数(0 なら止まっている)と、適用待ちの継ぎ目の数
     saveNum("lm_anim", #self.tweens + #self.swings + #self.lamps)
+    -- 検証用: いま【実体へ寄せている最中 / マスク待ち】の破片の数
+    local wq = 0
+    for i = 1, #self.conns do
+        for s2 = 1, #self.conns[i].shards do
+            local sh = self.conns[i].shards[s2]
+            if sh.queued or sh.anim >= 0.0 then wq = wq + 1 end
+        end
+    end
+    saveNum("lm_weld", wq)
     saveNum("lm_pend", #self.pending)
     saveNum("lm_px", p.x); saveNum("lm_py", p.y); saveNum("lm_pz", p.z)
     saveNum("lm_yawr", self.yaw)

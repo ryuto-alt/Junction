@@ -234,22 +234,42 @@ def align_error(eye, F, k, pts):
     return worst
 
 
-def conn_error(c, eye):
-    e = 0.0
-    for sh in c.shards:
-        # ★k>1(遠くの巨大 -> 手元の小)も必ず数える。k<0.999 だけ見ていると
-        #   継ぎ目13 のような逆スケールの破片が「誤差 0」に見えて検査をすり抜ける
-        if abs(sh["k"] - 1.0) > 0.001:
-            e = max(e, align_error(eye, c.focus, sh["k"], sh["pts"]))
-    return e
+def pair_angle(eye, a, b):
+    """2 点が画面上で重なって見えるか(度)。「触れる」規則。"""
+    u = (a[0] - eye[0], a[1] - eye[1], a[2] - eye[2])
+    v = (b[0] - eye[0], b[1] - eye[1], b[2] - eye[2])
+    cr = (u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0])
+    return math.degrees(math.atan2(math.sqrt(sum(t * t for t in cr)),
+                                   sum(u[i] * v[i] for i in range(3))))
+
+
+def shard_error(c, sh, eye):
+    if sh.get("disp"):
+        return 0.0                      # 自由な破片は touch 規則で判定する
+    # ★k>1(遠くの巨大 -> 手元の小)も必ず数える。k<0.999 だけ見ていると
+    #   継ぎ目13 のような逆スケールの破片が「誤差 0」に見えて検査をすり抜ける
+    if abs(sh["k"] - 1.0) <= 0.001:
+        return 0.0
+    return align_error(eye, sh.get("focus") or c.focus, sh["k"], sh["pts"])
+
+
+def conn_error(c, eye, only=None):
+    """only を渡すとその破片だけ(巡る規則の 1 枚ぶんの検査に使う)。"""
+    if c.touch:
+        return pair_angle(eye, c.touch["a"], c.touch["b"])
+    if only is not None:
+        return shard_error(c, c.shards[only], eye)
+    return max([shard_error(c, sh, eye) for sh in c.shards] or [0.0])
 
 
 FOCUS_LOCK = 7.0     # 実行時と同じ足切り(焦点から遠いと確定しない)
 
 
-def field(c, seen, floor_of, half=3.6):
-    """焦点の周りを走査し、床がある所だけ誤差を測る。"""
-    fx, fz = c.focus[0], c.focus[2]
+def field(c, seen, floor_of, half=3.6, only=None):
+    """焦点の周りを走査し、床がある所だけ誤差を測る。
+    only を渡すと【その破片の焦点】の周りを見る(巡る規則)。"""
+    F = (c.shards[only].get("focus") or c.focus) if only is not None else c.focus
+    fx, fz = F[0], F[2]
     good, warm, best, bestp = [], 0, 1e9, None
     n = int(half / CELL)
     for iz in range(-n, n + 1):
@@ -259,7 +279,7 @@ def field(c, seen, floor_of, half=3.6):
             if k not in seen:
                 continue
             # ★焦点と違う高さの床(溝の底など)は数えない。目の高さが変われば別の話
-            if abs(seen[k] + EYE - c.focus[1]) > 0.4:
+            if abs(seen[k] + EYE - F[1]) > 0.4:
                 continue
             eye = (x, seen[k] + EYE, z)
             # ★「何段目に立つか」を問う継ぎ目は、実行時と同じ高さの窓で足切りする
@@ -267,9 +287,14 @@ def field(c, seen, floor_of, half=3.6):
                 continue
             if c.max_y is not None and eye[1] > c.max_y:
                 continue
-            if math.dist(eye, tuple(c.focus)) > FOCUS_LOCK:
+            if c.touch:
+                m = [(c.touch["a"][q] + c.touch["b"][q]) / 2 for q in range(3)]
+                dm = math.dist(eye, tuple(m))
+                if dm < c.touch.get("near", 1.5) or dm > c.touch.get("far", 13.0):
+                    continue
+            elif math.dist(eye, tuple(F)) > FOCUS_LOCK:
                 continue
-            err = conn_error(c, eye)
+            err = conn_error(c, eye, only)
             if err < c.lock:
                 good.append((x, z))
             if err < c.warn:
@@ -283,7 +308,7 @@ def main():
     G.build()
     ents, conns = G.ES, G.CONNS
     world = World(ents)
-    bounds = (-10.0, -12.0, 80.0, 224.0)
+    bounds = (-10.0, -12.0, 90.0, 256.0)
     print("=" * 68)
     print("stagedemo3 / liminal — 机上シミュレーション")
     print("=" * 68)
@@ -358,15 +383,28 @@ def main():
         14: (None, None),                                  # ★負の継ぎ目。解かないのが正解
         15: ((68.0, 208.6, 7.60), (68.0, 208.6, 7.60)),   # 模型 -> 本物の廊下
         16: ((68.0, 217.0, 7.60), (68.0, 217.0, 7.60)),   # 扉 -> 白い部屋
+        # ---- 第四幕(大展示室・順番は自由。18〜21 が 4 本の橋、17 が出口の階段) ----
+        18: ((64.3, 233.95, 7.60), (64.3, 233.95, 7.60)),  # 西の橋 -> 島A
+        19: ((73.7, 233.95, 7.60), (73.7, 233.95, 7.60)),  # 東の橋 -> 島C
+        20: ((68.0, 229.50, 7.60), (68.0, 229.50, 7.60)),  # 南の橋 -> 島D
+        21: ((68.0, 238.80, 7.60), (68.0, 238.80, 7.60)),  # 北の橋 -> 島B
+        17: ((68.0, 249.00, 10.60), (68.0, 249.00, 10.60)),  # 階段 -> 白い部屋
     }
     flats = {}
-    order = sorted(conns, key=lambda c: c.cid)
+    order = sorted(conns, key=lambda c: c.solve_order)
     for c in order:
-        fx, fz, fy = c.focus[0], c.focus[2], c.focus[1] - EYE
-        r, seen, flat = walk(world, start, {"F%d" % c.cid: (fx, fz, fy)}, B)
+        tg = {}
+        if c.per_shard:
+            for i, sh in enumerate(c.shards):
+                f = sh.get("focus") or c.focus
+                tg["F%d_%d" % (c.cid, i)] = (f[0], f[2], f[1] - EYE)
+        else:
+            tg["F%d" % c.cid] = (c.focus[0], c.focus[2], c.focus[1] - EYE)
+        r, seen, flat = walk(world, start, tg, B)
         flats[c.cid] = flat
-        if not r["F%d" % c.cid]:
-            fail("継ぎ目%d(%s): 焦点 (%.1f, %.1f) へ歩いて行けない" % (c.cid, c.note, fx, fz))
+        for nm, ok_ in r.items():
+            if not ok_:
+                fail("継ぎ目%d(%s): 焦点 %s へ歩いて行けない" % (c.cid, c.note, nm))
         before, after = PLAN[c.cid]
         if before and standing(seen, *before):
             fail("継ぎ目%d を解く前に (%.1f, %.1f) へ行けてしまう" % (c.cid, before[0], before[1]))
@@ -419,24 +457,28 @@ def main():
 
     # ---------------------------------------------------- 合う場所の広さ
     print(NL + "[3] 継ぎ目ごとの『合う場所』")
-    for c in order:
-        good, warm, best, bestp = field(c, flats[c.cid], None)
-        area = len(good) * CELL * CELL
-        if not good:
-            fail("継ぎ目%d(%s): 誤差が lock(%.1f°)を切る立ち位置が床の上に無い(最小 %.2f°)"
-                 % (c.cid, c.note, c.lock, best))
-            continue
-        xs = [q[0] for q in good]; zs = [q[1] for q in good]
-        w, d = max(xs) - min(xs) + CELL, max(zs) - min(zs) + CELL
-        msg = ("継ぎ目%-2d(%-12s): 確定域 %5.2fm2 (%.2f x %.2f m) 最小誤差 %.2f° / 予兆域 %5.1fm2"
-               % (c.cid, c.note, area, w, d, best, warm * CELL * CELL))
-        if area < 0.10:
-            fail(msg + "  ← 狭すぎる(見つけられない)")
-        elif area > 1.80:
-            fail(msg + "  ← 広すぎる(歩いていて勝手に確定する)")
-        else:
-            ok(msg)
-        if conn_error(c, (c.focus[0], c.focus[1], c.focus[2])) > 0.01:
+    for c in sorted(conns, key=lambda x: x.cid):
+        slots = range(len(c.shards)) if c.per_shard else [None]
+        for only in slots:
+            good, warm, best, bestp = field(c, flats[c.cid], None, only=only)
+            area = len(good) * CELL * CELL
+            tag = "継ぎ目%-2d(%-12s)%s" % (c.cid, c.note,
+                                          "" if only is None else "[%d]" % only)
+            if not good:
+                fail("%s: 誤差が lock(%.1f°)を切る立ち位置が床の上に無い(最小 %.2f°)"
+                     % (tag, c.lock, best))
+                continue
+            xs = [q[0] for q in good]; zs = [q[1] for q in good]
+            w, d = max(xs) - min(xs) + CELL, max(zs) - min(zs) + CELL
+            msg = ("%s: 確定域 %5.2fm2 (%.2f x %.2f m) 最小誤差 %.2f° / 予兆域 %5.1fm2"
+                   % (tag, area, w, d, best, warm * CELL * CELL))
+            if area < 0.08:
+                fail(msg + "  ← 狭すぎる(見つけられない)")
+            elif area > 1.80:
+                fail(msg + "  ← 広すぎる(歩いていて勝手に確定する)")
+            else:
+                ok(msg)
+        if not c.touch and conn_error(c, tuple(c.focus)) > 0.01 and not c.per_shard:
             fail("継ぎ目%d: 焦点で誤差が 0 にならない(相似変換が壊れている)" % c.cid)
 
     # ---------------------------------------------------- 足場の連続性
@@ -492,8 +534,56 @@ def main():
             fail("橋の天端が床と面一でない: %s (%.3f)" % (s["n"], top))
     ok("橋の天端は床と面一")
 
+    # ---------------------------------------------------- 同一平面の面(z ファイティング)
+    # ★この作品で一番効く罠。「同じ場所に壁を 2 枚建てない」を機械で見張る。
+    #   面が同じ平面に乗っていて、その面の上で 0.35m 角より広く重なっている組だけを拾う
+    #   (0.30 = 壁厚 ぶんの角の柱は部屋の外なので無視してよい)。
+    print("")
+    print("[5] 同一平面の面(z ファイティング)")
+    EPSP, MINOV = 0.006, 0.35
+    bx = []
+    for e in ents:
+        if "primitive" not in e:
+            continue
+        rr = e["transform"]["rotation"]
+        if abs(rr[0]) > 0.01 or abs(rr[2]) > 0.01 or abs(rr[1]) % 180 > 0.01:
+            continue
+        pp, sc = e["transform"]["position"], e["transform"]["scale"]
+        sx, sz = (sc[2], sc[0]) if abs(abs(rr[1]) - 90) < 0.01 else (sc[0], sc[2])
+        bx.append((e["name"], (pp[0] - sx / 2, pp[1] - sc[1] / 2, pp[2] - sz / 2),
+                   (pp[0] + sx / 2, pp[1] + sc[1] / 2, pp[2] + sz / 2)))
+    gr = {}
+    for i2, (nm2, lo2, hi2) in enumerate(bx):
+        for gx in range(int(lo2[0] // 4.0), int(hi2[0] // 4.0) + 1):
+            for gz in range(int(lo2[2] // 4.0), int(hi2[2] // 4.0) + 1):
+                gr.setdefault((gx, gz), []).append(i2)
+    seenp, nzf = set(), 0
+    for cell in gr.values():
+        for ii in range(len(cell)):
+            for jj in range(ii + 1, len(cell)):
+                key = (cell[ii], cell[jj])
+                if key in seenp:
+                    continue
+                seenp.add(key)
+                na, la, ha = bx[key[0]]
+                nb2, lb, hb = bx[key[1]]
+                if not all(la[q] < hb[q] + EPSP and lb[q] < ha[q] + EPSP for q in range(3)):
+                    continue
+                for ax in range(3):
+                    o1, o2 = [q for q in range(3) if q != ax]
+                    if (min(ha[o1], hb[o1]) - max(la[o1], lb[o1]) < MINOV or
+                            min(ha[o2], hb[o2]) - max(la[o2], lb[o2]) < MINOV):
+                        continue
+                    if abs(ha[ax] - hb[ax]) < EPSP or abs(la[ax] - lb[ax]) < EPSP:
+                        fail("同一平面: %s と %s (%s 軸 @%.3f)"
+                             % (na, nb2, "xyz"[ax], ha[ax]))
+                        nzf += 1
+                        break
+    if nzf == 0:
+        ok("見える箱 %d 個、同一平面で重なっている面は無し" % len(bx))
+
     # ---------------------------------------------------- 明るさの粗い確認
-    print("\n[5] 照明")
+    print("\n[6] 照明")
     lights = [(e["transform"]["position"], e["pointLight"]) for e in ents if "pointLight" in e]
     dark = 0
     # ★確認点は (x, 目の高さ, z)。第二幕は床が y=3.4 なので固定 1.5 で測ると

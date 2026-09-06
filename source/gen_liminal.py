@@ -62,8 +62,11 @@ CHECKS = [
     dict(x=58.60, y=8.50, z=195.4, r=2.0),      # その先
     dict(x=68.00, y=8.50, z=192.6, r=2.6),      # 模型の大部屋
     dict(x=68.00, y=8.50, z=208.6, r=2.4),      # 終わりの間
+    dict(x=68.00, y=8.50, z=221.0, r=2.0),      # 第四幕 連絡通路
+    dict(x=68.00, y=8.50, z=224.2, r=2.6),      # 大展示室(南の回廊)
+    dict(x=68.00, y=11.50, z=245.4, r=2.0),     # 出口の踊り場
 ]
-GOAL = dict(x=68.0, y=7.60, z=213.90, r=0.62, need=16)
+GOAL = dict(x=68.0, y=10.60, z=246.00, r=0.62, need=17)
 
 # ---------------------------------------------------------------- 定数
 WT   = 0.30        # 壁厚
@@ -410,7 +413,8 @@ class Conn:
     【ずれた状態】へ書き換え、実体の値を Lua 用データへ残す。"""
 
     def __init__(self, cid, focus, lock, warn, center, note="",
-                 min_y=None, max_y=None, needs=(), anti=False):
+                 min_y=None, max_y=None, needs=(), anti=False,
+                 per_shard=False, peri=False, dark=False, touch=None, dark_lights=()):
         self.cid = cid
         self.focus = focus
         self.lock = lock
@@ -433,13 +437,20 @@ class Conn:
         self.max_y = max_y
         self.needs = list(needs)   # 先に確定していないと成立しない継ぎ目(連鎖)
         self.anti = anti           # ★解くと道が【塞がる】継ぎ目。解かないのが正解
+        # ---- 別の【解き方】をつくるスイッチ ----
+        self.per_shard = per_shard   # 巡る: 破片ごとに別の立ち位置。1 つずつ実体化する
+        self.peri = peri             # 直視しない: 周辺視(24〜68度)でだけ成立する
+        self.dark = dark             # 暗の一瞬: 明滅する部屋が暗い間だけ成立する
+        self.touch = touch           # 触れる: 2 点が画面上で重なったら成立(焦点を使わない)
+        self.dark_lights = list(dark_lights)
+        self.solve_order = cid     # 机上検査で解く順。17 は島が要るので後ろへ回す
         CONNS.append(self)
 
-    def shard(self, k, ents, glows=(), osc=None):
+    def shard(self, k, ents, glows=(), osc=None, focus=None):
         """ents: box()/glow() の戻り値。実体の transform を記録してから k 倍に縮める。
         osc=(dx,dy,dz,周期) を渡すと、ずれた姿勢で【揺れる】(合う姿勢で速度 0)。"""
         rec = []
-        fx, fy, fz = self.focus
+        fx, fy, fz = focus or self.focus       # ★破片ごとに焦点を持てる(巡る / 二つ同時)
         lo = [1e9] * 3
         hi = [-1e9] * 3
         for e in ents:
@@ -456,11 +467,35 @@ class Conn:
         pts = [[lo[0] if i & 1 else hi[0], lo[1] if i & 2 else hi[1], lo[2] if i & 4 else hi[2]]
                for i in range(8)]
         d = dict(k=k, ents=rec, pts=pts)
+        if focus:
+            d["focus"] = [round(v, 4) for v in focus]
         if osc:
             d["osc"] = list(osc)
         self.shards.append(d)
         for g in glows:
             self.glows.append(g["name"])
+
+    def shard_free(self, ents, disp, dk=1.0, glows=()):
+        """★「触れる」規則用の破片。実体の姿勢を記録して、disp だけずらし dk 倍した
+        【浮遊姿勢】へ動かす。相似変換の縛りが無いので、焦点は使わない
+        (成立判定は touch の 2 点が画面上で重なるかどうかで行う)。"""
+        rec = []
+        for e in ents:
+            p = e["transform"]["position"]
+            sc = e["transform"]["scale"]
+            rec.append(dict(n=e["name"], p=list(p), s=list(sc)))
+            e["transform"]["position"] = [round(p[i] + disp[i], 4) for i in range(3)]
+            e["transform"]["scale"] = [round(v * dk, 4) for v in sc]
+        self.shards.append(dict(k=1.0, ents=rec, pts=[list(rec[0]["p"])],
+                                disp=[round(v, 4) for v in disp], dk=dk))
+        for g in glows:
+            self.glows.append(g["name"])
+        return self
+
+    def free_pos(self, e, disp):
+        """shard_free に渡す前の実体位置から、浮遊姿勢の座標を求める(touch の点に使う)。"""
+        p = self.real_pos(e)
+        return [round(p[i] + disp[i], 4) for i in range(3)]
 
     def shard_display(self, k, ents, glows=()):
         """★多義の破片用。ents の【今の transform を "浮いている姿" とみなし】、
@@ -497,10 +532,20 @@ class Conn:
         return e
 
     def mover(self, e, to, dur=1.1, delay=0.0):
-        """接続で動く物(塞ぎ板が沈む・扉が開く)。to は最終 position。"""
+        """接続で動く物(塞ぎ板が沈む・扉が開く)。to は最終 position(絶対)。
+        ★破片を動かすなら必ず mover_by を使うこと。ここへ
+          `e["transform"]["position"] + オフセット` を渡すと【縮んだ座標】を掴む。"""
         self.movers.append(dict(n=e["name"], to=[round(v, 4) for v in to],
                                 dur=dur, delay=delay))
         return e
+
+    def mover_by(self, e, d, dur=1.1, delay=0.0):
+        """★破片を動かす時はこちら。実体の位置から d だけずらした先を目標にする。
+        シャッターの欠けた一枚(k=0.16)を mover() で動かしていた時は、縮んだ座標を基準に
+        していたので【確定した瞬間に原寸へ戻り、そのまま 10m 手前の宙へ飛ぶ】…
+        つまり『モデルが急にでっかくなって変な所へ行く』というバグになっていた。"""
+        p = self.real_pos(e)
+        return self.mover(e, (p[0] + d[0], p[1] + d[1], p[2] + d[2]), dur=dur, delay=delay)
 
     def lamp(self, name, to, dur=0.8, delay=0.0):
         self.lights.append(dict(n=name, to=to, dur=dur, delay=delay))
@@ -544,7 +589,9 @@ class Conn:
                     movers=self.movers, lights=self.lights, hinges=self.hinges,
                     shines=self.shines, hides=self.hides, excl=self.excl,
                     needs=self.needs, anti=self.anti,
-                    minY=self.min_y, maxY=self.max_y)
+                    minY=self.min_y, maxY=self.max_y,
+                    perShard=self.per_shard, peri=self.peri, dark=self.dark,
+                    touch=self.touch, darkLights=self.dark_lights)
 
 
 # ================================================================ 第二幕（継ぎ目 5〜10）
@@ -572,7 +619,8 @@ def act2(Y2, DW, DH):
             box("H1_col%.0f_%.0f" % (x, z), (x, Y2 + HH / 2, z), (0.7, HH, 0.7), T_CONC, "x",
                 rough=0.92, solid=True)
     for z in (88.5, 94.0, 99.5):                       # 天井の梁
-        box("H1_bm%.0f" % z, (6.0, Y2 + HH - 0.35, z), (16.6, 0.7, 0.45), T_CONC, "z", rough=0.9)
+        # ★長さ 16.6 だと端面が側壁の外面とぴったり同一平面になる。16.4 で壁の内側に納める
+        box("H1_bm%.0f" % z, (6.0, Y2 + HH - 0.35, z), (16.4, 0.7, 0.45), T_CONC, "z", rough=0.9)
     for x, z, on in ((1.5, 89.0, True), (10.5, 89.0, False), (1.5, 96.0, False),
                      (10.5, 96.0, True), (6.0, 101.5, True)):
         # 吊り下げの工場灯(笠 + 光る面)
@@ -590,7 +638,7 @@ def act2(Y2, DW, DH):
 
     # ---- 継ぎ目 05: 5m のシャッターの欠けた一枚 ----
     F5 = (6.6, EYEY, 92.0)
-    c5 = Conn(5, F5, 4.2, 26.0, (SHX, Y2 + SHH / 2, HZ1 - 0.2), "shutter")
+    c5 = Conn(5, F5, 3.2, 20.0, (SHX, Y2 + SHH / 2, HZ1 - 0.2), "shutter")
     ZS = HZ1 - 0.16
     QW, QH = SHW / 2, SHH / 2
     panels = []
@@ -620,9 +668,11 @@ def act2(Y2, DW, DH):
                        (sx_, sy_, 0.05), GOLD, 1.25))
     c5.shard(1.0, panels)
     c5.shard(0.16, [miss] + ribs + mg, glows=mg)
-    for p in panels + [miss] + ribs + mg:                          # 揃うとシャッターが巻き上がる
-        c5.mover(p, (p["transform"]["position"][0], p["transform"]["position"][1] + SHH + 0.15,
-                     p["transform"]["position"][2]), dur=2.2, delay=0.0)
+    # 揃うとシャッターが巻き上がる。★mover_by(実体からの相対) で渡すこと。
+    #   絶対座標を e["transform"]["position"] から作ると【縮んだ破片の座標】を掴んでしまい、
+    #   確定で原寸に戻った板が 10m 手前の宙へ飛ぶ(「モデルがでっかくなる」バグ)
+    for p in panels + [miss] + ribs + mg:
+        c5.mover_by(p, (0.0, SHH + 0.15, 0.0), dur=2.2, delay=0.0)
     # ★破片は【照らさないと真っ黒の穴に見える】。合っているのに合っていないように見えるので致命的。
     #   焦点の斜め後ろから当てる灯りを 1 つ足す(床の目印も一緒に見える)
     plight("C5_fill", (6.0, Y2 + 5.0, 89.6), WARM, 8.0, 12.0)
@@ -631,7 +681,7 @@ def act2(Y2, DW, DH):
 
     # ============================================================ V 前室（材質が事務所へ戻る）
     shell("V1", 3.0, 9.0, HZ1 + WT, 108.5, 3.0, T_CARPET, T_WALL, y=Y2, walls="we")
-    wall_with_door("V1_n", "z", 108.5 + WT / 2, 2.7, 9.3, Y2, 3.0, 6.0, DW, DH, T_WALL)
+    # ★T の南壁(T1_s)が開口ごとこの位置の壁を兼ねる。ここには建てない
     troffer("V1_tr", 6.0, Y2 + 3.0, 106.4, on=True)
 
     # ============================================================ T 折り返しの間
@@ -651,7 +701,7 @@ def act2(Y2, DW, DH):
     exit_sign_x("T1_exit", TX1 - 0.16, Y2 + DH + 0.42, TDZ)
 
     F6 = (7.4, EYEY, 118.6)
-    c6 = Conn(6, F6, 1.0, 11.0, (TX1 - 0.2, Y2 + 1.2, TDZ), "behind")
+    c6 = Conn(6, F6, 0.5, 5.0, (TX1 - 0.2, Y2 + 1.2, TDZ), "behind")
     ZF6 = TX1 - 0.11
     rp, rg = frame_half_x("C6_R", +1, TDZ, Y2, ZF6, DW, DH)
     c6.shard(1.0, rp, glows=rg)
@@ -666,7 +716,12 @@ def act2(Y2, DW, DH):
 
     # ============================================================ X 廊下（東 → 北）
     shell("X1", TX1 + WT, 24.0, 109.0, 112.0, 2.9, T_CARPET, T_WALL, y=Y2, walls="s")
-    shell("X2", 21.0, 24.0, 112.0, 124.0, 2.9, T_CARPET, T_WALL, y=Y2, walls="we")
+    shell("X2", 21.0, 24.0, 112.0, 124.0, 2.9, T_CARPET, T_WALL, y=Y2, walls="we",
+          floor=False, ceil=False)
+    # ★X1 の床/天井が z=112.3 まで出ているので、X2 はその先から敷く(重ねると z ファイティング)
+    box("X2_flr", (22.5, Y2 - WT / 2, 118.3), (3.6, WT, 12.0), T_CARPET, "y", rough=0.95,
+        solid=True)
+    box("X2_cil", (22.5, Y2 + 2.9 + WT / 2, 118.3), (3.6, WT, 12.0), T_CEIL, "y", rough=0.94)
     box("X1_nw", (19.5, Y2 + 2.9 / 2, 112.15), (3.0, 2.9, WT), T_WALL, "z", rough=0.9, solid=True)
     troffer("X1_tr", 21.0, Y2 + 2.9, 110.5, on=True)
     for z in (115.0, 121.0):
@@ -718,9 +773,9 @@ def act2(Y2, DW, DH):
                                          segs[1]["transform"]["position"][1] + 0.14 * KM,
                                          segs[1]["transform"]["position"][2]),
                           (0.06 * KM, 0.05 * KM, 5.2 * KM), GOLD, 1.25))
-    c7 = Conn(7, F7, 1.5, 12.0, (A_X, Y2, 132.0), "bridge-east")
+    c7 = Conn(7, F7, 1.6, 10.0, (A_X, Y2, 132.0), "bridge-east")
     c7.shard_display(KM, segs + edges, glows=edges)
-    c8 = Conn(8, F8, 1.5, 12.0, (B_X, Y2, 132.0), "bridge-west")
+    c8 = Conn(8, F8, 1.6, 10.0, (B_X, Y2, 132.0), "bridge-west")
     c8.shard_display(KM, segs + edges, glows=edges)
     c7.excl = [8]
     c8.excl = [7]
@@ -735,7 +790,9 @@ def act2(Y2, DW, DH):
     SX0, SX1, SZ0, SZ1, SH_ = 14.0, 30.0, 142.3, 156.0, 5.6
     shell("S1", SX0, SX1, SZ0, SZ1, SH_, T_CONC, T_CONC, y=Y2, walls="we", ceil_tex=T_CONC,
           base=False)
-    wall_with_door("S1_s", "z", SZ0 - WT / 2, SX0 - WT, SX1 + WT, Y2, SH_, 22.0, DW, DH, T_CONC)
+    # ★M の北壁(M1_n)がこの位置の壁を兼ねる。ここで 2 枚目を建てると 38m2 が同一平面になり
+    #   見る位置で色が入れ替わる。S の方が天井が高いぶんだけを【上に足す】
+    slab("S1_s", "z", SZ0 - WT / 2, SX0 - WT, SX1 + WT, Y2 + 5.0 + WT, Y2 + SH_, T_CONC)
     SILL2 = Y2 + 2.40
     wall_with_door("S1_n", "z", SZ1 + WT / 2, SX0 - WT, SX1 + WT, Y2, SH_, 22.0, DW,
                    (SILL2 - Y2) + DH, T_CONC)
@@ -752,7 +809,7 @@ def act2(Y2, DW, DH):
 
     # ---- 継ぎ目 09: 漂う破片。合う姿勢で【速度が 0 になる】ので、待てば必ず止まる ----
     F9 = (18.2, EYEY, 146.6)
-    c9 = Conn(9, F9, 3.0, 15.0, (22.0, Y2 + 1.2, 151.0), "drift")
+    c9 = Conn(9, F9, 2.5, 14.0, (22.0, Y2 + 1.2, 151.0), "drift")
     RISE9, RUN9, W9 = 0.30, 0.70, 1.70
     ZST = 148.0
     real, drift, upper = [], [], []
@@ -782,7 +839,8 @@ def act2(Y2, DW, DH):
     ZX0, ZX1, ZZ0, ZZ1, ZH = 14.0, 30.0, 156.3, 170.0, 6.0
     shell("Z1", ZX0, ZX1, ZZ0, ZZ1, ZH, T_PAINT, T_PAINT, y=SILL2, walls="we",
           ceil_tex=T_PAINT, base=False)
-    wall_with_door("Z1_s", "z", ZZ0 - WT / 2, ZX0 - WT, ZX1 + WT, SILL2, ZH, 22.0, DW, DH, T_PAINT)
+    # ★S の北壁(S1_n)が開口ごとこの位置の壁を兼ねる。Z の方が高いぶんだけを上に足す
+    slab("Z1_s", "z", ZZ0 - WT / 2, ZX0 - WT, ZX1 + WT, Y2 + 5.6 + WT, SILL2 + ZH, T_PAINT)
     # ★白い部屋は終わりではなく【第三幕への戸口】。戸口(継ぎ目10)が建つまでは塞がっている
     wall_with_door("Z1_n", "z", ZZ1 + WT / 2, ZX0 - WT, ZX1 + WT, SILL2, ZH, 22.0, DW, DH, T_PAINT)
     door_casing("Z1_nc", "z", ZZ1 - 0.02, 22.0, SILL2, DW, DH)
@@ -794,7 +852,7 @@ def act2(Y2, DW, DH):
 
     # ---- 継ぎ目 10: 何にも寄りかかっていない【自立した戸口】 ----
     F10 = (22.0, SILL2 + EYE, 158.2)
-    c10 = Conn(10, F10, 3.2, 16.0, (22.0, SILL2 + 1.2, 164.0), "gate")
+    c10 = Conn(10, F10, 2.2, 13.0, (22.0, SILL2 + 1.2, 164.0), "gate")
     GZ = 164.0
     GW, GH = 1.30, 2.35
     parts = [[], [], [], []]
@@ -918,7 +976,7 @@ def act3(Y3, DW, DH):
     # ★ここだけ【継ぎ目の光を付けない】。金の線が付いていたら本物が一目で分かる。
     #   代わりに斜め前から灯りを当てて、板の面が読めるようにする(黒い板対策)。
     F11 = (18.0, EY, 180.0)
-    c11 = Conn(11, F11, 3.0, 14.0, (22.0, Y3, 184.0), "decoys")
+    c11 = Conn(11, F11, 3.2, 16.0, (22.0, Y3, 184.0), "decoys")
     # ★見た目の板は【隙間なく】並べる(重ねると上面が同一平面になって z ファイティング)。
     #   当たり判定だけは前後に伸ばして重ねる ＝ 継ぎ目で足が抜けない
     PD = (GZ1 - GZ0) / 3.0
@@ -984,7 +1042,7 @@ def act3(Y3, DW, DH):
 
     # ---- 継ぎ目 12: 焦点は【6 段目の上】。x/z を合わせても高さが違えば解けない ----
     F12 = (SX3, Y3 + RISE3 * 6 + EYE, SZ3 + RUN3 * 5.5)          # (18.3, 9.30, 195.025)
-    c12 = Conn(12, F12, 4.5, 16.0, (24.5, Y4, QDZ), "which-step",
+    c12 = Conn(12, F12, 3.6, 16.0, (24.5, Y4, QDZ), "which-step",
                min_y=F12[1] - 0.18, max_y=F12[1] + 0.18)
     CWD = 1.60                                                    # 渡り廊下の幅(z)
     # ★階段側の一枚は【最初から実在】させる。これが「何を組もうとしているか」の見本になり、
@@ -1025,7 +1083,7 @@ def act3(Y3, DW, DH):
 
     # ---- 継ぎ目 13: k>1。【遠くの巨大】が足元の板になる(継ぎ目 5 のちょうど逆) ----
     F13 = (32.0, Y4 + EYE, RDZ)
-    c13 = Conn(13, F13, 2.6, 16.0, (36.5, Y4, RDZ), "giant")
+    c13 = Conn(13, F13, 3.2, 16.0, (36.5, Y4, RDZ), "giant")
     for i, (xc, w3, k) in enumerate(((34.6, 2.2, 2.40), (36.8, 2.2, 1.90), (38.6, 1.4, 1.55))):
         pl = box("C13_p%d" % i, (xc, Y4 - 0.09, RDZ), (w3, 0.18, 2.0), T_METAL, "y",
                  rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47])
@@ -1046,9 +1104,9 @@ def act3(Y3, DW, DH):
         troffer("T3_tr%.0f" % x, x, Y4 + TH3, 195.4, on=(x != 51.6))
     exit_sign("T3_exit", 58.6, Y4 + DH + 0.40, TZ1 - 0.12)
     # 迂回路(北を回る)。★見てしまった人のための、確実に通れる道
-    corridor("T3dA", 48.25, 51.15, TZ1 - 0.15, 201.0, Y4, TH3, T_CARPET, T_WALL)
+    corridor("T3dA", 48.25, 51.15, TZ1 + WT, 201.0, Y4, TH3, T_CARPET, T_WALL)
     corridor("T3dB", 48.25, 57.75, 201.0, 204.15, Y4, TH3, T_CARPET, T_WALL)
-    corridor("T3dC", 54.85, 57.75, TZ1 - 0.15, 201.0, Y4, TH3, T_CARPET, T_WALL)
+    corridor("T3dC", 54.85, 57.75, TZ1 + WT, 201.0, Y4, TH3, T_CARPET, T_WALL)
     slab("T3d_w1", "x", 48.25, TZ1 - 0.15, 204.3, Y4, Y4 + TH3, T_WALL)
     slab("T3d_w2", "x", 51.15, TZ1 - 0.15, 201.15, Y4, Y4 + TH3, T_WALL)
     slab("T3d_w3", "x", 54.85, TZ1 - 0.15, 201.15, Y4, Y4 + TH3, T_WALL)
@@ -1060,7 +1118,7 @@ def act3(Y3, DW, DH):
 
     # ---- 継ぎ目 14: 解くと【壁が建って直進できなくなる】。合わせないのが正解 ----
     F14 = (49.6, Y4 + EYE, 195.4)
-    c14 = Conn(14, F14, 2.6, 12.0, (53.0, Y4 + 1.45, 195.4), "do-not-look", anti=True)
+    c14 = Conn(14, F14, 2.5, 13.0, (53.0, Y4 + 1.45, 195.4), "do-not-look", anti=True)
     for i, k in enumerate((0.55, 0.68, 0.80)):
         yc = Y4 + 0.4833 + 0.9667 * i
         sl = box("C14_s%d" % i, (53.0, yc, 195.4), (0.30, 0.9467, TZ1 - TZ0), T_CONC, "x",
@@ -1089,7 +1147,7 @@ def act3(Y3, DW, DH):
     #   「床に建っている長い廊下」に完全に一致する。床は本物を流用するので模型には置かない
     #   (置くと本物の床と同一平面になって z ファイティングする)。
     F15 = (68.0, Y4 + EYE, 191.0)
-    c15 = Conn(15, F15, 2.0, 14.0, (68.0, Y4 + 1.45, 199.5), "maquette")
+    c15 = Conn(15, F15, 2.5, 13.0, (68.0, Y4 + 1.45, 199.5), "maquette")
     CZ0, CZ1, CW, CH3, KM3 = 195.0, UZ1 - 0.15, 2.8, 2.90, 0.52
     czc, czl = (CZ0 + CZ1) / 2, CZ1 - CZ0
     for sgn, nm in ((-1, "w"), (1, "e")):
@@ -1124,15 +1182,17 @@ def act3(Y3, DW, DH):
     for sgn in (-1, 1):
         box("Y3_w%d" % sgn, (68.0 + sgn * 2.2, Y4 + 1.6, 216.9), (WT, 3.2, 5.6), T_PAINT, "x",
             rough=0.9, solid=True)
-    box("Y3_n", (68.0, Y4 + 1.6, 219.7), (4.7, 3.2, WT), T_PAINT, "z", rough=0.9, solid=True)
+    # ★白い部屋は終わりではなく【第四幕への戸口】
+    wall_with_door("Y3_n", "z", 219.7, 65.65, 70.35, Y4, 3.2, 68.0, DW, DH, T_PAINT)
+    door_casing("Y3_nc", "z", 219.55, 68.0, Y4, DW, DH)
     for sgn in (-1, 1):
-        glow("Y3_g%d" % sgn, (68.0 + sgn * 1.5, Y4 + 1.5, 219.52), (1.3, 2.9, 0.04),
+        glow("Y3_g%d" % sgn, (68.0 + sgn * 1.86, Y4 + 1.5, 219.52), (0.9, 2.9, 0.04),
              [1.0, 0.98, 0.94], 1.05)
     plight("Y3_l1", (68.0, Y4 + 2.2, 217.4), [1.0, 0.98, 0.94], 10.0, 9.0)
 
     # ---- 継ぎ目 16: 4 片が噛み合って扉になり、【丁番でひらく】 ----
     F16 = (68.0 - 0.55, Y4 + EYE, 207.6)
-    c16 = Conn(16, F16, 2.0, 13.0, (68.0, Y4 + 1.2, XZ1 - 0.1), "door")
+    c16 = Conn(16, F16, 2.2, 13.0, (68.0, Y4 + 1.2, XZ1 - 0.1), "door")
     ZF16 = XZ1 - 0.08
     sgn_b = box("C16_signb", (68.0, Y4 + DH + 0.36, ZF16 - 0.02), (0.68, 0.32, 0.06), T_METAL, "z",
                 rough=0.5, color=[0.35, 0.35, 0.34])
@@ -1157,6 +1217,217 @@ def act3(Y3, DW, DH):
     for e2 in (leaf16, knob16, kick16):
         c16.hinge(e2, HINGE16, -82.0)
     plight("C16_fill", (68.0, Y4 + 2.4, 210.4), WARM, 8.0, 10.0)
+
+
+# ================================================================ 第四幕（大展示室・継ぎ目 17〜21）
+def act4(Y4, DW, DH):
+    """★これまでと違い【一つの大きな部屋に 5 つ】。順番は自由。
+    しかも 4 つは今までと【規則そのものが違う】ので、同じ手が通用しない。
+
+      18 直視しない  周辺視(24〜68度)でだけ成立する。正面で見ると絶対に決まらない
+      19 触れる      焦点を使わない。柱の頭と板の先端が【画面の上で重なれば】くっつく
+      20 二つ同時    一つの立ち位置で、別々の方向にある 2 つを同時に満たす
+      21 暗の一瞬    明滅する照明が【暗い間だけ】成立する。明るいと絶対に決まらない
+      17 巡る        4 つの島それぞれから 1 枚ずつ。歩き回って階段を組み上げる
+
+    18〜21 が 4 本の橋を架け、その先の島が 17 の 4 つの立ち位置になっている。
+    ＝【どれから手を付けてもよく、最後に全部が要る】。
+    """
+    EY = Y4 + EYE
+    GX0, GX1, GZ0, GZ1, GH = 56.0, 82.0, 222.3, 246.0, 8.0
+    PX0, PX1, PZ0, PZ1, PY = 59.5, 78.5, 225.5, 242.8, 3.00     # 中央の窪み(底 y=3.0)
+
+    # ---- 連絡通路(白い部屋 -> 大展示室) ----
+    shell("W4", 66.0, 70.0, 219.9, 222.3, 2.9, T_CARPET, T_WALL, y=Y4, walls="we",
+          floor=False, ceil=False)
+    # ★床は大展示室の回廊(z=222.0 から)と重ならない所で止める
+    box("W4_flr", (68.0, Y4 - WT / 2, 220.95), (4.6, WT, 2.7), T_CARPET, "y", rough=0.95,
+        solid=True)
+    box("W4_cil", (68.0, Y4 + 2.9 + WT / 2, 220.95), (4.6, WT, 2.7), T_CEIL, "y", rough=0.94)
+    troffer("W4_tr", 68.0, Y4 + 2.9, 221.1, on=True)
+
+    # ---- 部屋の殻(床は穴あきなので自前で敷く) ----
+    shell("G1", GX0, GX1, GZ0, GZ1, GH, T_CONC, T_CONC, y=Y4, walls="wen",
+          ceil_tex=T_CONC, base=False, floor=False)
+    wall_with_door("G1_s", "z", GZ0 - WT / 2, GX0 - WT, GX1 + WT, Y4, GH, 68.0, DW, DH, T_CONC)
+    # 回廊(窪みの周り 4 枚)。★重ならないように帯で敷く
+    box("G1_fs", (69.0, Y4 - WT / 2, (GZ0 - WT + PZ0) / 2), (GX1 - GX0 + WT * 2, WT,
+        PZ0 - GZ0 + WT), T_CONC, "y", rough=0.95, solid=True)
+    box("G1_fn", (69.0, Y4 - WT / 2, (PZ1 + GZ1 + WT) / 2), (GX1 - GX0 + WT * 2, WT,
+        GZ1 + WT - PZ1), T_CONC, "y", rough=0.95, solid=True)
+    box("G1_fw", ((GX0 - WT + PX0) / 2, Y4 - WT / 2, (PZ0 + PZ1) / 2), (PX0 - GX0 + WT, WT,
+        PZ1 - PZ0), T_CONC, "y", rough=0.95, solid=True)
+    box("G1_fe", ((PX1 + GX1 + WT) / 2, Y4 - WT / 2, (PZ0 + PZ1) / 2), (GX1 + WT - PX1, WT,
+        PZ1 - PZ0), T_CONC, "y", rough=0.95, solid=True)
+    box("G1_pit", ((PX0 + PX1) / 2, PY - WT / 2, (PZ0 + PZ1) / 2), (PX1 - PX0, WT, PZ1 - PZ0),
+        T_CONC, "y", rough=0.95, solid=True)
+    for z in (PZ0, PZ1):                                    # 窪みの側面(深さが読める)
+        box("G1_pf%.0f" % z, ((PX0 + PX1) / 2, (PY + Y4) / 2, z), (PX1 - PX0, Y4 - PY, 0.10),
+            T_CONC, "z", rough=0.92, color=[0.58, 0.58, 0.56])
+    for x in (PX0, PX1):
+        box("G1_pg%.0f" % x, (x, (PY + Y4) / 2, (PZ0 + PZ1) / 2), (0.10, Y4 - PY, PZ1 - PZ0),
+            T_CONC, "x", rough=0.92, color=[0.58, 0.58, 0.56])
+    plight("G1_pl", (69.0, PY + 1.6, 234.0), COOL, 4.0, 12.0)
+
+    # ---- 4 つの島(それぞれ 17 の立ち位置になる) ----
+    # 北の島(B)だけ東西に長い。橋は西寄り、出口の階段は東寄りに架かるので頭上が空く
+    ISL = {"A": (64.3, 233.95), "B": (67.5, 238.8), "C": (73.7, 233.95), "D": (68.0, 229.5)}
+    ISW = {"A": 3.6, "B": 7.0, "C": 3.6, "D": 3.6}
+    for nm, (ix, iz) in ISL.items():
+        box("G1_is" + nm, (ix, Y4 - WT / 2, iz), (ISW[nm], WT, 3.6), T_CONC, "y",
+            rough=0.95, solid=True)
+        box("G1_ib" + nm, (ix, Y4 + 0.006, iz), (1.5, 0.012, 1.5), T_CONC, "y", rough=0.9,
+            color=[0.74, 0.74, 0.72], tile=(0.75, 0.75))      # 立つ場所の擦れ跡
+        plight("G1_il" + nm, (ix, Y4 + 3.2, iz), WARM, 7.0, 9.0)
+
+    # ---- 照明 ----
+    for x, z, on in ((59.0, 226.0, True), (79.0, 226.0, True), (59.0, 243.0, False),
+                     (79.0, 243.0, True), (68.0, 224.5, True)):
+        box("G1_ls%.0f_%.0f" % (x, z), (x, Y4 + GH - 0.35, z), (0.9, 0.24, 0.9), T_METAL, "y",
+            rough=0.45, metal=0.6, color=[0.42, 0.42, 0.40])
+        if on:
+            glow("G1_lg%.0f_%.0f" % (x, z), (x, Y4 + GH - 0.49, z), (0.64, 0.05, 0.64), WARM, 1.5)
+            plight("G1_ll%.0f_%.0f" % (x, z), (x, Y4 + GH - 0.9, z), WARM, 13.0, 17.0)
+    # ★北の橋のあたりだけを照らす明滅バンク(継ぎ目21 が「暗の一瞬」で成立するため)
+    DARKN = []
+    for x in (65.0, 71.0):
+        nm = "G1_bk%.0f" % x
+        troffer(nm, x, Y4 + GH, 243.4, on=True, intensity=12.0, rng=15.0)
+        DARKN.append(nm)
+
+    # ================================================== 継ぎ目 18: 直視しない（西の橋）
+    # ★焦点は橋の【手前側】。回廊を北へ歩く向きから見ると橋は 50 度ほど横にある。
+    #   正面に据えた瞬間に成立しなくなるので、「見ないまま合わせる」ことになる。
+    F18 = (57.5, EY, 228.6)
+    c18 = Conn(18, F18, 2.5, 14.0, (61.0, Y4, 233.95), "dont-look", peri=True)
+    for i, k in enumerate((0.44, 0.62)):
+        xc = PX0 - 1.5 + i * 1.5                                   # 58.0, 59.5 -> 実体は橋
+        pl = box("C18_p%d" % i, (60.25 + i * 1.5, Y4 - 0.09, 233.95), (1.5, 0.18, 2.0),
+                 T_METAL, "y", rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47])
+        g = glow("C18_g%d" % i, (60.25 + i * 1.5, Y4 + 0.01, 232.99), (1.4, 0.04, 0.06),
+                 GOLD, 1.25)
+        c18.shard(k, [pl, g], glows=[g])
+        c18.solid(hit("C18_h%d" % i, (60.25 + i * 1.5, Y4 - 0.09, 233.95), (1.7, 0.18, 2.0),
+                      kinematic=True))
+    box("C18_mark", (F18[0], Y4 + 0.006, F18[2]), (1.5, 0.012, 1.5), T_CONC, "y", rough=0.9,
+        color=[0.74, 0.74, 0.72], tile=(0.75, 0.75))
+    # 視線を北へ誘う灯り(これを見ていると橋が視野の端に入る)
+    exit_sign("G1_lure", 57.8, Y4 + 2.5, 242.6)
+    plight("C18_fill", (59.6, Y4 + 3.0, 231.0), WARM, 8.0, 10.0)
+
+    # ================================================== 継ぎ目 19: 触れる（東の橋）
+    # ★焦点は無い。窪みに立つ柱の頭(a)と、浮いている板の先端(b)が
+    #   【画面の上で重なった】ら成立する。奥行きには寛容で、向きに厳しい。
+    box("C19_col", (72.0, (PY + 11.6) / 2, 230.0), (0.62, 11.6 - PY, 0.62), T_CONC, "x",
+        rough=0.9, solid=True, color=[0.62, 0.62, 0.60])
+    cap = glow("C19_cap", (72.0, 11.60, 230.0), (0.30, 0.30, 0.30), [1.0, 0.90, 0.62], 2.2)
+    DISP19 = (-1.90, 2.47, -0.35)
+    tip = glow("C19_tip", (78.40, 7.75, 233.95), (0.26, 0.26, 0.26), [1.0, 0.90, 0.62], 2.2)
+    p19 = []
+    for i in range(2):
+        p19.append(box("C19_p%d" % i, (76.25 + i * 1.5, Y4 - 0.09, 233.95), (1.5, 0.18, 2.0),
+                       T_METAL, "y", rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47]))
+    c19 = Conn(19, (79.5, EY, 236.0), 1.3, 9.0, (76.0, Y4 + 1.2, 234.5), "touch")
+    c19.touch = dict(a=[72.0, 11.60, 230.0],
+                     b=[round(78.40 + DISP19[0], 3), round(7.75 + DISP19[1], 3),
+                        round(233.95 + DISP19[2], 3)],
+                     near=3.0, far=12.0)
+    c19.shard_free(p19 + [tip], DISP19, dk=0.62, glows=[tip])
+    for i in range(2):
+        c19.solid(hit("C19_h%d" % i, (76.25 + i * 1.5, Y4 - 0.09, 233.95), (1.7, 0.18, 2.0),
+                      kinematic=True))
+    box("C19_mark", (79.5, Y4 + 0.006, 236.0), (1.5, 0.012, 1.5), T_CONC, "y", rough=0.9,
+        color=[0.74, 0.74, 0.72], tile=(0.75, 0.75))
+    plight("C19_fill", (77.0, Y4 + 3.0, 235.6), WARM, 8.0, 11.0)
+
+    # ================================================== 継ぎ目 20: 二つ同時（南の橋）
+    # ★一つの立ち位置で、別々の方向にある 2 つを同時に満たす。
+    #   管が交差するので確定域が小さく、【一点に追い込む】手触りになる。
+    F20 = (63.5, EY, 223.6)
+    c20 = Conn(20, F20, 3.4, 17.0, (65.5, Y4 + 0.9, 228.8), "two-at-once")
+    for i, k in enumerate((0.40, 0.58)):
+        zc = 226.05 + i * 1.10                       # 回廊(225.5) と 島D(227.7) の間ぴったり
+        pl = box("C20_p%d" % i, (68.0, Y4 - 0.09, zc), (2.0, 0.18, 1.10),
+                 T_METAL, "y", rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47])
+        c20.shard(k, [pl])
+        c20.solid(hit("C20_h%d" % i, (68.0, Y4 - 0.09, zc), (2.0, 0.18, 1.36), kinematic=True))
+    # ★もう一方の拘束は【同じ画面に収まる位置】へ置くこと。視野の外にあると
+    #   合っているかどうかが見えず、ただの理不尽になる(橋の左 17 度・枠の右 17 度)
+    FX, FZ = 63.0, 231.0
+    fr = []
+    for nm, c_, s_ in (("l", (FX - 0.95, Y4 + 1.80, FZ), (0.14, 2.10, 0.14)),
+                       ("r", (FX + 0.95, Y4 + 1.80, FZ), (0.14, 2.10, 0.14)),
+                       ("t", (FX, Y4 + 2.78, FZ), (2.04, 0.14, 0.14)),
+                       ("b", (FX, Y4 + 0.82, FZ), (2.04, 0.14, 0.14))):
+        fr.append(box("C20_f" + nm, c_, s_, T_PAINT, "z", rough=0.45, color=FRAME_COL))
+    gw = glow("C20_fg", (FX, Y4 + 1.80, FZ + 0.09), (1.76, 1.82, 0.04), [1.0, 0.97, 0.90], 1.20)
+    c20.shard(0.34, fr + [gw], glows=[gw])
+    box("C20_mark", (F20[0], Y4 + 0.006, F20[2]), (1.5, 0.012, 1.5), T_CONC, "y", rough=0.9,
+        color=[0.74, 0.74, 0.72], tile=(0.75, 0.75))
+    plight("C20_fill", (68.0, Y4 + 3.0, 227.4), WARM, 8.0, 11.0)
+
+    # ================================================== 継ぎ目 21: 暗の一瞬（北の橋）
+    # ★明滅する照明が【暗い間だけ】成立する。明るいと絶対に決まらない。
+    #   位置を合わせてから、暗くなる瞬間を待つ。
+    F21 = (70.0, EY, 244.6)
+    c21 = Conn(21, F21, 3.2, 16.0, (65.5, Y4, 241.7), "dark-only", dark=True,
+               dark_lights=DARKN)
+    for i, k in enumerate((0.42, 0.60)):
+        zc = 242.25 - i * 1.10                       # 回廊(242.8) と 島B(240.6) の間ぴったり
+        pl = box("C21_p%d" % i, (65.5, Y4 - 0.09, zc), (2.0, 0.18, 1.10),
+                 T_METAL, "y", rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47])
+        g = glow("C21_g%d" % i, (65.5, Y4 + 0.01, zc), (1.9, 0.04, 0.06), GOLD, 1.25)
+        c21.shard(k, [pl, g], glows=[g])
+        c21.solid(hit("C21_h%d" % i, (65.5, Y4 - 0.09, zc), (2.0, 0.18, 1.36), kinematic=True))
+    box("C21_mark", (F21[0], Y4 + 0.006, F21[2]), (1.5, 0.012, 1.5), T_CONC, "y", rough=0.9,
+        color=[0.74, 0.74, 0.72], tile=(0.75, 0.75))
+
+    # ================================================== 継ぎ目 17: 巡る（出口の階段）
+    # ★破片ごとに【別の島】が焦点。4 つの島を回って 1 枚ずつ置いていく。
+    #   一箇所で全部は決まらない ＝ 今までのどれとも違う歩き方になる。
+    SZ4, RISE4, SW4 = 240.9, 0.30, 2.4
+    RUN4 = (GZ1 - SZ4) / 10.0        # 10 段でちょうど壁の内側(246.0)に着く = 0.51
+    c17 = Conn(17, (ISL["A"][0], EY, ISL["A"][1]), 1.3, 9.0, (68.0, Y4 + 1.4, 243.0),
+               "visit", per_shard=True)
+    c17.solve_order = 21.5         # ★4 つの島は 18〜21 が架かって初めて立てる
+    groups = [("A", 0, 3), ("D", 3, 6), ("C", 6, 8), ("B", 8, 10)]
+    for nm, a, b in groups:
+        ents = []
+        for i in range(a, b):
+            top = Y4 + RISE4 * (i + 1)
+            ents.append(box("C17_s%d" % i, (68.0, top - 0.11, SZ4 + RUN4 * i),
+                            (SW4, 0.22, RUN4), T_METAL, "y", rough=0.5, metal=0.5,
+                            color=[0.50, 0.50, 0.47]))
+            c17.solid(hit("C17_h%d" % i, (68.0, top - 0.11, SZ4 + RUN4 * i),
+                          (SW4, 0.22, RUN4 + 0.26), kinematic=True))
+        # ★島によって階段までの距離が 5〜14m と違うので、k を距離で釣り合わせる。
+        #   同じ k にすると、近い島だけ極端に敏感になって lock を共有できない
+        c17.shard({"A": 0.55, "D": 0.30, "C": 0.34, "B": 0.62}[nm], ents,
+                  focus=(ISL[nm][0], EY, ISL[nm][1]))
+    # 出口(組み上がった階段の先。北壁の中段)
+    XY4 = Y4 + RISE4 * 10
+    wall_hole("G1_n2", "z", GZ1 + WT / 2, GX0 - WT, GX1 + WT, Y4, Y4 + GH, 68.0, DW, XY4, DH,
+              T_CONC)
+    for e2 in list(ES):
+        if e2["name"] == "G1_n":                       # shell が建てた無地の北壁を捨てる
+            ES.remove(e2)
+    door_casing("G1_nc", "z", GZ1 - 0.02, 68.0, XY4, DW, DH)
+    exit_sign("G1_exit", 68.0, XY4 + DH + 0.34, GZ1 - 0.10)
+    plight("C17_fill", (68.0, XY4 + 1.8, 242.0), WARM, 9.0, 11.0)
+
+    # ---- 出口の先(白い部屋 = 終わり) ----
+    box("V4_flr", (68.0, XY4 - WT / 2, 249.05), (4.4, WT, 5.5), T_PAINT, "y", rough=0.9,
+        solid=True)
+    box("V4_cil", (68.0, XY4 + 3.2, 249.0), (4.4, WT, 5.6), T_PAINT, "y", rough=0.9)
+    for sgn in (-1, 1):
+        box("V4_w%d" % sgn, (68.0 + sgn * 2.2, XY4 + 1.6, 249.0), (WT, 3.2, 5.6), T_PAINT, "x",
+            rough=0.9, solid=True)
+    box("V4_n", (68.0, XY4 + 1.6, 251.8), (4.7, 3.2, WT), T_PAINT, "z", rough=0.9, solid=True)
+    for sgn in (-1, 1):
+        glow("V4_g%d" % sgn, (68.0 + sgn * 1.5, XY4 + 1.5, 251.62), (1.3, 2.9, 0.04),
+             [1.0, 0.98, 0.94], 1.05)
+    plight("V4_l1", (68.0, XY4 + 2.2, 249.4), [1.0, 0.98, 0.94], 10.0, 9.0)
+    return XY4
 
 
 # ================================================================ ステージ
@@ -1196,7 +1467,7 @@ def build():
     # ★焦点は廊下の中心から少し左へ外す。中心のままだと「真っ直ぐ歩いていたら
     #   勝手に確定した」になり、位置が効いていることが伝わらない。
     F1 = (-0.52, EYE, 6.30)
-    c1 = Conn(1, F1, 1.6, 12.0, (0.0, 1.20, ZW - 0.08), "door")
+    c1 = Conn(1, F1, 1.3, 9.0, (0.0, 1.20, ZW - 0.08), "door")
     ZF = ZW - JD / 2               # 枠は壁の手前に出す
     rp, rg = frame_half("C1_R", +1, 0.0, 0.0, ZF, DW, DH)
     c1.shard(1.0, rp, glows=rg)
@@ -1273,7 +1544,7 @@ def build():
     L2 = math.hypot(*dxz)
     YAW2 = math.degrees(math.atan2(dxz[0], dxz[1]))
     F2 = (-6.30, EYE, 18.30)
-    c2 = Conn(2, F2, 1.4, 11.0, ((A2[0] + B2[0]) / 2, 0.0, (A2[2] + B2[2]) / 2), "bridge")
+    c2 = Conn(2, F2, 0.7, 6.0, ((A2[0] + B2[0]) / 2, 0.0, (A2[2] + B2[2]) / 2), "bridge")
     NSEG, WID, THK = 4, 1.70, 0.24
     KS = (1.0, 0.72, 0.53, 0.40)
     for i in range(NSEG):
@@ -1333,11 +1604,12 @@ def build():
     for i, (yy, z0, z1) in enumerate(steps):
         box("C_st%d" % i, (0, yy - 0.12, (z0 + z1) / 2), (PW * 2, 0.24, z1 - z0), T_TILEF, "y",
             rough=0.28, solid=True)
-        box("C_stf%d" % i, (0, yy + 0.175, z0 - 0.01), (PW * 2, 0.35, 0.02), T_TILEW, "z", rough=0.3)
+        # ★0.01 だと段の前面と同一平面になる。0.03 引いて確実に内側へ入れる
+        box("C_stf%d" % i, (0, yy + 0.175, z0 - 0.03), (PW * 2, 0.35, 0.02), T_TILEW, "z", rough=0.3)
     box("C_pool", (0, -1.40 - WT / 2, (52.7 + 59.0) / 2), (PW * 2, WT, 59.0 - 52.7), T_TILEF, "y",
         rough=0.20, solid=True)
     for sgn in (-1, 1):
-        box("C_poolw%d" % sgn, (sgn * (PW + 0.06), -0.70, 54.5), (0.12, 1.40, 9.0), T_TILEW, "x",
+        box("C_poolw%d" % sgn, (sgn * (PW - 0.06), -0.70, 54.5), (0.12, 1.40, 9.0), T_TILEW, "x",
             rough=0.3, solid=True)
     box("C_pooln", (0, -0.70, 59.0 - 0.06), (PW * 2, 1.40, 0.12), T_TILEW, "z", rough=0.3, solid=True)
     box("C_drain", (0, -1.395, 57.4), (0.34, 0.03, 0.34), T_METAL, "y", rough=0.5, metal=0.6,
@@ -1360,7 +1632,7 @@ def build():
     RISE, RUN, SW = 0.28333, 0.80, 1.70
     SX, SZ0 = DX3, 50.0
     F3 = (-5.40, EYE, 53.60)
-    c3 = Conn(3, F3, 2.2, 13.0, (SX, 1.8, 55.0), "stair")
+    c3 = Conn(3, F3, 1.15, 8.0, (SX, 1.8, 55.0), "stair")
     groups = [(0, 3, 1.0), (3, 7, 0.62), (7, 10, 0.46), (10, 12, 0.355)]
     si = 0
     for (a, b, k) in groups:
@@ -1421,7 +1693,7 @@ def build():
 
     # ★廊下 A と同じ「中心から少し左」。最初の継ぎ目で覚えた事をそのまま使わせる
     F4 = (DX3 - 0.55, YD + EYE, 69.20)
-    c4 = Conn(4, F4, 2.0, 13.0, (DX3, YD + 1.2, ZE - 0.1), "exit")
+    c4 = Conn(4, F4, 1.3, 10.0, (DX3, YD + 1.2, ZE - 0.1), "exit")
     ZF4 = ZE - 0.08
     # 実在するのは標識だけ(消灯している = ここが出口だと薄く分かる)
     sgn_b = box("C4_signb", (DX3, YD + DH + 0.36, ZF4 - 0.02), (0.68, 0.32, 0.06), T_METAL, "z",
@@ -1451,6 +1723,7 @@ def build():
 
     Y3 = act2(YD, DW, DH)
     act3(Y3, DW, DH)
+    act4(Y3 + 1.80, DW, DH)
 
     # ============================================================ プレイヤー・UI
     p = ent("LM_Player", (0.0, BODY, -6.0))
