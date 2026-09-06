@@ -34,7 +34,13 @@ _GAME = ("goal", "pin", "band", "lane", "figure", "hand", "joint", "jframe",
          "membrane", "ball", "plate",
          # v12: 5 つの継電器で出口の扉に電気を通す
          "breaker", "lever", "busboard", "lamp", "blast", "socket",
-         "walkway", "shard", "turn", "stepblk", "cable")
+         "walkway", "shard", "turn", "stepblk", "cable",
+         # v13: 順序解放の錠 / 滝の間(運動残効) / 補色残像のフィナーレ
+         # ★blender_kit.py の _GAME と【必ず一致】させること(置き場所がずれると
+         #   シーンが参照するパスと実ファイルの場所が食い違ってモデルが丸ごと出ない)
+         "lockplate", "falls", "fallsrail",
+         "redpanel", "redmark_circle", "redmark_triangle", "redmark_cross",
+         "busplug", "bussocket_circle", "bussocket_triangle", "bussocket_cross")
 
 
 def dest_of(name):
@@ -412,6 +418,10 @@ class World:
         self.blinds = []       # v12: 見ていない時だけ在る段板
         self.mirrors = []      # v12: 膜の向こうで対に動く物
         self.turnts = []       # v12: 首を振ると回る枠
+        # ---- v13 ----
+        self.locks = []        # v13: 未解放の枠に被さる錠(needs が満ちると落ちて消える)
+        self.falls = []        # v13: 滝の間。凝視して溜めた運動残効の間だけ板が迫り上がる
+        self.finale = None     # v13: 補色残像のフィナーレ(赤面 -> 白面 -> 差込口)
         self.noleaf = set()    # v10: 扉板を立てない口(継ぎ手と別棟の入口)
 
     # ---- 口。off は部屋の【単位】座標(縮尺前)。世界では off*k ----
@@ -1303,6 +1313,158 @@ class World:
                                     x=x, y=y, z=z, k=t.get("k", -1.0),
                                     base=t.get("base", 0.0), r=t.get("r", 1.9)))
 
+    # ================================ v13: 錠 / 滝 / フィナーレ ================================
+    # ★v13 の軸は【見たものが、そうなる。だから「見ないこと」も道具になる】。
+    #   ここが作るのは 3 つ:
+    #     1. 錠(lockplate)  … 未解放の枠に被さる格子。継電器が入ると落ちて消える = 唯一の合図
+    #     2. 滝(falls)      … 凝視して溜めた運動残効の間だけ、谷に板が迫り上がる
+    #     3. フィナーレ     … 赤面を 20 秒見せ、消した白面に【網膜が】回路図を描く
+    def v13(self):
+        st = self.st
+        ents = self.ents
+        # ★入れ物は【使う時だけ】作る。空の目印を足すと guid の並びがずれて、
+        #   v13 と無関係な面のシーン JSON まで丸ごと差分になる
+        self._g13 = None
+
+        def G13():
+            if self._g13 is None:
+                self._g13 = group(ents, "[v13]")
+            return self._g13
+
+        def W2(rid, at, dy=0.0):
+            r = self.rooms[rid]
+            k = r["scale"]
+            return (r["at"][0] + at[0] * k, floor_y(r) + dy, r["at"][1] + at[1] * k)
+
+        # ---------------- 錠。順序解放の唯一の合図(文字は 1 文字も出さない) ----------------
+        # ★needs の付いた枠には錠が被さっている。継電器が入った瞬間に錠が床へ落ちて消える。
+        #   plateDone は 案内の光 / 膜の色 / 灯り が全部見ているので、表示系は自動で追従する。
+        for gq in self.gates:
+            need = gq.get("needs", "")
+            if not need:
+                continue
+            gid = gq["id"]
+            sz = gq["size"]
+            yaw = math.degrees(math.atan2(gq["nx"], gq["nz"]))
+            g = group(ents, "Lock %s" % gid, G13())
+            ents.append(model("Lock_%s" % gid, mdl("lockplate"),
+                              (gq["x"], gq["y0"] + 0.02, gq["z"]), yaw, g, (sz, sz, sz)))
+            # ★当たり判定は付けない。枠は繋がっていなければ素通りするだけの飾りなので、
+            #   錠に体を止められると「見えているのに通れない」ではなく「壁」になってしまう。
+            self.locks.append(dict(gate=gid, ent="Lock_%s" % gid, needs=need,
+                                   x=gq["x"], y=gq["y0"] + 0.02, z=gq["z"]))
+
+        # ---------------- 滝の間(運動残効 / Motion Aftereffect) ----------------
+        # ★下へ流れ続ける縞をじっと見ると、目を離した先が【逆向きに流れて見える】。
+        #   その残効が生きている間だけ、谷に架かる板が本当に迫り上がっている。
+        #   ★滝は【谷の手前側の壁】に付ける。渡る方向を向くと滝が背中側になるので、
+        #     「溜めて、振り向いて、走る」になる(滝を見ながら後ろ歩きでは渡れない)。
+        for fl in st.get("falls", ()):
+            fid, rid = fl["id"], fl["room"]
+            x, y, z = W2(rid, fl["at"])
+            f = fl.get("facing", "S")
+            n = (float(WALLS[f]["sign"]) if WALLS[f]["axis"] == "x" else 0.0,
+                 float(WALLS[f]["sign"]) if WALLS[f]["axis"] == "z" else 0.0)
+            yaw = math.degrees(math.atan2(n[0], n[1]))
+            w2, h2 = fl.get("w", 12.0), fl.get("h", 6.0)
+            g = group(ents, "Falls %s" % fid, G13())
+            # ★falls.gltf は 12 x 6 / 原点 床の中心 / +Z 向き。メッシュ全体が 1 マテリアル 1 UV 系で
+            #   V は高さ 1m につき 1 タイルなので、setMeshUvScroll はこれ 1 つに撃てばいい。
+            ents.append(model("Falls_%s" % fid, mdl("falls"), (x, y, z), yaw, g,
+                              (w2 / 12.0, h2 / 6.0, 1.0)))
+            ents.append(plight("FallsL_%s" % fid,
+                               (x - n[0] * 2.4, y + h2 * 0.55, z - n[1] * 2.4),
+                               (0.72, 0.86, 1.00), 5.6, 18.0, g))
+            # 手すり。★fallsrail.gltf の原点は【左端】。中央合わせで置くと 12m ずれる
+            rl = fl.get("rail")
+            if rl:
+                rx2, ry2, rz2 = W2(rid, rl[:2])
+                ln = rl[2] if len(rl) > 2 else 12.0
+                ents.append(model("FallsRail_%s" % fid, mdl("fallsrail"), (rx2, ry2, rz2),
+                                  yaw, g, (ln / 12.0, 1.0, 1.0)))
+            steps = []
+            for i2, sp2 in enumerate(fl.get("steps", ())):
+                px, py, pz = W2(rid, sp2)
+                y1 = py - 0.56              # 天板が床とちょうど同じ高さになる位置(段板と同じ)
+                y0 = y1 - fl.get("drop", 4.2)
+                nm = "FallsStep_%s_%d" % (fid, i2)
+                e = model(nm, mdl("stepblk"), (px, y0, pz), 0.0, g)
+                e["boxCollider"] = {"halfExtents": [1.30, 0.31, 1.30], "offset": [0.0, 0.31, 0.0]}
+                e["rigidBody"] = {"angularDamping": 0.01, "continuousCollision": False,
+                                  "friction": 0.85, "linearDamping": 0.02, "mass": 1.0,
+                                  "motionType": 1, "restitution": 0.0, "useGravity": False}
+                ents.append(e)
+                steps.append(dict(ent=nm, x=px, z=pz, y0=y0, y1=y1))
+            self.falls.append(dict(
+                id=fid, x=x, y=y + fl.get("y", 2.6), z=z, nx=n[0], nz=n[1],
+                cone=fl.get("cone", 26.0), rng=fl.get("rng", 14.0), rate=fl.get("rate", 1.0),
+                cap=fl.get("cap", 6.0), hold=fl.get("hold", 2.6), decay=fl.get("decay", 0.5),
+                # ★面の半幅。視線判定を【中心点】ではなく【面の最近点】で取るために要る。
+                #   12m の滝を中心点だけで見ると、滝の目の前に立っていても
+                #   「見ていない」判定になる(立てる場所が軸上の楞だけになる)。
+                hw=fl.get("w", 12.0) * 0.5,
+                face="Falls_%s" % fid, light="FallsL_%s" % fid, steps=steps,
+                # ★残効が生きている合図は文字でも UI でもない。壁が逆向きにドリフトする
+                walls=["%s_WallM_%s" % (rid, q) for q in ("N", "S", "E", "W")]))
+
+        # ---------------- フィナーレ(補色残像 / Negative Afterimage) ----------------
+        # ★ゲームは白い壁しか描かない。回路図はプレイヤーの網膜が描く。
+        #   ★残像が見えなくても【赤面が出ている間に印の位置を覚えていれば解ける】。
+        #     ここを守らないと理不尽になる。だから印と差込口は【同じ横位置に並べる】。
+        fin = st.get("finale")
+        if fin:
+            rid = fin["room"]
+            r = self.rooms[rid]
+            x, y, z = W2(rid, fin["at"])
+            yaw = fin.get("yaw", 180.0)
+            a = math.radians(yaw)
+            fx, fz = math.sin(a), math.cos(a)          # 面の正面
+            rx, rz = math.cos(a), -math.sin(a)         # 面の右
+            pw2, ph2 = fin.get("wall", (6.4, 3.6))
+            sx2, sy2 = pw2 / 6.4, ph2 / 3.6
+            g = group(ents, "Finale", G13())
+            # ★赤面と白面は【同じ redpanel を 2 体】。素の白テクスチャなので、色は
+            #   scene:setColor(乗算)で作る: 赤 = (0.86,0.05,0.05) / 白 = そのまま。
+            ents.append(model("Fin_Panel", mdl("redpanel"), (x, y, z), yaw, g, (sx2, sy2, 1.0)))
+            ents.append(model("Fin_White", mdl("redpanel"), (x, y + HIDE_Y, z), yaw, g,
+                              (sx2, sy2, 1.0)))
+            my = fin.get("my") or ph2 * 0.52
+            socks, marks = [], []
+            for i2, (mk, at2) in enumerate(zip(fin["marks"], fin["sockets"])):
+                sxw, syw, szw = W2(rid, at2)
+                # 印は【その差込口の真上】に置く。位置を覚えるだけで解けるようにするため
+                u = (sxw - x) * rx + (szw - z) * rz
+                nm = "Fin_M%d" % i2
+                # ★赤面(redpanel)の正面は +Z の 0.13。印はその手前 0.20 に置く
+                #   (0.10 だと板の中に埋まって見えない)
+                ents.append(model(nm, mdl("redmark_" + mk),
+                                  (x + rx * u + fx * 0.20, y + my, z + rz * u + fz * 0.20),
+                                  yaw, g))
+                marks.append(nm)
+                # 差込口。★印と同じ形のモデル(bussocket_<形>)を柱の上に付ける
+                ents.append(box("Fin_SockB%d" % i2, (sxw, syw + 0.50, szw),
+                                (0.52, 1.00, 0.52), C_DIV, parent=g, rough=0.6))
+                sn = "Fin_Sock%d" % i2
+                ents.append(model(sn, mdl("bussocket_" + mk), (sxw, syw + 1.05, szw), yaw, g))
+                # ★通電したらここへプラグが挿さる。busplug の原点は握りで +Z が挿す向きなので、
+                #   差込口の前(正面 0.55m)に置いて 180 度回す = 先端が口へ入る
+                socks.append(dict(ent=sn, x=sxw, z=szw, y=syw,
+                                  px=sxw + fx * 0.55, py=syw + 1.05, pz=szw + fz * 0.55,
+                                  pyaw=(yaw + 180.0) % 360.0))
+            for i2 in (-1, 1):
+                ents.append(plight("Fin_L%d" % (i2 > 0), (x + fx * 2.6 + rx * i2 * pw2 * 0.34,
+                                                          y + ph2 * 0.6, z + fz * 2.6 + rz * i2 * pw2 * 0.34),
+                                   (1.0, 0.22, 0.18), 0.0, 16.0, g))
+            # 通電したら答えの差込口に挿さるプラグ。ふだんは床下
+            ents.append(model("Fin_Plug", mdl("busplug"), (x, y + HIDE_Y, z), yaw, g))
+            self.finale = dict(room=rid, x=x, y=y, z=z, yaw=yaw,
+                               redsec=fin.get("redsec", 20.0), answer=fin.get("answer", 1),
+                               nlight=len(SHAPES[r["shape"]]["lights"]),
+                               lit=r.get("intensity", st.get("intensity", 9.0)),
+                               panel="Fin_Panel", white="Fin_White", plug="Fin_Plug",
+                               marks=marks, lights=["Fin_L0", "Fin_L1"], sockets=socks,
+                               near=fin.get("near", 2.0), arm=fin.get("arm", 13.0))
+
     def link(self, sp):
         """継ぎ手 from の奥を越えたら to の奥へ出す。times>0 なら最初の times 回だけ。
         ★同じ戸が、通った回数で行き先を変える = 「同じ廊下を三度歩かされる」が作れる。"""
@@ -1599,6 +1761,18 @@ class World:
             ents.append(box("%s_BarCol_%d" % (rid, i), (cx + lx, fy + BAR_H * 0.5 - 0.03, cz + lz), (sx - 0.03, BAR_H - 0.06, sz - 0.03), C_DIV, rough=0.6, parent=g, visible=False))
             self.fixtures.setdefault(rid, []).append((cx + lx, cz + lz, 0.6, BAR_H))
 
+        # ★v13: 部屋の色。壁・天井・床・幅木に乗算色を乗せる。
+        #   ★実測(2026-09-05): 灯りの強さだけを部屋ごとに変えても【全部が同じ白い部屋】に見える。
+        #     壁材(wall_col.png)の反射率が高いので、露出とトーンマップに潰されて差が出ない。
+        #     G を 2.2 / H を 1.35 / A を 3.4 にしても、撮り比べてほぼ同じ明るさだった。
+        #     色を乗せると一撃で別の部屋になる(灯りの調整より遥かに効く)。
+        tint = r.get("tint")
+        if tint:
+            TINTED = ("_WallM", "_CeilM", "_FloorM", "_Skirt", "_Sill", "_Lintel")
+            for e in ents:
+                if e.get("parentGuid") == g and any(t in e["name"] for t in TINTED):
+                    e["color"] = [float(tint[0]), float(tint[1]), float(tint[2])]
+
     def build(self):
         st = self.st
         ents = self.ents
@@ -1651,6 +1825,7 @@ class World:
                 self.tilt_slice(r, i0, len(self.ents))
         self.extras()
         self.v12()
+        self.v13()
         # ---- 黙って転送する面(warp)。同じ見た目の廊下の中に置くので見えない ----
         self.warps = []
         for wp in st.get("warps", ()):
@@ -2246,6 +2421,22 @@ def check_ames(st, W):
                                  % (st["name"], a["id"], lx, lz))
 
 
+def check_gateclear(st, W):
+    """★枠(gate)の真正面に什器を置かせない。
+
+    2026-09-05 に実機で踏んだ: 部屋 H のベンチが出口の枠 h2 の 1.12m 先に立っていて、
+    【部屋 B へ物理的に行けない】状態だった。check_props は什器同士と壁しか見ていないので
+    通り抜けていた。枠は【両側】からくぐるので前後両方を見る。
+    """
+    for g in W.gates:
+        for i, (x, z, rr, _top) in enumerate(_flat([W.fixtures.get(r, []) for r in W.rooms])):
+            d = math.hypot(x - g["x"], z - g["z"])
+            if d < rr + 1.6:
+                raise SystemExit("%s: 枠 %s (%.1f,%.1f) の前に什器がある"
+                                 "(中心距離 %.2f / 半径 %.2f)。くぐれないのでどけること"
+                                 % (st["name"], g["id"], g["x"], g["z"], d, rr))
+
+
 def check_props(st, W):
     """★什器どうしがめり込んでいないか / 壁を突き抜けていないか。
     v10 は部屋が広く物が多いので、目視では絶対に見つからない。"""
@@ -2414,9 +2605,13 @@ def cine_world(st, centers, eye=EYE_H):
 
 # ================================ ステージ定義 ================================
 def R(rid, shape, at, scale=1.0, layout=None, tilt=0.0, tiltAxis="z", tiltAt=(0.0, 0.0, 0.0),
-      intensity=None, lightcol=None, floorMat=None, tiltFloor=None):
+      intensity=None, lightcol=None, floorMat=None, tiltFloor=None, tint=None):
+    """tint = 壁/天井/床に乗せる乗算色。★部屋の見分けは灯りの強さではなく【色】で付く。
+    強さだけ変えても白い壁が露出に潰されて全部同じ部屋に見える(v13 で実測)。"""
     d = dict(id=rid, shape=shape, at=at, scale=scale, layout=layout or {},
              tilt=tilt, tiltAxis=tiltAxis, tiltAt=tiltAt)
+    if tint is not None:
+        d["tint"] = tint
     if intensity is not None:
         d["intensity"] = intensity
     if lightcol is not None:
@@ -2607,6 +2802,38 @@ def TURNT(tid, room, at, gate, k=-1.0, base=0.0, r=1.9):
     return dict(id=tid, room=room, at=at, gate=gate, k=k, base=base, r=r)
 
 
+# ================================ v13「観測が世界を確定させる」の語彙 ================================
+def FALLS(fid, room, at, facing="S", w=12.0, h=6.0,
+          cone=26.0, rng=14.0, rate=1.0, cap=6.0, hold=2.6, decay=0.5,
+          steps=(), drop=4.2, y=2.6, rail=None):
+    """★滝の間。運動残効(Motion Aftereffect)。
+    at     … 滝の面の足元(部屋の単位座標)。facing = 滝が【向いている】方位
+    cone   … 滝の中心が視界の何度以内なら「見ている」か(H の 34 度より狭い = ちゃんと見る)
+    rng    … 見ていると認める距離。rate/cap = 溜まる速さ / 上限(秒)
+    hold   … 満タンでの残効の長さ。実際は hold * sqrt(charge/cap) 秒(平方根則)
+    decay  … 見るのをやめた時に溜めが抜ける速さ
+    steps  … 残効が生きている間だけ迫り上がる板 [(x, z), ...](部屋の単位座標)
+    rail   … 手すり (x, z, 長さ)。★原点は【左端】なので中央合わせにしないこと"""
+    return dict(id=fid, room=room, at=at, facing=facing, w=w, h=h, cone=cone, rng=rng,
+                rate=rate, cap=cap, hold=hold, decay=decay, steps=list(steps),
+                drop=drop, y=y, rail=rail)
+
+
+def FINALE(room, at, yaw=180.0, wall=(6.4, 3.6),
+           marks=("circle", "triangle", "cross"), answer=1,
+           redsec=20.0, sockets=(), my=None, near=2.0, arm=13.0):
+    """★補色残像のフィナーレ。5/5 で母屋が暗くなり、赤面が redsec 秒灯る。
+    消えた後の白面に【網膜が】緑の残像で印を描く。答えの形の差込口へ近づけば通電。
+    marks   … 印の形 3 つ("circle" / "triangle" / "cross")。redmark_<形>.gltf を使う
+    sockets … 差込口の位置 [(x, z), ...](部屋の単位座標)。marks と同じ順・同じ数。
+              ★印は【その差込口の真上】に置かれる = 位置を覚えるだけで解ける
+    answer  … 正解の番号(1 起点)。間違えても罰は無く、赤面がもう一度出る
+    arm     … 何 m 以内に来たら始まるか。★5/5 になった【その場】で始めると、
+              プレイヤーがまだ D に居るうちに 20 秒が終わって赤面を一度も見られない"""
+    return dict(room=room, at=at, yaw=yaw, wall=wall, marks=list(marks), answer=answer,
+                redsec=redsec, sockets=list(sockets), my=my, near=near, arm=arm)
+
+
 def FOVR(zone, axis="z", a=0.0, b=1.0, fov=(74.0, 74.0)):
     """歩く位置で画角を連続的に変える帯。★画角を絞ると【近づいても大きくならない】。
     奥の壁が遠ざかって見えるので、廊下がいつまでも終わらない。"""
@@ -2788,69 +3015,76 @@ STAGES = [
                ("H", (4.0, 1.7, 3.0), "H", (-2.0, 1.3, -2.0), 1.6)]),
 
     # ======================================================================================
-    # stagedemo3「配電盤 / THE BUS」 v12 — 出口の扉に電気を通す
+    # stagedemo3「観測が世界を確定させる」 v13 — 一本道の解放と、網膜に描く回路図
     # ======================================================================================
-    # ★指摘:「ほかの部屋ももっといろんなギミックを。最後の扉の電源を入れるため、
-    #         5 つのトリックステージを」。
+    # ★指摘(v12 への):
+    #     「最初は一個の扉しか入れなくて、一個一個ステージを解放していって最後通電させてゴール」
+    #     「部屋が傾く部屋なんだけど、なんもトリックじゃないし、意味が分からない」
+    #     「もっと目の錯覚、認知の歪みをついた、まだ見かけない脳ハックのマップを」
     #
-    #   受入ホール A の北の突き当りに【出口の扉】と【配電盤(灯り 5 つ)】がある。
-    #   扉の手前は 14m の谷。灯りが 5 つ点くまで谷は渡れない。
-    #   東西南の窓の向こうに 5 つの部屋が見えていて、部屋ごとに継電器が 1 台ある。
+    #   v13 の軸:【見たものが、そうなる。だから「見ないこと」も道具になる】。
+    #   仕掛けを 5 つの動詞に整理し、傾く床(= 入力 -> 物理。錯覚ですらない)を捨てて
+    #   運動残効(滝の錯覚)に置き換えた。★鋼球のめり込み問題は機構ごと消滅する。
     #
-    #   ★どの部屋も終わり方は同じ【継電器に触る】。動詞が 1 つしか無いので説明が要らない。
-    #     違うのは「そこへ辿り着く方法」だけ。5 つとも仕掛けが違う:
+    #   ┌ 順路は【環】。物理的な 3 x 2 の升目がそのまま道順になる ┐
+    #      D 継の間 ── A 受入ホール ── G 滝の間      1: A -> G (開幕に開いている唯一の扉)
+    #     (-37,-12)      (0,0)        (36,-12)       2: G -> H (k1)
+    #         │                           │          3: H -> B (k2)
+    #      M 膜の間 ── B 画角の間 ── H 見の間        4: B -> M (k3)
+    #     (-34,-42)     (0,-36)       (36,-37)       5: M -> D (k4)
+    #                                                6: D -> A (k5) -> フィナーレ -> 谷を渡る
     #
-    #   1. G 傾の間   … 歩くと床が傾く。鋼球 2 つを、対角の受け皿へ転がす。
-    #                   床は 1 枚なので【片方を動かすともう片方も動く】。
-    #                   仕切りがあり、2 つの玉は真ん中の同じ隙間を逆向きに通る。
-    #   2. D 継の間   … 奥の枠が【回転台】に載っていて、自分が首を振ると逆向きに回る。
-    #                   枠がこちらを向き、かつ手前の枠の中に見える角度は【正面ではない】。
-    #                   横を向いたまま横歩きでくぐる。
-    #   3. B 画角の間 … 天井から吊るされた 3 枚の欠片。或る一点から見た時だけ
-    #                   【1 本のトラス橋】に繋がる。繋がった瞬間、本物の橋が現れる。
-    #   4. H 見の間   … 暗い倉庫。谷に架かる段板は【見ていない間だけ】迫り上がる。
-    #                   視界の真ん中に入れると沈む。目の端に置いたまま渡る。
-    #   5. M 膜の間   … 膜の向こうにもう一つ部屋がある。こちらで押した物が
-    #                   向こうで【鏡の位置】へ動く。南北が逆。向こうの板に載せる。
+    #   1. G 滝の間   … 凝視して【溜める】。下へ流れる縞を見つめ、目を離した残効の間だけ
+    #                   谷に板が迫り上がる。残効の長さは適応時間の平方根(Anstis 1998)。
+    #                   ★滝は谷の手前の壁。渡る向きを向くと滝は背中 =「溜めて、振り向いて、走る」
+    #   2. H 見の間   … 凝視して【崩す】。視界の真ん中に入れた段板が沈む(G の完全な裏返し)
+    #   3. B 画角の間 … 凝視して【確定させる】。或る一点からだけ 3 枚の欠片が 1 本の桁になる
+    #   4. M 膜の間   … 観測面の【向こう】を動かす。押した物が鏡の位置へ動く
+    #   5. D 継の間   … 【見る向き】で世界が変わる。首を振ると奥の枠が逆向きに回る
+    #   終. A 母屋    … 【自分から目を焼く】。赤面 20 秒 -> 白面に緑の残像で回路図が浮かぶ
     #
-    #   ★部屋どうしは【窓ごしに枠を重ねる】(v11 の継ぎ手)で行き来する。色が対。
+    #   ★錠(lockplate)が順序解放の唯一の合図。継電器が入るとその場で次の錠が床へ落ちる。
+    #     文字は 1 文字も出さない。一度開いた錠は戻らない(環なのでどちら向きにも帰れる)。
     dict(name="stagedemo3", tag="Demo_3", title=3,
          intensity=5.2, exposure=0.82,
          rooms=[
-             # ---------------- A 受入ホール(母屋)。北の突き当りが出口 ----------------
+             # ---------------- A 受入ホール(母屋)。北の突き当りが出口 / 南の壁がフィナーレ ----
+             # ★ここだけが「普通」。基準になる部屋なので中性の光とコンクリのまま
              R("A", "atrium40", (0.0, 0.0), 1.0,
                dict(pits=[("z", 0.0, 14.0)],
                     props=[("rack", -17.0, -18.4, 0.0), ("rack", 17.0, -18.4, 0.0),
                            ("drum", -9.0, -17.8, 0.0), ("drum", -8.2, -18.3, 40.0),
-                           ("bench", -2.0, -18.6, 0.0), ("bench", 2.0, -18.6, 0.0),
+                           # ★ベンチは南壁の中央から退けた。差込口 3 つが並ぶ場所なので
+                           ("bench", -6.5, -18.6, 0.0), ("bench", 6.5, -18.6, 0.0),
                            ("locker", 18.4, -16.0, 270.0), ("crate", 10.5, -17.5, 20.0),
                            ("rack", -18.4, -10.0, 90.0), ("drum", 17.6, -9.0, 0.0),
                            ("crate", -16.0, -8.6, 35.0),
                            ("column", -16.0, 15.0, 0.0), ("column", 16.0, 15.0, 0.0),
                            ("rack", -15.0, 18.4, 180.0), ("rack", 15.0, 18.4, 180.0),
                            ("drum", 12.0, 9.0, 0.0), ("bench", -6.0, 8.6, 180.0)]),
-               floorMat="concrete", intensity=3.4),
-             # ---------------- 1. G 傾の間 ----------------
-             # ★仕切りは【床と一緒に傾く】低い畝。玉 2 つは真ん中の隙間を逆向きに通る
+               floorMat="concrete", intensity=3.4, tint=(0.82, 0.82, 0.80)),
+             # ---------------- 1. G 滝の間 ----------------
+             # ★傾く床・鋼球・受け皿・畝は【全部廃止】。谷(10m)を足して、
+             #   運動残効の間だけ迫り上がる板で渡らせる。暗くして縞のコントラストを立てる
              R("G", "tilt24", (36.0, -12.0), 1.0,
-               dict(props=[("ball", -9.0, 9.0, 0.0), ("ball", 9.0, -9.0, 0.0),
-                           ("locker", -10.6, 10.6, 90.0), ("bench", 10.6, -10.6, 90.0)]),
-               floorMat="concrete", intensity=4.6,
-               tiltFloor=TILTF(deg=6.5, over=6.0,
-                               walls=[(-5.0, 2.0, 7.0, 0.5, 0.75),
-                                      (5.0, -2.0, 7.0, 0.5, 0.75),
-                                      (3.0, 8.0, 0.5, 8.0, 0.75),
-                                      (-3.0, -8.0, 0.5, 8.0, 0.75)])),
-             # ---------------- 2. D 継の間 ----------------
+               # ★谷は 8m。跳べる距離は 3.7m なので渡れない。板が 7 枚とも上がっている
+               #   2.6 秒(満タンの残効)で走り切れる幅にしてある(4.4m/s で約 1.9 秒 + 落下 0.8 秒の猶予)
+               dict(pits=[("x", 0.0, 8.0)],
+                    props=[("locker", -10.6, 10.6, 90.0), ("bench", 10.6, 6.0, 90.0),
+                           ("crate", -9.0, -9.0, 15.0), ("rack", 11.0, 9.0, 270.0)]),
+               floorMat="wetstone", intensity=2.2, lightcol=(0.72, 0.84, 1.00),
+               tint=(0.30, 0.38, 0.46)),
+             # ---------------- 5. D 継の間 ----------------
              R("D", "hall26", (-37.0, -12.0), 1.0,
-               # ★溝。回転台の枠をくぐる以外に向こうへ行く道が無い
+               # ★溝。回転台の枠をくぐる以外に北へ行く道が無い
                dict(pits=[("z", -4.0, 8.0)],
                     props=[("rack", 11.4, 6.0, 270.0), ("rack", 11.4, 9.0, 270.0),
                            ("drum", -11.0, 6.0, 0.0), ("drum", -10.2, 6.6, 30.0),
                            ("crate", -11.4, 2.0, 15.0), ("bench", 6.0, 11.4, 180.0),
                            ("locker", -11.4, -11.0, 90.0), ("crate", 8.0, -11.0, 25.0),
                            ("pipes", 0.0, 6.0, 0.0)]),
-               floorMat="concrete", intensity=3.8),
+               floorMat="metal", intensity=2.8, lightcol=(0.86, 1.00, 0.90),
+               tint=(0.44, 0.52, 0.44)),
              # ---------------- 3. B 画角の間 ----------------
              R("B", "hall34", (0.0, -36.0), 1.0,
                # ★溝は【x 方向】。幻の桁も x 方向なので「見えた物」と「現れる橋」が同じ向き
@@ -2859,102 +3093,139 @@ STAGES = [
                            ("rack", 16.4, 9.0, 270.0), ("drum", 13.0, 10.4, 0.0),
                            ("crate", -12.0, 10.6, 25.0), ("bench", 12.0, 6.0, 180.0),
                            ("locker", -16.0, -9.0, 90.0), ("bench", -12.0, -10.6, 0.0)]),
-               floorMat="concrete", intensity=3.2),
-             # ---------------- 4. H 見の間(暗い倉庫) ----------------
-             R("H", "store30", (40.0, -37.0), 1.0,
+               floorMat="concrete", intensity=3.2, lightcol=(1.00, 0.95, 0.86),
+               tint=(0.86, 0.78, 0.64)),
+             # ---------------- 2. H 見の間(暗い倉庫) ----------------
+             R("H", "store30", (36.0, -37.0), 1.0,
                dict(pits=[("z", 0.0, 10.0)],
+                    # ★北の帯(z=5..9)の東側は空けておく。G から入る枠 h1 の
+                    #   真正面に棚を置くと check_runup が落ちる(実際に踏んだ)
                     props=[("rack", -12.0, 7.0, 0.0), ("rack", -8.0, 7.0, 0.0),
-                           ("rack", 8.0, 7.0, 0.0), ("rack", 12.0, 7.0, 0.0),
+                           ("rack", -6.0, -7.5, 0.0), ("rack", -9.0, -7.5, 0.0),
                            ("drum", -13.0, 5.0, 0.0), ("crate", 13.0, 5.6, 25.0),
-                           ("locker", 13.4, -7.0, 270.0), ("bench", -12.0, -7.0, 90.0)]),
-               floorMat="concrete", intensity=1.35, lightcol=(0.78, 0.85, 1.0)),
-             # ---------------- 5. M 膜の間 ----------------
-             R("M", "hall26", (-37.0, -42.0), 1.0,
+                           # ★ベンチは local(-12,-7) = world(24,-44)。これは出口の枠 h2(23,-43.5) の
+                           #   真正面 1.12m で、【B へ物理的に行けなくなる】(2026-09-05 実測)。
+                           #   枠の前は 2.2m 空けること(check_gateclear が見ている)。
+                           ("locker", 13.4, -7.0, 270.0), ("bench", -12.0, -1.5, 90.0)]),
+               floorMat="concrete", intensity=1.35, lightcol=(0.78, 0.85, 1.00),
+               tint=(0.26, 0.28, 0.36)),
+             # ---------------- 4. M 膜の間 ----------------
+             R("M", "hall26", (-34.0, -42.0), 1.0,
                dict(props=[("rack", -4.0, 4.0, 0.0), ("rack", 4.0, 4.0, 0.0),
                            ("locker", -11.4, 11.0, 90.0), ("bench", 11.0, 11.4, 180.0),
                            ("crate", 9.0, 7.0, 15.0)]),
-               floorMat="concrete", intensity=3.6),
+               floorMat="tile", intensity=3.6, lightcol=(1.00, 0.86, 0.92),
+               tint=(0.62, 0.44, 0.52)),
          ],
          # ---- 窓。隣の部屋は【見えるが入口が無い】。枠を重ねるしか行き方が無い ----
-         windows=[WIN("A", "E", -12.0),      # A -> G 傾の間
-                  WIN("A", "W", -10.0),      # A -> D 継の間
-                  WIN("A", "S", -8.0),       # A -> B 画角の間
-                  WIN("G", "S", 0.0),        # G -> H 見の間
-                  WIN("D", "S", -9.0)],      # D -> M 膜の間
-         gates=[GATE("m2", "A", (12.0, -12.0), "W"),      # 水色: 傾の間へ
-                GATE("g1", "G", (-8.0, 0.0), "W"),
-                GATE("m4", "A", (-12.0, -10.0), "E"),     # 緑: 継の間へ
-                GATE("d1", "D", (9.0, 2.0), "E"),
-                GATE("m5", "A", (-8.0, -12.0), "N"),      # 赤: 画角の間へ
-                GATE("b1", "B", (-8.0, 9.0), "N"),
-                GATE("g2", "G", (0.0, -8.0), "N"),        # 紫: 傾の間 -> 見の間
-                GATE("h1", "H", (-4.0, 7.0), "N"),
-                GATE("d2", "D", (-9.0, 2.0), "N"),        # 桃: 継の間 -> 膜の間
-                GATE("n2", "M", (-9.0, 9.0), "N"),
-                # ★継の間の中。奥の枠は回転台に載っている
-                GATE("t1", "D", (0.0, 8.0), "N"),
-                GATE("t2", "D", (0.0, -10.0), "N"),
-                # ★最後。谷を渡って出口へ。5 つ点くまで繋がらない
+         #      ★環にするため A->B の直行(A 南の窓)は外した。B へは H からしか入れない
+         windows=[WIN("A", "E", -12.0),      # A <-> G 滝の間      (世界 z=-12)
+                  WIN("A", "W", -10.0),      # A <-> D 継の間      (世界 z=-10)
+                  WIN("G", "S", 8.0),        # G <-> H 見の間      (世界 x=44)
+                  WIN("H", "W", -6.5),       # H <-> B 画角の間    (世界 z=-43.5)
+                  WIN("B", "W", -2.0),       # B <-> M 膜の間      (世界 z=-38)
+                  WIN("D", "S", -7.0)],      # M <-> D 継の間      (世界 x=-44)
+         # ---- 枠。★枠の正面は【プレイヤーが立つ側】を向く。進む向きは -n ----
+         gates=[GATE("m2", "A", (12.0, -12.0), "W"),     # 1. A -> G   (開幕から開いている)
+                # ★入口の枠は【滝の軸】から外すこと。local z=0 に置くと
+                #   滝(-11.7) → 枠(-8) → 谷(-5.4..5.4) が一直線に並び、溜めて振り向いて
+                #   東へ走った瞬間に枠をくぐって【A へ飛ばされる】(2026-09-05 実測)。
+                #   一度くぐった組は bound で恒久に繋がるので、交さずには渡れない。
+                GATE("g1", "G", (-8.0, 7.0), "W"),
+                GATE("g2", "G", (8.0, -8.0), "N"),       # 2. G -> H   (k1)
+                GATE("h1", "H", (8.0, 8.0), "N"),
+                GATE("h2", "H", (-13.0, -6.5), "E"),     # 3. H -> B   (k2)
+                GATE("b2", "B", (14.0, -7.5), "E"),
+                GATE("b3", "B", (-14.0, -2.0), "E"),     # 4. B -> M   (k3)
+                GATE("n3", "M", (11.0, 4.0), "E"),
+                GATE("n4", "M", (-10.0, 4.0), "S"),      # 5. M -> D   (k4)
+                GATE("d3", "D", (-7.0, -12.0), "S"),
+                GATE("d4", "D", (-4.0, 2.0), "W"),       # 6. D -> A   (k5)
+                GATE("m4", "A", (-12.0, -10.0), "W"),
+                # ★継の間の中。谷の向こうの枠が回転台に載っている(手前 t2 / 奥 t1)
+                GATE("t2", "D", (0.0, -10.0), "S"),
+                GATE("t1", "D", (0.0, 8.0), "S"),
+                # ★最後。谷を渡って出口へ。フィナーレを解くまで繋がらない
                 GATE("m3", "A", (8.0, -9.5), "S"),
                 GATE("n1", "A", (8.0, 12.0), "S")],
+         # ★needs に継電器 id を書くと、その継電器が入るまで枠は【錠が被さって死んだまま】。
+         #   色は「その扉が向かう部屋の色」。開幕に開いているのは A -> G の 1 枚だけ
          pairs=[PAIR("m2", "g1", col="cyan", mark=3.0),
-                PAIR("m4", "d1", col="green"),
-                PAIR("m5", "b1", col="red"),
-                PAIR("g2", "h1", col="violet"),
-                PAIR("d2", "n2", col="rose"),
-                PAIR("t1", "t2", col="teal"),
-                PAIR("m3", "n1", col="blue", needs="pw", mark=3.0)],
-         # ---- 回転台。★首を振ると枠が【逆向きに】回る。正面を向いたままでは繋がらない ----
-         turnts=[TURNT("r1", "D", (0.0, -10.0), gate="t2", k=-1.0, base=48.0, r=2.2)],
-         # ---- 受け皿(重量板)。傾の間の対角 ----
-         plates=[PLATE("p1", "G", (9.0, 9.0), r=1.30, model="socket"),
-                 PLATE("p2", "G", (-9.0, -9.0), r=1.30, model="socket"),
-                 # 膜の間。板は【向こう側】にあり、写しの什器が乗る
-                 PLATE("q1", "M", (-8.0, -8.0), r=1.45, ents=["Mir_w1_b0"]),
+                PAIR("g2", "h1", col="violet", needs="k1"),
+                PAIR("h2", "b2", col="red", needs="k2"),
+                PAIR("b3", "n3", col="rose", needs="k3"),
+                PAIR("n4", "d3", col="green", needs="k4"),
+                PAIR("d4", "m4", col="amber", needs="k5"),
+                PAIR("t2", "t1", col="teal"),
+                PAIR("m3", "n1", col="blue", needs="fin", mark=3.0)],
+         # ---- 回転台。★首を振ると【奥の】枠が逆向きに回る。正面を向いたままでは繋がらない ----
+         # ★base は【正面を向いたままでは繋がらない】値にする。v13 は谷を南->北へ渡るので
+         #   v12(北->南)から向きが反転した。base=48 のままだと真北を向いた瞬間に
+         #   繋がってしまい、首を振る意味が消える(実測で確認して 132 にした)。
+         #   132 - camYaw が -90..90 の時だけ枠がこちらを向く = 42 度以上 首を振る必要がある
+         turnts=[TURNT("r1", "D", (0.0, 8.0), gate="t1", k=-1.0, base=132.0, r=2.2)],
+         # ---- 重量板。膜の間の【向こう側】。写しの什器が乗る ----
+         plates=[PLATE("q1", "M", (-8.0, -8.0), r=1.45, ents=["Mir_w1_b0"]),
                  PLATE("q2", "M", (8.0, -8.0), r=1.45, ents=["Mir_w1_b1"])],
-         # ---- 5 台の継電器 ----
-         breakers=[BRK("k1", "G", (0.0, 11.0), yaw=180.0, needs=["p1", "p2"], col="cyan"),
-                   BRK("k2", "D", (-4.5, -11.6), yaw=0.0, col="green"),
-                   BRK("k3", "B", (13.0, 0.0), yaw=270.0, col="red"),
-                   BRK("k4", "H", (0.0, -7.6), yaw=180.0, col="violet"),
-                   BRK("k5", "M", (0.0, 11.0), yaw=180.0, needs=["q1", "q2"], col="rose")],
+         # ---- 5 台の継電器。★順路の順に k1..k5(k_n が n+1 番目の扉の錠を落とす) ----
+         breakers=[BRK("k1", "G", (9.0, 0.0), yaw=270.0, col="cyan"),
+                   BRK("k2", "H", (0.0, -7.6), yaw=0.0, col="violet"),
+                   BRK("k3", "B", (-13.0, 3.0), yaw=90.0, col="red"),
+                   BRK("k4", "M", (0.0, 11.0), yaw=180.0, needs=["q1", "q2"], col="rose"),
+                   BRK("k5", "D", (4.0, -11.6), yaw=0.0, col="green")],
          # ---- 配電盤と出口の扉(母屋の北の突き当り) ----
          power=POWER("A", (-11.5, 19.0), yaw=180.0, door=(0.0, 19.6, 180.0),
                      bs=1.7, ds=1.9),
-         # ---- 3 枚の欠片。或る一点から見た時だけ 1 本の桁に繋がる ----
-         aligns=[ALIGN("a1", "B", eye=(-11.0, 7.0), beam=(-9.0, 9.0, 4.0, 0.80, 0.0),
+         # ---- 滝の間。★谷の手前(西)の壁に滝。渡る向き(東)を向くと滝は背中側になる ----
+         falls=[FALLS("wf", "G", (-11.7, 0.0), facing="E", w=12.0, h=6.0,
+                      cone=26.0, rng=14.0, rate=1.0, cap=6.0, hold=2.6, decay=0.5,
+                      drop=4.2, y=2.6, rail=(-10.0, 6.0, 12.0),
+                      steps=[(x, 0.0) for x in (-5.4, -3.6, -1.8, 0.0, 1.8, 3.6, 5.4)])],
+         # ---- フィナーレ。★印は差込口の【真上】に並ぶ = 位置を覚えるだけで解ける ----
+         #   3 つのうち 1 つだけ形が違う。その【違う方】が答え(ここでは右の十字)
+         finale=FINALE("A", (0.0, -19.6), yaw=0.0, wall=(9.0, 4.2),
+                       marks=("triangle", "triangle", "cross"), answer=3, redsec=20.0,
+                       sockets=[(-3.0, -16.6), (0.0, -16.6), (3.0, -16.6)]),
+         # ---- 3 枚の欠片。★立ち位置は【東側】(H から入って西へ抜ける順路に合わせた) ----
+         aligns=[ALIGN("a1", "B", eye=(11.0, 7.0), beam=(-9.0, 9.0, 4.0, 0.80, 0.0),
                        cuts=[(-9.0, -3.0, 0.60), (-3.0, 3.0, 1.40), (3.0, 9.0, 0.85)],
                        bridge=(0.0, 0.02, 0.0, 90.0, 19.0), tol=3.0, hold=0.5)],
-         # ---- 見ていない時だけ在る段板(見の間) ----
+         # ---- 見ていない時だけ在る段板(見の間)。入口(東)寄りに寄せた ----
          blinds=[BLIND("s%d" % i, "H", at, drop=4.2, cone=34.0, rng=27.0)
-                 for i, at in enumerate([(-5.0, 4.0), (-3.6, 2.2), (-1.8, 0.8), (0.2, -0.4),
-                                         (2.2, -1.6), (3.6, -3.4), (3.2, -5.6)])],
+                 for i, at in enumerate([(-1.0, 4.0), (0.4, 2.2), (2.2, 0.8), (4.2, -0.4),
+                                         (6.2, -1.6), (7.6, -3.4), (7.2, -5.6)])],
          # ---- 膜の向こうで対に動く物(膜の間) ----
          mirrors=[MIRROR("w1", "M", axis="z", c=-2.0, wall=(26.0, 5.0),
                          rows=[("drum", -6.0, 6.0, 0.0), ("drum", 6.0, 6.0, 0.0)])],
          # ---- 画角。近づいても奥の壁が遠ざかる帯(画角の間) ----
          fovramps=[FOVR(zone=(-17.0, 17.0, -48.0, -24.0), axis="z", a=-10.0, b=10.0,
                         fov=(74.0, 54.0))],
-         # ---- 案内。★文字ではなく【光の玉】が次にやる事の上に浮く ----
-         guide=[(12.0, -12.0, "cross:m2"),
-                (36.0, -1.0, "brk:k1"),
-                (36.0, -20.0, "cross:g2"),
-                (40.0, -44.6, "brk:k4"),
-                (-12.0, -10.0, "cross:m4"),
-                (-37.0, -2.0, "cross:t1"),
-                (-41.5, -23.6, "brk:k2"),
-                (-46.0, -8.0, "cross:d2"),
-                (-37.0, -31.0, "brk:k5"),
-                (-8.0, -12.0, "cross:m5"),
-                (-11.0, -29.0, "align:a1"),
-                (13.0, -36.0, "brk:k3"),
-                (8.0, -11.0, "cross:m3"),
+         # ---- 案内。★文字ではなく【光の玉】が次にやる事の上に浮く。順路は環 ----
+         guide=[(12.0, -12.0, "cross:m2"),     # A -> G
+                (30.0, -12.0, "falls:wf"),     # 滝を見つめる(溜める)
+                (45.0, -12.0, "brk:k1"),       # 谷を渡って継電器
+                (44.0, -18.0, "cross:g2"),     # G -> H
+                (36.0, -44.6, "brk:k2"),       # 段板を横目に渡って継電器
+                (23.0, -43.5, "cross:h2"),     # H -> B
+                (11.0, -29.0, "align:a1"),     # 欠片が繋がる立ち位置
+                (-13.0, -33.0, "brk:k3"),      # 橋を渡って継電器
+                (-14.0, -38.0, "cross:b3"),    # B -> M
+                (-34.0, -31.0, "brk:k4"),      # 写しを板へ乗せて継電器
+                (-44.0, -38.0, "cross:n4"),    # M -> D
+                (-33.0, -23.6, "brk:k5"),      # 継電器
+                (-37.0, -22.0, "cross:t2"),    # 回転台で谷を越える
+                (-41.0, -10.0, "cross:d4"),    # D -> A
+                (0.0, -16.6, "fin"),           # フィナーレ(赤面を見て、差込口へ)
+                (8.0, -11.0, "cross:m3"),      # 谷を渡る
                 (0.0, 18.6, "")],
-         spawn=(0.0, -18.0, 0.0), goal=(0.0, 18.6), goalYaw=180.0,
+         # ★湧き位置はフィナーレの差込口の真正面に置かないこと。
+         #   (0,-18) だと Fin_SockB1(0,-16.6) が【開幕の画面の真ん中 1.4m】に立ち、
+         #   出口も錠も見えない。東へ 7m 寄せて、最初に開いている G 行きの扉側に立たせる。
+         spawn=(7.0, -18.0, 0.0), goal=(0.0, 18.6), goalYaw=180.0,
          start="A", goalRoom="A", minHops=1, teach=None,
          hintPath=[(12.0, -12.0)],
          cine=[("A", (14.0, 9.0, -18.5), "A", (-4.0, 3.4, 18.0), 3.2),
-               ("A", (0.0, 2.7, -18.6), "A", (0.0, 2.6, 12.0), 1.8)]),
+               ("A", (7.0, 2.7, -18.6), "A", (4.0, 2.6, 12.0), 1.8)]),
 
 
 ]
@@ -2972,6 +3243,7 @@ def main():
         check_ports(st, W)
         check_ames(st, W)
         check_props(st, W)
+        check_gateclear(st, W)
         check_runup(st, W)
         check_fakes(st, W)
         pts = check_solvable(st, W)
@@ -2987,9 +3259,11 @@ def main():
         manifest.update(W.manifest)
 
         path = os.path.join(OUT, st["name"] + ".json")
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        print("wrote", path)
+        # v14 owns stagedemo3; retain legacy stage metadata for older saved scenes.
+        if st["name"] != "stagedemo3":
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+            print("wrote", path)
 
         nxt = STAGES[i + 1]["name"] if i + 1 < len(STAGES) else None
         cine = cine_world(st, centers,
@@ -3169,6 +3443,41 @@ def main():
                      % (q["id"], q["ent"], q["gate"], q["x"], q["y"], q["z"], q["k"],
                         q["base"], q["r"]))
         L.append('        },')
+        # ---------------- v13: 錠 / 滝 / フィナーレ ----------------
+        L.append('        locks = {')
+        for q in W.locks:
+            L.append('            { gate = "%s", ent = "%s", needs = "%s", x = %.3f, y = %.3f, z = %.3f },'
+                     % (q["gate"], q["ent"], q["needs"], q["x"], q["y"], q["z"]))
+        L.append('        },')
+        L.append('        falls = {')
+        for q in W.falls:
+            L.append('            { id = "%s", x = %.3f, y = %.3f, z = %.3f, nx = %.3f, nz = %.3f, '
+                     'cone = %.1f, rng = %.1f, rate = %.2f, cap = %.2f, hold = %.2f, decay = %.2f, hw = %.2f, '
+                     'face = "%s", light = "%s",'
+                     % (q["id"], q["x"], q["y"], q["z"], q["nx"], q["nz"], q["cone"], q["rng"],
+                        q["rate"], q["cap"], q["hold"], q["decay"], q["hw"], q["face"], q["light"]))
+            L.append('              steps = { %s },'
+                     % ", ".join('{ ent = "%s", x = %.3f, z = %.3f, y0 = %.3f, y1 = %.3f }'
+                                 % (s["ent"], s["x"], s["z"], s["y0"], s["y1"]) for s in q["steps"]))
+            L.append('              walls = { %s } },' % ", ".join('"%s"' % n for n in q["walls"]))
+        L.append('        },')
+        if W.finale:
+            q = W.finale
+            L.append('        finale = { room = "%s", x = %.3f, y = %.3f, z = %.3f, redsec = %.1f, '
+                     'answer = %d, near = %.2f, arm = %.2f, nlight = %d, lit = %.2f,'
+                     % (q["room"], q["x"], q["y"], q["z"], q["redsec"], q["answer"], q["near"],
+                        q["arm"], q["nlight"], q["lit"]))
+            L.append('            panel = "%s", white = "%s", plug = "%s", marks = { %s }, lights = { %s },'
+                     % (q["panel"], q["white"], q["plug"],
+                        ", ".join('"%s"' % n for n in q["marks"]),
+                        ", ".join('"%s"' % n for n in q["lights"])))
+            L.append('            sockets = { %s } },'
+                     % ", ".join('{ ent = "%s", x = %.3f, y = %.3f, z = %.3f, '
+                                 'px = %.3f, py = %.3f, pz = %.3f, pyaw = %.1f }'
+                                 % (s["ent"], s["x"], s["y"], s["z"],
+                                    s["px"], s["py"], s["pz"], s["pyaw"]) for s in q["sockets"]))
+        else:
+            L.append('        finale = nil,')
         L.append('        dynprops = { %s },'
                  % ", ".join('{ ent = "%s", off = %.3f }' % (e[0], e[1]) for e in W.dynprops))
         L.append('        anchors = {')
@@ -3218,6 +3527,11 @@ def main():
     print("manifest: %d models, %d missing" % (len(manifest), len(missing)))
     if missing:
         print("  ★ BlenderMCP で blender_kit.py(JX_MANIFEST_ONLY=True)を実行して出すこと:", missing[:6], "...")
+    # ★名前付きモデル(game/ 以下)の実在も見る。★モデルが無いままシーンを開くと
+    #   そのエンティティは【丸ごと落ちる】ので、気づかずに「仕掛けが動かない」と誤診する。
+    gone = [n for n in _GAME if not os.path.exists(os.path.join(MODELS, dest_of(n), n + ".gltf"))]
+    if gone:
+        print("  ★ 名前付きモデルが足りない(Blender で出すこと):", gone)
 
     lpath = os.path.join(HERE, "..", "assets", "components", "Junction.lua")
     with open(lpath, encoding="utf-8") as f:
@@ -3234,3 +3548,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # ★stagedemo3 は現行版(リミナル / 見たものが、そうなる)の生成器へ委譲する。
+    #   ここを旧版(gen_stagedemo3_v14)に戻すと、起動ステージが黙って古い物に化ける。
+    from gen_liminal import main as generate_liminal
+    generate_liminal()
