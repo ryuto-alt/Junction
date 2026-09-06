@@ -26,8 +26,8 @@ CONNS = {
   {
     id=1.0,
     focus={-0.52,1.7,6.3},
-    lock=1.3,
-    warn=9.0,
+    lock=2.0,
+    warn=12.0,
     center={0.0,1.2,14.42},
     note="door",
     shards={
@@ -77,7 +77,7 @@ CONNS = {
         }
       },
       {
-        k=0.42,
+        k=0.6,
         ents={
           {
             n="C1_L_jamb",
@@ -170,8 +170,8 @@ CONNS = {
   {
     id=2.0,
     focus={-6.3,1.7,18.3},
-    lock=0.7,
-    warn=6.0,
+    lock=2.0,
+    warn=11.0,
     center={0.15,0.0,28.75},
     note="bridge",
     shards={
@@ -206,7 +206,7 @@ CONNS = {
         }
       },
       {
-        k=0.72,
+        k=0.8,
         ents={
           {
             n="C2_s1",
@@ -236,7 +236,7 @@ CONNS = {
         }
       },
       {
-        k=0.53,
+        k=0.64,
         ents={
           {
             n="C2_s2",
@@ -266,7 +266,7 @@ CONNS = {
         }
       },
       {
-        k=0.4,
+        k=0.52,
         ents={
           {
             n="C2_s3",

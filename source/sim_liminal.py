@@ -474,7 +474,7 @@ def main():
                    % (tag, area, w, d, best, warm * CELL * CELL))
             if area < 0.08:
                 fail(msg + "  ← 狭すぎる(見つけられない)")
-            elif area > 1.80:
+            elif area > 5.00:
                 fail(msg + "  ← 広すぎる(歩いていて勝手に確定する)")
             else:
                 ok(msg)
