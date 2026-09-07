@@ -910,7 +910,7 @@ CONNS = {
   {
     id=5.0,
     focus={6.6,5.1,92.0},
-    lock=5.2,
+    lock=4.6,
     warn=20.0,
     center={6.0,5.5,103.8},
     note="shutter",
@@ -1094,7 +1094,7 @@ CONNS = {
   {
     id=6.0,
     focus={7.4,5.1,118.6},
-    lock=2.0,
+    lock=1.3,
     warn=5.0,
     center={17.8,4.6,110.5},
     note="behind",
@@ -1238,7 +1238,7 @@ CONNS = {
   {
     id=7.0,
     focus={18.71,5.1,126.5},
-    lock=5.2,
+    lock=4.0,
     warn=10.0,
     center={26.0,3.4,132.0},
     note="bridge-east",
@@ -1324,7 +1324,7 @@ CONNS = {
   {
     id=8.0,
     focus={25.0,5.1,126.5},
-    lock=5.2,
+    lock=4.0,
     warn=10.0,
     center={18.0,3.4,132.0},
     note="bridge-west",
@@ -1410,7 +1410,7 @@ CONNS = {
   {
     id=9.0,
     focus={18.2,5.1,146.6},
-    lock=4.6,
+    lock=5.2,
     warn=14.0,
     center={22.0,4.6,151.0},
     note="drift",
@@ -1461,7 +1461,7 @@ CONNS = {
         }
       },
       {
-        k=0.6544,
+        k=0.52,
         ents={
           {
             n="C9_s2",
@@ -1522,7 +1522,7 @@ CONNS = {
         osc={0.62,0.34,0.0,5.0}
       },
       {
-        k=0.5392,
+        k=0.36,
         ents={
           {
             n="C9_s5",
@@ -3108,7 +3108,7 @@ CONNS = {
   {
     id=17.0,
     focus={64.3,9.3,233.95},
-    lock=4.0,
+    lock=2.9,
     warn=9.0,
     center={68.0,9.0,243.0},
     note="visit",
@@ -3443,7 +3443,7 @@ CONNS = {
   {
     id=23.0,
     focus={70.5,12.3,295.5},
-    lock=4.6,
+    lock=3.4,
     warn=13.0,
     center={77.2,10.9,294.8},
     note="floor-shadow",
