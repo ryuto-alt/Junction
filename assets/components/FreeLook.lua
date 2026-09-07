@@ -16,6 +16,10 @@ local TURNK = 110    -- 矢印キーで回す速さ(度/秒)。マウス解放�
 local PAD_LOOK = 145  -- 右スティック視点移動(度/秒)
 local PAD_DEAD = 0.18
 local SHIFT = KEY_SHIFT or 0x10
+local GRAVITY = 14.0
+local DEFAULT_JUMP_SPEED = 6.0
+local PLAYER_HALF_HEIGHT = 1.65
+local CEILING_MARGIN = 0.08
 
 local BOB_AMP  = 0.42
 local BOB_ROLL = 0.36
@@ -26,6 +30,19 @@ local BOB_BLEND = 8.0
 local function dead(v)
     if math.abs(v) < PAD_DEAD then return 0 end
     return v
+end
+
+local function jumpSpeedForHeadroom(e)
+    local p = e.transform.position
+    local defaultRise = DEFAULT_JUMP_SPEED * DEFAULT_JUMP_SPEED / (2 * GRAVITY)
+    local hit = physics:raycast(Vec3.new(p.x, p.y + 0.02, p.z), Vec3.new(0, 1, 0),
+                                PLAYER_HALF_HEIGHT + defaultRise + CEILING_MARGIN)
+    if not hit.hit then return DEFAULT_JUMP_SPEED end
+
+    -- 頭が当たる直前を最高点にして、天井へ押し付けられる状態を作らない。
+    local rise = math.min(defaultRise, hit.distance - PLAYER_HALF_HEIGHT - CEILING_MARGIN)
+    if rise <= 0.02 then return 0 end
+    return math.sqrt(2 * GRAVITY * rise)
 end
 
 function OnStart(self)
@@ -90,7 +107,10 @@ function OnUpdate(self, dt)
     saveNum("playerInteractDown", (keyDown("E") or padDown("X")) and 1 or 0)
     saveNum("playerCancelPressed", (keyPressed("Q") or padPressed("B")) and 1 or 0)
     if (keyPressed("SPACE") or padPressed("A")) and physics:isGrounded(e) then
-        physics:jump(e)
+        local jumpSpeed = jumpSpeedForHeadroom(e)
+        if jumpSpeed > 0 then
+            physics:jump(e, jumpSpeed)
+        end
     end
     if len > 0 then
         local sp = SPEED * (run and FAST or 1) * math.min(len, 1) / len
