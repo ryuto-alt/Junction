@@ -3442,41 +3442,6 @@
           1.0
         ]
       }
-    },
-    {
-      "guid": "06e87e5356e09632",
-      "name": "Box",
-      "primitive": "box",
-      "shader": "MeshShader/Repair.hlsl",
-      "shaderEffectValue": 0.7459999918937683,
-      "shaderParams": [
-        1.0,
-        1.0,
-        1.0,
-        0.503000020980835
-      ],
-      "shaderParamsB": [
-        0.03999999910593033,
-        10.873000144958496,
-        0.41999998688697815
-      ],
-      "transform": {
-        "position": [
-          -10.021318435668945,
-          0.5,
-          0.0
-        ],
-        "rotation": [
-          -0.0,
-          0.0,
-          0.0
-        ],
-        "scale": [
-          1.0,
-          1.0,
-          1.0
-        ]
-      }
     }
   ],
   "navmesh": {
