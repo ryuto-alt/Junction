@@ -21,3 +21,12 @@ __pycache__/
 assets/scenes/.autosave/
 assets/scenes/.diagnostics_snapshot.json
 source/*.blend1
+
+# Uno Engine (追記)
+build/
+out/
+*.user
+.vs/
+*.tmp
+assets/.thumbcache/
+.mcp.json
