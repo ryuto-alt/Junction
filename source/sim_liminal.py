@@ -40,6 +40,85 @@ def ok(msg):
     print("  [OK] " + msg)
 
 
+# ---------------------------------------------------------------- 箱の貫通(OBB)
+class Obb:
+    """yaw を持つ箱。既存の aabb() は回転を【広げて】見るので、斜めの板の貫通を
+    測るのには使えない(嘘の重なりが出る)。分離軸できちんと測る。"""
+    __slots__ = ("n", "cx", "cy", "cz", "hx", "hy", "hz", "c", "s", "aab", "thin", "rot")
+
+    def __init__(self, e):
+        p = e["transform"]["position"]
+        sc = e["transform"]["scale"]
+        yaw = math.radians(e["transform"]["rotation"][1])
+        self.n = e["name"]
+        self.cx, self.cy, self.cz = p
+        self.hx, self.hy, self.hz = abs(sc[0]) / 2, abs(sc[1]) / 2, abs(sc[2]) / 2
+        self.c, self.s = math.cos(yaw), math.sin(yaw)
+        ex = abs(self.hx * self.c) + abs(self.hz * self.s)
+        ez = abs(self.hx * self.s) + abs(self.hz * self.c)
+        self.aab = (self.cx - ex, self.cy - self.hy, self.cz - ez,
+                    self.cx + ex, self.cy + self.hy, self.cz + ez)
+        self.thin = min(abs(sc[0]), abs(sc[1]), abs(sc[2]))
+        self.rot = abs(e["transform"]["rotation"][1]) % 90 > 0.01
+
+
+def pen_xz(a, b):
+    """xz 平面での貫通量(m)。離れていれば 0。"""
+    dx, dz = b.cx - a.cx, b.cz - a.cz
+    best = 1e9
+    for ax, az in ((a.c, -a.s), (a.s, a.c), (b.c, -b.s), (b.s, b.c)):
+        ra = abs(a.hx * (ax * a.c - az * a.s)) + abs(a.hz * (ax * a.s + az * a.c))
+        rb = abs(b.hx * (ax * b.c - az * b.s)) + abs(b.hz * (ax * b.s + az * b.c))
+        o = ra + rb - abs(dx * ax + dz * az)
+        if o <= 0:
+            return 0.0
+        best = min(best, o)
+    return best
+
+
+def obb_pairs(ents, shard_of, minpen=0.05, coplanar=0.006, minarea=0.35):
+    """(貫通した組, 同一平面の組)。破片がらみ・斜めの箱がらみだけを見る
+    (構造壁の角どうしの 0.30m の重なりは建物の組み方そのものなので対象外)。"""
+    obs = [Obb(e) for e in ents
+           if "primitive" in e and e["transform"]["position"][1] > -50.0]
+    grid = {}
+    for i, o in enumerate(obs):
+        for gx in range(int(math.floor(o.aab[0] / 4.0)), int(math.floor(o.aab[3] / 4.0)) + 1):
+            for gz in range(int(math.floor(o.aab[2] / 4.0)), int(math.floor(o.aab[5] / 4.0)) + 1):
+                grid.setdefault((gx, gz), []).append(i)
+    deep, flat, seen = [], [], set()
+    for cell in grid.values():
+        for i in range(len(cell)):
+            for j in range(i + 1, len(cell)):
+                key = (cell[i], cell[j])
+                if key in seen:
+                    continue
+                seen.add(key)
+                a, b = obs[key[0]], obs[key[1]]
+                sa, sb = shard_of.get(a.n), shard_of.get(b.n)
+                if not (sa or sb or a.rot or b.rot):
+                    continue
+                if sa and sb and {c for c, _ in sa} & {c for c, _ in sb}:
+                    # 同じ継ぎ目の破片どうしは噛み合って良い(扉枠の隅・階段の蹴込み板)。
+                    # 浮遊中の破片どうしの重なりは [1] が別に見ている。
+                    continue
+                if a.thin < 0.06 or b.thin < 0.06:
+                    continue                  # 擦れ跡・光の線は貫通しても見えない
+                pxz = pen_xz(a, b)
+                if pxz <= 0.0:
+                    continue
+                oy = min(a.cy + a.hy, b.cy + b.hy) - max(a.cy - a.hy, b.cy - b.hy)
+                if oy > minpen and pxz > minpen:
+                    deep.append((min(oy, pxz), a.n, b.n))
+                elif pxz > minarea:
+                    for va, vb in ((a.cy + a.hy, b.cy + b.hy), (a.cy - a.hy, b.cy - b.hy)):
+                        if abs(va - vb) < coplanar:
+                            flat.append((a.n, b.n, va))
+                            break
+    deep.sort(key=lambda t: -t[0])
+    return deep, flat
+
+
 # ---------------------------------------------------------------- 幾何
 def aabb(e):
     p = e["transform"]["position"]
@@ -529,13 +608,18 @@ def main():
     if ok3:
         ok("第三幕の大階段 %d 段、蹴上げはすべて %.2f m 以下" % (len(st3), STEP_UP))
 
-    # 橋の高さ(床と面一か)
+    # 橋の高さ(床の上に載っているか)。★以前は「床と面一」を要求していたが、
+    # 面一にすると板が床スラブと穴の見切りへ潜り込み、天端が同じ高さで重なって
+    # ちらつく。いまは【床の上に載せる】= 0 以上、またげる高さ(0.32)以下。
+    bt = []
     for s in conns[1].solids:
         e = world.byname[s["n"]]
         top = s["p"][1] + e["transform"]["scale"][1] / 2
-        if abs(top) > 0.02:
-            fail("橋の天端が床と面一でない: %s (%.3f)" % (s["n"], top))
-    ok("橋の天端は床と面一")
+        bt.append(top)
+        if top < -0.02 or top > STEP_UP:
+            fail("橋の天端 %.3f m: 床へ潜っているか、またげない高さ: %s" % (top, s["n"]))
+    ok("橋は床の上に載っている(天端 %.2f m / またげる上限 %.2f)"
+       % (max(bt) if bt else 0.0, STEP_UP))
 
     # ---------------------------------------------------- 同一平面の面(z ファイティング)
     # ★この作品で一番効く罠。「同じ場所に壁を 2 枚建てない」を機械で見張る。
@@ -666,6 +750,43 @@ def main():
             dark += 1
     if dark == 0:
         ok("順路上の %d 点すべてに灯が届いている" % len(PTS))
+
+    # ------------------------------------------------ 箱の貫通(斜めの箱も見る)
+    # ★[1] は【当たり判定を持つ物】としか比べず、[6] は【軸に沿った箱】しか見ない。
+    #   その隙間で、第一幕の斜めの橋が床と穴の壁に 24cm めり込んだまま通っていた。
+    print(NL + "[8] 箱の貫通(OBB。斜めの箱も、組み上がった後も見る)")
+    shard_of, keep = {}, {}
+    for c in conns:
+        for si, sh in enumerate(c.shards):
+            for r in sh["ents"]:
+                shard_of.setdefault(r["n"], []).append((c.cid, si))
+    for label in ("浮遊中", "組み上がり後"):
+        if label == "組み上がり後":
+            for c in conns:
+                for sh in c.shards:
+                    for r in sh["ents"]:
+                        e = world.byname.get(r["n"])
+                        if e is None:
+                            continue
+                        keep.setdefault(r["n"], (list(e["transform"]["position"]),
+                                                 list(e["transform"]["scale"])))
+                        e["transform"]["position"] = list(r["p"])
+                        e["transform"]["scale"] = list(r["s"])
+        deep, flat = obb_pairs(ents, shard_of)
+        for pen, na, nb in deep[:30]:
+            fail("%s: %s が %s に %.2fm めり込んでいる" % (label, na, nb, pen))
+        if len(deep) > 30:
+            fail("%s: ほかにも %d 組" % (label, len(deep) - 30))
+        for na, nb, y in flat[:30]:
+            fail("%s: %s と %s の面が同じ高さ %.3f で重なっている(ちらつく)"
+                 % (label, na, nb, y))
+        if len(flat) > 30:
+            fail("%s: 同じ高さの面が ほかにも %d 組" % (label, len(flat) - 30))
+        if not deep and not flat:
+            ok("%s: 破片・斜めの箱がらみの貫通なし" % label)
+    for nm, (pp, ss) in keep.items():
+        world.byname[nm]["transform"]["position"] = pp
+        world.byname[nm]["transform"]["scale"] = ss
 
     print("\n" + ("=" * 68))
     print("RESULT: " + ("PASS" if OK else "FAIL"))

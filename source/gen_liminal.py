@@ -825,7 +825,7 @@ def act2(Y2, DW, DH):
     #   高さと大きさを揃えれば k は共通になり、焦点だけが (B-A) の方向にずれる。
     #   結果として【西に立つと東の橋、東に立つと西の橋】という交差が自然に出る。
     KM = 0.44
-    BR_Y = Y2 - 0.12
+    BR_Y = Y2 + 0.09          # ★床の【上に載せる】(面一だと 0.63m が床と見切りに潜る)
     A_X, B_X = 26.0, 18.0
     F7 = (18.71, EYEY, 126.5)                 # 西に立つ → 東(A_X)の橋
     F8 = (25.00, EYEY, 126.5)                 # 東に立つ → 西(B_X)の橋
@@ -833,7 +833,7 @@ def act2(Y2, DW, DH):
     for i in range(3):
         zc = 132.0 + (i - 1) * 1.78
         d = [F7[0] + KM * (A_X - F7[0]), F7[1] + KM * (BR_Y - F7[1]), F7[2] + KM * (zc - F7[2])]
-        segs.append(box("C7_s%d" % i, d, (1.8 * KM, 0.24 * KM, 1.7 * KM), T_PAINT, "y",
+        segs.append(box("C7_s%d" % i, d, (1.8 * KM, 0.18 * KM, 1.7 * KM), T_PAINT, "y",
                         rough=0.8, color=[0.52, 0.52, 0.48], tile=(0.85, 0.9)))
     edges = []
     for i, sgn in enumerate((-1, 1)):
@@ -848,7 +848,7 @@ def act2(Y2, DW, DH):
     c7.excl = [8]
     c8.excl = [7]
     for c, bx in ((c7, A_X), (c8, B_X)):
-        c.solid(hit("C%d_hit" % c.cid, (bx, BR_Y, 132.0), (1.9, 0.26, TR1 - TR0 + 1.4),
+        c.solid(hit("C%d_hit" % c.cid, (bx, BR_Y, 132.0), (1.9, 0.20, TR1 - TR0 + 1.4),
                     kinematic=True))
     for f, nm in ((F7, "C7"), (F8, "C8")):
         mark(nm + "_mark", (f[0], Y2 + 0.014, f[2]), T_TILEF, (0.80, 0.82, 0.80),
@@ -1118,13 +1118,17 @@ def act3(Y3, DW, DH):
     box("C12_anchor", (20.5, Y4 - 0.09, QDZ), (2.2, 0.18, CWD), T_METAL, "y", rough=0.5,
         metal=0.5, color=[0.50, 0.50, 0.47], solid=True)
     for i, k in enumerate((0.45, 0.58, 0.70, 0.82)):
-        xc = 22.7 + 2.2 * i
-        pl = box("C12_p%d" % i, (xc, Y4 - 0.09, QDZ), (2.2, 0.18, CWD), T_METAL, "y",
+        # ★一番奥の板は東壁の面(x=30.0)で止める。2.2m のままだと壁と踊り場へ 0.40m 潜り、
+        #   天端が同じ高さで重なってちらつく(組み上がった後にしか出ない不具合だった)
+        w12 = 2.2 if i < 3 else 1.7      # 1.7 = 東壁のケーシング(x=29.90)の手前まで
+        xc = 21.6 + 2.2 * i + w12 / 2
+        pl = box("C12_p%d" % i, (xc, Y4 - 0.09, QDZ), (w12, 0.18, CWD), T_METAL, "y",
                  rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47])
-        g = glow("C12_g%d" % i, (xc, Y4 + 0.01, QDZ - CWD / 2 + 0.05), (2.1, 0.04, 0.06),
+        g = glow("C12_g%d" % i, (xc, Y4 + 0.01, QDZ - CWD / 2 + 0.05), (w12 - 0.1, 0.04, 0.06),
                  GOLD, 1.25)
         c12.shard(k, [pl, g], glows=[g])
-        c12.solid(hit("C12_h%d" % i, (xc, Y4 - 0.09, QDZ), (2.5, 0.18, CWD), kinematic=True))
+        c12.solid(hit("C12_h%d" % i, (xc, Y4 - 0.09, QDZ), (w12 + 0.3, 0.18, CWD),
+                      kinematic=True))
     c12.mover(QPanel, (QX1 + WT / 2, Y4 - DH / 2 - 0.30, QDZ))
     plight("C12_fill", (23.0, Y4 + 2.4, QDZ - 2.6), WARM, 9.0, 13.0)
 
@@ -1152,7 +1156,8 @@ def act3(Y3, DW, DH):
     # ---- 継ぎ目 13: k>1。【遠くの巨大】が足元の板になる(継ぎ目 5 のちょうど逆) ----
     F13 = (32.0, Y4 + EYE, RDZ)
     c13 = Conn(13, F13, 3.2, 16.0, (36.5, Y4, RDZ), "giant")
-    for i, (xc, w3, k) in enumerate(((34.6, 2.2, 2.40), (36.8, 2.2, 1.90), (38.6, 1.4, 1.55))):
+    # ★手前の板は踊り場の面(x=33.7)から始める(2.2m だと 0.20m 潜って天端がちらつく)
+    for i, (xc, w3, k) in enumerate(((34.7, 2.0, 2.40), (36.8, 2.2, 1.90), (38.6, 1.4, 1.55))):
         pl = box("C13_p%d" % i, (xc, Y4 - 0.09, RDZ), (w3, 0.18, 2.0), T_METAL, "y",
                  rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47])
         g = glow("C13_g%d" % i, (xc, Y4 + 0.01, RDZ - 0.96), (w3 - 0.1, 0.04, 0.06), GOLD, 1.25)
@@ -1368,14 +1373,17 @@ def act4(Y4, DW, DH):
     #   正面に据えた瞬間に成立しなくなるので、「見ないまま合わせる」ことになる。
     F18 = (57.5, EY, 228.6)
     c18 = Conn(18, F18, 2.5, 14.0, (61.0, Y4, 233.95), "dont-look", peri=True)
+    # ★橋は窪みの見切り(x=PX0+0.05)から島の際(x=62.5)まで。手前の板だけ 1.45m にして
+    #   見切りへ潜らせない(0.05m でも窪みの底から見上げると板が壁を突き抜けて見える)
     for i, k in enumerate((0.44, 0.62)):
-        xc = PX0 - 1.5 + i * 1.5                                   # 58.0, 59.5 -> 実体は橋
-        pl = box("C18_p%d" % i, (60.25 + i * 1.5, Y4 - 0.09, 233.95), (1.5, 0.18, 2.0),
+        w18 = 1.45 if i == 0 else 1.5
+        xc18 = PX0 + 0.05 + (0.0 if i == 0 else 1.45) + w18 / 2
+        pl = box("C18_p%d" % i, (xc18, Y4 - 0.09, 233.95), (w18, 0.18, 2.0),
                  T_METAL, "y", rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47])
-        g = glow("C18_g%d" % i, (60.25 + i * 1.5, Y4 + 0.01, 232.99), (1.4, 0.04, 0.06),
+        g = glow("C18_g%d" % i, (xc18, Y4 + 0.01, 232.99), (w18 - 0.1, 0.04, 0.06),
                  GOLD, 1.25)
         c18.shard(k, [pl, g], glows=[g])
-        c18.solid(hit("C18_h%d" % i, (60.25 + i * 1.5, Y4 - 0.09, 233.95), (1.7, 0.18, 2.0),
+        c18.solid(hit("C18_h%d" % i, (xc18, Y4 - 0.09, 233.95), (w18 + 0.2, 0.18, 2.0),
                       kinematic=True))
     mark("C18_mark", (F18[0], Y4 + 0.006, F18[2]), T_CONC, (0.74, 0.74, 0.72), rough=0.9)
     # 視線を北へ誘う灯り(これを見ていると橋が視野の端に入る)
@@ -1391,8 +1399,10 @@ def act4(Y4, DW, DH):
     DISP19 = (-1.90, 2.47, -0.35)
     tip = glow("C19_tip", (78.40, 7.75, 233.95), (0.26, 0.26, 0.26), [1.0, 0.90, 0.62], 2.2)
     p19 = []
+    W19 = (1.5, 1.45)                       # ★奥の板は窪みの見切り(x=78.45)で止める
+    X19 = (76.25, 77.725)
     for i in range(2):
-        p19.append(box("C19_p%d" % i, (76.25 + i * 1.5, Y4 - 0.09, 233.95), (1.5, 0.18, 2.0),
+        p19.append(box("C19_p%d" % i, (X19[i], Y4 - 0.09, 233.95), (W19[i], 0.18, 2.0),
                        T_METAL, "y", rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47]))
     c19 = Conn(19, (79.5, EY, 236.0), 1.3, 9.0, (76.0, Y4 + 1.2, 234.5), "touch")
     c19.touch = dict(a=[72.0, 11.60, 230.0],
@@ -1401,7 +1411,7 @@ def act4(Y4, DW, DH):
                      near=3.0, far=12.0)
     c19.shard_free(p19 + [tip], DISP19, dk=0.62, glows=[tip])
     for i in range(2):
-        c19.solid(hit("C19_h%d" % i, (76.25 + i * 1.5, Y4 - 0.09, 233.95), (1.7, 0.18, 2.0),
+        c19.solid(hit("C19_h%d" % i, (X19[i], Y4 - 0.09, 233.95), (W19[i] + 0.2, 0.18, 2.0),
                       kinematic=True))
     mark("C19_mark", (79.5, Y4 + 0.006, 236.0), T_CONC, (0.74, 0.74, 0.72), rough=0.9)
     plight("C19_fill", (77.0, Y4 + 3.0, 235.6), WARM, 8.0, 11.0)
@@ -1611,7 +1621,11 @@ def build():
     YAW2 = math.degrees(math.atan2(dxz[0], dxz[1]))
     F2 = (-6.30, EYE, 18.30)
     c2 = Conn(2, F2, 2.0, 11.0, ((A2[0] + B2[0]) / 2, 0.0, (A2[2] + B2[2]) / 2), "bridge")
-    NSEG, WID, THK = 4, 1.70, 0.24
+    # ★橋は床に【潜り込ませない】。天端を床と面一にすると、斜めの板の隅が
+    #   床スラブと穴の見切りを 0.24m 貫通し、天端どうしが同じ高さで重なって【ちらつく】。
+    #   斜めの箱は既存の検査 3 種すべてが対象外だったので、ずっと素通りしていた。
+    #   床の【上に載せる】と貫通も同一平面も同時に消え、「板を渡した」絵になる。
+    NSEG, WID, THK = 4, 1.70, 0.18
     # ★最初の橋なので【教える側】。k を 1 へ寄せて勾配をなだらかにする。
     #   (1.0, 0.72, 0.53, 0.40) だと確定域が幅 26cm の帯にしかならず、
     #   1.6m 四方の床の目印の【11% しか当たらない】= 印の上に立っても繋がらない。
@@ -1622,18 +1636,18 @@ def build():
         czs = A2[2] + dxz[1] * (t0 + t1) / 2
         seg = L2 / NSEG
         parts = []
-        deck = box("C2_s%d" % i, (cxs, -THK / 2, czs), (WID, THK, seg - 0.02), T_PAINT, "y",
+        deck = box("C2_s%d" % i, (cxs, THK / 2, czs), (WID, THK, seg - 0.02), T_PAINT, "y",
                    rough=0.8, color=[0.52, 0.52, 0.48], rot=(0, YAW2, 0), tile=(seg / 2, WID / 2))
         parts.append(deck)
         # 縁の光(切断面)。両端に細く
         for sgn in (-1, 1):
             ox = math.cos(math.radians(YAW2)) * sgn * (WID / 2 - 0.03)
             oz = -math.sin(math.radians(YAW2)) * sgn * (WID / 2 - 0.03)
-            parts.append(glow("C2_s%de%d" % (i, sgn + 1), (cxs + ox, 0.020, czs + oz),
+            parts.append(glow("C2_s%de%d" % (i, sgn + 1), (cxs + ox, THK + 0.020, czs + oz),
                               (0.055, 0.04, seg - 0.06), GOLD, 1.25, rot=(0, YAW2, 0)))
         g = [p for p in parts if p["name"].endswith(("e0", "e2"))]
         c2.shard(KS[i], parts, glows=g)
-        h = hit("C2_h%d" % i, (cxs, -THK / 2, czs), (WID, THK, seg), rot=(0, YAW2, 0),
+        h = hit("C2_h%d" % i, (cxs, THK / 2, czs), (WID, THK, seg), rot=(0, YAW2, 0),
                 kinematic=True)
         # ★k=1 の断片は最初から本物 = 当たり判定も最初から要る(これが無いと
         #   組み上がった橋の【取り付きだけ】が空洞になって渡れない)
@@ -1731,7 +1745,9 @@ def build():
     ZLAND0 = SZ0 + RUN * 12
     box("C_land", (SX, SILL - 0.11, (ZLAND0 + ZC1) / 2), (SW + 0.4, 0.22, ZC1 - ZLAND0),
         T_PAINT, "y", rough=0.6, color=[0.70, 0.70, 0.66], solid=True)
-    box("C_landf", (SX, SILL - 0.60, ZLAND0 + 0.02), (SW + 0.4, 1.0, 0.16), T_TILEW, "z", rough=0.3)
+    # ★見切り板は最上段の【手前】へ(+0.02 だと最上段の後端に 0.06m 食い込む)
+    box("C_landf", (SX, SILL - 0.72, ZLAND0 - 0.08), (SW + 0.4, 1.0, 0.16), T_TILEW, "z",
+        rough=0.3)
     mark("C3_mark", (F3[0], 0.014, F3[2]), T_TILEF, (0.78, 0.80, 0.78), rough=0.30,
          thick=0.014)
 
