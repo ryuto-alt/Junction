@@ -36,8 +36,22 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import sim_liminal as S
 import gen_liminal as G
 
-BOUNDS = (-10.0, -12.0, 90.0, 256.0)
+BOUNDS = (-10.0, -12.0, 90.0, 312.0)
 MIN_MARK = 0.55 * 0.85           # 人が「その上に立った」と思える最小の擦れ跡(m2)
+# ★継ぎ目ごとの上書き。印を大きく取るほど lock が緩み、確定域が広がる ＝ 易しくなる。
+#   仕上げの数問は【小さくても本当の印】にして、狭い一点を探させる(理不尽にはしない:
+#   印の上ならどこに立っても繋がることは机上検査 [5] が毎回見張っている)。
+MIN_MARK_BY = {24: 0.30, 25: 0.18}
+# 細い管しか無い継ぎ目は、印の【幅】の下限も下げないと lock が上がるばかりになる
+MIN_WL_BY = {24: (0.18, 0.26), 25: (0.18, 0.26)}
+
+
+def min_mark_of(c):
+    return MIN_MARK_BY.get(c.cid, MIN_MARK)
+
+
+def min_wl_of(c):
+    return MIN_WL_BY.get(c.cid, (MIN_W, MIN_L))
 # ★弱めすぎない。0.7 より下げると『破片が浮いて見える』というこの作品の絵が死ぬ
 #   (継ぎ目5 の k=0.16 は soft 0.4 で 0.66 になり、極小に見えなくなる)。
 SOFTS = (1.0, 0.85, 0.72)
@@ -66,6 +80,10 @@ def eye_at(c, flat, F, x, z):
         if dm < c.touch.get("near", 1.5) or dm > c.touch.get("far", 13.0):
             return None
     elif math.dist(eye, tuple(F)) > S.FOCUS_LOCK:
+        return None
+    # ★遮蔽の継ぎ目は「隠れている所」しか確定域ではない。ここを見ないと
+    #   印が【隠れていない場所】に置かれて「印の上なのに繋がらない」になる
+    if c.occl and not S.occluded(c.occl, eye):
         return None
     return eye
 
@@ -134,13 +152,14 @@ def fit(c, flat, only, lock):
     area = len(good) * S.CELL * S.CELL
     yaw0 = axis_of(pts)
     best = None
+    mw, ml = min_wl_of(c)
     for yaw in (yaw0 - 8, yaw0 - 4, yaw0, yaw0 + 4, yaw0 + 8):
         L = MAX_L
-        while L >= MIN_L - 1e-6:
+        while L >= ml - 1e-6:
             w = min(MAX_W, L)
-            while w >= MIN_W - 1e-6:
+            while w >= mw - 1e-6:
                 if inside(good, F, yaw, w, L):
-                    ww, LL = max(w - PAD, MIN_W), max(L - PAD, MIN_L)
+                    ww, LL = max(w - PAD, mw), max(L - PAD, ml)
                     if verify(c, flat, only, F, lock, yaw, ww, LL):
                         if best is None or ww * LL > best[0]:
                             best = (ww * LL, ww, LL, yaw % 180.0)
@@ -224,7 +243,7 @@ def main():
                     continue                   # 破片が重なる弱め方は採らない
                 for lock in LOCKS_TRY:
                     got, area = fit(c, flat, only, lock)
-                    if got and got[0] >= MIN_MARK:
+                    if got and got[0] >= min_mark_of(c):
                         found = (soft, lock, area, got)
                         break
                 if found:
@@ -240,7 +259,7 @@ def main():
                         if clashes(c):
                             continue
                         got, area = fit(c, flat, only, lock)
-                        if got and got[0] >= 0.14:
+                        if got and got[0] >= min(0.14, min_mark_of(c)):
                             if best is None or got[0] > best[3][0]:
                                 best = (soft, lock, area, got)
                     if best:

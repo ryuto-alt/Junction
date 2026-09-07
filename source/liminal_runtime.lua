@@ -94,6 +94,33 @@ local function alignError(ex, ey, ez, F, k, pts, ox, oy, oz)
     return worst
 end
 
+-- 規則F「かくれて合わせる」: 指定した点が【何かの陰に隠れている】か。
+-- ★偽物が見えている限り決まらない継ぎ目に使う。目 -> 点 の線分が遮蔽箱を通れば「隠れた」。
+--   机上検査(sim_liminal.occluded)と必ず同じ式にしておくこと。
+local function hidden(occl, ex, ey, ez)
+    local p = occl.p
+    local o = {ex, ey, ez}
+    local d = {p[1] - ex, p[2] - ey, p[3] - ez}
+    for i = 1, #occl.boxes do
+        local b = occl.boxes[i]
+        local t0, t1, ok = 0.0, 1.0, true
+        for a = 1, 3 do
+            if math.abs(d[a]) < 1e-9 then
+                if o[a] < b[a] or o[a] > b[a + 3] then ok = false break end
+            else
+                local ta = (b[a] - o[a]) / d[a]
+                local tb = (b[a + 3] - o[a]) / d[a]
+                if ta > tb then ta, tb = tb, ta end
+                if ta > t0 then t0 = ta end
+                if tb < t1 then t1 = tb end
+                if t0 > t1 then ok = false break end
+            end
+        end
+        if ok then return true end
+    end
+    return false
+end
+
 -- 2 点が【画面上で重なって見えるか】の角度差(度)。「触れる」規則で使う。
 -- ★これは焦点を使わない。見えている 2 つの物を一直線に並べるだけなので、
 --   隠された焦点を探す規則よりずっと読みやすい ＝ 別の考え方の puzzle になる。
@@ -187,6 +214,7 @@ function OnStart(self)
                     anti = d.anti or false, minY = d.minY, maxY = d.maxY,
                     -- 新しい規則
                     perShard = d.perShard or false,   -- 破片を 1 つずつ、別の場所から
+                    occl     = d.occl,                -- 【かくれて合わせる】陰に隠す
                     peri     = d.peri or false,       -- 【直視しない】周辺視でだけ合う
                     dark     = d.dark or false,       -- 暗くなった一瞬だけ合わせられる
                     touch    = d.touch,               -- 2 点が画面上で重なったら成立
@@ -653,6 +681,8 @@ function OnUpdate(self, dt)
             -- ★目の高さの窓。「何段目に立つか」を問う継ぎ目はここで足切りする
             if c.minY and ey < c.minY then gate = false end
             if c.maxY and ey > c.maxY then gate = false end
+            -- ★規則F: 偽物が柱の陰に入っていない間は、いくら合っていても決まらない
+            if c.occl and not hidden(c.occl, ex, ey, ez) then gate = false end
 
             if c.touch then
                 -- ---- 規則B「触れる」: 2 つの物が画面の上で重なったら成立 ----
