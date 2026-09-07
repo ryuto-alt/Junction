@@ -388,20 +388,23 @@ def door_casing(tag, axis, at, dx, y, dw, dh, depth=0.16):
         box(tag + "_ct", (at, y + dh + fw / 2, dx), (depth, fw, dw + fw * 2), T_PAINT, "x", rough=0.5)
 
 
-def locker(name, x, y, z, n=3, axis="z"):
-    """ロッカー。無人の建物に『人が居た痕跡』を 1 つだけ置く。"""
+def locker(name, x, y, z, n=3, axis="z", flip=False):
+    """ロッカー。無人の建物に『人が居た痕跡』を 1 つだけ置く。
+    ★作った箱を返す(継ぎ目 16 では 1 台まるごとが 1 つの破片になる)。"""
     w, h, d = 0.42 * n, 1.86, 0.48
-    box(name, (x, y + h / 2, z), (w, h, d) if axis == "z" else (d, h, w), T_METAL,
-        "z" if axis == "z" else "x", rough=0.42, metal=0.55, color=[0.52, 0.55, 0.52])
+    out = [box(name, (x, y + h / 2, z), (w, h, d) if axis == "z" else (d, h, w), T_METAL,
+               "z" if axis == "z" else "x", rough=0.42, metal=0.55, color=[0.52, 0.55, 0.52])]
     for i in range(n):
         o = -w / 2 + 0.42 * (i + 0.5)
-        c = (x + o, y + h * 0.55, z + (d / 2 + 0.012 if axis == "z" else 0))
+        sg = -1.0 if flip else 1.0          # ★扉の向き。壁際に背を付けるときは flip=True
+        c = (x + o, y + h * 0.55, z + (sg * (d / 2 + 0.012) if axis == "z" else 0))
         s = (0.36, h * 0.80, 0.02)
         if axis == "x":
-            c = (x + d / 2 + 0.012, y + h * 0.55, z + o)
+            c = (x + sg * (d / 2 + 0.012), y + h * 0.55, z + o)
             s = (0.02, h * 0.80, 0.36)
-        box(name + "_d%d" % i, c, s, T_METAL, "z" if axis == "z" else "x",
-            rough=0.4, metal=0.5, color=[0.44, 0.47, 0.44])
+        out.append(box(name + "_d%d" % i, c, s, T_METAL, "z" if axis == "z" else "x",
+                       rough=0.4, metal=0.5, color=[0.44, 0.47, 0.44]))
+    return out
 
 
 def bench(name, x, y, z, axis="z", L=1.7):
@@ -1341,23 +1344,27 @@ def act3(Y3, DW, DH):
     sgn16 = sign_plate("C16_sign", 68.0, Y4 + DH + 0.36, ZF16 - 0.02, color=(0.34, 0.38, 0.35))
     plight("C16_sign_l", (68.0, Y4 + DH + 0.06, ZF16 - 0.35), GREEN, 0.0, 1.8)
     c16.shard(1.0, [sgn_b, sgn16])
-    lp16, lg16 = frame_half("C16_L", -1, 68.0, Y4, ZF16, DW, DH)
-    c16.shard(0.55, lp16, glows=lg16)
-    rp16, rg16 = frame_half("C16_R", +1, 68.0, Y4, ZF16, DW, DH)
-    c16.shard(0.38, rp16, glows=rg16)
-    leaf16 = box("C16_Leaf", (68.0, Y4 + DH / 2, ZF16 - 0.12), (DW - 0.04, DH - 0.04, 0.06),
-                 T_DOOR, "z", rough=0.55, tile=(DW / 2, DH / 2))
-    knob16 = box("C16_Knob", (68.0 + DW / 2 - 0.16, Y4 + 1.02, ZF16 - 0.19), (0.07, 0.07, 0.07),
-                 T_METAL, "z", rough=0.35, metal=0.8, color=[0.75, 0.72, 0.62])
-    kick16 = glow("C16_Lfink", (68.0, Y4 + 0.03, ZF16 - 0.12), (DW - 0.06, 0.03, 0.03), GOLD, 1.25)
-    c16.shard(0.71, [leaf16, knob16, kick16], glows=[kick16])
+    # ★ここは扉をやめて【ロッカーの列】にする。扉は継ぎ目 1 / 4 / 6 で 3 回出ていて、
+    #   自己採点の反復度が 2 だった。3 台が噛み合って壁の前に並び、【中央の 1 台が
+    #   横へ滑って】開口が現れる。丁番の弧より、滑る方が「建物が動いた」感じが出る。
+    ZL16 = ZF16 - 0.30
+    lk16 = []
+    for i2, (lx, k) in enumerate(((65.0, 0.38), (68.0, 0.55), (71.0, 0.71))):
+        parts = locker("C16_lk%d" % i2, lx, Y4, ZL16, n=3, axis="z", flip=True)
+        g = glow("C16_lg%d" % i2, (lx - 0.63 - 0.03, Y4 + 0.93, ZL16), (0.05, 1.80, 0.05),
+                 GOLD, 1.25)
+        parts.append(g)
+        c16.shard(k, parts, glows=[g])
+        # ★中央の 1 台は滑った先に当たり判定を置く。その場に置くと、解いた後も
+        #   開口をロッカーが塞いだままになって【解いても通れない】(机上検査で捕まえた)
+        c16.solid(hit("C16_lh%d" % i2, (lx + (1.50 if i2 == 1 else 0.0), Y4 + 0.93, ZL16),
+                      (1.26, 1.86, 0.48), kinematic=True))
+        lk16.append(parts)
+    # 中央の 1 台が東へ滑る(端の 1 台とはぶつからない位置まで)
+    for e2 in lk16[1]:
+        c16.mover_by(e2, (1.50, 0.0, 0.0), dur=1.5)
     c16.mover(xpanel, (68.0, Y4 - DH / 2 - 0.30, XZ1 + WT / 2))
     c16.lamp("C16_sign", 1.0, dur=0.7, delay=0.15)
-    # ★丁番。shard() の後に呼んでも【実体の位置】から回る(Conn.real_pos が引き直す)。
-    #   焼き込んだ座標をそのまま使っていたのが「扉が飛んでから回る」不具合の原因だった。
-    HINGE16 = (68.0 - DW / 2, Y4 + DH / 2, ZF16 - 0.12)
-    for e2 in (leaf16, knob16, kick16):
-        c16.hinge(e2, HINGE16, -82.0)
     plight("C16_fill", (68.0, Y4 + 2.4, 210.4), WARM, 8.0, 10.0)
 
 

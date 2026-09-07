@@ -41020,13 +41020,13 @@
    }
   },
   {
-   "name": "C16_L_jamb",
-   "guid": "eadad26f6ecc1e0d",
+   "name": "C16_lk0",
+   "guid": "3f4a50205f0c39b6",
    "transform": {
     "position": [
-     67.395,
-     9.0525,
-     211.076
+     66.519,
+     9.0074,
+     209.8876
     ],
     "rotation": [
      0,
@@ -41034,523 +41034,15 @@
      0
     ],
     "scale": [
-     0.11,
-     1.265,
-     0.121
+     0.4788,
+     0.7068,
+     0.1824
     ]
    },
    "primitive": "box",
    "material": {
-    "metallic": 0.0,
-    "roughness": 0.45
-   },
-   "materialTextureOverrides": [
-    {
-     "albedo": "models/tex/lm_paint_col.png"
-    }
-   ],
-   "uvTiling": {
-    "u": 0.1,
-    "v": 1.15
-   },
-   "color": [
-    0.44,
-    0.46,
-    0.42
-   ]
-  },
-  {
-   "name": "C16_L_head",
-   "guid": "01b14016a41e6f75",
-   "transform": {
-    "position": [
-     67.5738,
-     9.63,
-     211.076
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.3575,
-     0.11,
-     0.121
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0.0,
-    "roughness": 0.45
-   },
-   "materialTextureOverrides": [
-    {
-     "albedo": "models/tex/lm_paint_col.png"
-    }
-   ],
-   "uvTiling": {
-    "u": 0.325,
-    "v": 0.1
-   },
-   "color": [
-    0.44,
-    0.46,
-    0.42
-   ]
-  },
-  {
-   "name": "C16_L_sill",
-   "guid": "059829c193bcf86d",
-   "transform": {
-    "position": [
-     67.5738,
-     8.3925,
-     211.076
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.3575,
-     0.055,
-     0.121
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0.0,
-    "roughness": 0.45
-   },
-   "materialTextureOverrides": [
-    {
-     "albedo": "models/tex/lm_paint_col.png"
-    }
-   ],
-   "uvTiling": {
-    "u": 0.325,
-    "v": 0.05
-   },
-   "color": [
-    0.44,
-    0.46,
-    0.42
-   ]
-  },
-  {
-   "name": "C16_L_g1",
-   "guid": "f3a1c0f47415e027",
-   "transform": {
-    "position": [
-     67.4417,
-     8.9975,
-     211.1431
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.0165,
-     1.155,
-     0.0165
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.25
-   ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C16_L_g2",
-   "guid": "270eeb5fde7dab40",
-   "transform": {
-    "position": [
-     67.6012,
-     9.5667,
-     211.1431
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.3025,
-     0.0165,
-     0.0165
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.25
-   ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C16_L_g3",
-   "guid": "0421719806115875",
-   "transform": {
-    "position": [
-     67.6012,
-     8.4282,
-     211.1431
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.3025,
-     0.0165,
-     0.0165
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.25
-   ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C16_R_jamb",
-   "guid": "fc0ca9f811030e9b",
-   "transform": {
-    "position": [
-     67.906,
-     9.129,
-     210.0016
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.076,
-     0.874,
-     0.0836
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0.0,
-    "roughness": 0.45
-   },
-   "materialTextureOverrides": [
-    {
-     "albedo": "models/tex/lm_paint_col.png"
-    }
-   ],
-   "uvTiling": {
-    "u": 0.1,
-    "v": 1.15
-   },
-   "color": [
-    0.44,
-    0.46,
-    0.42
-   ]
-  },
-  {
-   "name": "C16_R_head",
-   "guid": "0cf53f729c899eac",
-   "transform": {
-    "position": [
-     67.7825,
-     9.528,
-     210.0016
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.247,
-     0.076,
-     0.0836
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0.0,
-    "roughness": 0.45
-   },
-   "materialTextureOverrides": [
-    {
-     "albedo": "models/tex/lm_paint_col.png"
-    }
-   ],
-   "uvTiling": {
-    "u": 0.325,
-    "v": 0.1
-   },
-   "color": [
-    0.44,
-    0.46,
-    0.42
-   ]
-  },
-  {
-   "name": "C16_R_sill",
-   "guid": "910ca43e120918ba",
-   "transform": {
-    "position": [
-     67.7825,
-     8.673,
-     210.0016
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.247,
-     0.038,
-     0.0836
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0.0,
-    "roughness": 0.45
-   },
-   "materialTextureOverrides": [
-    {
-     "albedo": "models/tex/lm_paint_col.png"
-    }
-   ],
-   "uvTiling": {
-    "u": 0.325,
-    "v": 0.05
-   },
-   "color": [
-    0.44,
-    0.46,
-    0.42
-   ]
-  },
-  {
-   "name": "C16_R_g1",
-   "guid": "2be0d66762c221e6",
-   "transform": {
-    "position": [
-     67.8737,
-     9.091,
-     210.048
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.0114,
-     0.798,
-     0.0114
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.25
-   ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C16_R_g2",
-   "guid": "f48944827b9bb8ca",
-   "transform": {
-    "position": [
-     67.7635,
-     9.4843,
-     210.048
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.209,
-     0.0114,
-     0.0114
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.25
-   ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C16_R_g3",
-   "guid": "bc905abe730f83b3",
-   "transform": {
-    "position": [
-     67.7635,
-     8.6977,
-     210.048
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.209,
-     0.0114,
-     0.0114
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.25
-   ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C16_Leaf",
-   "guid": "55cc3bcd143c4a59",
-   "transform": {
-    "position": [
-     67.8405,
-     8.874,
-     212.002
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.7526,
-     1.5336,
-     0.0426
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0.0,
-    "roughness": 0.55
-   },
-   "materialTextureOverrides": [
-    {
-     "albedo": "models/tex/lm_door_col.png"
-    }
-   ],
-   "uvTiling": {
-    "u": 0.55,
-    "v": 1.1
-   },
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C16_Knob",
-   "guid": "9446bcf29b5a8c13",
-   "transform": {
-    "position": [
-     68.1174,
-     8.8172,
-     211.9523
-    ],
-    "rotation": [
-     0,
-     0,
-     0
-    ],
-    "scale": [
-     0.0497,
-     0.0497,
-     0.0497
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0.8,
-    "roughness": 0.35
+    "metallic": 0.55,
+    "roughness": 0.42
    },
    "materialTextureOverrides": [
     {
@@ -41558,23 +41050,23 @@
     }
    ],
    "uvTiling": {
-    "u": 0.035,
-    "v": 0.035
+    "u": 0.63,
+    "v": 0.93
    },
    "color": [
-    0.75,
-    0.72,
-    0.62
+    0.52,
+    0.55,
+    0.52
    ]
   },
   {
-   "name": "C16_Lfink",
-   "guid": "e8bcdb24f16f04ee",
+   "name": "C16_lk0_d0",
+   "guid": "8316c1079ee133ef",
    "transform": {
     "position": [
-     67.8405,
-     8.1143,
-     212.002
+     66.3594,
+     9.0427,
+     209.7918
     ],
     "rotation": [
      0,
@@ -41582,9 +41074,129 @@
      0
     ],
     "scale": [
-     0.7384,
-     0.0213,
-     0.0213
+     0.1368,
+     0.5654,
+     0.0076
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.18,
+    "v": 0.744
+   },
+   "color": [
+    0.44,
+    0.47,
+    0.44
+   ]
+  },
+  {
+   "name": "C16_lk0_d1",
+   "guid": "5c08aeff04626946",
+   "transform": {
+    "position": [
+     66.519,
+     9.0427,
+     209.7918
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.1368,
+     0.5654,
+     0.0076
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.18,
+    "v": 0.744
+   },
+   "color": [
+    0.44,
+    0.47,
+    0.44
+   ]
+  },
+  {
+   "name": "C16_lk0_d2",
+   "guid": "ca5394706de5053e",
+   "transform": {
+    "position": [
+     66.6786,
+     9.0427,
+     209.7918
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.1368,
+     0.5654,
+     0.0076
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.18,
+    "v": 0.744
+   },
+   "color": [
+    0.44,
+    0.47,
+    0.44
+   ]
+  },
+  {
+   "name": "C16_lg0",
+   "guid": "f73889337959c3ee",
+   "transform": {
+    "position": [
+     66.2682,
+     9.0074,
+     209.8876
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.019,
+     0.684,
+     0.019
     ]
    },
    "primitive": "box",
@@ -41604,6 +41216,528 @@
     1,
     1
    ]
+  },
+  {
+   "name": "C16_lh0",
+   "guid": "c482cb97820deae7",
+   "transform": {
+    "position": [
+     65.0,
+     -71.47,
+     213.62
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.26,
+     1.86,
+     0.48
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C16_lk1",
+   "guid": "28fb6649acf3db9e",
+   "transform": {
+    "position": [
+     67.7525,
+     8.8765,
+     210.911
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.693,
+     1.023,
+     0.264
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.42
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.63,
+    "v": 0.93
+   },
+   "color": [
+    0.52,
+    0.55,
+    0.52
+   ]
+  },
+  {
+   "name": "C16_lk1_d0",
+   "guid": "372f8e4e5420785b",
+   "transform": {
+    "position": [
+     67.5215,
+     8.9276,
+     210.7724
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.198,
+     0.8184,
+     0.011
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.18,
+    "v": 0.744
+   },
+   "color": [
+    0.44,
+    0.47,
+    0.44
+   ]
+  },
+  {
+   "name": "C16_lk1_d1",
+   "guid": "272d18e54af4ab5f",
+   "transform": {
+    "position": [
+     67.7525,
+     8.9276,
+     210.7724
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.198,
+     0.8184,
+     0.011
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.18,
+    "v": 0.744
+   },
+   "color": [
+    0.44,
+    0.47,
+    0.44
+   ]
+  },
+  {
+   "name": "C16_lk1_d2",
+   "guid": "b62280800af87d70",
+   "transform": {
+    "position": [
+     67.9835,
+     8.9276,
+     210.7724
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.198,
+     0.8184,
+     0.011
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.18,
+    "v": 0.744
+   },
+   "color": [
+    0.44,
+    0.47,
+    0.44
+   ]
+  },
+  {
+   "name": "C16_lg1",
+   "guid": "6affe59bea74b518",
+   "transform": {
+    "position": [
+     67.3895,
+     8.8765,
+     210.911
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.0275,
+     0.99,
+     0.0275
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_lh1",
+   "guid": "d589fd0ee9d912dd",
+   "transform": {
+    "position": [
+     69.5,
+     -71.47,
+     213.62
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.26,
+     1.86,
+     0.48
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
+   "name": "C16_lk2",
+   "guid": "2998ae4372951797",
+   "transform": {
+    "position": [
+     69.9705,
+     8.7533,
+     211.8742
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.8946,
+     1.3206,
+     0.3408
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.55,
+    "roughness": 0.42
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.63,
+    "v": 0.93
+   },
+   "color": [
+    0.52,
+    0.55,
+    0.52
+   ]
+  },
+  {
+   "name": "C16_lk2_d0",
+   "guid": "1c4c571bc074b176",
+   "transform": {
+    "position": [
+     69.6723,
+     8.8193,
+     211.6953
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.2556,
+     1.0565,
+     0.0142
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.18,
+    "v": 0.744
+   },
+   "color": [
+    0.44,
+    0.47,
+    0.44
+   ]
+  },
+  {
+   "name": "C16_lk2_d1",
+   "guid": "18e93cf7b3d9aee4",
+   "transform": {
+    "position": [
+     69.9705,
+     8.8193,
+     211.6953
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.2556,
+     1.0565,
+     0.0142
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.18,
+    "v": 0.744
+   },
+   "color": [
+    0.44,
+    0.47,
+    0.44
+   ]
+  },
+  {
+   "name": "C16_lk2_d2",
+   "guid": "d38811ccd242d1c1",
+   "transform": {
+    "position": [
+     70.2687,
+     8.8193,
+     211.6953
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.2556,
+     1.0565,
+     0.0142
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.5,
+    "roughness": 0.4
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_metal_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 0.18,
+    "v": 0.744
+   },
+   "color": [
+    0.44,
+    0.47,
+    0.44
+   ]
+  },
+  {
+   "name": "C16_lg2",
+   "guid": "73af5bb1d7d08485",
+   "transform": {
+    "position": [
+     69.5019,
+     8.7533,
+     211.8742
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     0.0355,
+     1.278,
+     0.0355
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.25
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_lh2",
+   "guid": "36c0db653f2c4e62",
+   "transform": {
+    "position": [
+     71.0,
+     -71.47,
+     213.62
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1.26,
+     1.86,
+     0.48
+    ]
+   },
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 1,
+    "mass": 1,
+    "friction": 0.8,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "C16_fill",
