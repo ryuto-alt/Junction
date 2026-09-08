@@ -17,22 +17,23 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import gen_liminal as G
+import math
 import sim_liminal as S
 
 # 出来上がる物の見た目(手で分類する。名前からは読めない)
 RESULT = {
     1: "戸口", 2: "橋", 3: "階段", 4: "扉",
     5: "シャッター", 6: "扉", 7: "橋", 8: "橋", 9: "階段", 10: "戸口",
-    11: "細い梁", 12: "ダクト", 13: "鉄骨梁", 14: "壁(負)", 15: "廊下", 16: "ロッカー",
-    17: "階段", 18: "橋", 19: "橋", 20: "踏み石", 21: "橋",
+    11: "巻き段", 12: "柱", 13: "折り返し段", 14: "庇", 16: "床",
+    17: "階段", 18: "柱", 19: "橋", 20: "踏み石", 21: "庇",
     22: "床", 23: "段", 24: "片持ち段", 25: "壁が割れる",
 }
 FEEL = {
     1: "印に立って見る", 2: "印に立って見る", 3: "印に立って見る", 4: "印に立って見る",
     5: "極小を極大に重ねる", 6: "振り返る", 7: "二択を選ぶ", 8: "二択を選ぶ",
-    9: "揺れが止まるのを待つ", 10: "印に立って見る", 11: "本物を見分ける",
-    12: "何段目かを選ぶ", 13: "巨大を手元に重ねる", 14: "見ないで歩く",
-    15: "模型を本物に重ねる", 16: "3 台を噛み合わせる", 17: "4 か所を巡る",
+    9: "揺れが止まるのを待つ", 10: "2 つの灯りを画面で重ねる", 11: "本物を見分ける",
+    12: "ドラムの縁を巡り柱を 1 本ずつ", 13: "偽の段板を柱の陰に隠す", 14: "目の端で庇を合わせる",
+    16: "暗くなる 1 秒を待つ", 17: "4 か所を巡る",
     18: "目を逸らしたまま合わせる", 19: "2 点を一直線に並べる", 20: "2 方向を同時に満たす",
     21: "暗くなる 1 秒を待つ", 22: "偽物を柱の陰に隠す", 23: "床の影に重ねる",
     24: "3 つの印から本物を選ぶ", 25: "4 方向同時 + 暗の一瞬",
@@ -44,6 +45,12 @@ def rule_of(c):
         return "B 触れる"
     if c.per_shard:
         return "C 巡る"
+    if getattr(c, "sweep", False):
+        return "G なぞる"
+    if getattr(c, "trail", None):
+        return "H 踏んでなぞる"
+    if getattr(c, "relay", None):
+        return "I 送り"
     if c.occl:
         return "F かくれる"
     if c.peri:
@@ -70,10 +77,21 @@ def main():
 
     rows = []
     for c in sorted(conns, key=lambda x: x.cid):
+        if getattr(c, "trail", None):
+            # ★規則H に確定域は無い(焦点で解かない)。歯応えは【道のり】で決まるので、
+            #   跡をつないだ全長を代わりに出す。ここを面積として扱うと 38m2 などと
+            #   出て「歯応えが無い」の一覧を汚す(実際に汚した)。
+            L = sum(math.dist(c.trail[i - 1], c.trail[i]) for i in range(1, len(c.trail)))
+            rows.append(dict(id=c.cid, rule=rule_of(c), res=RESULT.get(c.cid, "?"),
+                             feel=FEEL.get(c.cid, "?"), area=None,
+                             trail=(len(c.trail), L),
+                             needs=list(c.needs), anti=c.anti,
+                             minmax=(c.min_y is not None)))
+            continue
         good, _warm, _best, _bp = S.field(c, flat, flat, only=0 if c.per_shard else None)
         area = len(good) * S.CELL * S.CELL
         rows.append(dict(id=c.cid, rule=rule_of(c), res=RESULT.get(c.cid, "?"),
-                         feel=FEEL.get(c.cid, "?"), area=area,
+                         feel=FEEL.get(c.cid, "?"), area=area, trail=None,
                          needs=list(c.needs), anti=c.anti,
                          minmax=(c.min_y is not None)))
 
@@ -92,9 +110,9 @@ def main():
         if rep >= 2:
             mark = "<<"
             dull.append(r)
-        if r["area"] < 0.15:
+        if r["area"] is not None and r["area"] < 0.15:
             unfair.append(r)
-        if r["area"] > 4.0:
+        if r["area"] is not None and r["area"] > 4.0:
             loose.append(r)
         extra = ""
         if r["needs"]:
@@ -103,8 +121,9 @@ def main():
             extra += " 負"
         if r["minmax"]:
             extra += " 高さ窓"
-        print("%2d  %-10s  %-10s  %5.2fm2  %d %s %s%s"
-              % (r["id"], r["rule"], r["res"], r["area"], rep, mark, r["feel"], extra))
+        col = ("跡%d/%.0fm" % r["trail"]) if r["trail"] else ("%5.2fm2" % r["area"])
+        print("%2d  %-10s  %-10s  %8s  %d %s %s%s"
+              % (r["id"], r["rule"], r["res"], col, rep, mark, r["feel"], extra))
 
     print("-" * 96)
     n_rule = {}

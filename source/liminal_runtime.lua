@@ -34,6 +34,9 @@ local SENS    = 0.082
 local CONE    = 26.0          -- 「見ている」と認める視野角(度)
 local PERI_IN = 24.0          -- 【直視しない】規則: これより内側だと成立しない
 local PERI_OUT= 62.0          -- 【直視しない】規則: これより外だと視界の外
+local SWEEP_CONE = 4.0        -- 【なぞる】規則: 照準がこの角度内を通った節だけ溶接される
+local TRAIL_R    = 0.95       -- 【踏んでなぞる】規則: 擦れ跡を踏んだと認める半径(m)
+local RELAY_BACK = 1.60       -- 【送り】規則: 間に合わなかった時、機械が休みへ戻る時間(秒)
 local DWELL   = 0.36          -- 合った状態を保つ時間(★歩き抜けで暴発しない長さ)
 local STILL   = 1.10          -- この速さ以下でないと確定しない(通りすがりで決まらない)
 -- ★★「くっついたのがすぐ分かる」対策 = 変化の見落とし(change blindness)の実装。
@@ -214,6 +217,11 @@ function OnStart(self)
                     anti = d.anti or false, minY = d.minY, maxY = d.maxY,
                     -- 新しい規則
                     perShard = d.perShard or false,   -- 破片を 1 つずつ、別の場所から
+                    sweep    = d.sweep or false,      -- 【なぞる】端から端へ視線を流して溶接する
+                    -- 【踏んでなぞる】床の擦れ跡を順に踏む。照準を一切使わない
+                    trail    = d.trail, trailR = d.trailR or TRAIL_R, step = 0,
+                    -- 【送り】東で合わせると機械が動き出す。動いている間だけ西が決まる
+                    relay    = d.relay, armed = false, relayT = 0.0,
                     occl     = d.occl,                -- 【かくれて合わせる】陰に隠す
                     peri     = d.peri or false,       -- 【直視しない】周辺視でだけ合う
                     dark     = d.dark or false,       -- 暗くなった一瞬だけ合わせられる
@@ -296,7 +304,9 @@ function OnStart(self)
 
     -- ★MCP 検証用フックは Play のたびに必ず落とす(前回の値が残ると
     --   人が遊んだときに勝手に歩き出す)
+    self.sweepT, self.sweepId = 0.0, -1
     saveNum("lm_auto", 0); saveNum("lm_test", 0); saveNum("lm_warp", 0); saveNum("lm_tp", 0)
+    saveNum("lm_sweep", 0)
     for i = 1, 24 do saveNum(string.format("lm_c%d", i), 0) end
     saveNum("lm_clear", 0)
 
@@ -306,6 +316,19 @@ function OnStart(self)
     scene:setUiColor(self.endt, 0.94, 0.93, 0.86, 0.0)
     input:setMouseCapture(true)
     saveNum("lm_locked", 0)
+    -- ★【送り】規則の錘。休み位置をここで 1 回だけ覚える(動かした後の戻り先)
+    for i = 1, #self.conns do
+        local c = self.conns[i]
+        if c.relay then
+            local e = scene:findEntity(c.relay.weight)
+            if e and e:isValid() then
+                local p = e.transform.position
+                c.wRest = { p.x, p.y, p.z }
+                c.wDown = { p.x + c.relay.drop[1], p.y + c.relay.drop[2], p.z + c.relay.drop[3] }
+            end
+        end
+    end
+
     log("LIMINAL: " .. #self.conns .. " joints. look, and it becomes.")
 end
 
@@ -343,6 +366,18 @@ end
 local function easeLamp(self, name, to, dur, delay)
     self.lamps[#self.lamps + 1] = { n = name, to = to,
                                     dur = math.max(dur or 0.8, 0.05), t = -(delay or 0.0) }
+end
+
+local function cancelTweens(self, name)
+    local i = 1
+    while i <= #self.tweens do
+        if self.tweens[i].e and self.tweens[i].e:isValid()
+           and self.tweens[i].e.name == name then
+            table.remove(self.tweens, i)
+        else
+            i = i + 1
+        end
+    end
 end
 
 local function runTweens(self, dt)
@@ -538,6 +573,78 @@ local function resolve(self, c)
     log("LIMINAL joint " .. c.id .. " (" .. c.note .. ") resolved")
 end
 
+-- ================================================================ 通し検証(lm_sweep)
+-- ★「印に立って中心を見る」を機械にやらせるだけ。判定は一切いじらない。
+--   だから【これで解ければ人にも解ける】(逆は言えない ── 読めるかどうかは別)。
+local function sweepStep(self, dt)
+    -- 次に解くべき継ぎ目を選ぶ: 未確定・打ち切られていない・負でない・needs 充足
+    local c = nil
+    for i = 1, #self.conns do
+        local q = self.conns[i]
+        if (not q.locked) and (not q.cancelled) and (not q.anti) then
+            local ok = true
+            for j = 1, #q.needs do
+                if not self.lockedIds[q.needs[j]] then ok = false end
+            end
+            if ok then c = q break end
+        end
+    end
+    if not c then
+        saveNum("lm_sweep", 0)
+        saveNum("lm_sweep_done", 1)
+        for i = 1, #self.conns do
+            local q = self.conns[i]
+            if not q.locked then
+                local miss = ""
+                for j = 1, #q.needs do
+                    if not self.lockedIds[q.needs[j]] then
+                        miss = miss .. tostring(q.needs[j]) .. " "
+                    end
+                end
+                log("LIMINAL sweep: joint " .. q.id .. " left out (cancelled="
+                    .. tostring(q.cancelled) .. " anti=" .. tostring(q.anti)
+                    .. " needs-missing=[" .. miss .. "])")
+            end
+        end
+        log("LIMINAL sweep: nothing left to solve")
+        return
+    end
+    if c.id ~= self.sweepId then
+        self.sweepId = c.id
+        self.sweepT = 0.0
+        log("LIMINAL sweep -> joint " .. c.id .. " (" .. c.note .. ")")
+    end
+    self.sweepT = self.sweepT + dt
+
+    -- 立つ点と見る点
+    local F, C = c.F, c.center
+    if c.perShard then
+        for s2 = 1, #c.shards do
+            local sh = c.shards[s2]
+            if not sh.decided then F = sh.F; C = sh.center break end
+        end
+    elseif c.touch then
+        C = { (c.touch.a[1] + c.touch.b[1]) * 0.5,
+              (c.touch.a[2] + c.touch.b[2]) * 0.5,
+              (c.touch.a[3] + c.touch.b[3]) * 0.5 }
+    end
+    physics:setPosition(self.body, V(F[1], F[2] - EYE_OFF, F[3]))
+    local dx, dy, dz = C[1] - F[1], C[2] - F[2], C[3] - F[3]
+    local yaw = math.deg(atan2(dx, dz))
+    -- ★規則D(直視しない)は正面に据えると絶対に決まらない。45 度ずらして見る
+    if c.peri then yaw = yaw + 45.0 end
+    self.yaw = yaw
+    self.pitch = math.deg(math.atan(dy / math.max(math.sqrt(dx * dx + dz * dz), 0.001)))
+    self.vx, self.vz = 0.0, 0.0
+    -- ★暗の一瞬(E)と揺れ(osc)は【待つ時間】が要る。周期の 1.5 倍以上見ておくこと
+    --   (v11 の実機検証で、400 フレーム = 2.9 秒しか回さずに「解けない」と誤判定した)
+    if self.sweepT > 14.0 then
+        saveNum("lm_sweep", 0)
+        saveNum("lm_sweep_stuck", c.id)
+        log("LIMINAL sweep STUCK at joint " .. c.id .. " (" .. c.note .. ")")
+    end
+end
+
 function OnUpdate(self, dt)
     dt = math.min(dt, 0.06)
     self.t = self.t + dt
@@ -550,7 +657,9 @@ function OnUpdate(self, dt)
 
     -- ------------------------------------------------ 視点
     if not self.done then
-        if loadNum("lm_test", 0) > 0.5 then
+        if loadNum("lm_sweep", 0) > 0.5 then
+            -- 下の sweepStep が毎フレーム self.yaw / self.pitch を決める
+        elseif loadNum("lm_test", 0) > 0.5 then
             self.yaw = loadNum("lm_yaw", self.yaw)
             self.pitch = loadNum("lm_pitch", self.pitch)
         elseif input:isMouseCaptured() then
@@ -623,7 +732,9 @@ function OnUpdate(self, dt)
         local dx, dz = p.x - ck.x, p.z - ck.z
         if dx * dx + dz * dz < ck.r * ck.r and math.abs(p.y - ck.y) < 2.0 then self.cp = i end
     end
-    if p.y < CHECKS[self.cp].y - 2.0 and not self.done then
+    -- ★sweep 中は落下復帰を止める。焦点は到達点より 2m 以上低いことがあり、
+    --   そのままだと置いた瞬間に引き戻されて 1 本も解けない
+    if p.y < CHECKS[self.cp].y - 2.0 and not self.done and loadNum("lm_sweep", 0) < 0.5 then
         local c = CHECKS[self.cp]
         physics:setPosition(self.body, V(c.x, c.y, c.z))
         self.vx, self.vz = 0, 0
@@ -670,21 +781,108 @@ function OnUpdate(self, dt)
         if d.p then scene:setMeshParams(d.p, 1.0, 0.96, 0.86, self.darkNow and 0.06 or 1.35) end
     end
 
+    if loadNum("lm_sweep", 0) > 0.5 then sweepStep(self, dt) end
+
     for i = 1, #self.conns do
         local c = self.conns[i]
         if not c.locked then
             -- 前提の継ぎ目(連鎖)と、暗の一瞬
-            local gate = ((not c.dark) or self.darkNow) and still
+            -- ★「止まっている」条件だけは分けて持つ。踏んでなぞる規則は【歩いている
+            --   最中にしか進まない】ので、still を掛けると 1 歩も進まなくなる
+            local gateB = ((not c.dark) or self.darkNow)
             for q = 1, #c.needs do
-                if not self.lockedIds[c.needs[q]] then gate = false end
+                if not self.lockedIds[c.needs[q]] then gateB = false end
             end
             -- ★目の高さの窓。「何段目に立つか」を問う継ぎ目はここで足切りする
-            if c.minY and ey < c.minY then gate = false end
-            if c.maxY and ey > c.maxY then gate = false end
+            if c.minY and ey < c.minY then gateB = false end
+            if c.maxY and ey > c.maxY then gateB = false end
             -- ★規則F: 偽物が柱の陰に入っていない間は、いくら合っていても決まらない
-            if c.occl and not hidden(c.occl, ex, ey, ez) then gate = false end
+            if c.occl and not hidden(c.occl, ex, ey, ez) then gateB = false end
+            local gate = gateB and still
 
-            if c.touch then
+            if c.relay then
+                -- ---- 規則I「送り」: 東で合わせると機械が動き出す。その間だけ西が決まる ----
+                --   ★この作品で唯一【時間に追われる】規則。ただし東で合わせた時点では
+                --     何も確定させない ── 開くのは【窓】だけ。間に合わなくても失うものは
+                --     無く、機械が休みへ戻るだけ(「確定した物は元へ戻さない」を守る)。
+                --   ★見えている合図は錘が降りることそのもの。光も音も足していない。
+                local function errOf(sh)
+                    local ox, oy, oz = shardOffset(sh, self.t)
+                    local fd = math.sqrt((sh.F[1] - ex) ^ 2 + (sh.F[2] - ey) ^ 2
+                                         + (sh.F[3] - ez) ^ 2)
+                    if fd > FOCUS_LOCK then return 999.0 end
+                    return alignError(ex, ey, ez, sh.F, sh.k, sh.pts, ox, oy, oz)
+                end
+                local shA, shB = c.shards[1], c.shards[2]
+                if not c.armed then
+                    local e1 = errOf(shA)
+                    c.err = e1
+                    c.a = clamp(1.0 - e1 / c.warn, 0, 1)
+                    if gate and e1 < c.lock
+                       and offAxis(shA.center[1], shA.center[2], shA.center[3]) < CONE then
+                        c.hold = c.hold + dt
+                        if c.hold >= DWELL then
+                            c.armed = true
+                            c.relayT = c.relay.secs
+                            c.hold = 0.0
+                            if c.wDown then
+                                cancelTweens(self, c.relay.weight)
+                                easeTo(self, find(c.relay.weight), c.wDown, c.relay.secs, 0.0)
+                            end
+                            log("LIMINAL joint " .. c.id .. " armed for "
+                                .. string.format("%.1f", c.relay.secs) .. "s")
+                        end
+                    else
+                        c.hold = 0.0
+                    end
+                else
+                    c.relayT = c.relayT - dt
+                    local e2 = errOf(shB)
+                    c.err = e2
+                    c.a = clamp(1.0 - e2 / c.warn, 0, 1)
+                    if gate and e2 < c.lock
+                       and offAxis(shB.center[1], shB.center[2], shB.center[3]) < CONE then
+                        c.hold = c.hold + dt
+                        if c.hold >= DWELL then resolve(self, c) end
+                    else
+                        c.hold = 0.0
+                    end
+                    if not c.locked and c.relayT <= 0.0 then
+                        c.armed = false
+                        c.hold = 0.0
+                        if c.wRest then
+                            cancelTweens(self, c.relay.weight)
+                            easeTo(self, find(c.relay.weight), c.wRest, RELAY_BACK, 0.0)
+                        end
+                        log("LIMINAL joint " .. c.id .. " relay window closed")
+                    end
+                end
+                saveNum(string.format("lm_e%d", c.id), c.err)
+                saveNum(string.format("lm_a%d", c.id), c.armed and c.relayT or 0.0)
+
+            elseif c.trail then
+                -- ---- 規則H「踏んでなぞる」: 床の擦れ跡を順に踏む ----
+                --   この作品で唯一【照準を使わない】規則。目をつぶっても解ける。
+                --   跡を 1 つ踏むごとに破片が 1 つ落ちるので、歩いた自分の後ろで
+                --   物が組み上がっていく ＝ 見て決めるのではなく、歩いて決める。
+                -- ★戻れない事はしない。踏み外しても跡は消えない(この作品の作法どおり、
+                --   確定した物は絶対に元へ戻さない)。難しさは順序と道のりで出す。
+                local n = #c.trail
+                if gateB and c.step < n then
+                    local w = c.trail[c.step + 1]
+                    local dx, dz = w[1] - ex, w[2] - ez
+                    if dx * dx + dz * dz < c.trailR * c.trailR then
+                        c.step = c.step + 1
+                        if c.shards[c.step] then decideShard(c.shards[c.step]) end
+                        log("LIMINAL joint " .. c.id .. " trail " .. c.step .. "/" .. n)
+                    end
+                end
+                c.err = (c.step >= n) and 0.0 or 99.0
+                c.a = c.step / math.max(n, 1)
+                saveNum(string.format("lm_n%d", c.id), n - c.step)
+                if c.step >= n then resolve(self, c) end
+
+            elseif c.touch then
                 -- ---- 規則B「触れる」: 2 つの物が画面の上で重なったら成立 ----
                 --   焦点は無い。見えている 2 点を一直線に並べるだけなので、
                 --   奥行きには寛容で【向き】に厳しい ＝ 今までと真逆の手触りになる
@@ -706,6 +904,35 @@ function OnUpdate(self, dt)
                     c.hold = 0.0
                 end
                 saveNum(string.format("lm_e%d", c.id), err)
+
+            elseif c.sweep then
+                -- ---- 規則G「なぞる」: 大まかに合った所から、端から端へ視線を流して溶接する ----
+                --   今までの規則は全部「立ち止まって一点を探し、そこで待つ」だった。
+                --   これは【首を振り切る】のが動詞。節は照準が通った瞬間に決まる(DWELL 無し)
+                --   ので、正しい所に立って待っていても 1 節も進まない。
+                local worst, left = 0.0, 0
+                local fd = math.sqrt((c.F[1] - ex) ^ 2 + (c.F[2] - ey) ^ 2 + (c.F[3] - ez) ^ 2)
+                for s = 1, #c.shards do
+                    local sh = c.shards[s]
+                    if not sh.decided then
+                        left = left + 1
+                        local ox, oy, oz = shardOffset(sh, self.t)
+                        if sh.osc then applyShard(sh, 0.0, ox, oy, oz) end
+                        local err = alignError(ex, ey, ez, sh.F, sh.k, sh.pts, ox, oy, oz)
+                        if err > worst then worst = err end
+                        if gate and err < c.lock and fd < FOCUS_LOCK
+                           and offAxis(sh.center[1], sh.center[2], sh.center[3]) < SWEEP_CONE then
+                            decideShard(sh)
+                            left = left - 1
+                            log("LIMINAL joint " .. c.id .. " slat " .. s .. " welded")
+                        end
+                    end
+                end
+                c.err = worst
+                c.a = clamp(1.0 - worst / c.warn, 0, 1)
+                saveNum(string.format("lm_e%d", c.id), worst)
+                saveNum(string.format("lm_n%d", c.id), left)
+                if left == 0 then resolve(self, c) end
 
             elseif c.perShard then
                 -- ---- 規則C「巡る」: 破片ごとに別の立ち位置。1 つずつ実体化する ----

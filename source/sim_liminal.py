@@ -342,6 +342,8 @@ def conn_error(c, eye, only=None):
 
 
 FOCUS_LOCK = 7.0     # 実行時と同じ足切り(焦点から遠いと確定しない)
+SPEED = 3.05         # 実行時の歩く速さ(Liminal.lua の SPEED)
+DWELL_S = 0.36       # 合った状態を保つ時間(Liminal.lua の DWELL)
 
 
 def occluded(occl, eye):
@@ -458,6 +460,21 @@ def main():
     if bad == 0:
         ok("%d 個の破片、めり込み・相互干渉なし" % len(shard_boxes))
 
+    # ---------------------------------------------------- 前提の継ぎ目が実在するか
+    # ★★needs に【存在しない継ぎ目の番号】が入っていると、その継ぎ目は永久に解けない。
+    #   机上検査の順路は needs を見ずに solids を並べるだけなので、ここを見ないと
+    #   PASS のまま【クリア不能のゲーム】が出来上がる(実際に継ぎ目25 が
+    #   消したはずの 26 を要求したまま PASS していた。実機の通しで初めて出た)。
+    have = set(c.cid for c in conns)
+    dangling = 0
+    for c in conns:
+        for n in c.needs:
+            if n not in have:
+                fail("継ぎ目%d: 前提の継ぎ目%d が存在しない(永久に解けない)" % (c.cid, n))
+                dangling += 1
+    if dangling == 0:
+        ok("needs の参照先はすべて実在する")
+
     # ---------------------------------------------------- 順路(段階ごと)
     print(NL + "[2] 順路の通し歩き(継ぎ目を1つずつ確定させる)")
     start = (0.0, -6.0, 0.0)
@@ -487,12 +504,13 @@ def main():
         9:  ((22.0, 158.0, 5.80), (22.0, 158.0, 5.80)),
         10: ((22.0, 173.0, 5.80), (22.0, 173.0, 5.80)),
         # ---- 第三幕 ----
-        11: ((22.0, 188.2, 5.80), (22.0, 188.2, 5.80)),   # 溝を渡る
-        12: ((32.0, 195.4, 7.60), (32.0, 195.4, 7.60)),   # 渡り廊下 -> 吹き抜けへ
-        13: ((43.2, 195.4, 7.60), (43.2, 195.4, 7.60)),   # 巨人の板 -> 東の桟へ
-        14: (None, None),                                  # ★負の継ぎ目。解かないのが正解
-        15: ((68.0, 208.6, 7.60), (68.0, 208.6, 7.60)),   # 模型 -> 本物の廊下
-        16: ((68.0, 217.0, 7.60), (68.0, 217.0, 7.60)),   # 扉 -> 白い部屋
+        # ---- 第三幕「立坑」(2026-09-08 作り替え。床は L1 0.60 / L2 4.00 / 出口 7.60) ----
+        11: ((30.0, 188.0, 3.00), (30.0, 188.0, 3.00)),   # 巻き段 -> ドラムの天端
+        12: ((62.4, 200.4, 3.00), (62.4, 200.4, 3.00)),   # 柱 -> 東へ渡る
+        13: ((57.1, 202.4, 7.60), (57.1, 202.4, 7.60)),   # 折り返し段 -> 上の回廊へ
+        14: ((57.1, 211.4, 7.60), (57.1, 211.4, 7.60)),   # 庇の道
+
+        16: ((67.5, 213.5, 7.60), (67.5, 213.5, 7.60)),   # 出口の床
         # ---- 第四幕(大展示室・順番は自由。18〜21 が 4 本の橋、17 が出口の階段) ----
         18: ((64.3, 233.95, 7.60), (64.3, 233.95, 7.60)),  # 西の橋 -> 島A
         19: ((73.7, 233.95, 7.60), (73.7, 233.95, 7.60)),  # 東の橋 -> 島C
@@ -509,7 +527,11 @@ def main():
     order = sorted(conns, key=lambda c: c.solve_order)
     for c in order:
         tg = {}
-        if c.per_shard:
+        if getattr(c, "trail", None):
+            # ★規則H は「跡を順に踏む」ので、跡の 1 点ずつが到達目標になる
+            for i, w in enumerate(c.trail):
+                tg["T%d_%d" % (c.cid, i)] = (w[0], w[1])
+        elif c.per_shard or getattr(c, "relay", None):
             for i, sh in enumerate(c.shards):
                 f = sh.get("focus") or c.focus
                 tg["F%d_%d" % (c.cid, i)] = (f[0], f[2], f[1] - EYE)
@@ -524,7 +546,7 @@ def main():
         if before and standing(seen, *before):
             fail("継ぎ目%d を解く前に (%.1f, %.1f) へ行けてしまう" % (c.cid, before[0], before[1]))
         if c.cid == 8:
-            continue                      # 多義の片割れ。7 を採った世界で進む(8 は下で別途検査)
+            continue          # 多義の片割れ。7 を採った世界で進む(8 は下で別途検査)
         if c.anti:
             # ★負の継ぎ目は【解かずに】進むのが正解なので、順路には適用しない。
             #   解いてしまった世界(迂回路)は下で別に検査する
@@ -573,7 +595,57 @@ def main():
     # ---------------------------------------------------- 合う場所の広さ
     print(NL + "[3] 継ぎ目ごとの『合う場所』")
     for c in sorted(conns, key=lambda x: x.cid):
-        slots = range(len(c.shards)) if c.per_shard else [None]
+        if getattr(c, "trail", None):
+            # ★規則H に確定域は無い(焦点が無い)。代わりに跡そのものを検査する:
+            #   ・跡どうしが離れすぎると【次がどれか分からない】= 理不尽
+            #   ・跡が床の外(穴・段差の上)にあると踏めない
+            tr, r = c.trail, c.trail_r
+            flat = flats[c.cid]
+            bad = 0
+            for i in range(1, len(tr)):
+                d = math.dist(tr[i - 1], tr[i])
+                if d > 4.2:
+                    fail("継ぎ目%d: 跡 %d→%d が %.1fm 離れている(次がどれか読めない)"
+                         % (c.cid, i - 1, i, d))
+                    bad += 1
+                if d < r * 1.6:
+                    fail("継ぎ目%d: 跡 %d→%d が %.1fm しか離れていない(半径 %.2f と重なる)"
+                         % (c.cid, i - 1, i, d, r))
+                    bad += 1
+            for i, w in enumerate(tr):
+                if (round(w[0] / CELL), round(w[1] / CELL)) not in flat:
+                    fail("継ぎ目%d: 跡 %d (%.1f, %.1f) が歩ける床の上に無い"
+                         % (c.cid, i, w[0], w[1]))
+                    bad += 1
+            if len(tr) != len(c.shards):
+                fail("継ぎ目%d: 跡 %d 点に対して破片が %d 個(1 対 1 でない)"
+                     % (c.cid, len(tr), len(c.shards)))
+                bad += 1
+            if bad == 0:
+                ok("継ぎ目%-2d(%-12s): 跡 %d 点、間隔 %.1f〜%.1fm、すべて床の上"
+                   % (c.cid, c.note, len(tr),
+                      min(math.dist(tr[i - 1], tr[i]) for i in range(1, len(tr))),
+                      max(math.dist(tr[i - 1], tr[i]) for i in range(1, len(tr)))))
+            continue
+        rly = getattr(c, "relay", None)
+        slots = range(len(c.shards)) if (c.per_shard or rly) else [None]
+        if rly:
+            # ★【送り】は「間に合うか」が本体。焦点どうしの距離を歩ける時間で割って見る。
+            #   ここを見ないと、机上では解けるのに実機では絶対に届かない継ぎ目ができる。
+            fa = c.shards[0].get("focus") or c.focus
+            fb = c.shards[1].get("focus") or c.focus
+            d = math.dist((fa[0], fa[2]), (fb[0], fb[2]))
+            need = d / SPEED * 1.25 + DWELL_S      # 曲がる余裕 25% + 合わせる時間
+            if need > rly["secs"]:
+                fail("継ぎ目%d: 焦点どうし %.1fm。%.1f 秒要るのに窓は %.1f 秒しかない"
+                     % (c.cid, d, need, rly["secs"]))
+            elif rly["secs"] > need * 2.2:
+                fail("継ぎ目%d: 焦点どうし %.1fm に対して窓 %.1f 秒は緩すぎる(歩いて間に合う)"
+                     % (c.cid, d, rly["secs"]))
+            else:
+                ok("継ぎ目%-2d(%-12s): 送り %.1fm / 窓 %.1f 秒(走って %.1f 秒。余裕 %.0f%%)"
+                   % (c.cid, c.note, d, rly["secs"], need,
+                      (rly["secs"] / need - 1.0) * 100))
         for only in slots:
             good, warm, best, bestp = field(c, flats[c.cid], None, only=only)
             area = len(good) * CELL * CELL
@@ -674,7 +746,11 @@ def main():
     for c in sorted(conns, key=lambda x: x.cid):
         slots = list(range(len(c.shards))) if c.per_shard else [None]
         for only in slots:
-            nm = ("G1_ib" + ISLN[only]) if only is not None else ("C%d_mark" % c.cid)
+            # ★巡る規則の印の名前。第四幕の 4 島だけ昔の名前(G1_ib*)を使っている
+            if only is None:
+                nm = "C%d_mark" % c.cid
+            else:
+                nm = ("G1_ib" + ISLN[only]) if c.cid == 17 else ("C%d_mk%d" % (c.cid, only))
             mk = marks.get(nm)
             if mk is None:
                 continue
@@ -769,12 +845,12 @@ def main():
            (7.4, 4.9, 118), (13.0, 4.9, 112), (22.5, 4.9, 118), (18.7, 4.9, 126.5),
            (25.0, 4.9, 126.5), (22.0, 4.9, 138), (18.2, 4.9, 146.6), (22.0, 4.9, 152),
            (22.0, 7.3, 160), (22.0, 7.3, 166),
-           # ---- 第三幕(床 5.8 -> 目 7.5 / 床 7.6 -> 目 9.3) ----
-           (22.0, 7.3, 173), (18.0, 7.3, 180), (22.0, 7.3, 179), (22.0, 7.3, 188),
-           (22.0, 7.3, 192.5), (18.3, 9.3, 195.0), (24.0, 9.1, 195.2), (18.3, 8.9, 200.5),
-           (32.0, 9.1, 195.4), (38.0, 9.1, 195.4), (43.2, 9.1, 195.4),
-           (49.6, 9.1, 195.4), (53.0, 9.1, 202.6), (58.6, 9.1, 195.4),
-           (68.0, 9.1, 192.6), (68.0, 9.1, 200.0), (68.0, 9.1, 209.0), (68.0, 9.1, 213.0),
+           # ---- 第三幕「立坑」(入口 5.80 -> L1 0.60 -> L2 4.00 -> 出口 7.60) ----
+           (22.0, 7.5, 174.0), (23.0, 7.5, 178.0), (27.0, 6.0, 183.0),
+           (36.0, 4.7, 195.0), (30.0, 4.7, 188.0), (39.0, 4.7, 193.0),
+           (51.0, 4.7, 192.0), (62.4, 4.7, 200.4), (66.0, 6.0, 205.0),
+           (64.0, 8.0, 211.4), (57.1, 9.3, 202.4), (57.1, 9.3, 210.0),
+           (68.0, 9.3, 217.0),
            # ---- 第五幕(床 10.60 -> 目 12.30 / 棚 11.80 -> 13.50 / 踊り場 13.30 -> 15.00) ----
            (68.0, 12.3, 255.0), (68.0, 12.3, 262.0), (68.0, 12.3, 268.0),
            (66.8, 12.3, 265.6), (68.0, 12.3, 278.0), (68.0, 12.3, 287.0),
@@ -829,6 +905,67 @@ def main():
     for nm, (pp, ss) in keep.items():
         world.byname[nm]["transform"]["position"] = pp
         world.byname[nm]["transform"]["scale"] = ss
+
+    # ------------------------------------------------ 置き去りの飾り
+    # 実際に起きた事故(継ぎ目5 シャッター):
+    #   板 3 枚は巻き上がるのに、その板に貼った【横のリブ 12 本を mover の一覧に
+    #   入れ忘れた】ので、開口に棒だけが宙に残った。手で並べる限り必ず数え漏らす。
+    #   見るのは「動く板に【くっついている】飾りが、一緒に動くか」。
+    #   くっついている = 名前が <動く板>_… か、動く板の箱にほぼ収まっている。
+    #   (単に隣り合っているだけの物は対象外。継ぎ目1/6 の扉枠は塞ぎ板の隣なので
+    #    幾何だけで見ると誤検出になる)
+    print(NL + "[9] 置き去りの飾り(動く板にくっついた物が、一緒に動くか)")
+    PADA, FRAC = 0.12, 0.85
+    left, nmov = 0, 0
+    for c in conns:
+        if not c.movers:
+            continue
+        nmov += 1
+        moved = set(m["n"] for m in c.movers)
+        moved |= set(c.hides)
+        moved |= set(h["n"] for h in c.hinges)
+        real = {}
+        for sh in c.shards:
+            for r in sh["ents"]:
+                real[r["n"]] = (list(r["p"]), [abs(v) for v in r["s"]])
+        parts = []
+        for m in c.movers:
+            e = world.byname.get(m["n"])
+            if e is None:
+                continue
+            pp, ss = real.get(m["n"], (list(e["transform"]["position"]),
+                                       [abs(v) for v in e["transform"]["scale"]]))
+            parts.append((m["n"],
+                          [pp[q] - ss[q] / 2 - PADA for q in range(3)],
+                          [pp[q] + ss[q] / 2 + PADA for q in range(3)]))
+        if not parts:
+            continue
+        pre = "C%d_" % c.cid
+        for e in ents:
+            n = e["name"]
+            if not n.startswith(pre) or n in moved or n in real:
+                continue   # ★破片の一員なら「置き去り」ではない(扉枠の実在する側など)
+            if "primitive" not in e and "model" not in e:
+                continue
+            pp = e["transform"]["position"]
+            ss = [abs(v) for v in e["transform"]["scale"]]
+            lo = [pp[q] - ss[q] / 2 for q in range(3)]
+            hi = [pp[q] + ss[q] / 2 for q in range(3)]
+            vol = max(1e-9, (hi[0] - lo[0]) * (hi[1] - lo[1]) * (hi[2] - lo[2]))
+            for (mn, vl, vh) in parts:
+                stuck = n.startswith(mn + "_")
+                if not stuck:
+                    ov = 1.0
+                    for q in range(3):
+                        ov *= max(0.0, min(hi[q], vh[q]) - max(lo[q], vl[q]))
+                    stuck = (ov / vol) >= FRAC
+                if stuck:
+                    fail("継ぎ目%d: %s が %s にくっついているのに動かない(【宙に残る】)"
+                         % (c.cid, n, mn))
+                    left += 1
+                    break
+    if left == 0:
+        ok("動く継ぎ目 %d 本、退いた跡に残る飾りは無し" % nmov)
 
     print("\n" + ("=" * 68))
     print("RESULT: " + ("PASS" if OK else "FAIL"))

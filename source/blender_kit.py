@@ -41,6 +41,8 @@ _GAME = ("goal", "pin", "band", "lane", "figure", "hand", "joint", "jframe",
 
 def dest_of(name):
     """モデル名(拡張子なし)から assets/models/ 以下の置き場所を返す。"""
+    if name.startswith("sh_"):
+        return "arch/shaft"      # ★第三幕「立坑」の部品(回転ドラム・庇・柱)
     if name.startswith("fm_"):
         return "gen/floor"
     if name.startswith("cm_"):
@@ -1138,14 +1140,20 @@ def build_doorleaf():
     export(b.make("jx_doorleaf", [M_PAINT, M_METAL]), "doorleaf.gltf")
 
 
-build_doorleaf()
-build_v10()
-# v12 の部品は別ファイル。ここの名前空間で exec するので Build/mat/export が使える
-exec(compile(open(os.path.join(ROOT, "source", "blender_v12.py"), encoding="utf-8").read(),
-             "blender_v12.py", "exec"), globals())
-build_v12()
-exec(compile(open(os.path.join(ROOT, "source", "blender_v13.py"), encoding="utf-8").read(),
-             "blender_v13.py", "exec"), globals())
-build_v13()
-build_manifest()
-print("KIT ALL DONE")
+# ★JX_SKIP_BUILD=True なら【道具だけ】読み込んで、作り置きは一切しない。
+#   立坑(blender_shaft.py)のように一部のモデルだけ出し直したい時に使う。
+#   これが無いと 40 個ぜんぶ焼き直すので遅いし、触っていない物まで差分が出る。
+if globals().get("JX_SKIP_BUILD"):
+    print("KIT TOOLS ONLY")
+else:
+    build_doorleaf()
+    build_v10()
+    # v12 の部品は別ファイル。ここの名前空間で exec するので Build/mat/export が使える
+    exec(compile(open(os.path.join(ROOT, "source", "blender_v12.py"), encoding="utf-8").read(),
+                 "blender_v12.py", "exec"), globals())
+    build_v12()
+    exec(compile(open(os.path.join(ROOT, "source", "blender_v13.py"), encoding="utf-8").read(),
+                 "blender_v13.py", "exec"), globals())
+    build_v13()
+    build_manifest()
+    print("KIT ALL DONE")

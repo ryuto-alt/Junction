@@ -64,7 +64,13 @@ LOCKS_TRY = (0.9, 1.1, 1.3, 1.6, 2.0, 2.4, 2.9, 3.4, 4.0, 4.6, 5.2)
 MIN_W, MIN_L, MAX_W, MAX_L = 0.26, 0.38, 1.50, 3.20
 PAD = 0.06                       # 見つけた長方形をこのぶん縮めて安全側に寄せる
 # 実体を k から逆算している継ぎ目(7/8/19)と、ずらし量そのものが仕掛けの継ぎ目(5)は触らない
-NO_SOFT = {7, 8, 19}
+# ★soft(ずらし量を弱める)を掛けてはいけない継ぎ目。
+#   7/8 は多義(同じ破片を 2 つの継ぎ目で共有するので片方だけ弱められない)。
+#   19 は触れる規則(浮遊姿勢が判定点そのもの)。
+#   13 は浮遊中の破片が【回廊の板をかすめる】ので、弱めると 9cm めり込む。
+#   ★calib の clashes() は破片どうししか見ない。世界とのめり込みは机上検査 [1]/[8]
+#     が後から捕まえるので、捕まったらここへ足すこと。
+NO_SOFT = {7, 8, 13, 19}
 ISL = {0: "A", 1: "D", 2: "C", 3: "B"}
 
 
@@ -91,6 +97,11 @@ def eye_at(c, flat, F, x, z):
     if c.occl and not S.occluded(c.occl, eye):
         return None
     return eye
+
+
+def is_trail(c):
+    """★規則H は焦点も lock も持たない(歩いた跡が答え)。較正の対象外。"""
+    return bool(getattr(c, "trail", None))
 
 
 def region(c, flat, only, lock, half=4.0):
@@ -225,6 +236,8 @@ def main():
     print("=" * 82)
     print("%-10s %-18s %-9s %-9s %-8s %s" % ("印", "継ぎ目", "soft", "lock", "確定域", "印(幅x長さ @yaw)"))
     for c in order:
+        if is_trail(c):
+            continue                       # ★規則H は焦点も lock も持たない(歩いた跡が答え)
         _, seen, flat = S.walk(world, (0.0, -6.0, 0.0), {}, BOUNDS)
         # ★★必ず【元の k】へ戻してから測ること。gen_liminal は既に SOFT を通した形を
         #   作っているので、そのまま測ると「もう弱める必要なし」と誤判定して表が壊れる
@@ -232,9 +245,16 @@ def main():
         g0 = G.SOFT.get(c.cid, 1.0)
         base_k = [1.0 - (1.0 - sh["k"]) / g0 for sh in c.shards]
         base_lock = c.lock
-        slots = list(range(len(c.shards))) if c.per_shard else [None]
+        rly = getattr(c, "relay", None)
+        slots = list(range(len(c.shards))) if (c.per_shard or rly) else [None]
         for only in slots:
-            nm = ("G1_ib" + ISL[only]) if only is not None else ("C%d_mark" % c.cid)
+            if rly:
+                nm = "C%d_mk%s" % (c.cid, "AB"[only])
+            elif only is not None:
+                # ★巡る規則の印の名前。第四幕の 4 島だけ昔の名前(G1_ib*)を使っている
+                nm = ("G1_ib" + ISL[only]) if c.cid == 17 else ("C%d_mk%d" % (c.cid, only))
+            else:
+                nm = "C%d_mark" % c.cid
             if nm not in names:
                 continue
             found = None
