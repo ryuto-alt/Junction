@@ -1582,7 +1582,7 @@ CONNS = {
   {
     id=9.0,
     focus={6.0,5.1,146.0},
-    lock=5.2,
+    lock=2.0,
     warn=14.0,
     center={22.0,4.6,151.0},
     note="slot-drum",
