@@ -29,15 +29,20 @@ def build_shaft():
         a = 2.0 * math.pi * i / n
         return E(r * math.cos(a), y, r * math.sin(a))
 
-    def band(b, r, y0, y1, n, m, uo=0.0):
-        """半径 r の筒の側面(外向き)。"""
+    def band(b, r, y0, y1, n, m, uo=0.0, skip=None, inward=False):
+        """半径 r の筒の側面。skip=(i0,i1) の区間は開ける(スリット)。
+        inward=True で法線を内向きにする(中を見せる筒に要る)。"""
         for i in range(n):
+            if skip and skip[0] <= i < skip[1]:
+                continue
             j = (i + 1) % n
             u0 = (2.0 * math.pi * r * i / n) * K + uo
             u1 = (2.0 * math.pi * r * (i + 1) / n) * K + uo
-            b.face([ring(r, y0, i, n), ring(r, y0, j, n),
-                    ring(r, y1, j, n), ring(r, y1, i, n)],
-                   [(u0, y0 * K), (u1, y0 * K), (u1, y1 * K), (u0, y1 * K)], m)
+            q = [ring(r, y0, i, n), ring(r, y0, j, n), ring(r, y1, j, n), ring(r, y1, i, n)]
+            uv = [(u0, y0 * K), (u1, y0 * K), (u1, y1 * K), (u0, y1 * K)]
+            if inward:
+                q = q[::-1]; uv = uv[::-1]
+            b.face(q, uv, m)
 
     def cap(b, r, y, n, m, up=True):
         """円板(上向き or 下向き)。三角扇。"""
@@ -82,15 +87,31 @@ def build_shaft():
     # ======================= sh_drum  半径 7.0 x 高さ 16.0 =======================
     # ★リブが 24 本なのは【15 度ごと】だから。回転の位相を目で読ませるのがこの
     #   ドラムの唯一の仕事なので、本数は「数えられて、かつ細かすぎない」ことが要る。
+    # ★スリット付きの【中空の筒】。一周に一度だけ中が見える ＝ 回転が仕掛けになる。
+    #   SL0..SL1 の区間だけ壁もリブも帯も開ける。中を見せるので内側の面も張る。
     R, H, N, NR = 7.0, 16.0, 56, 24
+    SL0, SL1 = 0, 6                                            # 6/56 = 38.6 度のスリット
+    SLA0, SLA1 = 2.0 * math.pi * SL0 / N, 2.0 * math.pi * SL1 / N
     b = Build()
-    band(b, R, 0.0, H, N, 1)                                   # 本体(コンクリ)
+    band(b, R, 0.0, H, N, 1, skip=(SL0, SL1))                  # 外壁(コンクリ)
+    band(b, R - 0.34, 0.0, H, N, 1, skip=(SL0, SL1), inward=True)   # 内壁(中が見える)
     cap(b, R, H, N, 0, up=True)                                # 天面(金属・足場になる)
+    # スリットの小口(壁の厚みを見せる。無いと紙のように見える)
+    for aa in (SLA0, SLA1):
+        ca, sa = math.cos(aa), math.sin(aa)
+        p0 = E(R * ca, 0.0, R * sa)
+        p1 = E((R - 0.34) * ca, 0.0, (R - 0.34) * sa)
+        p2 = E((R - 0.34) * ca, H, (R - 0.34) * sa)
+        p3 = E(R * ca, H, R * sa)
+        q = [(0, 0), (0.34 * K, 0), (0.34 * K, H * K), (0, H * K)]
+        b.face([p0, p1, p2, p3] if aa == SLA0 else [p3, p2, p1, p0], q, 0)
     for i in range(NR):
         a = 2.0 * math.pi * i / NR
+        if SLA0 - 0.05 <= a <= SLA1 + 0.05:
+            continue                                           # スリットの前は開けておく
         radial_box(b, a, R - 0.05, R + 0.30, 0.35, H - 0.35, 0.22, 0)
     for y in (4.2, 8.4, 12.6):                                 # 水平の帯(高さを読ませる)
-        band(b, R + 0.16, y, y + 0.42, N, 0)
+        band(b, R + 0.16, y, y + 0.42, N, 0, skip=(SL0, SL1))
         cap(b, R + 0.16, y + 0.42, N, 0, up=True)
         cap(b, R + 0.16, y, N, 0, up=False)
     # 天面の縁(人の寸法の物 = 巨大さの物差し)

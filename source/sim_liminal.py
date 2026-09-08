@@ -447,6 +447,10 @@ def main():
                 # 床の擦れ跡など極薄の物とは重なってよい
                 if sb.aab[4] - sb.aab[1] < 0.05:
                     continue
+                # ★名前が _hollow で終わる殻は【中に破片を吊るのが仕掛け】の物。
+                #   回る筒(継ぎ目9)がこれ。中身との重なりは異常ではない
+                if sb.name.endswith("_hollow"):
+                    continue
                 fail("破片 %s が %s にめり込んでいる" % (name, sb.name))
                 bad += 1
     for i in range(len(shard_boxes)):

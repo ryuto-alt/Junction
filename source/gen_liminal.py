@@ -552,7 +552,7 @@ class Conn:
     def __init__(self, cid, focus, lock, warn, center, note="",
                  min_y=None, max_y=None, needs=(), anti=False,
                  per_shard=False, peri=False, dark=False, touch=None, dark_lights=(),
-                 occl=None, sweep=False, trail=None, trail_r=0.95, relay=None):
+                 occl=None, sweep=False, trail=None, trail_r=0.95, relay=None, slot=None):
         self.cid = cid
         self.focus = focus
         self.lock = LOCKS.get(cid, lock)   # ★実測で決めた値があればそれを使う
@@ -587,6 +587,9 @@ class Conn:
         # ★規則I「送り」: relay = dict(secs=..., weight="<錘の名前>", drop=[dx,dy,dz])。
         #   破片は 2 組。1 組目の焦点で【窓を開け】、動いている間に 2 組目の焦点で決める。
         self.relay = relay
+        # ★規則「回る」: slot = dict(ent=筒の名前, c=[cx,cz], r=半径, half=スリット半幅deg,
+        #   speed=deg/秒)。中に吊った破片は、スリットがこちらを向いた一瞬しか見えない。
+        self.slot = slot
         self.peri = peri             # 直視しない: 周辺視(24〜68度)でだけ成立する
         self.dark = dark             # 暗の一瞬: 明滅する部屋が暗い間だけ成立する
         self.touch = touch           # 触れる: 2 点が画面上で重なったら成立(焦点を使わない)
@@ -747,6 +750,7 @@ class Conn:
                     minY=self.min_y, maxY=self.max_y,
                     perShard=self.per_shard, sweep=self.sweep,
                     trail=self.trail, trailR=self.trail_r, relay=self.relay,
+                    slot=self.slot,
                     peri=self.peri, dark=self.dark,
                     touch=self.touch, darkLights=self.dark_lights, occl=self.occl)
 
@@ -970,33 +974,57 @@ def act2(Y2, DW, DH):
 
     # （揺れの間の殻は N1 に統合済み。ここは継ぎ目9 の足場だけ）
 
-    # ---- 継ぎ目 09: 漂う破片。合う姿勢で【速度が 0 になる】ので、待てば必ず止まる ----
-    F9 = (18.2, EYEY, 146.6)
-    c9 = Conn(9, F9, 2.5, 14.0, (22.0, Y2 + 1.2, 151.0), "drift")
+    # ---- 継ぎ目 09: 回る（スリット付きの筒。一周に一度だけ中が見える）----
+    # ★★大室に直径 12m・高さ 10m の筒を立てた。壁に 38.6 度のスリットが 1 本あり、
+    #   筒はゆっくり回っている。中に吊った破片は【スリットがこちらを向いた一瞬】
+    #   しか見えない。位置を合わせてから、スリットが回って来るのを待つ。
+    #   暗の一瞬(規則E)の空間版だが、待つ対象が目の前で回っている巨大な筒なので、
+    #   何を待てばいいのかが絵だけで分かる(文字が無いこの作品ではそこが全て)。
+    # ★★焦点 → 筒 → 出来る物 が一直線であること。浮遊姿勢は F + k(実体 - F) なので、
+    #   筒は【焦点と実体の間】にしか置けない。ここは 焦点 x=6 / 筒 x=16 / 段 x=22。
+    DR9, DH9 = 6.0, 10.0
+    DC9 = (16.0, 146.0)
+    dr9 = ent("N1_drum", (DC9[0], Y2, DC9[1]), (DR9 / 7.0, DH9 / 16.12, DR9 / 7.0))
+    dr9["meshRenderer"] = dict(modelPath="models/arch/shaft/sh_drum.gltf")
+    # ★当たり判定は内接する箱で足りる(中へ入る必要は無い)。角が壁の外へ出ないこと
+    # ★名前を _hollow で終わらせると、机上検査[1]/[8] が【破片が中に居てよい殻】
+    #   として扱う。この筒は中に破片を吊るのが仕掛けそのものなので必要
+    hit("N1_drum_hollow", (DC9[0], Y2 + DH9 / 2, DC9[1]), (DR9 * 1.20, DH9, DR9 * 1.20))
+    plight("N1_druml", (DC9[0] - DR9 - 2.0, Y2 + 3.4, DC9[1]), WARM, 8.0, 12.0)
+
+    F9 = (6.00, EYEY, 146.00)
+    c9 = Conn(9, F9, 2.5, 14.0, (22.0, Y2 + 1.2, 151.0), "slot-drum",
+              slot=dict(ent="N1_drum", c=[DC9[0], DC9[1]], r=DR9, half=17.0, speed=36.0))
+    # ★速さは【待てる長さ】から決める。36 度/秒 = 一周 10 秒、窓は 0.94 秒。
+    #   11 度/秒(一周 33 秒)だと「何も起きない時間」が長すぎて仕掛けだと気づけない。
+    #   暗の一瞬(規則E)が 3.6 秒周期なのと同じ理屈で、周期は 10 秒前後が上限
     RISE9, RUN9, W9 = 0.30, 0.70, 1.70
     ZST = 148.0
-    real, drift, upper = [], [], []
+    grp9 = [[], [], []]
     for i in range(8):
         top = Y2 + RISE9 * (i + 1)
         z0 = ZST + RUN9 * i
-        s = box("C9_s%d" % i, (22.0, top - 0.11, z0 + RUN9 / 2), (W9, 0.22, RUN9), T_METAL, "y",
-                rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47])
-        r = box("C9_r%d" % i, (22.0, top - 0.22 - RISE9 / 2 + 0.055, z0 + 0.02), (W9, RISE9, 0.04),
-                T_METAL, "z", rough=0.5, metal=0.5, color=[0.40, 0.40, 0.38])
-        g = glow("C9_e%d" % i, (22.0 - W9 / 2 + 0.03, top + 0.005, z0 + RUN9 / 2),
-                 (0.055, 0.04, RUN9 - 0.04), GOLD, 1.25)
-        (real if i < 2 else drift if i < 5 else upper).append((s, r, g))
-        h = hit("C9_h%d" % i, (22.0, top - 0.11, z0 + RUN9 / 2), (W9, 0.22, RUN9), kinematic=True)
-        if i >= 2:
-            c9.solid(h)
+        s9 = box("C9_s%d" % i, (22.0, top - 0.11, z0 + RUN9 / 2), (W9, 0.22, RUN9), T_METAL,
+                 "y", rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47])
+        r9 = box("C9_r%d" % i, (22.0, top - 0.22 - RISE9 / 2 + 0.055, z0 + 0.02),
+                 (W9, RISE9, 0.04), T_METAL, "z", rough=0.5, metal=0.5,
+                 color=[0.40, 0.40, 0.38])
+        g9 = glow("C9_e%d" % i, (22.0 - W9 / 2 + 0.03, top + 0.005, z0 + RUN9 / 2),
+                  (0.055, 0.04, RUN9 - 0.04), GOLD, 1.25)
+        grp9[i * 3 // 8] += [s9, r9, g9]
+        c9.solid(hit("C9_h%d" % i, (22.0, top - 0.11, z0 + RUN9 / 2), (W9, 0.22, RUN9 + 0.2),
+                     kinematic=True))
     box("C9_land", (22.0, SILL2 - 0.11, 154.9), (W9 + 0.4, 0.22, 2.6), T_METAL, "y", rough=0.5,
         metal=0.5, color=[0.50, 0.50, 0.47], solid=True)
-    c9.shard(1.0, [e for g in real for e in g])
-    c9.shard(0.52, [e for g in drift for e in g],
-             glows=[g[2] for g in drift], osc=(0.62, 0.34, 0.0, 5.0))
-    c9.shard(0.36, [e for g in upper for e in g], glows=[g[2] for g in upper])
-    mark("C9_mark", (F9[0], Y2 + 0.008, F9[2]), T_CONC, (0.72, 0.72, 0.70), rough=0.9,
+    # ★k は【筒の内側(x 10.3〜21.7)に収まる範囲】で広く散らす。
+    #   浮遊 x = 6 + 16k なので k = 0.30 / 0.55 / 0.80 → 10.8 / 14.8 / 18.8。
+    #   詰めると 3 塊が団子になって「どれがどれだか読めない」
+    for gi, k9 in enumerate((0.30, 0.55, 0.80)):
+        c9.shard(k9, grp9[gi],
+                 glows=[e for e in grp9[gi] if e["name"].startswith("C9_e")])
+    mark("C9_mark", (F9[0], Y2 + 0.008, F9[2]), T_TILEF, (0.72, 0.72, 0.70), rough=0.4,
          thick=0.016)
+    plight("C9_fill", (9.0, Y2 + 3.6, 146.0), WARM, 8.0, 12.0)
 
     # ============================================================ Z 終わりの間
     ZX0, ZX1, ZZ0, ZZ1, ZH = 14.0, 30.0, 156.3, 170.0, 6.0

@@ -51,6 +51,8 @@ def rule_of(c):
         return "H 踏んでなぞる"
     if getattr(c, "relay", None):
         return "I 送り"
+    if getattr(c, "slot", None):
+        return "G 回る"
     if c.occl:
         return "F かくれる"
     if c.peri:

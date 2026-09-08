@@ -36,6 +36,7 @@ local PERI_IN = 24.0          -- 【直視しない】規則: これより内側
 local PERI_OUT= 62.0          -- 【直視しない】規則: これより外だと視界の外
 local SWEEP_CONE = 4.0        -- 【なぞる】規則: 照準がこの角度内を通った節だけ溶接される
 local TRAIL_R    = 0.95       -- 【踏んでなぞる】規則: 擦れ跡を踏んだと認める半径(m)
+local SLOT_MID   = 19.3       -- 【回る】規則: sh_drum のスリットの中心角(モデル座標)
 local RELAY_BACK = 1.60       -- 【送り】規則: 間に合わなかった時、機械が休みへ戻る時間(秒)
 local DWELL   = 0.36          -- 合った状態を保つ時間(★歩き抜けで暴発しない長さ)
 local STILL   = 1.10          -- この速さ以下でないと確定しない(通りすがりで決まらない)
@@ -127,6 +128,28 @@ end
 -- 2 点が【画面上で重なって見えるか】の角度差(度)。「触れる」規則で使う。
 -- ★これは焦点を使わない。見えている 2 つの物を一直線に並べるだけなので、
 --   隠された焦点を探す規則よりずっと読みやすい ＝ 別の考え方の puzzle になる。
+-- ★スリット越しに見えているか。筒の中に的があり、目は外に居る前提。
+--   線分 目→的 は筒の壁を【一度だけ】横切るので、その交点の角度が
+--   いまのスリットの窓に入っているかを見るだけでよい。
+--   ★筒を箱の集まりで近似しない。回る物を軸並行の箱で表すと嘘になる(hidden() が使えない)。
+local function throughSlot(sl, yawNow, ex, ez, cx, cz)
+    local dx, dz = cx - ex, cz - ez
+    local ox, oz = ex - sl.c[1], ez - sl.c[2]
+    local A = dx * dx + dz * dz
+    local B = 2.0 * (ox * dx + oz * dz)
+    local C = ox * ox + oz * oz - sl.r * sl.r
+    local disc = B * B - 4.0 * A * C
+    if disc <= 0.0 or A < 1e-9 then return false end        -- 筒に当たらない = 中は見えない
+    local t = (-B - math.sqrt(disc)) / (2.0 * A)
+    if t <= 0.0 or t >= 1.0 then return false end
+    local px, pz = ox + t * dx, oz + t * dz                 -- 交点(筒の中心を原点に)
+    local ang = math.deg(atan2(pz, px))
+    -- モデルの局所角 a は、yaw θ で world では a - θ に見える
+    local want = SLOT_MID - yawNow
+    local d2 = ((ang - want + 180.0) % 360.0) - 180.0
+    return math.abs(d2) < sl.half
+end
+
 local function pairAngle(ex, ey, ez, a, b)
     local ax, ay, az = a[1] - ex, a[2] - ey, a[3] - ez
     local bx, by, bz = b[1] - ex, b[2] - ey, b[3] - ez
@@ -222,6 +245,8 @@ function OnStart(self)
                     trail    = d.trail, trailR = d.trailR or TRAIL_R, step = 0,
                     -- 【送り】東で合わせると機械が動き出す。動いている間だけ西が決まる
                     relay    = d.relay, armed = false, relayT = 0.0,
+                    -- 【回る】スリット付きの筒。中の破片は一周に一度しか見えない
+                    slot     = d.slot,
                     occl     = d.occl,                -- 【かくれて合わせる】陰に隠す
                     peri     = d.peri or false,       -- 【直視しない】周辺視でだけ合う
                     dark     = d.dark or false,       -- 暗くなった一瞬だけ合わせられる
@@ -798,6 +823,18 @@ function OnUpdate(self, dt)
             if c.maxY and ey > c.maxY then gateB = false end
             -- ★規則F: 偽物が柱の陰に入っていない間は、いくら合っていても決まらない
             if c.occl and not hidden(c.occl, ex, ey, ez) then gateB = false end
+            -- ★規則「回る」: スリットがこちらを向いた一瞬しか中の破片は見えない。
+            --   見えていない間に確定させてはいけない(見ていない物が実体になる)。
+            if c.slot then
+                local yawNow = (self.t * c.slot.speed) % 360.0
+                local de = find(c.slot.ent)
+                if de then de.transform.rotation = V(0, yawNow, 0) end
+                if not throughSlot(c.slot, yawNow, ex, ez,
+                                   c.center[1], c.center[3]) then
+                    gateB = false
+                end
+                saveNum("lm_slot", yawNow)
+            end
             local gate = gateB and still
 
             if c.relay then
