@@ -479,6 +479,28 @@ def main():
     if dangling == 0:
         ok("needs の参照先はすべて実在する")
 
+    # ★ランタイムへ渡す名前が全部シーンに在るか。第二幕を統合した時のように部屋ごと
+    #   消すと、消えた物を指したままの mover / glow / darkLights が残りうる。
+    #   実行時は find() が nil を返して【黙って何も起きない】ので気づけない。
+    known = set(world.byname)
+    miss = []
+    for c in conns:
+        for nm in ([m["n"] for m in c.movers] + [sd["n"] for sd in c.solids]
+                   + [h["n"] for h in c.hinges] + list(c.glows) + list(c.hides)
+                   + [sh["n"] for sh in c.shines]):
+            if nm not in known:
+                miss.append("継ぎ目%d:%s" % (c.cid, nm))
+        for nm in c.dark_lights:
+            # troffer は <名前>_l(点光源) と <名前>_p(カバー)を作る。基底名は存在しない
+            if (nm + "_l") not in known:
+                miss.append("継ぎ目%d:%s_l(明滅の点光源)" % (c.cid, nm))
+        if c.slot and c.slot["ent"] not in known:
+            miss.append("継ぎ目%d:%s(回る筒)" % (c.cid, c.slot["ent"]))
+    for nm in miss:
+        fail("シーンに無い物を指している: %s" % nm)
+    if not miss:
+        ok("継ぎ目が指す名前はすべてシーンに在る")
+
     # ---------------------------------------------------- 順路(段階ごと)
     print(NL + "[2] 順路の通し歩き(継ぎ目を1つずつ確定させる)")
     start = (0.0, -6.0, 0.0)

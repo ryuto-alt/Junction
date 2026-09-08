@@ -909,11 +909,16 @@ def act2(Y2, DW, DH):
     for i in range(4):
         xw = 12.0 + 4.0 * i
         pl6 = box("C6_p%d" % i, (xw, (Y2 + CWY) / 2, TZC), (3.90, CWY - Y2, TZD),
-                  T_CONC, "x", rough=0.9, color=[0.60, 0.60, 0.58], tile=(1.3, 2.2))
+                  T_CONC, "x", rough=0.9, color=[0.72, 0.72, 0.70], tile=(1.3, 2.2))
         # ★天板を別の箱で載せない。塊の天面と同じ高さになって z ファイティングする
         g6 = glow("C6_g%d" % i, (xw, CWY + 0.02, TZC + TZD / 2 - 0.10), (3.70, 0.04, 0.05),
                   GOLD, 1.1)
-        grp6[i * 3 // 4] += [pl6, g6]
+        # ★縦の線も要る。水平 1 本だけだと【ただの黒い塊】に見えて、
+        #   「これは破片だ」がこの作品の語彙で伝わらない
+        v6 = [glow("C6_v%d_%d" % (i, q), (xw + (-1.90 if q == 0 else 1.90), (Y2 + CWY) / 2,
+                                          TZC + TZD / 2 - 0.06), (0.05, CWY - Y2 - 0.2, 0.05),
+                   GOLD, 1.1) for q in range(2)]
+        grp6[i * 3 // 4] += [pl6, g6] + v6
         c6.solid(hit("C6_h%d" % i, (xw, (Y2 + CWY) / 2, TZC), (4.10, CWY - Y2, TZD + 0.2)))
     # テラスへ上がる段(東端。北から南へ 9 段で昇る)
     for i in range(9):
@@ -927,9 +932,15 @@ def act2(Y2, DW, DH):
     # ★k の下限を上げること。低いと板が目の 3m 先に来て確定域が 1 升まで潰れる
     for gi, k6 in enumerate((0.46, 0.60, 0.74)):
         c6.shard(k6, grp6[gi],
-                 glows=[e for e in grp6[gi] if e["name"].startswith("C6_g")])
+                 glows=[e for e in grp6[gi]
+                        if e["name"].startswith("C6_g") or e["name"].startswith("C6_v")])
     mark("C6_mark", (F6[0], Y2 + 0.006, F6[2]), T_TILEF, (0.72, 0.70, 0.66), rough=0.4)
-    plight("C6_fill", (16.0, Y2 + 4.2, 117.0), WARM, 9.0, 14.0)
+    # ★★灯は【プレイヤーが来る側】に置くこと。破片の裏に置くと、見える面が
+    #   全部影になって「ただの真っ黒な板」になる(docs/LIMINAL.md が継ぎ目5 で
+    #   記録している「破片は照らさないと真っ黒の穴に見える」の再発)。
+    #   ここは南西から来るので、灯りも南西に置く。
+    plight("C6_fill", (9.0, Y2 + 2.6, 119.5), WARM, 9.0, 16.0)
+    plight("C6_fill2", (19.0, Y2 + 3.4, 120.5), WARM, 7.0, 14.0)
 
     # ---- 継ぎ目 07/08: 同じ浮遊物が「東の橋」にも「西の橋」にもなる ----
     # ★数学: D = F + k(X - F) を 2 通り満たすには (1-k)(F7 - F8) = k(B - A)。
@@ -988,8 +999,13 @@ def act2(Y2, DW, DH):
     dr9["meshRenderer"] = dict(modelPath="models/arch/shaft/sh_drum.gltf")
     # ★当たり判定は内接する箱で足りる(中へ入る必要は無い)。角が壁の外へ出ないこと
     # ★名前を _hollow で終わらせると、机上検査[1]/[8] が【破片が中に居てよい殻】
-    #   として扱う。この筒は中に破片を吊るのが仕掛けそのものなので必要
-    hit("N1_drum_hollow", (DC9[0], Y2 + DH9 / 2, DC9[1]), (DR9 * 1.20, DH9, DR9 * 1.20))
+    #   として扱う。この筒は中に破片を吊るのが仕掛けそのものなので必要。
+    # ★★円柱を 1 個の箱で塞いではいけない。箱の辺は半径 3.6 でしか止めないので、
+    #   見た目(半径 6)の中へ 2.4m 歩いて入れてしまう。45 度ずつ回した 4 枚で
+    #   八角形に近づけると、どの向きでも半径 5.2 以上で止まる。
+    for qi in range(4):
+        hit("N1_drum%d_hollow" % qi, (DC9[0], Y2 + DH9 / 2, DC9[1]),
+            (DR9 * 1.85, DH9, DR9 * 0.78), rot=(0, 45.0 * qi, 0))
     plight("N1_druml", (DC9[0] - DR9 - 2.0, Y2 + 3.4, DC9[1]), WARM, 8.0, 12.0)
 
     F9 = (6.00, EYEY, 146.00)
