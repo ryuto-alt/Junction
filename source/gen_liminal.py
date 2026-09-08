@@ -435,7 +435,7 @@ LOCKS = {
     2: 1.1,
     3: 3.4,
     5: 4.6,
-    6: 1.3,
+    6: 2.9,
     7: 4.0,
     8: 4.0,
     9: 5.2,
@@ -482,9 +482,9 @@ MARKS = {
     "C2_mark": (0.39, 1.54, 36.0),
     "C3_mark": (0.34, 1.44, 70.7),
     "C5_mark": (0.44, 1.04, 167.2),
-    "C6_mark": (0.26, 1.14, 124.7),
-    "C7_mark": (0.29, 1.34, 64.6),
-    "C8_mark": (0.39, 1.04, 116.7),
+    "C6_mark": (0.49, 0.84, 1.2),
+    "C7_mark": (0.29, 1.34, 63.7),
+    "C8_mark": (0.39, 1.04, 117.3),
     "C9_mark": (0.20, 0.94, 34.1),
     "C10_mark": (0.54, 1.04, 22.9),
     "C11_mark": (1.04, 1.04, 81.9),
@@ -845,72 +845,89 @@ def act2(Y2, DW, DH):
     # ★T の南壁(T1_s)が開口ごとこの位置の壁を兼ねる。ここには建てない
     troffer("V1_tr", 6.0, Y2 + 3.0, 106.4, on=True)
 
-    # ============================================================ T 折り返しの間
-    TX0, TX1, TZ0, TZ1, TH = 2.0, 18.0, 108.8, 122.0, 3.6
-    shell("T1", TX0, TX1, TZ0, TZ1, TH, T_CARPET, T_WALL, y=Y2, walls="wn")
-    wall_with_door("T1_s", "z", TZ0 - WT / 2, TX0 - WT, TX1 + WT, Y2, TH, 6.0, DW, DH, T_WALL)
-    # 東壁: ここに【出口の扉】が組み上がる(入って来た側 = 振り返らないと見えない)
-    TDZ = 110.5
-    wall_with_door("T1_e", "x", TX1 + WT / 2, TZ0 - WT, TZ1 + WT, Y2, TH, TDZ, DW, DH, T_WALL)
-    for x, z, on in ((6.0, 112.0, True), (13.0, 112.0, True), (6.0, 118.5, True),
-                     (13.0, 118.5, False), (16.0, 110.5, True)):
-        troffer("T1_tr%.0f_%.0f" % (x, z), x, Y2 + TH, z, on=on)
-    locker("T1_lk", 3.0, Y2, 116.0, 3, axis="x")
-    bench("T1_bench", 16.6, Y2, 119.0, axis="x")
-    door_closed("T1_d1", 2.0 + 0.07, Y2, 120.0, axis="x", inset=0.045)
-    # ★出口の標識だけ先に点いている。振り返らせるための唯一の手掛かり
-    exit_sign_x("T1_exit", TX1 - 0.16, Y2 + DH + 0.42, TDZ)
-
-    F6 = (7.4, EYEY, 118.6)
-    c6 = Conn(6, F6, 0.5, 5.0, (TX1 - 0.2, Y2 + 1.2, TDZ), "behind")
-    ZF6 = TX1 - 0.11
-    rp, rg = frame_half_x("C6_R", +1, TDZ, Y2, ZF6, DW, DH)
-    c6.shard(1.0, rp, glows=rg)
-    lp, lg = frame_half_x("C6_L", -1, TDZ, Y2, ZF6, DW, DH)
-    c6.shard(0.46, lp, glows=lg)
-    panel6 = box("C6_Panel", (TX1 + WT / 2, Y2 + DH / 2, TDZ), (WT - 0.02, DH, DW), T_WALL, "x",
-                 solid=True)
-    c6.mover(panel6, (TX1 + WT / 2, Y2 - DH / 2 - 0.2, TDZ), dur=1.3, delay=0.0)
-    plight("C6_fill", (9.4, Y2 + 2.9, 115.4), WARM, 5.0, 8.0)
-    mark("C6_mark", (F6[0], Y2 + 0.006, F6[2]), T_CARPET, (0.72, 0.70, 0.66), rough=0.98)
-
-    # ============================================================ X 廊下（東 → 北）
-    shell("X1", TX1 + WT, 24.0, 109.0, 112.0, 2.9, T_CARPET, T_WALL, y=Y2, walls="s")
-    shell("X2", 21.0, 24.0, 112.0, 124.0, 2.9, T_CARPET, T_WALL, y=Y2, walls="we",
-          floor=False, ceil=False)
-    # ★X1 の床/天井が z=112.3 まで出ているので、X2 はその先から敷く(重ねると z ファイティング)
-    box("X2_flr", (22.5, Y2 - WT / 2, 118.3), (3.6, WT, 12.0), T_CARPET, "y", rough=0.95,
-        solid=True)
-    box("X2_cil", (22.5, Y2 + 2.9 + WT / 2, 118.3), (3.6, WT, 12.0), T_CEIL, "y", rough=0.94)
-    box("X1_nw", (19.5, Y2 + 2.9 / 2, 112.15), (3.0, 2.9, WT), T_WALL, "z", rough=0.9, solid=True)
-    troffer("X1_tr", 21.0, Y2 + 2.9, 110.5, on=True)
-    for z in (115.0, 121.0):
-        troffer("X2_tr%.0f" % z, 22.5, Y2 + 2.9, z, on=(z != 121.0))
-
-    # ============================================================ M 多義の間（タイル）
-    MX0, MX1, MZ0, MZ1, MH = 14.0, 30.0, 124.3, 142.0, 5.0
-    TR0, TR1, TRD = 130.0, 134.0, 2.6          # 溝
-    box("M1_flr_s", (22.0, Y2 - WT / 2, (MZ0 + TR0) / 2), (16.6, WT, TR0 - MZ0), T_TILEF, "y",
-        rough=0.28, solid=True)
-    box("M1_flr_n", (22.0, Y2 - WT / 2, (TR1 + MZ1) / 2), (16.6, WT, MZ1 - TR1), T_TILEF, "y",
-        rough=0.28, solid=True)
-    box("M1_pit", (22.0, Y2 - TRD - WT / 2, (TR0 + TR1) / 2), (16.6, WT, TR1 - TR0), T_CONC, "y",
-        rough=0.95, solid=True)
-    for sgn in (-1, 1):
-        box("M1_pw%d" % sgn, (22.0 + sgn * 8.15, Y2 - TRD / 2, (TR0 + TR1) / 2), (WT, TRD, TR1 - TR0),
-            T_CONC, "x", rough=0.95, solid=True)
+    # ============================================================ N 別棟の大室（統合）
+    # ★★4 部屋(折り返し / 廊下 / 多義 / 揺れ)を 1 つにした。28 x 47m・高さ 13m。
+    #   「一部屋一問」をやめるのがこの幕の作り替えの核。部屋は増やしていない ── 壁を抜いた。
+    NX0, NX1, NZ0, NZ1, NH = 2.0, 30.0, 108.8, 156.0, 13.0
+    TR0, TR1, TRD = 130.0, 134.0, 2.6          # 溝(部屋の全幅を横切る)
+    shell("N1", NX0, NX1, NZ0, NZ1, NH, T_TILEF, T_TILEW, y=Y2, walls="we",
+          ceil_tex=T_CONC, base=False, floor=False)
+    wall_with_door("N1_s", "z", NZ0 - WT / 2, NX0 - WT, NX1 + WT, Y2, NH, 6.0, DW, DH, T_WALL)
+    SILL2 = Y2 + 2.40
+    wall_with_door("N1_n", "z", NZ1 + WT / 2, NX0 - WT, NX1 + WT, Y2, NH, 22.0, DW,
+                   (SILL2 - Y2) + DH, T_CONC)
+    box("N1_sill", (22.0, SILL2 - 0.06, NZ1 + WT / 2), (DW, 0.12, WT), T_CONC, "z", rough=0.9)
+    door_casing("N1_nc", "z", NZ1 - 0.02, 22.0, SILL2, DW, DH)
+    exit_sign("N1_exit", 22.0, SILL2 + DH + 0.34, NZ1 - 0.10)
+    # 床は溝の南北 2 枚。★溝は【全幅】を横切るので、渡る道は継ぎ目7/8 しか無い
+    box("N1_flr_s", ((NX0 + NX1) / 2, Y2 - WT / 2, (NZ0 + TR0) / 2),
+        (NX1 - NX0 + WT * 2, WT, TR0 - NZ0 + WT), T_TILEF, "y", rough=0.28, solid=True)
+    box("N1_flr_n", ((NX0 + NX1) / 2, Y2 - WT / 2, (TR1 + NZ1) / 2),
+        (NX1 - NX0 + WT * 2, WT, NZ1 - TR1 + WT), T_TILEF, "y", rough=0.28, solid=True)
+    box("N1_pit", ((NX0 + NX1) / 2, Y2 - TRD - WT / 2, (TR0 + TR1) / 2),
+        (NX1 - NX0, WT, TR1 - TR0), T_CONC, "y", rough=0.95, solid=True)
     for z in (TR0 + 0.06, TR1 - 0.06):
-        box("M1_pf%.0f" % z, (22.0, Y2 - TRD / 2, z), (16.0, TRD, 0.12), T_TILEW, "z", rough=0.3)
-        box("M1_pl%.0f" % z, (22.0, Y2 + 0.02, z + (-0.16 if z < TR1 - 1 else 0.16)),
-            (16.0, 0.05, 0.20), T_TILEW, "y", rough=0.28)
-    shell("M1", MX0, MX1, MZ0, MZ1, MH, T_TILEF, T_TILEW, y=Y2, walls="we", floor=False)
-    wall_with_door("M1_s", "z", MZ0 - WT / 2, MX0 - WT, MX1 + WT, Y2, MH, 22.5, DW, DH, T_TILEW)
-    wall_with_door("M1_n", "z", MZ1 + WT / 2, MX0 - WT, MX1 + WT, Y2, MH, 22.0, DW, DH, T_TILEW)
-    door_casing("M1_nc", "z", MZ1 - 0.02, 22.0, Y2, DW, DH)
-    exit_sign("M1_exit", 22.0, Y2 + DH + 0.36, MZ1 - 0.10)
-    for x, z in ((17.0, 127.0), (27.0, 127.0), (17.0, 138.0), (27.0, 138.0), (22.0, 132.0)):
-        troffer("M1_tr%.0f_%.0f" % (x, z), x, Y2 + MH, z, on=(x, z) != (22.0, 132.0),
-                warm=COOL, intensity=8.0, rng=12.0)
+        box("N1_pf%.0f" % z, ((NX0 + NX1) / 2, Y2 - TRD / 2, z), (NX1 - NX0 - 0.6, TRD, 0.12),
+            T_TILEW, "z", rough=0.3)
+        box("N1_pl%.0f" % z, ((NX0 + NX1) / 2, Y2 + 0.02, z + (-0.16 if z < TR1 - 1 else 0.16)),
+            (NX1 - NX0 - 0.6, 0.05, 0.20), T_TILEW, "y", rough=0.28)
+    plight("N1_pitl", (16.0, Y2 - TRD + 1.4, 132.0), COOL, 5.0, 10.0)
+    # ★灯は弱く・飛び飛びに。28x47m を均一に照らすと「ただの白い箱」になる
+    for lx, lz, on in ((6.0, 113.0, True), (24.0, 113.0, False), (6.0, 124.0, False),
+                       (24.0, 124.0, True), (6.0, 140.0, True), (24.0, 140.0, False),
+                       (6.0, 151.0, False), (24.0, 151.0, True), (15.0, 132.0, False),
+                       (20.0, 138.0, True), (17.0, 147.0, True)):
+        box("N1_ls%.0f_%.0f" % (lx, lz), (lx, Y2 + NH - 0.35, lz), (1.0, 0.24, 1.0), T_METAL,
+            "y", rough=0.45, metal=0.6, color=[0.42, 0.42, 0.40])
+        if on:
+            glow("N1_lg%.0f_%.0f" % (lx, lz), (lx, Y2 + NH - 0.49, lz), (0.72, 0.05, 0.72),
+                 WARM, 1.5)
+            plight("N1_ll%.0f_%.0f" % (lx, lz), (lx, Y2 + NH - 1.2, lz), WARM, 9.0, 15.0)
+    locker("N1_lk", 3.2, Y2, 118.0, 3, axis="x")
+    bench("N1_bench", 27.4, Y2, 121.0, axis="x")
+    for i, (bx_, bz) in enumerate(((4.2, 143.0), (4.9, 143.6), (27.0, 148.0))):
+        box("N1_bx%d" % i, (bx_, Y2 + 0.32, bz), (0.64, 0.64, 0.64), T_PAINT, "y", rough=0.9,
+            color=[0.58, 0.54, 0.44], solid=True, rot=(0, 24 * i, 0))
+
+    # ---- 継ぎ目 06: 振り返る（入って来た南の壁に【桟橋】が生える）----
+    # ★扉をやめた。部屋が 1 つになったので「隣の部屋への扉」という結果が成り立たない。
+    #   代わりに【入って来た壁】に桟橋が生える。振り返らないと一生見えないのは同じ。
+    # ★焦点は桟橋の【北 12m】。溝の方を向いて歩いていると背中側にある。
+    #   緑の非常口だけが先に南で点いていて、それが振り返る唯一の手掛かり。
+    CWY = Y2 + 2.60                     # 桟橋の天端
+    F6 = (10.60, EYEY, 122.00)
+    c6 = Conn(6, F6, 0.9, 8.0, (11.0, CWY, 112.0), "behind-catwalk")
+    exit_sign("N1_lure6", 6.0, Y2 + DH + 0.30, NZ0 + 0.16)
+    grp6 = [[], [], []]
+    # 桟橋の踏面(南壁沿いに東西 16m)
+    for i in range(4):
+        xw = 4.4 + 4.2 * i
+        pl6 = box("C6_p%d" % i, (xw, CWY - 0.11, 111.60), (4.00, 0.22, 3.20), T_METAL, "y",
+                  rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47], tile=(2.0, 1.6))
+        g6 = glow("C6_g%d" % i, (xw, CWY + 0.02, 113.10), (3.80, 0.04, 0.05), GOLD, 1.1)
+        grp6[i * 3 // 4] += [pl6, g6]
+        c6.solid(hit("C6_h%d" % i, (xw, CWY - 0.11, 111.60), (4.20, 0.22, 3.40),
+                     kinematic=True))
+    # 桟橋へ上がる段(東端。9 段 x 0.289)
+    for i in range(9):
+        yy6 = Y2 + 0.289 * (i + 1)
+        # ★段は【桟橋へ向かって】昇らせること。逆向きに置いたら、昇りきった所が
+        #   桟橋から 8.6m 離れていて乗れなかった(机上検査の「解いても行けない」)
+        zz6 = 121.60 - 0.95 * i
+        st6 = box("C6_s%d" % i, (18.60, yy6 - 0.11, zz6), (3.20, 0.22, 1.50), T_METAL, "y",
+                  rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47], tile=(1.6, 0.75))
+        grp6[2].append(st6)
+        c6.solid(hit("C6_hs%d" % i, (18.60, yy6 - 0.11, zz6), (3.40, 0.22, 1.85),
+                     kinematic=True))
+    # ★焦点は【道の軸の上】(第三幕の教訓)。k は 3 塊で広く散らす
+    # ★k の下限を上げること。0.34 だと桟橋の板が目から 3.6m の所に来て、
+    #   確定域が 0.07m2(1 升)まで潰れる ── 第三幕の柱で踏んだのと同じ罠
+    for gi, k6 in enumerate((0.46, 0.60, 0.74)):
+        c6.shard(k6, grp6[gi],
+                 glows=[e for e in grp6[gi] if e["name"].startswith("C6_g")])
+    mark("C6_mark", (F6[0], Y2 + 0.006, F6[2]), T_TILEF, (0.72, 0.70, 0.66), rough=0.4)
+    plight("C6_fill", (11.0, Y2 + 3.4, 116.0), WARM, 8.0, 13.0)
+
 
     # ---- 継ぎ目 07/08: 同じ浮遊物が「東の橋」にも「西の橋」にもなる ----
     # ★数学: D = F + k(X - F) を 2 通り満たすには (1-k)(F7 - F8) = k(B - A)。
@@ -946,26 +963,7 @@ def act2(Y2, DW, DH):
         mark(nm + "_mark", (f[0], Y2 + 0.014, f[2]), T_TILEF, (0.80, 0.82, 0.80),
              rough=0.3, thick=0.014)
 
-    # ============================================================ S 揺れの間
-    SX0, SX1, SZ0, SZ1, SH_ = 14.0, 30.0, 142.3, 156.0, 5.6
-    shell("S1", SX0, SX1, SZ0, SZ1, SH_, T_CONC, T_CONC, y=Y2, walls="we", ceil_tex=T_CONC,
-          base=False)
-    # ★M の北壁(M1_n)がこの位置の壁を兼ねる。ここで 2 枚目を建てると 38m2 が同一平面になり
-    #   見る位置で色が入れ替わる。S の方が天井が高いぶんだけを【上に足す】
-    slab("S1_s", "z", SZ0 - WT / 2, SX0 - WT, SX1 + WT, Y2 + 5.0 + WT, Y2 + SH_, T_CONC)
-    SILL2 = Y2 + 2.40
-    wall_with_door("S1_n", "z", SZ1 + WT / 2, SX0 - WT, SX1 + WT, Y2, SH_, 22.0, DW,
-                   (SILL2 - Y2) + DH, T_CONC)
-    box("S1_sill", (22.0, SILL2 - 0.06, SZ1 + WT / 2), (DW, 0.12, WT), T_CONC, "z", rough=0.9)
-    door_casing("S1_nc", "z", SZ1 - 0.02, 22.0, SILL2, DW, DH)
-    exit_sign("S1_exit", 22.0, SILL2 + DH + 0.34, SZ1 - 0.10)
-    for x, z, on in ((17.5, 145.0, True), (26.5, 145.0, False), (17.5, 153.0, False),
-                     (26.5, 153.0, True)):
-        box("S1_ls%.0f_%.0f" % (x, z), (x, Y2 + SH_ - 0.35, z), (0.9, 0.24, 0.9), T_METAL, "y",
-            rough=0.45, metal=0.6, color=[0.42, 0.42, 0.40])
-        if on:
-            glow("S1_lg%.0f_%.0f" % (x, z), (x, Y2 + SH_ - 0.49, z), (0.64, 0.05, 0.64), WARM, 1.5)
-            plight("S1_ll%.0f_%.0f" % (x, z), (x, Y2 + SH_ - 0.8, z), WARM, 9.0, 12.0)
+    # （揺れの間の殻は N1 に統合済み。ここは継ぎ目9 の足場だけ）
 
     # ---- 継ぎ目 09: 漂う破片。合う姿勢で【速度が 0 になる】ので、待てば必ず止まる ----
     F9 = (18.2, EYEY, 146.6)
@@ -1000,7 +998,8 @@ def act2(Y2, DW, DH):
     shell("Z1", ZX0, ZX1, ZZ0, ZZ1, ZH, T_PAINT, T_PAINT, y=SILL2, walls="we",
           ceil_tex=T_PAINT, base=False)
     # ★S の北壁(S1_n)が開口ごとこの位置の壁を兼ねる。Z の方が高いぶんだけを上に足す
-    slab("Z1_s", "z", ZZ0 - WT / 2, ZX0 - WT, ZX1 + WT, Y2 + 5.6 + WT, SILL2 + ZH, T_PAINT)
+    # ★Z1_s は廃止。大室(N1)の北壁が高さ 13m あるので、ここに 2 枚目を建てると
+    #   同一平面になって見る位置で色が入れ替わる(検査 [6] が捕まえた)
     # ★白い部屋は終わりではなく【第三幕への戸口】。戸口(継ぎ目10)が建つまでは塞がっている
     wall_with_door("Z1_n", "z", ZZ1 + WT / 2, ZX0 - WT, ZX1 + WT, SILL2, ZH, 22.0, DW, DH, T_PAINT)
     door_casing("Z1_nc", "z", ZZ1 - 0.02, 22.0, SILL2, DW, DH)
