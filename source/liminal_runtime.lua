@@ -365,6 +365,19 @@ local function cfgNudge(self, i, dir)
     cfgApply(self)
 end
 
+-- ---------------------------------------------------------------- マウスの掴み
+-- ★★毎フレーム「こうあるべき」へ合わせる。開いた瞬間に覚えて閉じた瞬間に戻す、
+--   という一度きりのやり方は駄目だった:
+--   開けた時点でもうカーソルが出ていると(ESC を押した後、ウィンドウを裏へやった後、
+--   エディタの Play 直後など)「戻す先」が【出したまま】として記録され、
+--   TAB で閉じてもカーソルが出っぱなしになる。2026-09-09 に実際にそうなった。
+--   意図(wantCap)だけを持ち、実際の状態が食い違っていたら毎フレーム直す。
+local function holdMouse(self)
+    -- パネルを開けている間だけカーソルを出す。それ以外はプレイヤーの意図に従う
+    local want = (not self.menuOpen) and self.wantCap and not self.done
+    if input:isMouseCaptured() ~= want then input:setMouseCapture(want) end
+end
+
 -- 短い当たり(設定を変えた・部屋へ飛んだ)。振動を切っていれば何もしない
 local function bump(self, strength, sec)
     if self.cfg[S_RUMBLE] > 0.5 and padConnected() then
@@ -500,6 +513,8 @@ function OnStart(self)
     if self.ring then scene:setUiVisible(self.ring, false) end
     scene:setUiText(self.endt, "")
     scene:setUiColor(self.endt, 0.94, 0.93, 0.86, 0.0)
+    -- ★掴みたいかどうか(意図)。実際に合わせるのは毎フレームの holdMouse
+    self.wantCap = true
     input:setMouseCapture(true)
     saveNum("lm_locked", 0)
     -- ★【送り】規則の錘。休み位置をここで 1 回だけ覚える(動かした後の戻り先)
@@ -1025,15 +1040,10 @@ local function menuUpdate(self, dt)
         if self.menuOpen then
             self.menuSeen = true
             self.menuI = 1
-            -- ★開けたらカーソルを出す。出さないと「設定が並んでいるのに触れない」
-            --   という一番きつい形になる(2026-09-09 の指摘)。
-            --   キーボードとパッドの操作も同時に効くので、どれで触ってもよい。
-            self.capWas = input:isMouseCaptured()
-            input:setMouseCapture(false)
-        elseif self.capWas then
-            input:setMouseCapture(true)      -- 閉じたら元どおり掴み直す
         end
         bump(self, 0.20, 0.05)
+        -- ★カーソルの出し入れはここでは【やらない】。OnUpdate の holdMouse が
+        --   毎フレーム面倒を見る(下の理由)。
     end
 
     if self.menuOpen then
@@ -1175,10 +1185,12 @@ function OnUpdate(self, dt)
     --   閉じた瞬間に「何もしていないのに解けた」になる。
     local frozen = self.menuOpen or self.dbgOpen
 
-    -- ESC はパネルを閉じるのに使った時だけ食われる(menuUpdate 側)。それ以外はマウス解放
+    -- ESC はパネルを閉じるのに使った時だけ食われる(menuUpdate 側)。それ以外はマウス解放。
+    -- ★直接 setMouseCapture せず【意図】だけを書き換える。実際に合わせるのは holdMouse
     if keyPressed("ESC") and not self.menuOpen then
-        input:setMouseCapture(not input:isMouseCaptured())
+        self.wantCap = not self.wantCap
     end
+    holdMouse(self)
 
     -- ------------------------------------------------ 視点
     local yaw0, pitch0 = self.yaw, self.pitch
@@ -1623,6 +1635,7 @@ function OnUpdate(self, dt)
        and p.z > GOAL.z and math.abs(p.x - GOAL.x) < GOAL.r and p.y > GOAL.y - 1.2 then
         self.done = true
         self.doneT = 0.0
+        self.wantCap = false          -- 終わったら掴まない(holdMouse がカーソルを出す)
         input:setMouseCapture(false)
         audio:playSFX("audio/lm/clear.wav")
         scene:setUiText(self.endt, "つながった")
