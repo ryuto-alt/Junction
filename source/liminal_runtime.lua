@@ -28,7 +28,12 @@ GOAL = {}
 -- <<<DATA
 
 local EYE_OFF = 0.80          -- 体の中心から目まで
-local SPEED   = 3.05
+-- ★2026-09-09: 3.05 -> 3.80 へ。到達点をつないだ総歩行距離が 427m あり、
+--   止まらず歩くだけで 2.3 分かかっていた。立ち位置探しは【何度も往復する】遊びなので、
+--   移動そのものが遅いと試行の回数がそのまま減る。
+-- ★STILL(1.10) は上げない。速く歩けるようにしても『止まって見る』の条件は変えない
+--   ＝通りすがりで確定してしまう事故は増えない(減速に掛かる時間は ACCEL 次第で同じ)。
+local SPEED   = 3.80
 local ACCEL   = 13.0
 local SENS    = 0.082
 local CONE    = 26.0          -- 「見ている」と認める視野角(度)
@@ -149,7 +154,8 @@ local LENS_FIELDS = {
     warp    = { "lensOn", "lensMode", "lensCircular", "lensEdge",
                 "lens", "lensK2", "lensZoom", "lensChroma" },
     drain   = { "saturationOn", "saturation" },
-    band    = { "posterizeOn", "posterize", "contrastOn", "contrast" },
+    band    = { "posterizeOn", "posterize", "contrastOn", "contrast",
+                "saturationOn", "saturation" },
 }
 
 local LENSES = {
@@ -199,11 +205,17 @@ local LENSES = {
         post.setMany{ saturationOn = true, saturation = B.saturation * (1.0 - u) }
     end,
     -- 階調を潰す: なだらかな陰影に隠れた形が、段になった瞬間に輪郭として出る
+    -- ★★彩度を先に抜いてから段にすること。posterize は RGB を【チャンネルごとに】
+    --   量子化するので、色が残ったまま段数を落とすと、暖色寄りの白壁が
+    --   赤と黄の帯へ分離して【極彩色の壊れた絵】になる(posterize=3 で実際にそうなった)。
+    --   灰色の段にすれば、これは古典的なマッハバンド = 隠れた輪郭が浮く見え方になる。
+    -- ★段数も 3 まで落とさない。6 で十分に境界は出るし、部屋の形は読めるまま残る。
     band = function(u, B)
         post.setMany{
+            saturationOn = true, saturation = B.saturation * (1.0 - 0.95 * u),
             -- ★整数の階調数(2..16)。多い方が素に近いので、詰めるほど減らす
-            posterizeOn = u > 0.01, posterize = math.floor(16 - 13 * u + 0.5),
-            contrastOn = true, contrast = B.contrast + 0.28 * u,
+            posterizeOn = u > 0.01, posterize = math.floor(16 - 10 * u + 0.5),
+            contrastOn = true, contrast = B.contrast + 0.22 * u,
         }
     end,
 }
