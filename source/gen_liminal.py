@@ -29,7 +29,7 @@
   離れるほど増える。lock 未満で確定、warn で表示が始まる。
 """
 from pathlib import Path
-import hashlib, json, math, random
+import hashlib, json, math, random, re
 
 ROOT = Path(__file__).resolve().parents[1]
 ES = []            # entities
@@ -1961,6 +1961,93 @@ def act5(Y5, DW, DH):
 
 
 # ================================================================ ステージ
+DECOR_RE = re.compile(r"(_mark$|dud\d*$|lure|_exit(_b)?$|_c[lrt]$)")
+
+
+def add_walk_colliders(p_height=1.80, p_step=0.32):
+    """歩いて当たるはずなのに擦り抜ける箱へ、静的な当たり判定をまとめて足す。
+
+    ★なぜ機械で決めるか: 什器は 900 個ある。box(solid=True) の付け忘れは手では必ず出るし、
+      逆に天井の照明や床の擦れ跡へ付けると『見えない壁』になる。そこで
+      【床からの高さ帯に掛かるか】という一つの規則だけで決める。
+
+        ・箱の下端が身長より上   … いらない(頭上を通るだけ)
+        ・箱の上端がまたげる高さ … いらない(踏んで歩ける)
+        ・その間に掛かる         … 要る(体が通れない)
+
+    付けないもの:
+      ・継ぎ目の仕掛けが掴んでいる実体(破片・出現物・可動物・丁番・標識)。
+        破片は焦点から見た時だけ形になる幻で、動く。
+      ・glow() の発光板。物ではなく明かり。
+      ・囮と偽の印(lure / dud / mark)。★囮の板は「浮いている破片と同じ見かけ」に
+        【わざと】してある。当たり判定を付けると、ぶつかるかどうかで本物の破片と
+        見分けがついてしまい、謎解きが崩れる。
+      ・非常口の標識と開口のケーシング。壁に貼った薄い飾りで、壁側に当たり判定がある。
+
+    ★同じ規則が source/fix_colliders.js にもある(Python の無い環境から直すため)。
+      片方だけ直さないこと。
+    """
+    reserved = set()
+    for c in CONNS:
+        d = c.data()
+        for sh in d.get("shards", ()):
+            for e in sh.get("ents", ()):
+                reserved.add(e["n"])
+        for key in ("solids", "movers", "hinges", "lights", "shines", "hides"):
+            for x in d.get(key, ()) or ():
+                reserved.add(x["n"] if isinstance(x, dict) else x)
+        for x in d.get("glows", ()) or ():
+            reserved.add(x)
+        for n in d.get("darkLights", ()) or ():
+            reserved.update((n, n + "_l", n + "_p"))
+        if d.get("slot"):
+            reserved.add(d["slot"]["ent"])
+        if d.get("relay"):
+            reserved.add(d["relay"]["weight"])
+        for t in d.get("trail", ()) or ():
+            if isinstance(t, dict) and "n" in t:
+                reserved.add(t["n"])
+
+    def aabb(e):
+        x, y, z = e["transform"]["position"]
+        w, h, dd = e["transform"]["scale"]
+        return (x - w / 2, x + w / 2, y - h / 2, y + h / 2, z - dd / 2, z + dd / 2)
+
+    floors = [aabb(e) for e in ES if "boxCollider" in e and "transform" in e]
+    added = 0
+
+    for e in ES:
+        if e.get("primitive") != "box" or "boxCollider" in e or "transform" not in e:
+            continue
+        if e["name"] in reserved or DECOR_RE.search(e["name"]):
+            continue
+        # glow() は ReconnectInk シェーダーだけを持ち、テクスチャを持たない
+        if "shader" in e and "materialTextureOverrides" not in e:
+            continue
+
+        x0, x1, y0, y1, z0, z1 = aabb(e)
+        floor_y = None
+        for fx0, fx1, fy0, fy1, fz0, fz1 in floors:
+            if x0 >= fx1 or x1 <= fx0 or z0 >= fz1 or z1 <= fz0:
+                continue
+            if fy1 > y1 - 0.02:              # 自分より上の面は床ではない
+                continue
+            if floor_y is None or fy1 > floor_y:
+                floor_y = fy1
+        if floor_y is None:
+            continue
+        if y0 - floor_y >= p_height or y1 - floor_y <= p_step:
+            continue
+
+        e["boxCollider"] = dict(halfExtents=[.5, .5, .5], offset=[0, 0, 0])
+        e["rigidBody"] = dict(motionType=0, mass=1, friction=.75, restitution=0,
+                              useGravity=False, linearDamping=.02, angularDamping=.01)
+        added += 1
+
+    print("  歩行用の当たり判定を %d 個 追加した" % added)
+    return added
+
+
 def build():
     ES.clear(); CONNS.clear()
 
@@ -2299,6 +2386,8 @@ def build():
     # ★終わりは白い部屋で出す = 文字は【暗色】。明色 + 黒縁だと縁だけが残って潰れる
     t["uiText"] = dict(text="", fontSize=42, color=[0.13, 0.13, 0.12, 0.0], alignH=1, alignV=1,
                        wrap=False, outlineWidth=0.0, outlineColor=[1, 1, 1, 0.0])
+
+    add_walk_colliders()
 
     return dict(
         version=1, entities=ES, shadows=False,

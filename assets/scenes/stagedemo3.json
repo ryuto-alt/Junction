@@ -1034,7 +1034,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d1_r",
@@ -1074,7 +1095,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d1_t",
@@ -1154,7 +1196,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d1_k",
@@ -1194,7 +1257,28 @@
     0.75,
     0.72,
     0.62
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d2_l",
@@ -1234,7 +1318,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d2_r",
@@ -1274,7 +1379,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d2_t",
@@ -1354,7 +1480,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d2_k",
@@ -1394,7 +1541,28 @@
     0.75,
     0.72,
     0.62
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d3_l",
@@ -1434,7 +1602,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d3_r",
@@ -1474,7 +1663,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d3_t",
@@ -1554,7 +1764,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_d3_k",
@@ -1594,7 +1825,28 @@
     0.75,
     0.72,
     0.62
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_v1",
@@ -1834,7 +2086,28 @@
     0.72,
     0.7,
     0.63
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_bench_l-0.69",
@@ -1874,7 +2147,28 @@
     0.5,
     0.5,
     0.48
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_bench_l0.69",
@@ -1914,7 +2208,28 @@
     0.5,
     0.5,
     0.48
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "A_end_0",
@@ -3333,7 +3648,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_pitf",
@@ -3373,7 +3709,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_edgen",
@@ -5219,7 +5576,28 @@
     0.52,
     0.55,
     0.52
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_lk1_d0",
@@ -5259,7 +5637,28 @@
     0.44,
     0.47,
     0.44
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_lk1_d1",
@@ -5299,7 +5698,28 @@
     0.44,
     0.47,
     0.44
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_lk1_d2",
@@ -5339,7 +5759,28 @@
     0.44,
     0.47,
     0.44
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_lk2",
@@ -5379,7 +5820,28 @@
     0.52,
     0.55,
     0.52
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_lk2_d0",
@@ -5419,7 +5881,28 @@
     0.44,
     0.47,
     0.44
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_lk2_d1",
@@ -5459,7 +5942,28 @@
     0.44,
     0.47,
     0.44
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_bench",
@@ -5499,7 +6003,28 @@
     0.72,
     0.7,
     0.63
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_bench_l-0.69",
@@ -5539,7 +6064,28 @@
     0.5,
     0.5,
     0.48
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_bench_l0.69",
@@ -5579,7 +6125,28 @@
     0.5,
     0.5,
     0.48
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "B_v1",
@@ -13032,7 +13599,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_d1_r",
@@ -13072,7 +13660,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_d1_t",
@@ -13152,7 +13761,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_d1_k",
@@ -13192,7 +13822,28 @@
     0.75,
     0.72,
     0.62
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_d2_l",
@@ -13232,7 +13883,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_d2_r",
@@ -13272,7 +13944,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_d2_t",
@@ -13352,7 +14045,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_d2_k",
@@ -13392,7 +14106,28 @@
     0.75,
     0.72,
     0.62
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_bench",
@@ -13432,7 +14167,28 @@
     0.72,
     0.7,
     0.63
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_bench_l-0.69",
@@ -13472,7 +14228,28 @@
     0.5,
     0.5,
     0.48
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_bench_l0.69",
@@ -13512,7 +14289,28 @@
     0.5,
     0.5,
     0.48
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "D_v1",
@@ -19525,7 +20323,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "N1_pl130",
@@ -19605,7 +20424,28 @@
     1,
     1,
     1
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "N1_pl134",
@@ -20570,7 +21410,28 @@
     0.52,
     0.55,
     0.52
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "N1_lk_d0",
@@ -20610,7 +21471,28 @@
     0.44,
     0.47,
     0.44
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "N1_lk_d1",
@@ -20650,7 +21532,28 @@
     0.44,
     0.47,
     0.44
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "N1_lk_d2",
@@ -20690,7 +21593,28 @@
     0.44,
     0.47,
     0.44
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "N1_bench",
@@ -20730,7 +21654,28 @@
     0.72,
     0.7,
     0.63
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "N1_bench_l-0.69",
@@ -20770,7 +21715,28 @@
     0.5,
     0.5,
     0.48
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "N1_bench_l0.69",
@@ -20810,7 +21776,28 @@
     0.5,
     0.5,
     0.48
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "N1_bx0",
@@ -37661,7 +38648,28 @@
     0.58,
     0.58,
     0.56
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "G1_pf243",
@@ -37701,7 +38709,28 @@
     0.58,
     0.58,
     0.56
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "G1_pg60",
@@ -37741,7 +38770,28 @@
     0.58,
     0.58,
     0.56
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "G1_pg78",
@@ -37781,7 +38831,28 @@
     0.58,
     0.58,
     0.56
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "G1_pl",
@@ -43620,7 +44691,28 @@
     0.58,
     0.58,
     0.56
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "W5_pf284",
@@ -43660,7 +44752,28 @@
     0.58,
     0.58,
     0.56
-   ]
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1.0,
+    "friction": 0.75,
+    "restitution": 0.0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
   },
   {
    "name": "W5_pl275",

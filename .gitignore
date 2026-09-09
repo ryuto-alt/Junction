@@ -30,3 +30,6 @@ out/
 *.tmp
 assets/.thumbcache/
 .mcp.json
+
+# ビルド用の道具の依存(npm install で入れ直せる)
+source/ui_icons/node_modules/
