@@ -51,7 +51,12 @@ local STRIKE = {
 local T_STRIKE = 0.35        -- 暗いまま待つ時間
 local T_HOLD   = 1.10        -- 点き切ってから走り出すまで
 local T_SWEEP  = 0.60        -- 横線になって走る
-local T_LINE   = 0.55        -- 1 本の線のまま静止する(ここが「線一つ」の見せ場)
+-- ★★1 本の線で静止している時間。0.55 → 1.60 に伸ばした。
+--   見せ場としてここが一番効く所でもあるが、実利の方が大きい ── タイトルの
+--   起動時に本編を先読みしてあるとはいえ、取りこぼしがあれば幕の途中で読み込みが
+--   走って固まる。【絵が動いていない静止の間】を長く取っておけば、そこで
+--   読み終わる余地ができるし、仮に止まってもただの静止画に見える。
+local T_LINE   = 1.60        -- 1 本の線のまま静止する(ここが「線一つ」の見せ場)
 local T_TURN   = 0.45        -- 横線が中心へ引き、縦の継ぎ目が立つ
 local T_OPEN   = 1.80        -- カーテンの「閉じる → 開く」の合計秒
 
@@ -115,8 +120,27 @@ function OnStart(self)
         saturationOn = false,
         exposureOn = true, exposure = 1.0,
     }
-    preloadScene(NEXT)
+    -- ★★2026-09-09「タイトルからシーン遷移するとき画面フリーズする」の【本体】。
+    --   ここに preloadScene(NEXT) があった。OnStart は【この画面が 1 フレームも
+    --   描かれる前】に走るので、読み込みの十数秒はまるごと「タイトルの絵のまま
+    --   固まっている」時間になっていた。Windows に「応答していません」と
+    --   言われるのも当然で、遊ぶ側からは完全にハングに見える。
+    --   ★読み込みは OnUpdate 側へ移した。ロード画面を先に出し切ってから読む。
+    self.prog   = 0.0      -- 表示している進み具合 0..1
+    self.step   = 0        -- 済んだ工程の数
+    self.frames = 0
 end
+
+-- 工程表。{ ここまで進んだと見せる割合, その工程でやること }
+-- ★重い呼び出しの【前に必ず 1 枚描いて出す】ことだけが肝。描き終えたフレームが
+--   画面に出てから止まれば、遊ぶ側には「読み込み中に止まっている」＝正常に見える。
+--   出る前に止まると「前の絵のまま固まった」＝故障に見える。同じ待ち時間でも別物。
+local STEPS = {
+    { 0.10, nil },                                      -- まずロード画面を出し切る
+    { 0.20, nil },                                      -- もう 1 枚。確実に出す
+    { 0.85, function() preloadScene(NEXT) end },        -- ここが重い(十数秒)
+    { 1.00, nil },                                      -- 100% を 1 枚出してから開く
+}
 
 function OnUpdate(self, dt)
     self.time = self.time + dt
@@ -125,6 +149,38 @@ function OnUpdate(self, dt)
 
     -- 地の黒。ここから下に何もない = 余白しかない画面
     ui:rect(0, 0, SCREEN_W, SCREEN_H, 0.005, 0.006, 0.006, 1, 0)
+
+    -- ---------------------------------------------------------- 読み込みの帯
+    -- ★飾らない。ユーザーの指示は「100% まで行くやつ。とくにこだわらなくていい」。
+    --   この画面だけは【文字を出さない】規則の外に置く。作品の中ではなく、
+    --   起動を待たせている間の機械の表示なので、数字が出ている方が正しい。
+    self.frames = self.frames + 1
+    -- 帯は目標値へ滑らかに寄せる(工程は飛び飛びに進むので、そのままだと段になる)
+    local goal = (self.step > 0) and STEPS[self.step][1] or 0.0
+    self.prog = self.prog + (goal - self.prog) * math.min(1.0, dt * 6.0)
+
+    -- ★読み終わったら帯は速やかに消す。ここから先は「線 1 本」の見せ場なので、
+    --   数字が残っていると台無しになる。
+    local ba = self.t0 and clamp(1 - (self.time - self.t0) / 0.35, 0, 1) or 1.0
+    if ba > 0.002 then
+        local bw, bh = SCREEN_W * 0.26, 2.0
+        local bx, by = cx - bw * 0.5, SCREEN_H * 0.80
+        ui:rect(bx, by, bw, bh, 0.22, 0.22, 0.21, ba, 0)                          -- 溝
+        ui:rect(bx, by, bw * self.prog, bh, SEAM[1], SEAM[2], SEAM[3], ba * 0.95, 0)
+        ui:text(bx + bw + 14, by - 7, string.format("%3d%%", math.floor(self.prog * 100 + 0.5)),
+                13, SEAM[1], SEAM[2], SEAM[3], ba * 0.62)
+    end
+
+    -- ★工程は 1 フレームに 1 つだけ進める。重い呼び出しの前に必ず描画が出る。
+    if self.step < #STEPS then
+        self.step = self.step + 1
+        local fn = STEPS[self.step][2]
+        if fn then pcall(fn) end
+        if self.step < #STEPS then return end   -- 読み込みが終わるまで演出は始めない
+    end
+    if self.prog < 0.999 then return end        -- 100% を出し切ってから演出へ
+    t = t - (self.t0 or 0.0)
+    if not self.t0 then self.t0 = self.time; t = 0.0 end
 
     -- 蛍光灯 1 本ぶんの明るさ
     local lit = strikeLevel(t - T_STRIKE)

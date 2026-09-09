@@ -456,6 +456,12 @@ end
 
 -- ---------------------------------------------------------------- 本体
 function OnStart(self)
+    -- ★★起動はフルスクリーン(枠なし)。タイトルは製品の最初の場面なので、ここが
+    --   アプリの入口そのもの。display の set 系は settings.json へ保存され、
+    --   次回起動でも復元される ── 毎回ここで宣言しておけば、遊ぶ人が設定を
+    --   いじった後でも「起動時は必ずフルスクリーン」に揃う。
+    -- ★borderless(枠なしウィンドウ)にしてある。排他フルスクリーンと違って
+    --   alt+tab で固まらず、多画面でも素直に振る舞う。
     self.time      = 0
     self.stage     = "menu"   -- menu → (leave | bye) → intro
     self.mt        = 0        -- 選択画面の経過
@@ -543,6 +549,42 @@ function OnStart(self)
 end
 
 function OnUpdate(self, dt)
+    -- ★★2026-09-09「タイトルからシーン遷移するとき画面フリーズする」への直し。
+    --   本編(1358 体 + テクスチャ / 模型)の読み込みは同期処理で、走った瞬間に
+    --   数秒フレームが止まる。前はこれを【タイトルのモンタージュの途中】で
+    --   走らせていた(enterFocus)ので、絵が動いている最中に固まり、遊ぶ側からは
+    --   ハングにしか見えなかった。START を早く押せば読み終わっていないぶんが
+    --   ロード画面の幕の途中で走り、そこでも固まる。
+    --   ★読み込みは【起動直後の、まだ何も動いていない黒い画面】で済ませる。
+    --     止まっても黒いままなので、ただの起動待ちにしか見えない。ここで温めて
+    --     おけば、START のあとの切り替えでは読む物がほとんど残らない。
+    if not self.booted then
+        ui:rect(0, 0, SCREEN_W, SCREEN_H, 0.004, 0.005, 0.005, 1, 0)
+        self.bootF = (self.bootF or 0) + 1
+        -- ★起動待ちの帯。ロード画面と同じ見た目にしてある(同じ機械が同じ事をしている)。
+        --   ここは作品の中ではなく起動画面なので、数字を出してよい所。
+        local bw, bh = SCREEN_W * 0.26, 2.0
+        local bx, by = SCREEN_W * 0.5 - bw * 0.5, SCREEN_H * 0.80
+        local pr = math.min(1.0, self.bootF / 3.0)
+        ui:rect(bx, by, bw, bh, 0.22, 0.22, 0.21, 1, 0)
+        ui:rect(bx, by, bw * pr, bh, 1.00, 0.86, 0.58, 0.95, 0)
+        ui:text(bx + bw + 14, by - 7, string.format("%3d%%", math.floor(pr * 100 + 0.5)),
+                13, 1.00, 0.86, 0.58, 0.62)
+        -- ★黒を【1 枚出し切ってから】読む。同じフレームで読むと、黒が画面へ出る
+        --   前に止まるので、起動直後の何も無い画面のまま固まったように見える。
+        if self.bootF >= 2 then
+            -- ★窓を枠なし全画面へ。OnStart(最初のフレームより前)で呼ぶと、
+            --   まだ窓が立ち上がり切っておらず後から上書きされて効かなかった。
+            --   数フレーム置いてから宣言する。display の set 系は settings.json へ
+            --   保存されるので、次回起動でも復元される。
+            pcall(function() display:setWindowMode("borderless") end)
+            pcall(function() preloadScene("scenes/stagedemo3.json") end)
+            self.booted    = true
+            self.preloaded = true      -- enterFocus 側の二度読みを止める
+        end
+        return
+    end
+
     self.time = self.time + dt
 
     -- ---------------------------------------------------------- [1] 選択画面

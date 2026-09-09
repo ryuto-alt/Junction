@@ -36,3 +36,7 @@ source/ui_icons/node_modules/
 
 # 実行時に書かれる各PC固有の設定(音量・感度・VSync)。人によって違うので追跡しない
 settings.json
+
+# 配布ビルドの出力(数十MB)。生成物なので追わない
+dist/
+dist_build/
