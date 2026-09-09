@@ -1,0 +1,2105 @@
+{
+  "contactShadow": {
+    "bias": 0.019999999552965164,
+    "enabled": false,
+    "fadeDistance": 10.0,
+    "intensity": 1.0,
+    "maxDistance": 50.0,
+    "rayLength": 0.25,
+    "steps": 16,
+    "thickness": 0.20000000298023224
+  },
+  "entities": [
+    {
+      "camera": {
+        "farClip": 100.0,
+        "fovDegrees": 64.0,
+        "isActive": true,
+        "nearClip": 0.019999999552965164,
+        "orthoSize": 10.0,
+        "projection": 0,
+        "screenShaderEnabled": true,
+        "screenShaderParams": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "screenShaderPath": ""
+      },
+      "guid": "49c3c6714a367aaf",
+      "name": "ClearCamera",
+      "transform": {
+        "position": [
+          0.0,
+          1.7000000476837158,
+          -5.800000190734863
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "d0b13deb04b91bbf",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/ClearMenu.lua"
+      },
+      "name": "ClearLogic",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "color": [
+        0.9800000190734863,
+        0.9900000095367432,
+        1.0
+      ],
+      "guid": "3474f7d7fcfe1768",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.9200000166893005
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearCorridorFloor",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          -0.05999999865889549,
+          -2.700000047683716
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          6.0,
+          0.11999999731779099,
+          6.599999904632568
+        ]
+      },
+      "uvTiling": {
+        "u": 3.299999952316284,
+        "v": 3.0
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "2c806bfc1d3e8e92",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.9599999785423279
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_ceil_col.png"
+        }
+      ],
+      "name": "ClearCorridorCeiling",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          4.900000095367432,
+          1.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          6.019999980926514,
+          0.14000000059604645,
+          15.100000381469727
+        ]
+      },
+      "uvTiling": {
+        "u": 7.550000190734863,
+        "v": 3.009999990463257
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "d8f9f4343c21fae7",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8999999761581421
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_wall2_col.png"
+        }
+      ],
+      "name": "ClearWallLeft",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          -3.0,
+          2.450000047683716,
+          1.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.18000000715255737,
+          4.920000076293945,
+          15.100000381469727
+        ]
+      },
+      "uvTiling": {
+        "u": 2.4600000381469727,
+        "v": 7.550000190734863
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "38a3a751d9981859",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8999999761581421
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_wall2_col.png"
+        }
+      ],
+      "name": "ClearWallRight",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          3.0,
+          2.450000047683716,
+          1.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.18000000715255737,
+          4.920000076293945,
+          15.100000381469727
+        ]
+      },
+      "uvTiling": {
+        "u": 2.4600000381469727,
+        "v": 7.550000190734863
+      }
+    },
+    {
+      "color": [
+        0.18000000715255737,
+        0.20000000298023224,
+        0.1899999976158142
+      ],
+      "guid": "e93aae6c6f719d2a",
+      "material": {
+        "metallic": 0.3199999928474426,
+        "roughness": 0.47999998927116394
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearBaseboardLeft",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          -2.890000104904175,
+          0.11999999731779099,
+          1.4800000190734863
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.10000000149011612,
+          0.23999999463558197,
+          15.0
+        ]
+      }
+    },
+    {
+      "color": [
+        0.18000000715255737,
+        0.20000000298023224,
+        0.1899999976158142
+      ],
+      "guid": "23fbbdbe83005761",
+      "material": {
+        "metallic": 0.3199999928474426,
+        "roughness": 0.47999998927116394
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearBaseboardRight",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          2.890000104904175,
+          0.11999999731779099,
+          1.4800000190734863
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.10000000149011612,
+          0.23999999463558197,
+          15.0
+        ]
+      }
+    },
+    {
+      "guid": "ab8e485bbb34c50f",
+      "material": {
+        "metallic": 0.3499999940395355,
+        "roughness": 0.44999998807907104
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      },
+      "name": "ClearTroffer_1",
+      "transform": {
+        "position": [
+          0.0,
+          4.800000190734863,
+          -4.199999809265137
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "c66b137949b6832c",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 1.0
+      },
+      "name": "ClearLightPanel_1",
+      "primitive": "box",
+      "shader": "ReconnectInk.hlsl",
+      "shaderParams": [
+        0.9399999976158142,
+        0.9800000190734863,
+        1.0,
+        1.350000023841858
+      ],
+      "transform": {
+        "position": [
+          0.0,
+          4.800000190734863,
+          -4.199999809265137
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.1799999475479126,
+          0.029999999329447746,
+          0.28999999165534973
+        ]
+      }
+    },
+    {
+      "guid": "a4d7f7e3d4004677",
+      "name": "ClearLight_1",
+      "pointLight": {
+        "castShadows": true,
+        "color": [
+          1.0,
+          0.9800000190734863,
+          0.9300000071525574
+        ],
+        "intensity": 6.800000190734863,
+        "range": 8.5
+      },
+      "transform": {
+        "position": [
+          0.0,
+          4.5,
+          -4.199999809265137
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "9047ecc5680300ef",
+      "material": {
+        "metallic": 0.3499999940395355,
+        "roughness": 0.44999998807907104
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      },
+      "name": "ClearTroffer_2",
+      "transform": {
+        "position": [
+          0.0,
+          4.800000190734863,
+          -1.149999976158142
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "4f3e533d9aba380d",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 1.0
+      },
+      "name": "ClearLightPanel_2",
+      "primitive": "box",
+      "shader": "ReconnectInk.hlsl",
+      "shaderParams": [
+        0.9399999976158142,
+        0.9800000190734863,
+        1.0,
+        1.149999976158142
+      ],
+      "transform": {
+        "position": [
+          0.0,
+          4.800000190734863,
+          -1.149999976158142
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.1799999475479126,
+          0.029999999329447746,
+          0.28999999165534973
+        ]
+      }
+    },
+    {
+      "guid": "e2badad4ff24514e",
+      "name": "ClearLight_2",
+      "pointLight": {
+        "castShadows": true,
+        "color": [
+          1.0,
+          0.9800000190734863,
+          0.9300000071525574
+        ],
+        "intensity": 6.099999904632568,
+        "range": 8.5
+      },
+      "transform": {
+        "position": [
+          0.0,
+          4.5,
+          -1.149999976158142
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "94762bde33687a25",
+      "name": "ClearExitLight",
+      "pointLight": {
+        "castShadows": true,
+        "color": [
+          1.0,
+          0.9800000190734863,
+          0.8999999761581421
+        ],
+        "intensity": 19.0,
+        "range": 17.0
+      },
+      "transform": {
+        "position": [
+          0.0,
+          3.9000000953674316,
+          7.699999809265137
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "directionalLight": {
+        "ambient": 0.10000000149011612,
+        "color": [
+          0.8199999928474426,
+          0.8700000047683716,
+          0.9200000166893005
+        ],
+        "direction": [
+          -0.2199999988079071,
+          -1.0,
+          0.25
+        ],
+        "intensity": 0.07999999821186066
+      },
+      "guid": "5c04af5c44f47537",
+      "name": "ClearAmbient",
+      "transform": {
+        "position": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "rotation": [
+          28.0,
+          -25.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "38fd6f283157bd18",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_1",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.08500000089406967,
+          0.550000011920929
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          0.17000000178813934,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "14fc7e47ff366aaa",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_2",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.17000000178813934,
+          0.9900000095367432
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          0.3400000035762787,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "bf0fab401f768dbc",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_3",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.2549999952316284,
+          1.4299999475479126
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          0.5099999904632568,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "37bcaa9aa5831131",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_4",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.3400000035762787,
+          1.8700000047683716
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          0.6800000071525574,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "97864f63e68f4e8c",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_5",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.42500001192092896,
+          2.309999942779541
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          0.8500000238418579,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "ce9e4e5988fd695f",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_6",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.5099999904632568,
+          2.75
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          1.0199999809265137,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "7913c727b9c676a4",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_7",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.5950000286102295,
+          3.190000057220459
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          1.190000057220459,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "408623227b08ad9c",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_8",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.6800000071525574,
+          3.630000114440918
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          1.3600000143051147,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "9584bd73f5be029f",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_9",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.7649999856948853,
+          4.070000171661377
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          1.5299999713897705,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "8b2980bfbae0912c",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_10",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.8500000238418579,
+          4.510000228881836
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          1.7000000476837158,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "74be58a760d92e1b",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_11",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          0.9350000023841858,
+          4.949999809265137
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          1.8700000047683716,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "988c43a3d3af1b14",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_12",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          1.0199999809265137,
+          5.389999866485596
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          2.0399999618530273,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "cbf7190014f7eab3",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_13",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          1.1050000190734863,
+          5.829999923706055
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          2.2100000381469727,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "8d0839e769d20952",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_14",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          1.190000057220459,
+          6.269999980926514
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          2.380000114440918,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9399999976158142,
+        0.949999988079071,
+        0.9599999785423279
+      ],
+      "guid": "01fd5c74f335e009",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearStep_15",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          1.274999976158142,
+          6.710000038146973
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          2.549999952316284,
+          0.45500001311302185
+        ]
+      },
+      "uvTiling": {
+        "u": 0.2199999988079071,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        0.9599999785423279,
+        0.9700000286102295,
+        0.9800000190734863
+      ],
+      "guid": "d6fac4b143983c09",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_vinyl_col.png"
+        }
+      ],
+      "name": "ClearUpperLanding",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          2.490000009536743,
+          7.900000095367432
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.71999979019165,
+          0.11999999731779099,
+          1.9500000476837158
+        ]
+      },
+      "uvTiling": {
+        "u": 0.9800000190734863,
+        "v": 2.859999895095825
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "02981807e119aeaf",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8999999761581421
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_wall2_col.png"
+        }
+      ],
+      "name": "ClearExitWallLeft",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          -2.859999895095825,
+          3.680000066757202,
+          8.859999656677246
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.14000000059604645,
+          2.440000057220459,
+          0.23999999463558197
+        ]
+      },
+      "uvTiling": {
+        "u": 1.2200000286102295,
+        "v": 0.07000000029802322
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "b955f23f648f80a3",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8999999761581421
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_wall2_col.png"
+        }
+      ],
+      "name": "ClearExitWallRight",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          2.859999895095825,
+          3.680000066757202,
+          8.859999656677246
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.14000000059604645,
+          2.440000057220459,
+          0.23999999463558197
+        ]
+      },
+      "uvTiling": {
+        "u": 1.2200000286102295,
+        "v": 0.07000000029802322
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "528c2f9bf3a03e3a",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8999999761581421
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_wall2_col.png"
+        }
+      ],
+      "name": "ClearExitHeader",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          0.0,
+          4.78000020980835,
+          8.859999656677246
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.78000020980835,
+          0.23999999463558197,
+          0.23999999463558197
+        ]
+      },
+      "uvTiling": {
+        "u": 2.890000104904175,
+        "v": 0.11999999731779099
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "782c15cdb484b6f2",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 1.0
+      },
+      "name": "ClearExitGlow",
+      "primitive": "box",
+      "shader": "ReconnectInk.hlsl",
+      "shaderParams": [
+        1.0,
+        0.9900000095367432,
+        0.9399999976158142,
+        5.599999904632568
+      ],
+      "transform": {
+        "position": [
+          0.0,
+          3.680000066757202,
+          9.020000457763672
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          5.699999809265137,
+          2.180000066757202,
+          0.23999999463558197
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "724c90c675cc6735",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailLeft",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          -2.549999952316284,
+          2.0999999046325684,
+          3.630000114440918
+        ],
+        "rotation": [
+          -21.100000381469727,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07999999821186066,
+          0.07999999821186066,
+          7.119999885559082
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "5fdce924876faddf",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailRight",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          2.549999952316284,
+          2.0999999046325684,
+          3.630000114440918
+        ],
+        "rotation": [
+          -21.100000381469727,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07999999821186066,
+          0.07999999821186066,
+          7.119999885559082
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "4bf9b591feb752b2",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailPost_L_1",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          -2.549999952316284,
+          0.8100000023841858,
+          0.9900000095367432
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07000000029802322,
+          0.9399999976158142,
+          0.07000000029802322
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "2b0cf88b4efe0652",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailPost_R_1",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          2.549999952316284,
+          0.8100000023841858,
+          0.9900000095367432
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07000000029802322,
+          0.9399999976158142,
+          0.07000000029802322
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "6f64ef0ccd34097c",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailPost_L_4",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          -2.549999952316284,
+          1.3200000524520874,
+          2.309999942779541
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07000000029802322,
+          0.9399999976158142,
+          0.07000000029802322
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "f5035112a037a98e",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailPost_R_4",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          2.549999952316284,
+          1.3200000524520874,
+          2.309999942779541
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07000000029802322,
+          0.9399999976158142,
+          0.07000000029802322
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "8806ab718f80262f",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailPost_L_7",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          -2.549999952316284,
+          1.8300000429153442,
+          3.630000114440918
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07000000029802322,
+          0.9399999976158142,
+          0.07000000029802322
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "e2b5e3f2eb3a713d",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailPost_R_7",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          2.549999952316284,
+          1.8300000429153442,
+          3.630000114440918
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07000000029802322,
+          0.9399999976158142,
+          0.07000000029802322
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "f409f550623c1d22",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailPost_L_10",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          -2.549999952316284,
+          2.3399999141693115,
+          4.949999809265137
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07000000029802322,
+          0.9399999976158142,
+          0.07000000029802322
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "2af9d41ec67276e8",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailPost_R_10",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          2.549999952316284,
+          2.3399999141693115,
+          4.949999809265137
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07000000029802322,
+          0.9399999976158142,
+          0.07000000029802322
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "b6b47ac200f3a60e",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailPost_L_13",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          -2.549999952316284,
+          2.8499999046325684,
+          6.269999980926514
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07000000029802322,
+          0.9399999976158142,
+          0.07000000029802322
+        ]
+      }
+    },
+    {
+      "color": [
+        0.2199999988079071,
+        0.23999999463558197,
+        0.23000000417232513
+      ],
+      "guid": "af87fb89203242bf",
+      "material": {
+        "metallic": 0.6499999761581421,
+        "roughness": 0.3400000035762787
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "name": "ClearHandrailPost_R_13",
+      "primitive": "box",
+      "transform": {
+        "position": [
+          2.549999952316284,
+          2.8499999046325684,
+          6.269999980926514
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          0.07000000029802322,
+          0.9399999976158142,
+          0.07000000029802322
+        ]
+      }
+    },
+    {
+      "gridPlane": {
+        "size": 20000.0
+      },
+      "guid": "925be4f0e25abae8",
+      "name": "Grid",
+      "primitive": "plane",
+      "primitiveSize": 20000.0,
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  ],
+  "navmesh": {
+    "agentHeight": 1.7999999523162842,
+    "agentMaxClimb": 0.44999998807907104,
+    "agentMaxSlope": 45.0,
+    "agentRadius": 0.3499999940395355,
+    "boundsMax": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "boundsMin": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "cellHeight": 0.11999999731779099,
+    "cellSize": 0.20000000298023224,
+    "filterLedgeSpans": true,
+    "filterLowHanging": true,
+    "maxEdgeLen": 12.0,
+    "maxSimplificationErr": 1.2999999523162842,
+    "maxVertsPerPoly": 6,
+    "mergeRegionArea": 20.0,
+    "minRegionArea": 2.0,
+    "monotonePartition": false,
+    "useBounds": false
+  },
+  "normalFilter": {
+    "enabled": true,
+    "geometricBlend": 2.0,
+    "strength": 2.0,
+    "varianceClamp": 0.25
+  },
+  "postProcess": {
+    "aeEvComp": 0.0,
+    "aeLogMax": 4.0,
+    "aeLogMin": -8.0,
+    "aeSpeed": 2.0,
+    "autoExposureOn": false,
+    "bloom": 0.5799999833106995,
+    "bloomKnee": 0.5,
+    "bloomOn": true,
+    "bloomRadius": 0.7200000286102295,
+    "bloomThreshold": 0.7599999904632568,
+    "brightness": 0.0,
+    "brightnessOn": false,
+    "chromaMode": 0,
+    "chromatic": 0.5,
+    "chromaticOn": false,
+    "contrast": 1.0,
+    "contrastOn": false,
+    "debandOn": true,
+    "ditherLevels": 4,
+    "ditherOn": false,
+    "dofAperture": 2.799999952316284,
+    "dofBlurSize": 12.0,
+    "dofFocalLength": 0.0,
+    "dofFocusDist": 8.0,
+    "dofFocusName": "",
+    "dofFocusRange": 5.0,
+    "dofOn": false,
+    "enabled": true,
+    "exposure": 1.0199999809265137,
+    "exposureOn": true,
+    "fxaaOn": true,
+    "glitch": 0.30000001192092896,
+    "glitchBlocks": 24.0,
+    "glitchColor": 0.5,
+    "glitchOn": false,
+    "glitchSpeed": 12.0,
+    "godraysOn": false,
+    "grDecay": 0.9599999785423279,
+    "grDensity": 0.8999999761581421,
+    "grIntensity": 0.6000000238418579,
+    "grain": 0.017999999225139618,
+    "grainColored": false,
+    "grainOn": true,
+    "grainSize": 1.0,
+    "grayscale": 1.0,
+    "grayscaleOn": false,
+    "hueOn": false,
+    "hueShift": 0.0,
+    "invert": 1.0,
+    "invertOn": false,
+    "lens": 0.30000001192092896,
+    "lensChroma": 0.0,
+    "lensCircular": true,
+    "lensEdge": 1,
+    "lensK2": 0.0,
+    "lensMode": 0,
+    "lensOn": false,
+    "lensZoom": 1.0,
+    "lensflareOn": false,
+    "lfChroma": 0.009999999776482582,
+    "lfDispersal": 0.3499999940395355,
+    "lfGhosts": 4,
+    "lfHalo": 0.44999998807907104,
+    "lfIntensity": 0.5,
+    "lutAmount": 1.0,
+    "lutOn": false,
+    "lutPath": "",
+    "mbSamples": 10,
+    "mbStrength": 0.5,
+    "motionBlurOn": false,
+    "outline": 1.0,
+    "outlineBg": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "outlineColor": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outlineOn": false,
+    "outlineOnly": false,
+    "outlineThickness": 1.0,
+    "outlineThreshold": 0.019999999552965164,
+    "pixelSize": 8.0,
+    "pixelizeOn": false,
+    "posterize": 6,
+    "posterizeOn": false,
+    "radial": 0.30000001192092896,
+    "radialCenterX": 0.5,
+    "radialCenterY": 0.5,
+    "radialOn": false,
+    "radialSamples": 8,
+    "saturation": 0.9800000190734863,
+    "saturationOn": true,
+    "scanCount": 240.0,
+    "scanCurve": 0.18000000715255737,
+    "scanline": 0.5,
+    "scanlineOn": false,
+    "sepia": 1.0,
+    "sepiaOn": false,
+    "sharpen": 0.5,
+    "sharpenOn": false,
+    "tint": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "tintOn": false,
+    "tonemapper": 1,
+    "vignette": 0.2800000011920929,
+    "vignetteColor": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "vignetteOn": true,
+    "vignetteRadius": 0.6600000262260437,
+    "vignetteRoundness": 1.0,
+    "vignetteSoftness": 0.5,
+    "warmth": -0.019999999552965164,
+    "warmthOn": true,
+    "waveAmp": 0.009999999776482582,
+    "waveFreq": 12.0,
+    "waveOn": false,
+    "waveSpeed": 2.0
+  },
+  "raytracing": {
+    "aoCombineWithSsao": false,
+    "aoDenoise": true,
+    "aoDenoiseRadius": 8.0,
+    "aoEnabled": false,
+    "aoIntensity": 1.0,
+    "aoPower": 1.5,
+    "aoRadius": 1.0,
+    "aoRayCount": 2,
+    "ddgi": {
+      "bounceIntensity": 0.0,
+      "enabled": false,
+      "hysteresis": 0.9700000286102295,
+      "intensity": 1.0,
+      "normalBias": 0.019999999552965164,
+      "originX": -8.0,
+      "originY": 0.5,
+      "originZ": -8.0,
+      "probeCountX": 8,
+      "probeCountY": 4,
+      "probeCountZ": 8,
+      "rayLength": 30.0,
+      "spacing": 2.0
+    },
+    "maxInstances": 0,
+    "shadowEnabled": false,
+    "shadowIntensity": 1.0,
+    "shadowMaxDistance": 0.0,
+    "shadowNormalBias": 0.019999999552965164,
+    "shadowSunAngle": 0.5299999713897705
+  },
+  "shadowPcss": {
+    "blockerSearchTexels": 16.0,
+    "enabled": false,
+    "lightTanAngle": 0.05000000074505806,
+    "maxPenumbraTexels": 16.0,
+    "temporalDither": true
+  },
+  "shadows": true,
+  "skybox": {
+    "drawSkybox": false,
+    "envMapPath": "",
+    "iblIntensity": 0.0,
+    "skyboxIntensity": 0.0
+  },
+  "ssao": {
+    "bias": 0.02500000037252903,
+    "blur": true,
+    "enabled": false,
+    "intensity": 1.0,
+    "power": 1.5,
+    "radius": 0.5,
+    "sampleCount": 16
+  },
+  "ssgi": {
+    "clampValue": 4.0,
+    "enabled": false,
+    "feedback": 0.9200000166893005,
+    "iblFallback": true,
+    "intensity": 0.800000011920929,
+    "radius": 6.0,
+    "rayCount": 2,
+    "stepCount": 12,
+    "thickness": 0.5
+  },
+  "ssr": {
+    "bias": 0.05000000074505806,
+    "edgeFade": 0.15000000596046448,
+    "enabled": false,
+    "intensity": 1.0,
+    "maxDistance": 50.0,
+    "maxSteps": 48,
+    "roughnessCutoff": 0.6000000238418579,
+    "stride": 2.0,
+    "thickness": 0.5
+  },
+  "taa": {
+    "enabled": false,
+    "feedbackMax": 0.9700000286102295,
+    "feedbackMin": 0.8799999952316284,
+    "jitterScale": 1.0,
+    "sampleCount": 8,
+    "varianceGamma": 1.0
+  },
+  "version": 1,
+  "volumetricFog": {
+    "albedo": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "ambient": [
+      0.20000000298023224,
+      0.23999999463558197,
+      0.3199999928474426
+    ],
+    "anisotropy": 0.30000001192092896,
+    "density": 0.019999999552965164,
+    "depthDistribution": 2.0,
+    "distance": 150.0,
+    "enabled": false,
+    "extendBeyondRange": true,
+    "heightFalloff": 0.10000000149011612,
+    "heightRef": 0.0,
+    "lightScattering": true,
+    "sunIntensity": 1.0,
+    "temporal": true,
+    "temporalBlend": 0.07999999821186066
+  }
+}

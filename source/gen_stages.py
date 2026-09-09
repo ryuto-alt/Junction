@@ -2928,7 +2928,7 @@ STAGES = [
     #
     # ★什器は壁に背をつけて軸に揃える。東の壁にロッカーとベンチを並べ、
     #   木箱は溝の向こう(門の脂)に置いて、向こう岸の大きさの物差しにする。
-    dict(name="stagedemo1", tag="Demo_1", title=1,
+    dict(name="stagedemo1", tag="Demo_1", title=1, nextScene="clear_demo",
          rooms=[R("A", "box12", (0.0, 0.0), 1.0,
                   LAY1(bars=[("x", -2.5)], pits=[("z", -1.0)],
                        props=[("locker", 5.65, 4.80, 270.0),   # 東の壁
@@ -3265,7 +3265,7 @@ def main():
                 json.dump(data, f, ensure_ascii=False, indent=2)
             print("wrote", path)
 
-        nxt = STAGES[i + 1]["name"] if i + 1 < len(STAGES) else None
+        nxt = st.get("nextScene", STAGES[i + 1]["name"] if i + 1 < len(STAGES) else None)
         cine = cine_world(st, centers,
                           EYE_H * st.get("startScale", W.rooms[st["start"]]["scale"]))
         L = []

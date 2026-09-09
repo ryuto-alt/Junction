@@ -12,11 +12,33 @@ local function centered(text, y, size, r, g, b, a)
     ui:text(SCREEN_W * 0.5 - #text * size * 0.29, y, text, size, r, g, b, a)
 end
 
+local function drawTransition(t)
+    local progress = clamp(t / 0.5, 0, 1)
+    local alpha = progress * progress * (3 - 2 * progress)
+    ui:rect(0, 0, SCREEN_W, SCREEN_H, 0, 0, 0, alpha, 0)
+end
+
+local function updateTransition(self, dt)
+    self.startT = self.startT + dt
+    drawTransition(self.startT)
+    -- Submit a fully black frame before requesting the synchronous preloader.
+    if self.startT >= 0.5 then
+        if not self.preloadRequested then
+            self.preloadRequested = true
+        elseif not self.loadRequested then
+            self.loadRequested = true
+            preloadScene("scenes/stagedemo1.json")
+            loadScene("scenes/loading_demo.json")
+        end
+    end
+end
+
 function OnStart(self)
     self.time = 0
     self.selection = 1
     self.starting = false
     self.preloadRequested = false
+    self.loadRequested = false
     self.titleIn = 0
     self.menuIn = 0
     self.buttonScale = { 1, 1 }
@@ -33,10 +55,16 @@ function OnStart(self)
 end
 
 function OnUpdate(self, dt)
+    local lamp = scene:findEntity("TitleLight_2")
+    local panel = scene:findEntity("TitleLightPanel_2")
+    if lamp:isValid() and panel:isValid() and lamp:light() then
+        scene:setMeshParams(panel, 1, 0.96, 0.86, 1.35 * lamp:light().intensity / 7.2)
+    end
     self.time = self.time + dt
     self.titleIn = smooth(self.titleIn, 1, 2.9, dt)
     self.menuIn = smooth(self.menuIn, self.time > 0.55 and 1 or 0, 5.4, dt)
 
+    if not self.starting then
     if keyPressed("DOWN") or keyPressed("S") or padPressed("DPAD_DOWN") then self.selection = 2 end
     if keyPressed("UP") or keyPressed("W") or padPressed("DPAD_UP") then self.selection = 1 end
     local _, stickY = padStick("left")
@@ -45,6 +73,7 @@ function OnUpdate(self, dt)
         self.selection = direction > 0 and 1 or 2
     end
     self.stickDirection = direction
+    end
 
     local buttonW, buttonH = 278, 58
     local buttonX = SCREEN_W * 0.5 - buttonW * 0.5
@@ -52,8 +81,8 @@ function OnUpdate(self, dt)
     -- The stock button is only the hit target. Inset it so its square fallback
     -- never peeks out at the rounded neon frame's corners.
     -- IDs must be distinct: duplicate empty labels make ImGui report the same click for both buttons.
-    local startClick = ui:button(buttonX + 3, startY + 3, buttonW - 6, buttonH - 6, "##title_start")
-    local quitClick = ui:button(buttonX + 3, quitY + 3, buttonW - 6, buttonH - 6, "##title_quit")
+    local startClick = not self.starting and ui:button(buttonX + 3, startY + 3, buttonW - 6, buttonH - 6, "##title_start")
+    local quitClick = not self.starting and ui:button(buttonX + 3, quitY + 3, buttonW - 6, buttonH - 6, "##title_quit")
     if startClick then self.selection = 1 end
     if quitClick then self.selection = 2 end
 
@@ -93,12 +122,6 @@ function OnUpdate(self, dt)
     end
 
     if self.starting then
-        self.startT = self.startT + dt
-        if not self.preloadRequested then
-            self.preloadRequested = true
-            preloadScene("scenes/stagedemo3.json")
-        end
-        ui:rect(0, 0, SCREEN_W, SCREEN_H, 0.01, 0.02, 0.012, clamp(self.startT * 2.6, 0, 1), 0)
-        if self.startT > 0.45 then loadScene("scenes/loading_demo.json") end
+        updateTransition(self, dt)
     end
 end

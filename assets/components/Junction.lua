@@ -19,7 +19,7 @@
 
 local STAGES = {
 -- >>>STAGES (source/gen_stages.py が自動生成)
-    ["Logic_Demo_1"] = { n = 1, scene = "scenes/stagedemo1.json", next = "scenes/stagedemo2.json",
+    ["Logic_Demo_1"] = { n = 1, scene = "scenes/stagedemo1.json", next = "scenes/clear_demo.json",
         tunnels = {
             { id = "Z", ax = 2.200, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 2.000, sb = 0.500, wa = 4.00, wb = 1.00, y0 = 0.00 },
             { id = "Q", ax = -1.000, az = 6.000, nx = 0.000, nz = 1.000, L = 4.00, sa = 0.500, sb = 0.500, wa = 1.00, wb = 1.00, y0 = 0.00 },
