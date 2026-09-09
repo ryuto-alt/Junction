@@ -29,7 +29,9 @@
   離れるほど増える。lock 未満で確定、warn で表示が始まる。
 """
 from pathlib import Path
-import hashlib, json, math, random, re
+import hashlib, json, math, random, re, sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 ROOT = Path(__file__).resolve().parents[1]
 ES = []            # entities
@@ -80,6 +82,9 @@ CHECKS = [
 GOAL = dict(x=56.0, y=13.00, z=302.60, r=0.95, need=25)
 
 # ---------------------------------------------------------------- 定数
+# ★第三幕をどちらで建てるか。作り直し版が机上検査を通ったら True を既定にする
+ACT3_SMALL = False
+
 WT   = 0.30        # 壁厚
 EYE  = 1.70        # 目の高さ = 体の中心 0.90 + 0.80
 BODY = 0.90        # CharacterController の中心高(足元 0)
@@ -2546,7 +2551,15 @@ def build():
     #   ここまでで『立つ位置が世界を決める』は伝わっている
 
     Y3 = act2(YD, DW, DH)
-    act3(Y3, DW, DH)
+    # ★第三幕は 2 つある。ACT3_SMALL で切り替える(受け渡しは同じなので差し替え可能)。
+    #     False … 旧版 act3()。58x42m・高さ 28m の縦穴。【通し検査 PASS 済み】
+    #     True  … 人間の尺度へ作り直した版(source/act3_small.py)。体積 約 1/20。
+    #             ★まだ机上検査を通っていない(確定域の詰めと面の重なりが残っている)。
+    if ACT3_SMALL:
+        import act3_small
+        act3_small.build(sys.modules[__name__], Y3, DW, DH)
+    else:
+        act3(Y3, DW, DH)
     Y5 = act4(Y3 + 1.80, DW, DH)
     act5(Y5, DW, DH)
 
