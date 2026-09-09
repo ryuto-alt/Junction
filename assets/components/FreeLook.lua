@@ -159,4 +159,6 @@ function OnUpdate(self, dt)
     --   歩くほど少しずつ傾くので、傾いていく最中は見えない。
     e.transform.rotation = Vec3.new(-(self.pitch + bobPitch), self.yaw,
                                     bobRoll + loadNum("camRoll", 0))
+    -- ★レティクルの中心の点はここでは描かない(視認性の総点検で削除済み)。
+    --   照準内の扉のハイライトは Door.lua が自前で出す。
 end

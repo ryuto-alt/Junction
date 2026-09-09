@@ -21,3 +21,12 @@ __pycache__/
 assets/scenes/.autosave/
 assets/scenes/.diagnostics_snapshot.json
 source/*.blend1
+
+# エディタ / IDE の作業ファイル
+# ★ build/ は上のコメントの理由で【あえて追跡する】ので、ここには入れない。
+out/
+*.user
+.vs/
+*.tmp
+assets/.thumbcache/
+.mcp.json
