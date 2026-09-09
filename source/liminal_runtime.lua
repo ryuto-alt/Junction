@@ -115,6 +115,121 @@ local GLYPH = {
     },
 }
 
+-- ================================================================ 規則「レンズ」
+-- ★★これまでの規則は全部「どこに立って、どこを見るか」の言い換えだった。
+--   24 本中 9 本がただ合わせるだけで、残りも同じ規則の使い回し(直視しない×2 /
+--   暗の一瞬×3 / 重ねる×2 / かくれる×2 / 巡る×2)。だから「これもこうすればいい」で
+--   全部通ってしまう。
+--   レンズは【画面の写り方そのもの】を立ち位置で変える。見え方を変えて初めて
+--   同じ形に見える ── 動詞が違うので、覚えた手が効かない。
+--
+-- ★初見殺しにしないための条件を 3 つ守る:
+--   1. 効果は【連続】。近づくほど強くなる。パチンと切り替えない
+--   2. 画面全体が変わるので、何かが起きていることは見れば必ず分かる
+--   3. 効きが足りないと確定しないだけで、失う物は無い。何度でもやり直せる
+--
+-- 効き具合 u(0..1) を渡すと post を動かす表。u=0 は「素の画面」に戻すこと。
+--
+-- ★★中立の値が項目ごとに違う。ここを取り違えると一発で画面が壊れる:
+--     brightness … 【加算】。中立 0.0、範囲 -0.5..0.5
+--                  (1.05 を入れて全画素に 1.05 足し、画面が真っ白に飛んだ。2026-09-09)
+--     contrast / saturation / exposure / lensZoom … 【乗算】。中立 1.0
+--     lens       … 歪み量。中立 0.0(正=樽 / 負=糸巻き)
+--     posterize  … 【整数】の階調数。2..16。多い方が素に近い
+--     dofFocusDist … メートル。近くに置くほど遠景が全部ぼける
+-- ★★レンズが触る項目を種類ごとに並べておく。後始末はここを見て【素の値へ戻す】。
+--   「off にする」ではないのが肝: このシーンの素の絵は saturation 1.07 /
+--   contrast 1.04 / vignette / bloom / grain が乗った状態で作ってある。
+--   off にして戻すと、一度レンズを通っただけで【以後ずっと色調が変わったまま】になる。
+local LENS_FIELDS = {
+    outline = { "outlineOn", "outlineThickness", "outlineThreshold",
+                "saturationOn", "saturation", "brightnessOn", "brightness",
+                "contrastOn", "contrast" },
+    blur    = { "dofOn", "dofFocusDist", "dofFocusRange", "dofBlurSize", "dofAperture" },
+    warp    = { "lensOn", "lensMode", "lensCircular", "lensEdge",
+                "lens", "lensK2", "lensZoom", "lensChroma" },
+    drain   = { "saturationOn", "saturation" },
+    band    = { "posterizeOn", "posterize", "contrastOn", "contrast" },
+}
+
+local LENSES = {
+    -- 線にする: 色と陰影を捨てて輪郭だけにする。
+    -- ★outlineOnly は on/off しか無いので、これだけだと 1 フレームで world が
+    --   線画へ飛ぶ。彩度を抜きながら明るさを上げて【白へ寄せて】いき、
+    --   輪郭を太らせる ── こうすると線画へ連続でつながる。
+    -- ★白へ飛ばしきらない。最初 brightness を +0.42 まで上げたら、u=0.53 の時点で
+    --   世界が【真っ白に消えて線だけ】になった。絵としては綺麗だが、
+    --   どこを歩いているか分からなくなる = 別の意味で初見殺しになる。
+    --   世界は残したまま、色を抜いて輪郭を太らせる方へ振る。
+    -- ★どのレンズも u=0 で【素の値ちょうど】になるように書く。
+    --   1.0 を基準に書くと、効き始めの一瞬に素の色調(1.07 等)から飛ぶ。
+    outline = function(u, B)
+        local w = u * u          -- 手前では効かせず、詰めた所で一気に効かせる
+        post.setMany{
+            outlineOn = u > 0.01, outlineThickness = 0.4 + 1.7 * w,
+            outlineThreshold = 0.075 - 0.053 * u,
+            saturationOn = true, saturation = B.saturation * (1.0 - 0.94 * u),
+            brightnessOn = true, brightness = B.brightness + 0.10 * w,  -- ★加算。中立 0
+            contrastOn = true, contrast = B.contrast + 0.22 * w,
+        }
+    end,
+    -- ぼかす: 細部が潰れると低い周波数の構造だけが残る(目を細めると絵が見える錯視)
+    blur = function(u, B)
+        post.setMany{
+            dofOn = u > 0.01, dofFocusDist = 0.35, dofFocusRange = 0.30,
+            dofBlurSize = 5.5 * u, dofAperture = 2.4,
+        }
+    end,
+    -- 歪ませる: 樽型に曲げる。わざと曲げて置いた破片が、正しい歪み量で真っ直ぐになる
+    warp = function(u, B)
+        post.setMany{
+            -- ★樽歪みは像を外へ押すので、四隅が【画面の外】から拾われる。
+            --   拡大で埋めきらないと、そこに鏡映(lensEdge=2)や黒が出て
+            --   「壊れている」ようにしか見えない。zoom を歪みに見合うだけ上げ、
+            --   足りない分は端を引き伸ばして(lensEdge=0)目立たせない。
+            lensOn = u > 0.01, lensMode = 0, lensCircular = true, lensEdge = 0,
+            lens = 0.30 * u,               -- ★主の歪み量。中立 0、正で樽
+            lensK2 = 0.08 * u,             -- 端だけ余計に曲げる
+            lensZoom = 1.0 + 0.42 * u,     -- ★乗算。歪みで空く四隅を埋める
+            lensChroma = 0.005 * u,
+        }
+    end,
+    -- 色を抜く: 明度が同じで色だけ違う 2 つが、彩度を落とすと 1 つの形に融合する
+    drain = function(u, B)
+        post.setMany{ saturationOn = true, saturation = B.saturation * (1.0 - u) }
+    end,
+    -- 階調を潰す: なだらかな陰影に隠れた形が、段になった瞬間に輪郭として出る
+    band = function(u, B)
+        post.setMany{
+            -- ★整数の階調数(2..16)。多い方が素に近いので、詰めるほど減らす
+            posterizeOn = u > 0.01, posterize = math.floor(16 - 13 * u + 0.5),
+            contrastOn = true, contrast = B.contrast + 0.28 * u,
+        }
+    end,
+}
+
+-- Play の頭で「素の絵」を控える。★off にして戻すのではなく、ここへ戻す
+local function lensBaseline()
+    local B = {}
+    for _, fields in pairs(LENS_FIELDS) do
+        for _, f in ipairs(fields) do
+            if B[f] == nil then B[f] = post.get(f) end
+        end
+    end
+    return B
+end
+
+-- 使い終わったら素の値へ戻す。
+-- ★戻し忘れると【次の部屋まで線画のまま】になるし、off で戻すと
+--   このシーンの色調(saturation 1.07 / contrast 1.04)が消えたままになる。
+local function lensOff(self, kind)
+    local fields = LENS_FIELDS[kind]
+    if not (fields and self.postBase) then return end
+    for _, f in ipairs(fields) do
+        post.set(f, self.postBase[f])
+    end
+end
+
 local function V(x, y, z) return Vec3.new(x, y, z) end
 local function find(n)
     local e = scene:findEntity(n)
@@ -421,6 +536,7 @@ function OnStart(self)
                     relay    = d.relay, armed = false, relayT = 0.0,
                     -- 【回る】スリット付きの筒。中の破片は一周に一度しか見えない
                     slot     = d.slot,
+                    lens     = d.lens,                -- 【レンズ】立ち位置で画面の写り方が変わる
                     occl     = d.occl,                -- 【かくれて合わせる】陰に隠す
                     peri     = d.peri or false,       -- 【直視しない】周辺視でだけ合う
                     dark     = d.dark or false,       -- 暗くなった一瞬だけ合わせられる
@@ -596,6 +712,10 @@ function OnStart(self)
     end
     self.hintShown = false
     self.valShown = {}
+
+    -- ★レンズが触る post の項目を、素の値のまま控えておく(戻し先)
+    self.postBase = lensBaseline()
+    self.lensNow = nil
 
     cfgLoad(self)
 
@@ -1341,6 +1461,40 @@ function OnUpdate(self, dt)
 
     if loadNum("lm_sweep", 0) > 0.5 then sweepStep(self, dt) end
 
+    -- ------------------------------------------------ レンズ(画面の写り方を変える)
+    -- 装置からの距離で効き具合 u を出し、一番強く効いているものだけを画面へ出す。
+    -- ★同じ種類が複数あっても【一番強い 1 つ】。混ぜると何が効いているか読めなくなる。
+    -- ★frozen(パネルを開けている)の間は素へ戻す。設定を読む画面が歪んでいたら最悪
+    do
+        local best, bestU = nil, 0.0
+        if not frozen and not self.done then
+            for i = 1, #self.conns do
+                local c = self.conns[i]
+                local L = c.lens
+                if L and not c.locked then
+                    local dx, dy, dz = L.at[1] - ex, L.at[2] - ey, L.at[3] - ez
+                    local d = math.sqrt(dx * dx + dy * dy + dz * dz)
+                    local u = clamp((L.r - d) / math.max(L.r - L.r0, 0.001), 0, 1)
+                    c.lensU = u
+                    if u > bestU then best, bestU = L.kind, u end
+                else
+                    c.lensU = 0.0
+                end
+            end
+        else
+            for i = 1, #self.conns do self.conns[i].lensU = 0.0 end
+        end
+        -- 切り替わった瞬間に前の種類を素へ戻す(戻し忘れると次の部屋まで引きずる)
+        if self.lensNow and self.lensNow ~= best then lensOff(self, self.lensNow) end
+        if best then
+            LENSES[best](bestU, self.postBase)
+        elseif self.lensNow then
+            lensOff(self, self.lensNow)
+        end
+        self.lensNow = best
+        saveNum("lm_lens", bestU)
+    end
+
     for i = 1, #self.conns do
         local c = self.conns[i]
         -- ★frozen(操作と設定 / デバッグを開けている)の間は評価しない。
@@ -1359,6 +1513,9 @@ function OnUpdate(self, dt)
             if c.maxY and ey > c.maxY then gateB = false end
             -- ★規則F: 偽物が柱の陰に入っていない間は、いくら合っていても決まらない
             if c.occl and not hidden(c.occl, ex, ey, ez) then gateB = false end
+            -- ★規則「レンズ」: 画面の写り方が足りていないと決まらない。
+            --   立ち位置が合っていても【線にしていない / ぼかしていない】なら成立しない
+            if c.lens and (c.lensU or 0) < (c.lens.need or 0.75) then gateB = false end
             -- ★規則「回る」: スリットがこちらを向いた一瞬しか中の破片は見えない。
             --   見えていない間に確定させてはいけない(見ていない物が実体になる)。
             if c.slot then
