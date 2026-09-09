@@ -143,6 +143,40 @@ def box(name, c, s, tex, face="y", rough=0.92, solid=False, color=None,
     return e
 
 
+def water(name, c, s, tex, color, alpha=0.72, reflect=0.60,
+          flow=0.10, wave=0.010, distort=0.018, tile=None):
+    """水面。MeshShader/FlowWater.hlsl を貼った、当たり判定の無い薄い板。
+
+    ★なぜ FlowWater で、PoolWater ではないのか:
+      PoolWater.hlsl は g_sceneColor(t1) と g_reflection(t2) を読むが、このエンジンの
+      メッシュ経路が t1/t2 に流すのは【法線マップと metallic-roughness マップ】。
+      渡す口が無いので反射も屈折も出ない(調べた上でこう決めている)。
+      FlowWater は g_albedo(t0) だけで完結するので、そのまま正しく動く。
+
+    ★b0 の並びはエンジン側で決まっている:
+        effectValue(1) → shaderEffectValue
+        _reserved(3)   → shaderParamsB   = flowSpeed / waveStrength / distortionStrength
+        shaderParams(4)→ shaderParams    = waterColor(rgba。a が透明度)
+      シェーダーの宣言順とこの並びが一致していないと、値が別の変数へ入る。
+
+    ★止まった水でも flow を 0 にしない。まったく動かない水面は【青い床】にしか
+      見えない(空プールへ最初に水を張った時に実際そう見えた)。ゆっくり流す。
+    """
+    e = ent(name, c, s)
+    e["primitive"] = "box"
+    e["material"] = dict(metallic=0.0, roughness=0.08)
+    e["materialTextureOverrides"] = [dict(albedo=tex)]
+    u, v = tile if tile else _tiling(s, "y")
+    e["uvTiling"] = dict(u=round(max(u, 0.01), 4), v=round(max(v, 0.01), 4))
+    e["color"] = [1, 1, 1]
+    e["shader"] = "MeshShader/FlowWater.hlsl"
+    e["shaderAlphaBlend"] = True
+    e["shaderEffectValue"] = reflect
+    e["shaderParamsB"] = [flow, wave, distort]
+    e["shaderParams"] = [color[0], color[1], color[2], alpha]
+    return e
+
+
 def glow(name, c, s, rgb=GOLD, power=1.0, rot=(0, 0, 0)):
     """自己発光の板/線(ReconnectInk = ライト非依存の単色)。power>1 でブルームに乗る。"""
     e = ent(name, c, s, rot)
@@ -2319,11 +2353,31 @@ def build():
     box("C_pooln", (0, -0.70, 59.0 - 0.06), (PW * 2, 1.40, 0.12), T_TILEW, "z", rough=0.3, solid=True)
     box("C_drain", (0, -1.395, 57.4), (0.34, 0.03, 0.34), T_METAL, "y", rough=0.5, metal=0.6,
         color=[0.30, 0.30, 0.28])
-    # 抜けきらなかった水。★rough を下げるだけで灯りが線状に映り込み『濡れている』に見える
-    box("C_water", (0, -1.386, 56.6), (5.4, 0.012, 4.2), T_TILEF, "y", rough=0.055, metal=0.15,
-        color=[0.52, 0.60, 0.60])
-    box("C_water2", (-1.6, -1.386, 53.6), (2.4, 0.012, 1.8), T_TILEF, "y", rough=0.07, metal=0.12,
-        color=[0.56, 0.63, 0.62])
+
+    # ---- 水を張る --------------------------------------------------------
+    # ★rough を落とすだけで灯りが線状に映り込み『水面』に見える(空プールの頃の
+    #   水たまりで確認済みの手口)。エンジンには g_sceneColor / g_reflection を
+    #   カスタムシェーダーへ渡す口が無いので、PoolWater.hlsl の反射は当てにしない。
+    #   ここは素の PBR で作り、粗さと金属質と色だけで水にする。
+    # ★水位は -0.42。一番上の段(-0.35)だけが水の上に出る = 段を降りると水に入る、
+    #   という高さ関係が一目で読める。深い所で約 1.0m。
+    WLV = -0.42
+    # ★alpha は 0.45 まで下げる。FlowWater は【加算の】スペキュラを乗せるので、
+    #   不透明にすると室内灯を拾って乳白色に飛び、色もタイルも消える(実際に飛んだ)。
+    #   薄くして下のタイルを透かせると、白い艶は水面の照り返しとして正しく読める。
+    # ★reflect も 0.3 まで。fresnel と流れの筋の両方に掛かるので、上げると縁が白く縁取られる。
+    water("C_water", (0, WLV, (50.90 + 58.94) / 2), (PW * 2 - 0.24, 0.02, 58.94 - 50.90),
+          T_TILEF, [0.11, 0.31, 0.35], alpha=0.45, reflect=0.30,
+          flow=0.09, wave=0.010, distort=0.020, tile=(3.0, 2.2))
+    # 水際の線。★これが無いと水面が『床に貼った青い板』に見える。
+    #   壁の内側に一本だけ濃い帯を入れると、そこまで水が来ていると読める
+    for sgn in (-1, 1):
+        box("C_wline%d" % sgn, (sgn * (PW - 0.13), WLV - 0.03, 55.92),
+            (0.02, 0.06, 6.04), T_TILEW, "x", rough=0.25, color=[0.42, 0.55, 0.55])
+    box("C_wlinen", (0, WLV - 0.03, 58.93 - 0.02), (PW * 2 - 0.26, 0.06, 0.02),
+        T_TILEW, "z", rough=0.25, color=[0.42, 0.55, 0.55])
+    # 水の中は光が回らない。底を少しだけ暗く沈ませる灯りを 1 つ置く
+    plight("C_wlight", (0, WLV + 0.55, 55.6), COOL, 3.2, 7.0)
     # プールの縁(見切り)
     for sgn in (-1, 1):
         box("C_lip%d" % sgn, (sgn * (PW + 0.16), 0.02, 54.5), (0.20, 0.05, 9.2), T_TILEW, "y", rough=0.28)
