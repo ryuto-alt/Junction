@@ -1964,6 +1964,69 @@ def act5(Y5, DW, DH):
 DECOR_RE = re.compile(r"(_mark$|dud\d*$|lure|_exit(_b)?$|_c[lrt]$)")
 
 
+def hud_guid(name):
+    """HUD の guid は名前から決める。★source/gen_ui.js の guidOf と同じ式にしてある。
+    どちらで組んでも同じ guid になるので、作り直しても差分が出ない。"""
+    h1, h2 = 0x9e3779b9, 0x85ebca6b
+    for ch in name:
+        h1 = ((h1 ^ ord(ch)) * 0x01000193) & 0xFFFFFFFF
+        h2 = ((h2 + ord(ch)) * 0x85ebca6b) & 0xFFFFFFFF
+    return ("%08x%08x" % (h1, h2))[:16]
+
+
+def build_hud(canvas):
+    """source/hud_layout.json の表どおりに、案内 / 操作と設定の UI を組む。
+
+    ★表は source/hud_layout.json が唯一の編集元。同じ表を source/gen_ui.js も読んで、
+      Python の無い環境から既存のシーンへ差し込めるようにしてある。
+      位置や文言を直すのは hud_layout.json だけでよい。
+    """
+    layout = json.loads((ROOT / "source/hud_layout.json").read_text(encoding="utf-8"))
+    pal = layout["palette"]
+    made = 0
+
+    for el in layout["elements"]:
+        if "name" not in el:            # "_" だけの行はコメント
+            continue
+        x0 = el["x0"] if "x0" in el else el["x"] - el["w"] / 2
+        x1 = el["x1"] if "x1" in el else el["x"] + el["w"] / 2
+        y0, y1 = el["y"] - el["h"] / 2, el["y"] + el["h"] / 2
+
+        e = ent(el["name"])
+        e["guid"] = hud_guid(el["name"])
+        e["parentGuid"] = canvas["guid"]
+        e["uiRect"] = dict(anchorMin=[0, 0], anchorMax=[0, 0], pivot=[0.5, 0.5],
+                           offsetMin=[x0, y0], offsetMax=[x1, y1],
+                           # ★hidden の要素は消した状態で置く。UIText の縁取りと
+                           #   UIImage の枠は color のアルファとは別枠で描かれるので、
+                           #   アルファ 0 で置くだけでは【縁だけが画面に残る】。
+                           #   出すのは Liminal.lua の uiFade の仕事。
+                           visible=not el.get("hidden", False),
+                           order=el.get("order", 0))
+
+        rgb = el.get("color") or (pal["sub"] if el.get("sub") else pal["ink"])
+        a = el.get("a", 1)
+        if el["type"] == "image":
+            img = dict(texturePath=el.get("tex", ""), color=[rgb[0], rgb[1], rgb[2], a])
+            if el.get("radius"):
+                img["cornerRadius"] = el["radius"]
+            if el.get("outline"):
+                oc = el.get("outlineColor") or pal["ink"]
+                img["outlineWidth"] = el["outline"]
+                img["outlineColor"] = [oc[0], oc[1], oc[2], 0.22]
+            e["uiImage"] = img
+        else:
+            e["uiText"] = dict(text=el.get("text", ""), fontSize=el.get("size", 22),
+                               color=[rgb[0], rgb[1], rgb[2], a],
+                               alignH=el.get("align", 1), alignV=1, wrap=False,
+                               # 暗い所にも明るい所にも同じ HUD が出るので縁は必ず付ける
+                               outlineWidth=0.8, outlineColor=[0.03, 0.03, 0.03, 0.55])
+        made += 1
+
+    print("  HUD 要素を %d 個 組んだ(source/hud_layout.json)" % made)
+    return made
+
+
 def add_walk_colliders(p_height=1.80, p_step=0.32):
     """歩いて当たるはずなのに擦り抜ける箱へ、静的な当たり判定をまとめて足す。
 
@@ -2382,6 +2445,8 @@ def build():
     h["uiText"] = dict(text="WASD  歩く      マウス  見る", fontSize=21,
                        color=[0.92, 0.91, 0.85, 0.55], alignH=1, alignV=1, wrap=False,
                        outlineWidth=0.8, outlineColor=[0.03, 0.03, 0.03, 0.55])
+    build_hud(canvas)
+
     t = ui("LM_End", (0, 0.5), (1, 0.5), (0, -30), (0, 30), 3)
     # ★終わりは白い部屋で出す = 文字は【暗色】。明色 + 黒縁だと縁だけが残って潰れる
     t["uiText"] = dict(text="", fontSize=42, color=[0.13, 0.13, 0.12, 0.0], alignH=1, alignV=1,

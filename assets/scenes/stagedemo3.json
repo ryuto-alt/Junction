@@ -49695,8 +49695,2507 @@
      0.0
     ]
    }
+  },
+  {
+   "name": "LM_Tut_W",
+   "guid": "f14de042e5b5b376",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     517,
+     702
+    ],
+    "offsetMax": [
+     583,
+     746
+    ],
+    "visible": false,
+    "order": 2
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/key_w.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Tut_A",
+   "guid": "db4dbda063724e44",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     467,
+     750
+    ],
+    "offsetMax": [
+     533,
+     794
+    ],
+    "visible": false,
+    "order": 2
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/key_a.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Tut_S",
+   "guid": "ed4dd9f6ce0689ca",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     517,
+     750
+    ],
+    "offsetMax": [
+     583,
+     794
+    ],
+    "visible": false,
+    "order": 2
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/key_s.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Tut_D",
+   "guid": "e04dc57ff535ad85",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     567,
+     750
+    ],
+    "offsetMax": [
+     633,
+     794
+    ],
+    "visible": false,
+    "order": 2
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/key_d.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Tut_Move",
+   "guid": "67fc65a0331596d2",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     502,
+     716
+    ],
+    "offsetMax": [
+     598,
+     780
+    ],
+    "visible": false,
+    "order": 2
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/pad_lstick.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Tut_Look",
+   "guid": "a2d6d4aaad490294",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     752,
+     716
+    ],
+    "offsetMax": [
+     848,
+     780
+    ],
+    "visible": false,
+    "order": 2
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/mouse_look.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Tut_Menu",
+   "guid": "3c671456b1d1be7c",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     1002,
+     716
+    ],
+    "offsetMax": [
+     1098,
+     780
+    ],
+    "visible": false,
+    "order": 2
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/key_tab.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Tut_MoveCap",
+   "guid": "bfd01688bbf1e3b8",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     430,
+     800
+    ],
+    "offsetMax": [
+     670,
+     828
+    ],
+    "visible": false,
+    "order": 2
+   },
+   "uiText": {
+    "text": "歩く",
+    "fontSize": 19,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 1,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Tut_LookCap",
+   "guid": "0cd401aa28e5519e",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     680,
+     800
+    ],
+    "offsetMax": [
+     920,
+     828
+    ],
+    "visible": false,
+    "order": 2
+   },
+   "uiText": {
+    "text": "見る",
+    "fontSize": 19,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 1,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Tut_MenuCap",
+   "guid": "310749ae16b755d6",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     930,
+     800
+    ],
+    "offsetMax": [
+     1170,
+     828
+    ],
+    "visible": false,
+    "order": 2
+   },
+   "uiText": {
+    "text": "操作と設定",
+    "fontSize": 19,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 1,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Menu_Dim",
+   "guid": "c4e23d952907fb8b",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     0,
+     0
+    ],
+    "offsetMax": [
+     1600,
+     900
+    ],
+    "visible": false,
+    "order": 20
+   },
+   "uiImage": {
+    "texturePath": "",
+    "color": [
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Menu_Bg",
+   "guid": "9f1cb7226fef74ac",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     350,
+     110
+    ],
+    "offsetMax": [
+     1250,
+     830
+    ],
+    "visible": false,
+    "order": 21
+   },
+   "uiImage": {
+    "texturePath": "",
+    "color": [
+     0.055,
+     0.055,
+     0.05,
+     0
+    ],
+    "cornerRadius": 16,
+    "outlineWidth": 2,
+    "outlineColor": [
+     0.92,
+     0.91,
+     0.85,
+     0.22
+    ]
+   }
+  },
+  {
+   "name": "LM_Menu_Title",
+   "guid": "39f55505a5cfb4ab",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     350,
+     143
+    ],
+    "offsetMax": [
+     1250,
+     189
+    ],
+    "visible": false,
+    "order": 22
+   },
+   "uiText": {
+    "text": "操作方法と設定",
+    "fontSize": 34,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 1,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Menu_H1",
+   "guid": "4d043126c72cf670",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     414,
+     213
+    ],
+    "offsetMax": [
+     1186,
+     243
+    ],
+    "visible": false,
+    "order": 22
+   },
+   "uiText": {
+    "text": "操作",
+    "fontSize": 21,
+    "color": [
+     0.72,
+     0.71,
+     0.66,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Menu_R1",
+   "guid": "4944d23018234daa",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     414,
+     249
+    ],
+    "offsetMax": [
+     1186,
+     251
+    ],
+    "visible": false,
+    "order": 22
+   },
+   "uiImage": {
+    "texturePath": "",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Ctl0_Icon",
+   "guid": "e6488ca062456bb6",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     437,
+     270
+    ],
+    "offsetMax": [
+     503,
+     314
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/key_wasd.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Ctl0_Text",
+   "guid": "5dcd248e883da5fa",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     530,
+     277
+    ],
+    "offsetMax": [
+     1190,
+     307
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "歩く",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Ctl1_Icon",
+   "guid": "f84e205d6c5ba09f",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     437,
+     316
+    ],
+    "offsetMax": [
+     503,
+     360
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/mouse_look.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Ctl1_Text",
+   "guid": "44cb9d4b9253dae3",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     530,
+     323
+    ],
+    "offsetMax": [
+     1190,
+     353
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "見る",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Ctl2_Icon",
+   "guid": "a0d026827671d588",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     437,
+     362
+    ],
+    "offsetMax": [
+     503,
+     406
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/key_tab.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Ctl2_Text",
+   "guid": "575e2fc49c6a0fcc",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     530,
+     369
+    ],
+    "offsetMax": [
+     1190,
+     399
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "操作と設定を開く / 閉じる",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Ctl3_Icon",
+   "guid": "4743fe1780880a71",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     437,
+     408
+    ],
+    "offsetMax": [
+     503,
+     452
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiImage": {
+    "texturePath": "ui/icons/key_esc.png",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Ctl3_Text",
+   "guid": "1eec9671a68044b5",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     530,
+     415
+    ],
+    "offsetMax": [
+     1190,
+     445
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "マウスを離す",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Menu_H2",
+   "guid": "4c042f934d18c0db",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     414,
+     477
+    ],
+    "offsetMax": [
+     1186,
+     507
+    ],
+    "visible": false,
+    "order": 22
+   },
+   "uiText": {
+    "text": "設定",
+    "fontSize": 21,
+    "color": [
+     0.72,
+     0.71,
+     0.66,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Menu_R2",
+   "guid": "4c44d6e99e0f1815",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     414,
+     513
+    ],
+    "offsetMax": [
+     1186,
+     515
+    ],
+    "visible": false,
+    "order": 22
+   },
+   "uiImage": {
+    "texturePath": "",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ]
+   }
+  },
+  {
+   "name": "LM_Set0_Sel",
+   "guid": "131a0a9c40c3562e",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     410,
+     537
+    ],
+    "offsetMax": [
+     1190,
+     575
+    ],
+    "visible": false,
+    "order": 22
+   },
+   "uiImage": {
+    "texturePath": "",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "cornerRadius": 8
+   }
+  },
+  {
+   "name": "LM_Set0_Text",
+   "guid": "23e6ba4bb6858813",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     440,
+     541
+    ],
+    "offsetMax": [
+     980,
+     571
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "マウス感度",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Set0_Val",
+   "guid": "f682c60327301143",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     980,
+     541
+    ],
+    "offsetMax": [
+     1160,
+     571
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 2,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Set1_Sel",
+   "guid": "1db52a5bb0831129",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     410,
+     581
+    ],
+    "offsetMax": [
+     1190,
+     619
+    ],
+    "visible": false,
+    "order": 22
+   },
+   "uiImage": {
+    "texturePath": "",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "cornerRadius": 8
+   }
+  },
+  {
+   "name": "LM_Set1_Text",
+   "guid": "3ce8418ec09bbcfc",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     440,
+     585
+    ],
+    "offsetMax": [
+     980,
+     615
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "コントローラー感度",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Set1_Val",
+   "guid": "b3b555ac96efcc3e",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     980,
+     585
+    ],
+    "offsetMax": [
+     1160,
+     615
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 2,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Set2_Sel",
+   "guid": "650a54522042cc24",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     410,
+     625
+    ],
+    "offsetMax": [
+     1190,
+     663
+    ],
+    "visible": false,
+    "order": 22
+   },
+   "uiImage": {
+    "texturePath": "",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "cornerRadius": 8
+   }
+  },
+  {
+   "name": "LM_Set2_Text",
+   "guid": "fe07b371cab1f1e5",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     440,
+     629
+    ],
+    "offsetMax": [
+     980,
+     659
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "上下の視点を反転",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Set2_Val",
+   "guid": "cc7c384906af8739",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     980,
+     629
+    ],
+    "offsetMax": [
+     1160,
+     659
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 2,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Set3_Sel",
+   "guid": "8f0fca599002871f",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     410,
+     669
+    ],
+    "offsetMax": [
+     1190,
+     707
+    ],
+    "visible": false,
+    "order": 22
+   },
+   "uiImage": {
+    "texturePath": "",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "cornerRadius": 8
+   }
+  },
+  {
+   "name": "LM_Set3_Text",
+   "guid": "36794cc4d4c826ce",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     440,
+     673
+    ],
+    "offsetMax": [
+     980,
+     703
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "音量",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Set3_Val",
+   "guid": "ae1fe4f2766f4234",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     980,
+     673
+    ],
+    "offsetMax": [
+     1160,
+     703
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 2,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Set4_Sel",
+   "guid": "2b35c600ffc2421a",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     410,
+     713
+    ],
+    "offsetMax": [
+     1190,
+     751
+    ],
+    "visible": false,
+    "order": 22
+   },
+   "uiImage": {
+    "texturePath": "",
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "cornerRadius": 8
+   }
+  },
+  {
+   "name": "LM_Set4_Text",
+   "guid": "a8c4aaafdede5bb7",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     440,
+     717
+    ],
+    "offsetMax": [
+     980,
+     747
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "コントローラーの振動",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 0,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Set4_Val",
+   "guid": "7346db57e62efd2f",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     980,
+     717
+    ],
+    "offsetMax": [
+     1160,
+     747
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "",
+    "fontSize": 22,
+    "color": [
+     0.92,
+     0.91,
+     0.85,
+     0
+    ],
+    "alignH": 2,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
+  },
+  {
+   "name": "LM_Menu_Hint",
+   "guid": "dbea6edc3f29e912",
+   "transform": {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "parentGuid": "7b73021e2decafaa",
+   "uiRect": {
+    "anchorMin": [
+     0,
+     0
+    ],
+    "anchorMax": [
+     0,
+     0
+    ],
+    "pivot": [
+     0.5,
+     0.5
+    ],
+    "offsetMin": [
+     350,
+     778
+    ],
+    "offsetMax": [
+     1250,
+     806
+    ],
+    "visible": false,
+    "order": 23
+   },
+   "uiText": {
+    "text": "",
+    "fontSize": 19,
+    "color": [
+     0.72,
+     0.71,
+     0.66,
+     0
+    ],
+    "alignH": 1,
+    "alignV": 1,
+    "wrap": false,
+    "outlineWidth": 0.8,
+    "outlineColor": [
+     0.03,
+     0.03,
+     0.03,
+     0.55
+    ]
+   }
   }
- ],
+  ],
  "shadows": false,
  "skybox": {
   "drawSkybox": false,

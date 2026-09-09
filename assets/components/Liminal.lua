@@ -4837,6 +4837,56 @@ local FORCE_T = 0.50          -- 見ていても、この秒数で動き出す(�
 local FOCUS_WARN = 9.0        -- ここから環と光が反応する
 local FOCUS_LOCK = 7.0        -- ここまで近づかないと確定しない
 
+-- ================================================================ 入力(キーボード / コントローラー)
+-- ★この作品に押すボタンは無い(歩いて、見る、それだけ)。だから入力の仕事は 3 つしかない:
+--   「歩く」「見る」「操作と設定を出す」。キーボードでもコントローラーでも同じ 3 つを受ける。
+-- ★どちらを使っているかは【最後に触った方】で決める。挿しっぱなしのコントローラーが
+--   あるだけで記号が全部パッドになると、マウスで遊んでいる人には嘘の案内になる。
+local PAD_DEAD = 0.20         -- スティックの遊び。これ以下は 0(手を離しても漂わない)
+local PAD_WAKE = 0.40         -- 「コントローラーを触った」と認める倒し量
+local MOUSE_WAKE = 2.0        -- 「マウスを触った」と認める 1 フレームの動き(カウント)
+local NAV_FIRST = 0.42        -- メニューの押しっぱなし: 最初の繰り返しまで(秒)
+local NAV_REPEAT = 0.11       -- そのあとの繰り返し間隔(秒)
+
+-- 設定。settings.json に残る(savePersist)。min/max/step は「押すたび 1 段」の幅
+local SETTINGS = {
+    { key = "lm_sens",    def = 82,  min = 20, max = 300, step = 4,
+      fmt = function(v) return string.format("%d", v) end },
+    { key = "lm_padlook", def = 145, min = 60, max = 300, step = 5,
+      fmt = function(v) return string.format("%d", v) end },
+    { key = "lm_invy",    def = 0,   min = 0,  max = 1,   step = 1,
+      fmt = function(v) return v > 0.5 and "入" or "切" end },
+    { key = "lm_vol",     def = 80,  min = 0,  max = 100, step = 5,
+      fmt = function(v) return string.format("%d%%", v) end },
+    { key = "lm_rumble",  def = 1,   min = 0,  max = 1,   step = 1,
+      fmt = function(v) return v > 0.5 and "入" or "切" end },
+}
+local S_SENS, S_PADLOOK, S_INVY, S_VOL, S_RUMBLE = 1, 2, 3, 4, 5
+
+-- 出し分ける記号。同じ枠に貼り替えるので、絵は全部 3:2 に焼いてある
+-- (source/ui_icons/build.js。縦横比が揃っていないと貼り替えた瞬間に潰れる)
+local ICON = "ui/icons/"
+local GLYPH = {
+    kb = {
+        look = ICON .. "mouse_look.png",
+        menu = ICON .. "key_tab.png",
+        ctl  = { ICON .. "key_wasd.png", ICON .. "mouse_look.png",
+                 ICON .. "key_tab.png",  ICON .. "key_esc.png" },
+        text = { "歩く", "見る", "操作と設定を開く / 閉じる", "マウスを離す" },
+        hint = "W / S  選ぶ      A / D  変える      TAB  閉じる",
+        endk = "Enter",
+    },
+    pad = {
+        look = ICON .. "pad_rstick.png",
+        menu = ICON .. "pad_start.png",
+        ctl  = { ICON .. "pad_lstick.png", ICON .. "pad_rstick.png",
+                 ICON .. "pad_start.png",  ICON .. "pad_b.png" },
+        text = { "歩く", "見る", "操作と設定を開く / 閉じる", "パネルを閉じる" },
+        hint = "十字キー 上下  選ぶ      左右  変える      B  閉じる",
+        endk = "A ボタン",
+    },
+}
+
 local function V(x, y, z) return Vec3.new(x, y, z) end
 local function find(n)
     local e = scene:findEntity(n)
@@ -4983,6 +5033,117 @@ local function setGlow(c, power)
     end
 end
 
+-- ---------------------------------------------------------------- 入力の下ごしらえ
+-- 円形の遊び。軸ごとに切ると斜めが弱く出る(XInput 公式サンプルと同じ考え方)
+local function stick(side)
+    local x, y = padStick(side)
+    local m = math.sqrt(x * x + y * y)
+    if m < PAD_DEAD then return 0.0, 0.0 end
+    local k = (m - PAD_DEAD) / (1.0 - PAD_DEAD) / m     -- 遊びの外側を 0..1 へ引き伸ばす
+    return x * k, y * k
+end
+
+local PAD_ANY = { "A", "B", "X", "Y", "LB", "RB", "START", "BACK",
+                  "DPAD_UP", "DPAD_DOWN", "DPAD_LEFT", "DPAD_RIGHT" }
+
+-- いま使っているのはどっちか。★「最後に触った方」で決める
+local function pollDevice(self)
+    local was = self.dev
+    if padConnected() then
+        local lx, ly = stick("left")
+        local rx, ry = stick("right")
+        local moved = math.max(math.abs(lx), math.abs(ly), math.abs(rx), math.abs(ry)) > PAD_WAKE
+        if not moved then
+            for i = 1, #PAD_ANY do
+                if padDown(PAD_ANY[i]) then moved = true break end
+            end
+        end
+        if moved then self.dev = "pad" end
+    end
+    if math.abs(input:getMouseDeltaX()) + math.abs(input:getMouseDeltaY()) > MOUSE_WAKE
+       or keyDown("W") or keyDown("A") or keyDown("S") or keyDown("D")
+       or keyDown("LEFT") or keyDown("RIGHT") or keyDown("UP") or keyDown("DOWN") then
+        self.dev = "kb"
+    end
+    return self.dev ~= was
+end
+
+-- 記号と文言を、いま使っている機器のものへ貼り替える。
+-- ★scene:setUiText / setUiTexture は毎フレーム呼ばない(切り替わった時だけ)
+local function applyGlyphs(self)
+    local g = GLYPH[self.dev]
+    -- ★出し入れ(setUiVisible)はここでは触らない。濃さと表示は uiFade が一手に持つ。
+    --   両方が別々に visible を書くと「消したはずが次のフレームで戻る」ことになる。
+    if self.tutLook then scene:setUiTexture(self.tutLook, g.look) end
+    if self.tutMenu then scene:setUiTexture(self.tutMenu, g.menu) end
+    for i = 1, #self.ctlIcon do
+        scene:setUiTexture(self.ctlIcon[i], g.ctl[i])
+        scene:setUiText(self.ctlText[i], g.text[i])
+    end
+    if self.menuHint then scene:setUiText(self.menuHint, g.hint) end
+    self.endHint = false          -- 終わりの案内も次のフレームで書き直させる
+end
+
+-- 目標の濃さへ寄せる(1 フレームぶん)。速さは「1 秒でだいたい着く」倍率
+local function toward(cur, target, dt, speed)
+    return cur + (target - cur) * math.min((speed or 8.0) * dt, 1.0)
+end
+
+-- ★★UI を薄くするときは【必ず要素ごと消す】。
+--   UIText の縁取り(outlineWidth)と UIImage の枠(outlineWidth)は
+--   本体の color.w とは別枠で描かれるので、アルファを 0 にしても【縁だけ残る】。
+--   2026-09-09: これで「画面の下にずっと文字が出ている」「パネルを閉じても文字が残る」
+--   の 2 つを同時に踏んだ。色だけ書いて消したつもりにならないこと。
+local VIS_EPS = 0.004
+local function uiFade(e, a, r, g, b)
+    if not e then return end
+    if a <= VIS_EPS then
+        scene:setUiVisible(e, false)
+        return
+    end
+    scene:setUiVisible(e, true)
+    scene:setUiColor(e, r, g, b, a)
+end
+
+-- 押しっぱなしの繰り返し。最初は間を空け、そのあと速く刻む
+local function repeatOn(self, slot, down, dt)
+    local t = self.navT[slot] or 0.0
+    if not down then self.navT[slot] = 0.0 return false end
+    if t <= 0.0 then self.navT[slot] = NAV_FIRST return true end
+    t = t - dt
+    if t <= 0.0 then self.navT[slot] = NAV_REPEAT return true end
+    self.navT[slot] = t
+    return false
+end
+
+-- ---------------------------------------------------------------- 設定
+local function cfgApply(self)
+    pcall(function() audio:setMasterVolume(self.cfg[S_VOL] / 100.0) end)
+end
+
+local function cfgLoad(self)
+    self.cfg = {}
+    for i = 1, #SETTINGS do
+        local s = SETTINGS[i]
+        self.cfg[i] = clamp(loadPersist(s.key, s.def), s.min, s.max)
+    end
+    cfgApply(self)
+end
+
+local function cfgNudge(self, i, dir)
+    local s = SETTINGS[i]
+    self.cfg[i] = clamp(self.cfg[i] + dir * s.step, s.min, s.max)
+    savePersist(s.key, self.cfg[i])
+    cfgApply(self)
+end
+
+-- 短い当たり(設定を変えた・部屋へ飛んだ)。振動を切っていれば何もしない
+local function bump(self, strength, sec)
+    if self.cfg[S_RUMBLE] > 0.5 and padConnected() then
+        pcall(function() padVibrate(strength, strength * 0.6, sec or 0.06) end)
+    end
+end
+
 function OnStart(self)
     self.body = find("LM_Player")
     self.cam  = find("LM_Camera")
@@ -5125,6 +5286,104 @@ function OnStart(self)
             end
         end
     end
+
+    -- ================================================ 案内 / 操作と設定 / デバッグ
+    -- ★古いシーン(HUD を差し込む前の stagedemo3.json)でも落ちないように、
+    --   見つからない要素は nil のまま進む。find() と違って警告も出さない。
+    local function soft(n)
+        local e = scene:findEntity(n)
+        if e and e:isValid() then return e end
+        return nil
+    end
+
+    self.tutKeys = {}
+    for _, n in ipairs({ "LM_Tut_W", "LM_Tut_A", "LM_Tut_S", "LM_Tut_D" }) do
+        local e = soft(n)
+        if e then self.tutKeys[#self.tutKeys + 1] = e end
+    end
+    self.tutMove    = soft("LM_Tut_Move")
+    self.tutLook    = soft("LM_Tut_Look")
+    self.tutMenu    = soft("LM_Tut_Menu")
+    self.tutCap     = { soft("LM_Tut_MoveCap"), soft("LM_Tut_LookCap"), soft("LM_Tut_MenuCap") }
+    self.menuDim    = soft("LM_Menu_Dim")
+    self.menuBg     = soft("LM_Menu_Bg")
+    self.menuHint   = soft("LM_Menu_Hint")
+    self.menuChrome = {}
+    for _, n in ipairs({ "LM_Menu_Title", "LM_Menu_H1", "LM_Menu_R1", "LM_Menu_H2", "LM_Menu_R2" }) do
+        local e = soft(n)
+        if e then self.menuChrome[#self.menuChrome + 1] = e end
+    end
+    self.ctlIcon, self.ctlText = {}, {}
+    for i = 0, 3 do
+        local a, b = soft("LM_Ctl" .. i .. "_Icon"), soft("LM_Ctl" .. i .. "_Text")
+        if a and b then
+            self.ctlIcon[#self.ctlIcon + 1] = a
+            self.ctlText[#self.ctlText + 1] = b
+        end
+    end
+    self.setSel, self.setText, self.setVal = {}, {}, {}
+    for i = 0, #SETTINGS - 1 do
+        self.setSel[i + 1]  = soft("LM_Set" .. i .. "_Sel")
+        self.setText[i + 1] = soft("LM_Set" .. i .. "_Text")
+        self.setVal[i + 1]  = soft("LM_Set" .. i .. "_Val")
+    end
+    self.hasHud = (self.menuBg ~= nil)
+
+    -- ★★HUD は【全部消した状態から始める】。
+    --   UIText の縁取りと UIImage の枠は color.w とは別枠で描かれるので、
+    --   アルファ 0 で置いてあるだけでは【縁だけが画面に出たまま】になる。
+    --   案内もパネルも、出す時に uiFade が visible を立てる。
+    for _, e in ipairs({ self.tutMove, self.tutLook, self.tutMenu,
+                         self.menuDim, self.menuBg, self.menuHint, self.hint }) do
+        if e then scene:setUiVisible(e, false) end
+    end
+    -- ★ipairs は使わない。soft() が見つけられなかった所は nil の穴になっていて、
+    --   ipairs だとそこで止まり、以降の要素が消えないまま残る
+    for _, list in ipairs({ self.tutKeys, self.tutCap, self.menuChrome,
+                            self.ctlIcon, self.ctlText,
+                            self.setSel, self.setText, self.setVal }) do
+        for i = 1, 8 do                     -- どの並びも 8 個より短い
+            if list[i] then scene:setUiVisible(list[i], false) end
+        end
+    end
+    self.hintShown = false
+    self.valShown = {}
+
+    cfgLoad(self)
+
+    -- 案内の 3 つの塊。それぞれ【もう分かった】と言えたら独立に消える。
+    -- ★時間で一斉に消さないのは、歩けていない人の前から案内だけ消えるのが一番きついから。
+    self.dev = padConnected() and "pad" or "kb"
+    self.tutA = { 0.0, 0.0, 0.0 }      -- いまの濃さ(歩く / 見る / 操作と設定)
+    self.walkT, self.turnT = 0.0, 0.0  -- 歩いた秒数 / 回した角度の合計
+    self.menuSeen = false
+    self.navT = {}
+
+    self.menuOpen, self.menuA, self.menuI = false, 0.0, 1
+    self.dbgOpen, self.dbgI, self.dbgTop = false, 1, 1
+
+    -- デバッグの部屋一覧。到達点(CHECKS)を、一番近い継ぎ目の名前で呼ぶ。
+    -- ★手で名前を書かない = 継ぎ目を足しても勝手に増える
+    local function actOf(id)
+        if id <= 4 then return 1 elseif id <= 10 then return 2
+        elseif id <= 16 then return 3 elseif id <= 21 then return 4 else return 5 end
+    end
+    self.rooms = {}
+    for i = 1, #CHECKS do
+        local c = CHECKS[i]
+        local best, bd = nil, 1e18
+        for j = 1, #CONNS do
+            local m = CONNS[j].center
+            local d = (m[1] - c.x) ^ 2 + (m[2] - c.y) ^ 2 + (m[3] - c.z) ^ 2
+            if d < bd then bd, best = d, CONNS[j] end
+        end
+        self.rooms[i] = string.format("%2d  第%d幕  継ぎ目%d %s", i,
+                                      best and actOf(best.id) or 1,
+                                      best and best.id or 0,
+                                      best and best.note or "")
+    end
+
+    if self.hasHud then applyGlyphs(self) end
 
     log("LIMINAL: " .. #self.conns .. " joints. look, and it becomes.")
 end
@@ -5442,6 +5701,197 @@ local function sweepStep(self, dt)
     end
 end
 
+-- ================================================================ 案内(チュートリアル)
+-- ★出すのは 3 つだけ: 歩く / 見る / 操作と設定。この作品には他に押す物が無い。
+-- ★消えるのは【できるようになった時】。時間で一斉に消すと、まだ歩けていない人の
+--   前から案内だけ先に消える。塊ごとに独立して薄くなる。
+local BASE_A, HOT_A = 0.52, 1.0        -- ふだんの濃さ / 押している瞬間の濃さ
+local CAP_A = 0.78                     -- 添え字(歩く・見る)の濃さ
+
+local function tutUpdate(self, dt, moving, turned)
+    if not self.hasHud then return end
+    if moving then self.walkT = self.walkT + dt end
+    self.turnT = self.turnT + math.abs(turned)
+
+    -- 出るのは開始から少し置いてから。場に目が慣れる前に出すと読まれずに消える
+    local on = (self.t > 1.1) and (not self.done) and 1.0 or 0.0
+    local want = {
+        on * ((self.walkT >= 2.6) and 0.0 or 1.0),
+        on * ((self.turnT >= 260.0) and 0.0 or 1.0),
+        on * ((self.menuSeen or self.t > 26.0) and 0.0 or 1.0),
+    }
+    -- パネルを開けている間は案内を引っ込める(二重に説明しない)
+    if self.menuOpen or self.dbgOpen then want = { 0.0, 0.0, 0.0 } end
+
+    for i = 1, 3 do
+        self.tutA[i] = toward(self.tutA[i], want[i], dt, 3.6)
+        uiFade(self.tutCap[i], self.tutA[i] * CAP_A, 0.92, 0.91, 0.85)
+    end
+
+    local a1, a2, a3 = self.tutA[1], self.tutA[2], self.tutA[3]
+    local pad = (self.dev == "pad")
+
+    -- 歩く。押している向きのキーだけ明るくする(何が効いているかがその場で分かる)
+    -- ★使っていない方(キーボードならスティック、パッドならキー)は濃さ 0 = 要素ごと消える
+    if pad then
+        local lx, ly = stick("left")
+        local hot = (math.abs(lx) + math.abs(ly)) > 0.15
+        uiFade(self.tutMove, a1 * (hot and HOT_A or BASE_A), 0.92, 0.91, 0.85)
+        for i = 1, #self.tutKeys do uiFade(self.tutKeys[i], 0.0) end
+    else
+        local down = { keyDown("W"), keyDown("A"), keyDown("S"), keyDown("D") }
+        for i = 1, #self.tutKeys do
+            uiFade(self.tutKeys[i], a1 * (down[i] and HOT_A or BASE_A), 0.92, 0.91, 0.85)
+        end
+        uiFade(self.tutMove, 0.0)
+    end
+
+    -- 見る。マウスが動いている / 右スティックが倒れている間だけ明るい
+    do
+        local hot
+        if pad then
+            local rx, ry = stick("right")
+            hot = (math.abs(rx) + math.abs(ry)) > 0.15
+        else
+            hot = (math.abs(input:getMouseDeltaX()) + math.abs(input:getMouseDeltaY())) > 1.0
+        end
+        uiFade(self.tutLook, a2 * (hot and HOT_A or BASE_A), 0.92, 0.91, 0.85)
+    end
+    uiFade(self.tutMenu, a3 * BASE_A, 0.92, 0.91, 0.85)
+end
+
+-- ================================================================ 操作と設定(TAB)
+-- ★開けている間はプレイヤーを止める。継ぎ目の判定も止める ── パネルの裏で
+--   焦点に立ったまま合ってしまうと、閉じた瞬間に「何もしていないのに解けた」になる。
+local function menuUpdate(self, dt)
+    if not self.hasHud then return end
+
+    local toggle = keyPressed("TAB") or padPressed("START")
+    local close = padPressed("B") or (self.menuOpen and keyPressed("ESC"))
+    if toggle or (close and self.menuOpen) then
+        self.menuOpen = not self.menuOpen and not close
+        if self.menuOpen then
+            self.menuSeen = true
+            self.menuI = 1
+            self.navT = {}
+        end
+        bump(self, 0.20, 0.05)
+    end
+
+    if self.menuOpen then
+        local lx, ly = stick("left")
+        local up   = keyDown("W") or keyDown("UP")    or padDown("DPAD_UP")    or ly > 0.55
+        local down = keyDown("S") or keyDown("DOWN")  or padDown("DPAD_DOWN")  or ly < -0.55
+        local dec  = keyDown("A") or keyDown("LEFT")  or padDown("DPAD_LEFT")  or lx < -0.55
+        local inc  = keyDown("D") or keyDown("RIGHT") or padDown("DPAD_RIGHT") or lx > 0.55
+
+        if repeatOn(self, "up", up and not down, dt) then
+            self.menuI = self.menuI - 1
+            if self.menuI < 1 then self.menuI = #SETTINGS end
+        end
+        if repeatOn(self, "down", down and not up, dt) then
+            self.menuI = self.menuI % #SETTINGS + 1
+        end
+        if repeatOn(self, "dec", dec and not inc, dt) then
+            cfgNudge(self, self.menuI, -1); bump(self, 0.16, 0.04)
+        end
+        if repeatOn(self, "inc", inc and not dec, dt) then
+            cfgNudge(self, self.menuI, 1); bump(self, 0.16, 0.04)
+        end
+    end
+
+    self.menuA = toward(self.menuA, self.menuOpen and 1.0 or 0.0, dt, 11.0)
+    local a = self.menuA
+
+    -- ★毎フレーム uiFade を通す。a が 0 なら中で要素ごと消える(縁取りも残らない)。
+    --   「閉じている間は何もしない」にすると、開く前の 1 フレーム目に出た物が
+    --   消えないまま残る ── 実際にそれで「閉じても文字が残る」を踏んだ。
+    uiFade(self.menuDim, a * 0.62, 0, 0, 0)
+    uiFade(self.menuBg, a * 0.96, 0.055, 0.055, 0.05)
+    for _, e in ipairs(self.menuChrome) do uiFade(e, a * 0.9, 0.72, 0.71, 0.66) end
+    uiFade(self.menuHint, a * 0.75, 0.72, 0.71, 0.66)
+    for i = 1, #self.ctlIcon do
+        uiFade(self.ctlIcon[i], a * 0.85, 0.92, 0.91, 0.85)
+        uiFade(self.ctlText[i], a * 0.92, 0.92, 0.91, 0.85)
+    end
+    for i = 1, #SETTINGS do
+        local sel = (i == self.menuI)
+        uiFade(self.setSel[i], sel and a * 0.10 or 0.0, 0.92, 0.91, 0.85)
+        uiFade(self.setText[i], a * (sel and 1.0 or 0.72), 0.92, 0.91, 0.85)
+        if self.setVal[i] then
+            -- ★setUiText は毎フレーム呼ばない(変わった時だけ)
+            local txt = SETTINGS[i].fmt(self.cfg[i])
+            if self.valShown[i] ~= txt then
+                scene:setUiText(self.setVal[i], txt)
+                self.valShown[i] = txt
+            end
+            uiFade(self.setVal[i], a * (sel and 1.0 or 0.72), 0.92, 0.91, 0.85)
+        end
+    end
+end
+
+-- ================================================================ デバッグ: 部屋へ飛ぶ
+-- ★これは作る側の道具。即時モードで描く(シーンに要素を増やさない = 配布物が汚れない)。
+--   F1 / BACK ボタンで開く。上下で選び、Enter / A ボタンで飛ぶ。
+local DBG_ROWS = 16
+
+local function dbgUpdate(self, dt)
+    if keyPressed("F1") or padPressed("BACK") then
+        self.dbgOpen = not self.dbgOpen
+        self.navT = {}
+        if self.dbgOpen then self.dbgI = self.cp end
+    end
+    if not self.dbgOpen then return end
+
+    local lx, ly = stick("left")
+    if repeatOn(self, "dup", keyDown("W") or keyDown("UP") or padDown("DPAD_UP") or ly > 0.55, dt) then
+        self.dbgI = self.dbgI - 1
+        if self.dbgI < 1 then self.dbgI = #CHECKS end
+    end
+    if repeatOn(self, "ddn", keyDown("S") or keyDown("DOWN") or padDown("DPAD_DOWN") or ly < -0.55, dt) then
+        self.dbgI = self.dbgI % #CHECKS + 1
+    end
+    if keyPressed("ENTER") or padPressed("A") then
+        local c = CHECKS[self.dbgI]
+        physics:setPosition(self.body, V(c.x, c.y, c.z))
+        self.body.transform.position = V(c.x, c.y, c.z)
+        self.cp, self.vx, self.vz = self.dbgI, 0.0, 0.0
+        bump(self, 0.45, 0.10)
+        log(string.format("LIMINAL debug: 到達点 %d へ飛んだ (%.1f, %.1f, %.1f)",
+                          self.dbgI, c.x, c.y, c.z))
+    end
+
+    -- 選んでいる行が窓から出ないように、窓の方をずらす
+    if self.dbgI < self.dbgTop then self.dbgTop = self.dbgI end
+    if self.dbgI > self.dbgTop + DBG_ROWS - 1 then self.dbgTop = self.dbgI - DBG_ROWS + 1 end
+    self.dbgTop = clamp(self.dbgTop, 1, math.max(1, #CHECKS - DBG_ROWS + 1))
+
+    local x, y, w = 34, 34, 452
+    local rowH, head = 24, 62
+    local n = math.min(DBG_ROWS, #CHECKS)
+    ui:rect(x, y, w, head + n * rowH + 34, 0.04, 0.04, 0.035, 0.90, 10)
+    ui:text(x + 18, y + 14, "デバッグ: 部屋へ飛ぶ", 19, 0.95, 0.93, 0.72, 1.0)
+    local p = self.body.transform.position
+    ui:text(x + 18, y + 38, string.format("いま  到達点 %d   x %.1f  y %.1f  z %.1f",
+                                          self.cp, p.x, p.y, p.z), 15, 0.72, 0.71, 0.66, 1.0)
+    for r = 0, n - 1 do
+        local i = self.dbgTop + r
+        if i > #CHECKS then break end
+        local ry = y + head + r * rowH
+        local sel = (i == self.dbgI)
+        if sel then ui:rect(x + 10, ry - 3, w - 20, rowH, 0.95, 0.93, 0.72, 0.16, 5) end
+        local c = CHECKS[i]
+        ui:text(x + 20, ry, self.rooms[i], 16,
+                sel and 1.0 or 0.80, sel and 0.98 or 0.79, sel and 0.86 or 0.74, 1.0)
+        ui:text(x + w - 150, ry, string.format("x%6.1f  z%6.1f", c.x, c.z), 15,
+                0.66, 0.65, 0.61, 1.0)
+    end
+    ui:text(x + 18, y + head + n * rowH + 8,
+            (self.dev == "pad") and "十字キー 上下 選ぶ    A 飛ぶ    BACK 閉じる"
+                                 or "W / S 選ぶ    Enter 飛ぶ    F1 閉じる",
+            15, 0.66, 0.65, 0.61, 1.0)
+end
+
 function OnUpdate(self, dt)
     dt = math.min(dt, 0.06)
     self.t = self.t + dt
@@ -5450,35 +5900,70 @@ function OnUpdate(self, dt)
         physics:setPosition(self.body, V(CHECKS[1].x, CHECKS[1].y, CHECKS[1].z))
     end
 
-    if keyPressed("ESC") then input:setMouseCapture(not input:isMouseCaptured()) end
+    -- ------------------------------------------------ 機器の判定と、開いている窓
+    -- ★記号を貼り替えるのは【切り替わったフレームだけ】。挿しっぱなしのパッドがあるだけで
+    --   パッドの記号にはしない ── マウスで遊んでいる人には嘘の案内になる。
+    if pollDevice(self) and self.hasHud then applyGlyphs(self) end
+    menuUpdate(self, dt)
+    dbgUpdate(self, dt)
+    -- パネル / デバッグを開けている間は、歩くのも見るのも止める。
+    -- ★継ぎ目の判定も下で止める。パネルの裏で焦点に立ったまま合ってしまうと、
+    --   閉じた瞬間に「何もしていないのに解けた」になる。
+    local frozen = self.menuOpen or self.dbgOpen
+
+    -- ESC はパネルを閉じるのに使った時だけ食われる(menuUpdate 側)。それ以外はマウス解放
+    if keyPressed("ESC") and not self.menuOpen then
+        input:setMouseCapture(not input:isMouseCaptured())
+    end
 
     -- ------------------------------------------------ 視点
-    if not self.done then
+    local yaw0, pitch0 = self.yaw, self.pitch
+    if not self.done and not frozen then
+        local sens = (self.cfg and self.cfg[S_SENS] or 82) / 1000.0
+        local invY = (self.cfg and self.cfg[S_INVY] or 0) > 0.5 and -1.0 or 1.0
         if loadNum("lm_sweep", 0) > 0.5 then
             -- 下の sweepStep が毎フレーム self.yaw / self.pitch を決める
         elseif loadNum("lm_test", 0) > 0.5 then
             self.yaw = loadNum("lm_yaw", self.yaw)
             self.pitch = loadNum("lm_pitch", self.pitch)
         elseif input:isMouseCaptured() then
-            self.yaw = self.yaw + input:getMouseDeltaX() * SENS
-            self.pitch = self.pitch - input:getMouseDeltaY() * SENS
+            self.yaw = self.yaw + input:getMouseDeltaX() * sens
+            self.pitch = self.pitch - input:getMouseDeltaY() * sens * invY
         end
         if keyDown("LEFT") then self.yaw = self.yaw - 90 * dt end
         if keyDown("RIGHT") then self.yaw = self.yaw + 90 * dt end
         if keyDown("UP") then self.pitch = self.pitch + 70 * dt end
         if keyDown("DOWN") then self.pitch = self.pitch - 70 * dt end
+        -- 右スティックで見る。★倒し量の 2 乗で効かせる = 中央付近が細かく狙える。
+        --   線形だと「ゆっくり首を振る」ができず、継ぎ目に合わせられない
+        if padConnected() then
+            local rx, ry = stick("right")
+            local spd = (self.cfg and self.cfg[S_PADLOOK] or 145)
+            self.yaw = self.yaw + rx * math.abs(rx) * spd * dt
+            self.pitch = self.pitch + ry * math.abs(ry) * spd * dt * invY
+        end
     end
     self.yaw = self.yaw % 360
     self.pitch = clamp(self.pitch, -78, 78)
+    -- 案内の「見る」を消してよいかの目安(この 1 フレームで動かした角度)
+    local turned = math.abs(((self.yaw - yaw0 + 180) % 360) - 180) + math.abs(self.pitch - pitch0)
 
     -- ------------------------------------------------ 移動
     local yr = math.rad(self.yaw)
     local wx, wz = 0.0, 0.0
-    if not self.done then
+    if not self.done and not frozen then
         if keyDown("W") then wx = wx + math.sin(yr); wz = wz + math.cos(yr) end
         if keyDown("S") then wx = wx - math.sin(yr); wz = wz - math.cos(yr) end
         if keyDown("D") then wx = wx + math.cos(yr); wz = wz - math.sin(yr) end
         if keyDown("A") then wx = wx - math.cos(yr); wz = wz + math.sin(yr) end
+        -- 左スティックで歩く。★下で長さを 1 に正規化するので、倒し方で速さは変わらない。
+        --   この作品は「止まって見る」かどうかで確定が決まる(STILL)ので、
+        --   半端な速さで歩けると"止まっているつもりで止まっていない"が起きる
+        if padConnected() then
+            local lx, ly = stick("left")
+            wx = wx + math.sin(yr) * ly + math.cos(yr) * lx
+            wz = wz + math.cos(yr) * ly - math.sin(yr) * lx
+        end
     end
     -- ★MCP からの自動テスト用: 目的地(lm_gx, lm_gz)へ歩く。
     --   キー入力より後に上書きするので、人が遊ぶ時は一切影響しない(lm_auto=0)。
@@ -5582,7 +6067,10 @@ function OnUpdate(self, dt)
 
     for i = 1, #self.conns do
         local c = self.conns[i]
-        if not c.locked then
+        -- ★frozen(操作と設定 / デバッグを開けている)の間は評価しない。
+        --   パネルの裏で焦点に立ったまま合ってしまうと、閉じた瞬間に
+        --   「何もしていないのに解けた」になる。
+        if not c.locked and not frozen then
             -- 前提の継ぎ目(連鎖)と、暗の一瞬
             -- ★「止まっている」条件だけは分けて持つ。踏んでなぞる規則は【歩いている
             --   最中にしか進まない】ので、still を掛けると 1 歩も進まなくなる
@@ -5858,13 +6346,13 @@ function OnUpdate(self, dt)
     -- ------------------------------------------------ HUD
     -- ★環も、合い具合のドローンも無い。画面中央は最後まで空。
     --   合っているかどうかは【破片が重なって見えるか】だけで判断する。
-    -- 操作の案内は 9 秒で消える(以後、画面に文字は出ない)
-    local ha = clamp((11.0 - self.t) / 2.0, 0, 1) * 0.55
-    if ha <= 0.005 then
+    -- ★案内は文字ではなく【記号】でやる(tutUpdate)。歩けた・見回せた塊から順に消える。
+    --   古い文字の帯(LM_Hint)は最初から出さない。終わりの「Enter」にだけ使い回す。
+    if self.hintShown ~= false and not self.done then
+        self.hintShown = false
         scene:setUiVisible(self.hint, false)      -- ★alpha 0 でも縁取りは残る。要素ごと消す
-    else
-        scene:setUiColor(self.hint, 0.92, 0.91, 0.85, ha)
     end
+    tutUpdate(self, dt, moving, turned)
 
     -- ------------------------------------------------ 終わり
     if not self.done and self.lockedIds[GOAL.need]
@@ -5888,13 +6376,17 @@ function OnUpdate(self, dt)
         scene:setUiColor(self.endt, 0.12, 0.12, 0.11, ta)
         scene:setUiVisible(self.hint, self.doneT > 2.4)
         if self.doneT > 2.4 then
+            -- ★案内は今つないでいる機器の名前で出す。パッドで遊んだ人に「Enter」は届かない
+            --   (applyGlyphs が機器の切り替わりで endHint を false へ戻す)
             if not self.endHint then
                 self.endHint = true
-                scene:setUiText(self.hint, "Enter")   -- setUiText は毎フレーム呼ばない
+                scene:setUiText(self.hint, GLYPH[self.dev].endk)   -- 毎フレームは呼ばない
             end
             scene:setUiColor(self.hint, 0.20, 0.20, 0.18, 0.5)
         end
-        if self.doneT > 2.6 and keyPressed("ENTER") then loadScene("scenes/stagedemo3.json") end
+        if self.doneT > 2.6 and (keyPressed("ENTER") or padPressed("A")) then
+            loadScene("scenes/stagedemo3.json")
+        end
     end
 
     runTweens(self, dt)
