@@ -101,7 +101,7 @@ local GLYPH = {
         ctl  = { ICON .. "key_wasd.png", ICON .. "mouse_look.png",
                  ICON .. "key_tab.png",  ICON .. "key_esc.png" },
         text = { "歩く", "見る", "操作と設定を開く / 閉じる", "マウスを離す" },
-        hint = "W / S  選ぶ      A / D  変える      TAB  閉じる",
+        hint = "クリック、または  W / S  選ぶ ・ A / D  変える      TAB  閉じる",
         endk = "Enter",
     },
     pad = {
@@ -110,7 +110,7 @@ local GLYPH = {
         ctl  = { ICON .. "pad_lstick.png", ICON .. "pad_rstick.png",
                  ICON .. "pad_start.png",  ICON .. "pad_b.png" },
         text = { "歩く", "見る", "操作と設定を開く / 閉じる", "パネルを閉じる" },
-        hint = "十字キー 上下  選ぶ      左右  変える      B  閉じる",
+        hint = "十字キー 上下  選ぶ ・ 左右  変える      B  閉じる",
         endk = "A ボタン",
     },
 }
@@ -550,11 +550,15 @@ function OnStart(self)
         end
     end
     self.setSel, self.setText, self.setVal = {}, {}, {}
+    self.setLess, self.setMore = {}, {}
     for i = 0, #SETTINGS - 1 do
         self.setSel[i + 1]  = soft("LM_Set" .. i .. "_Sel")
         self.setText[i + 1] = soft("LM_Set" .. i .. "_Text")
         self.setVal[i + 1]  = soft("LM_Set" .. i .. "_Val")
+        self.setLess[i + 1] = soft("LM_Set" .. i .. "_Less")
+        self.setMore[i + 1] = soft("LM_Set" .. i .. "_More")
     end
+    self.menuClose = soft("LM_Menu_Close")
     self.hasHud = (self.menuBg ~= nil)
 
     -- ★★HUD は【全部消した状態から始める】。
@@ -567,9 +571,10 @@ function OnStart(self)
     end
     -- ★ipairs は使わない。soft() が見つけられなかった所は nil の穴になっていて、
     --   ipairs だとそこで止まり、以降の要素が消えないまま残る
+    for _, e in ipairs({ self.menuClose }) do scene:setUiVisible(e, false) end
     for _, list in ipairs({ self.tutKeys, self.tutCap, self.menuChrome,
-                            self.ctlIcon, self.ctlText,
-                            self.setSel, self.setText, self.setVal }) do
+                            self.ctlIcon, self.ctlText, self.setSel, self.setText,
+                            self.setVal, self.setLess, self.setMore }) do
         for i = 1, 8 do                     -- どの並びも 8 個より短い
             if list[i] then scene:setUiVisible(list[i], false) end
         end
@@ -610,6 +615,21 @@ function OnStart(self)
                                       best and best.id or 0,
                                       best and best.note or "")
     end
+
+    -- ★マウスでも触れるようにする。ボタンの当たり判定と拡縮はエンジンの UISystem が
+    --   やってくれるので、こちらは押された時に何をするかだけ書けばよい。
+    --   events は Play 開始時に一度消えるので、購読は必ずここ(OnStart)で行う。
+    for i = 1, #SETTINGS do
+        local n = i
+        events:on("lm_row" .. (n - 1), function() self.menuI = n end)
+        events:on("lm_less" .. (n - 1), function()
+            self.menuI = n; cfgNudge(self, n, -1); bump(self, 0.16, 0.04)
+        end)
+        events:on("lm_more" .. (n - 1), function()
+            self.menuI = n; cfgNudge(self, n, 1); bump(self, 0.16, 0.04)
+        end)
+    end
+    events:on("lm_close", function() self.menuWant = false end)
 
     if self.hasHud then applyGlyphs(self) end
 
@@ -994,14 +1014,24 @@ end
 local function menuUpdate(self, dt)
     if not self.hasHud then return end
 
-    local toggle = keyPressed("TAB") or padPressed("START")
-    local close = padPressed("B") or (self.menuOpen and keyPressed("ESC"))
-    if toggle or (close and self.menuOpen) then
-        self.menuOpen = not self.menuOpen and not close
+    -- 開け閉め。menuWant は「閉じる」ボタン(events)からも書かれる
+    if self.menuWant == nil then self.menuWant = false end
+    if keyPressed("TAB") or padPressed("START") then self.menuWant = not self.menuWant end
+    if self.menuOpen and (padPressed("B") or keyPressed("ESC")) then self.menuWant = false end
+
+    if self.menuWant ~= self.menuOpen then
+        self.menuOpen = self.menuWant
+        self.navT = {}
         if self.menuOpen then
             self.menuSeen = true
             self.menuI = 1
-            self.navT = {}
+            -- ★開けたらカーソルを出す。出さないと「設定が並んでいるのに触れない」
+            --   という一番きつい形になる(2026-09-09 の指摘)。
+            --   キーボードとパッドの操作も同時に効くので、どれで触ってもよい。
+            self.capWas = input:isMouseCaptured()
+            input:setMouseCapture(false)
+        elseif self.capWas then
+            input:setMouseCapture(true)      -- 閉じたら元どおり掴み直す
         end
         bump(self, 0.20, 0.05)
     end
@@ -1042,10 +1072,16 @@ local function menuUpdate(self, dt)
         uiFade(self.ctlIcon[i], a * 0.85, 0.92, 0.91, 0.85)
         uiFade(self.ctlText[i], a * 0.92, 0.92, 0.91, 0.85)
     end
+    uiFade(self.menuClose, a * 0.85, 0.92, 0.91, 0.85)
     for i = 1, #SETTINGS do
         local sel = (i == self.menuI)
-        uiFade(self.setSel[i], sel and a * 0.10 or 0.0, 0.92, 0.91, 0.85)
+        -- ★行の帯は uiButton も持っている。押せる状態を保つため、閉じている時だけ消す
+        --   (選ばれていない行も「見えないが押せる」= マウスでどの行でも直に触れる)
+        uiFade(self.setSel[i], a > VIS_EPS and math.max(sel and a * 0.10 or 0.0, 0.006) or 0.0,
+               0.92, 0.91, 0.85)
         uiFade(self.setText[i], a * (sel and 1.0 or 0.72), 0.92, 0.91, 0.85)
+        uiFade(self.setLess[i], a * 0.9, 0.92, 0.91, 0.85)
+        uiFade(self.setMore[i], a * 0.9, 0.92, 0.91, 0.85)
         if self.setVal[i] then
             -- ★setUiText は毎フレーム呼ばない(変わった時だけ)
             local txt = SETTINGS[i].fmt(self.cfg[i])

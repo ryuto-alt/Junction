@@ -9,11 +9,22 @@
   "text は x0/x1 で左右の端を指定する(align 0=左 1=中央 2=右)。",
   "画像は assets/ui/icons/*.png。全部 3:2 に焼いてあるので、実行時に",
   "キーボード↔コントローラーで差し替えても潰れない(source/ui_icons/build.js)。",
-  "色の 4 つ目(アルファ)は初期値。出し入れは Liminal.lua が毎フレーム書く。",
   "",
-  "★uiRect.visible は全部 false で置く。UIText の縁取りと UIImage の枠は",
-  "  color のアルファとは別枠で描かれるので、アルファ 0 で置いてあるだけだと",
-  "  【縁だけが画面に出たまま】になる。出すのは Liminal.lua の uiFade の仕事。"
+  "★★この HUD には縁取り(outlineWidth)も影(shadowColor)も付けない。",
+  "  エンジンの UI 描画は縁と影のアルファを【本体の color.w とは別勘定】で扱う:",
+  "      outlineColor.w * ctx.alphaMul     (UISystem.cpp)",
+  "  ctx.alphaMul は UIRect のグループ透過で、Lua から触る口が無い。",
+  "  つまり setUiColor で薄くしても縁だけ元の濃さで残り、",
+  "  【枠組みだけ残って消えていく】という見え方になる。2026-09-09 に実際に踏んだ。",
+  "  パネルの枠線が要るときは LM_Menu_Edge のように【別の実体】にして、",
+  "  それも setUiColor で一緒に薄くすること。",
+  "★設定はマウスでも触れる。行(_Sel)と − / + が uiButton で、押すと onClickEvent が飛ぶ。",
+  "  当たり判定と拡縮はエンジンの UISystem がやるので、こちらは座標を置くだけでよい。",
+  "  ボタンの色は【描く時に掛ける倍率】なので、uiFade の setUiColor と喧嘩しない。",
+  "  飾りの画像は raycastBlock を false にする(暗幕がクリックを吸ってしまうため)。",
+  "",
+  "",
+  "★uiRect.visible は全部 false で置く。出すのは Liminal.lua の uiFade の仕事。"
  ],
  "canvas": "LM_HUD",
  "palette": {
@@ -47,7 +58,8 @@
    "tex": "ui/icons/key_w.png",
    "a": 0,
    "order": 2,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Tut_A",
@@ -59,7 +71,8 @@
    "tex": "ui/icons/key_a.png",
    "a": 0,
    "order": 2,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Tut_S",
@@ -71,7 +84,8 @@
    "tex": "ui/icons/key_s.png",
    "a": 0,
    "order": 2,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Tut_D",
@@ -83,7 +97,8 @@
    "tex": "ui/icons/key_d.png",
    "a": 0,
    "order": 2,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Tut_Move",
@@ -95,7 +110,8 @@
    "tex": "ui/icons/pad_lstick.png",
    "a": 0,
    "order": 2,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Tut_Look",
@@ -107,7 +123,8 @@
    "tex": "ui/icons/mouse_look.png",
    "a": 0,
    "order": 2,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Tut_Menu",
@@ -119,7 +136,8 @@
    "tex": "ui/icons/key_tab.png",
    "a": 0,
    "order": 2,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Tut_MoveCap",
@@ -133,7 +151,8 @@
    "align": 1,
    "a": 0,
    "order": 2,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Tut_LookCap",
@@ -147,7 +166,8 @@
    "align": 1,
    "a": 0,
    "order": 2,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Tut_MenuCap",
@@ -161,7 +181,8 @@
    "align": 1,
    "a": 0,
    "order": 2,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
   },
   {
    "_": "---- TAB のパネル: 操作方法と設定 ----"
@@ -180,7 +201,26 @@
    ],
    "a": 0,
    "order": 20,
-   "hidden": true
+   "hidden": true,
+   "noRay": true
+  },
+  {
+   "name": "LM_Menu_Edge",
+   "type": "image",
+   "x": 800,
+   "y": 470,
+   "w": 904,
+   "h": 724,
+   "color": [
+    0.92,
+    0.91,
+    0.85
+   ],
+   "a": 0,
+   "radius": 18,
+   "order": 21,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Menu_Bg",
@@ -196,14 +236,9 @@
    ],
    "a": 0,
    "radius": 16,
-   "outline": 2,
-   "outlineColor": [
-    0.92,
-    0.91,
-    0.85
-   ],
-   "order": 21,
-   "hidden": true
+   "order": 22,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Menu_Title",
@@ -216,7 +251,7 @@
    "size": 34,
    "align": 1,
    "a": 0,
-   "order": 22,
+   "order": 23,
    "hidden": true
   },
   {
@@ -231,7 +266,7 @@
    "align": 0,
    "a": 0,
    "sub": true,
-   "order": 22,
+   "order": 23,
    "hidden": true
   },
   {
@@ -242,8 +277,9 @@
    "w": 772,
    "h": 2,
    "a": 0,
-   "order": 22,
-   "hidden": true
+   "order": 23,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Ctl0_Icon",
@@ -254,8 +290,9 @@
    "h": 44,
    "tex": "ui/icons/key_wasd.png",
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Ctl0_Text",
@@ -268,8 +305,9 @@
    "size": 22,
    "align": 0,
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Ctl1_Icon",
@@ -280,8 +318,9 @@
    "h": 44,
    "tex": "ui/icons/mouse_look.png",
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Ctl1_Text",
@@ -294,8 +333,9 @@
    "size": 22,
    "align": 0,
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Ctl2_Icon",
@@ -306,8 +346,9 @@
    "h": 44,
    "tex": "ui/icons/key_tab.png",
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Ctl2_Text",
@@ -320,8 +361,9 @@
    "size": 22,
    "align": 0,
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Ctl3_Icon",
@@ -332,8 +374,9 @@
    "h": 44,
    "tex": "ui/icons/key_esc.png",
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Ctl3_Text",
@@ -346,8 +389,9 @@
    "size": 22,
    "align": 0,
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Menu_H2",
@@ -361,7 +405,7 @@
    "align": 0,
    "a": 0,
    "sub": true,
-   "order": 22,
+   "order": 23,
    "hidden": true
   },
   {
@@ -372,8 +416,9 @@
    "w": 772,
    "h": 2,
    "a": 0,
-   "order": 22,
-   "hidden": true
+   "order": 23,
+   "hidden": true,
+   "noRay": true
   },
   {
    "name": "LM_Set0_Sel",
@@ -389,36 +434,65 @@
    ],
    "a": 0,
    "radius": 8,
-   "order": 22,
-   "hidden": true
+   "order": 23,
+   "hidden": true,
+   "button": "lm_row0",
+   "flat": true
   },
   {
    "name": "LM_Set0_Text",
    "type": "text",
    "x0": 440,
-   "x1": 980,
+   "x1": 940,
    "y": 556,
    "h": 30,
    "text": "マウス感度",
    "size": 22,
    "align": 0,
    "a": 0,
-   "order": 23,
+   "order": 24,
    "hidden": true
+  },
+  {
+   "name": "LM_Set0_Less",
+   "type": "image",
+   "x": 996,
+   "y": 556,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_less.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_less0"
   },
   {
    "name": "LM_Set0_Val",
    "type": "text",
-   "x0": 980,
-   "x1": 1160,
+   "x0": 1016,
+   "x1": 1122,
    "y": 556,
    "h": 30,
    "text": "",
    "size": 22,
-   "align": 2,
+   "align": 1,
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
+  },
+  {
+   "name": "LM_Set0_More",
+   "type": "image",
+   "x": 1142,
+   "y": 556,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_more.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_more0"
   },
   {
    "name": "LM_Set1_Sel",
@@ -434,36 +508,65 @@
    ],
    "a": 0,
    "radius": 8,
-   "order": 22,
-   "hidden": true
+   "order": 23,
+   "hidden": true,
+   "button": "lm_row1",
+   "flat": true
   },
   {
    "name": "LM_Set1_Text",
    "type": "text",
    "x0": 440,
-   "x1": 980,
+   "x1": 940,
    "y": 600,
    "h": 30,
    "text": "コントローラー感度",
    "size": 22,
    "align": 0,
    "a": 0,
-   "order": 23,
+   "order": 24,
    "hidden": true
+  },
+  {
+   "name": "LM_Set1_Less",
+   "type": "image",
+   "x": 996,
+   "y": 600,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_less.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_less1"
   },
   {
    "name": "LM_Set1_Val",
    "type": "text",
-   "x0": 980,
-   "x1": 1160,
+   "x0": 1016,
+   "x1": 1122,
    "y": 600,
    "h": 30,
    "text": "",
    "size": 22,
-   "align": 2,
+   "align": 1,
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
+  },
+  {
+   "name": "LM_Set1_More",
+   "type": "image",
+   "x": 1142,
+   "y": 600,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_more.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_more1"
   },
   {
    "name": "LM_Set2_Sel",
@@ -479,36 +582,65 @@
    ],
    "a": 0,
    "radius": 8,
-   "order": 22,
-   "hidden": true
+   "order": 23,
+   "hidden": true,
+   "button": "lm_row2",
+   "flat": true
   },
   {
    "name": "LM_Set2_Text",
    "type": "text",
    "x0": 440,
-   "x1": 980,
+   "x1": 940,
    "y": 644,
    "h": 30,
    "text": "上下の視点を反転",
    "size": 22,
    "align": 0,
    "a": 0,
-   "order": 23,
+   "order": 24,
    "hidden": true
+  },
+  {
+   "name": "LM_Set2_Less",
+   "type": "image",
+   "x": 996,
+   "y": 644,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_less.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_less2"
   },
   {
    "name": "LM_Set2_Val",
    "type": "text",
-   "x0": 980,
-   "x1": 1160,
+   "x0": 1016,
+   "x1": 1122,
    "y": 644,
    "h": 30,
    "text": "",
    "size": 22,
-   "align": 2,
+   "align": 1,
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
+  },
+  {
+   "name": "LM_Set2_More",
+   "type": "image",
+   "x": 1142,
+   "y": 644,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_more.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_more2"
   },
   {
    "name": "LM_Set3_Sel",
@@ -524,36 +656,65 @@
    ],
    "a": 0,
    "radius": 8,
-   "order": 22,
-   "hidden": true
+   "order": 23,
+   "hidden": true,
+   "button": "lm_row3",
+   "flat": true
   },
   {
    "name": "LM_Set3_Text",
    "type": "text",
    "x0": 440,
-   "x1": 980,
+   "x1": 940,
    "y": 688,
    "h": 30,
    "text": "音量",
    "size": 22,
    "align": 0,
    "a": 0,
-   "order": 23,
+   "order": 24,
    "hidden": true
+  },
+  {
+   "name": "LM_Set3_Less",
+   "type": "image",
+   "x": 996,
+   "y": 688,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_less.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_less3"
   },
   {
    "name": "LM_Set3_Val",
    "type": "text",
-   "x0": 980,
-   "x1": 1160,
+   "x0": 1016,
+   "x1": 1122,
    "y": 688,
    "h": 30,
    "text": "",
    "size": 22,
-   "align": 2,
+   "align": 1,
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
+  },
+  {
+   "name": "LM_Set3_More",
+   "type": "image",
+   "x": 1142,
+   "y": 688,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_more.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_more3"
   },
   {
    "name": "LM_Set4_Sel",
@@ -569,36 +730,78 @@
    ],
    "a": 0,
    "radius": 8,
-   "order": 22,
-   "hidden": true
+   "order": 23,
+   "hidden": true,
+   "button": "lm_row4",
+   "flat": true
   },
   {
    "name": "LM_Set4_Text",
    "type": "text",
    "x0": 440,
-   "x1": 980,
+   "x1": 940,
    "y": 732,
    "h": 30,
    "text": "コントローラーの振動",
    "size": 22,
    "align": 0,
    "a": 0,
-   "order": 23,
+   "order": 24,
    "hidden": true
+  },
+  {
+   "name": "LM_Set4_Less",
+   "type": "image",
+   "x": 996,
+   "y": 732,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_less.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_less4"
   },
   {
    "name": "LM_Set4_Val",
    "type": "text",
-   "x0": 980,
-   "x1": 1160,
+   "x0": 1016,
+   "x1": 1122,
    "y": 732,
    "h": 30,
    "text": "",
    "size": 22,
-   "align": 2,
+   "align": 1,
    "a": 0,
-   "order": 23,
-   "hidden": true
+   "order": 24,
+   "hidden": true,
+   "noRay": true
+  },
+  {
+   "name": "LM_Set4_More",
+   "type": "image",
+   "x": 1142,
+   "y": 732,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_more.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_more4"
+  },
+  {
+   "name": "LM_Menu_Close",
+   "type": "image",
+   "x": 1198,
+   "y": 168,
+   "w": 42,
+   "h": 30,
+   "tex": "ui/icons/ui_close.png",
+   "a": 0,
+   "order": 25,
+   "hidden": true,
+   "button": "lm_close"
   },
   {
    "name": "LM_Menu_Hint",
@@ -612,7 +815,7 @@
    "align": 1,
    "a": 0,
    "sub": true,
-   "order": 23,
+   "order": 24,
    "hidden": true
   }
  ]

@@ -2010,17 +2010,32 @@ def build_hud(canvas):
             img = dict(texturePath=el.get("tex", ""), color=[rgb[0], rgb[1], rgb[2], a])
             if el.get("radius"):
                 img["cornerRadius"] = el["radius"]
-            if el.get("outline"):
-                oc = el.get("outlineColor") or pal["ink"]
-                img["outlineWidth"] = el["outline"]
-                img["outlineColor"] = [oc[0], oc[1], oc[2], 0.22]
+            # ★飾りはクリックを遮らない。暗幕(LM_Menu_Dim)が既定のままだと画面全部を
+            #   覆ってクリックを吸い、下のボタンが一切押せなくなる。
+            if el.get("noRay"):
+                img["raycastBlock"] = False
             e["uiImage"] = img
         else:
             e["uiText"] = dict(text=el.get("text", ""), fontSize=el.get("size", 22),
                                color=[rgb[0], rgb[1], rgb[2], a],
                                alignH=el.get("align", 1), alignV=1, wrap=False,
-                               # 暗い所にも明るい所にも同じ HUD が出るので縁は必ず付ける
-                               outlineWidth=0.8, outlineColor=[0.03, 0.03, 0.03, 0.55])
+                               # ★縁取りは付けない。エンジンは縁のアルファを本体の color.w
+                               #   とは別勘定で描く(outlineColor.w * ctx.alphaMul)ので、
+                               #   薄くすると【縁だけ残る】。hud_layout.json の頭を読むこと。
+                               outlineWidth=0, outlineColor=[0.03, 0.03, 0.03, 0])
+
+        # マウスで押せる要素。当たり判定も拡縮も UISystem がやる。
+        # ★ボタンの色は【描く時に掛ける倍率】なので、uiFade の setUiColor と喧嘩しない
+        if el.get("button"):
+            if el.get("flat"):      # 行そのもの。押せるが見た目は変えない
+                e["uiButton"] = dict(onClickEvent=el["button"], normalColor=[1, 1, 1, 1],
+                                     hoverColor=[1, 1, 1, 1], pressedColor=[1, 1, 1, 1],
+                                     interactable=True)
+            else:                   # − / + / 閉じる
+                e["uiButton"] = dict(onClickEvent=el["button"],
+                                     normalColor=[0.80, 0.80, 0.76, 1],
+                                     hoverColor=[1, 1, 1, 1],
+                                     pressedColor=[0.55, 0.55, 0.50, 1], interactable=True)
         made += 1
 
     print("  HUD 要素を %d 個 組んだ(source/hud_layout.json)" % made)

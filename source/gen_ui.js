@@ -53,20 +53,31 @@ function toEntity(el, pal, canvasGuid) {
   if (el.type === "image") {
     const img = { texturePath: el.tex || "", color: [rgb[0], rgb[1], rgb[2], a] };
     if (el.radius) img.cornerRadius = el.radius;
-    if (el.outline) {
-      img.outlineWidth = el.outline;
-      const oc = el.outlineColor || ink;
-      img.outlineColor = [oc[0], oc[1], oc[2], 0.22];
-    }
+    // ★飾りはクリックを遮らない。暗幕(LM_Menu_Dim)が既定のままだと画面全部を覆って
+    //   クリックを吸い、下のボタンが一切押せなくなる。
+    if (el.noRay) img.raycastBlock = false;
     e.uiImage = img;
   } else {
     e.uiText = {
       text: el.text || "", fontSize: el.size || 22,
       color: [rgb[0], rgb[1], rgb[2], a],
       alignH: el.align === undefined ? 1 : el.align, alignV: 1, wrap: false,
-      // ★暗い場所にも明るい場所にも同じ HUD が出るので、細くても縁は必ず付ける
-      outlineWidth: 0.8, outlineColor: [0.03, 0.03, 0.03, 0.55],
+      // ★縁取りは付けない。エンジンは縁のアルファを本体の color.w とは別勘定で描くので
+      //   (outlineColor.w * ctx.alphaMul)、薄くすると【縁だけ残る】。hud_layout.json 参照。
+      outlineWidth: 0, outlineColor: [0.03, 0.03, 0.03, 0],
     };
+  }
+
+  // マウスで押せる要素。当たり判定も拡縮もエンジンの UISystem がやってくれる。
+  // ★色は【描く時に掛ける倍率】なので、uiFade の setUiColor と喧嘩しない
+  if (el.button) {
+    // flat = 行そのもの。押せるが見た目は変えない(選ばれている行の帯は uiFade が出す)。
+    // それ以外(− / + / 閉じる)はふだん少し暗く、指を乗せると白く、押すと沈む。
+    e.uiButton = el.flat
+      ? { onClickEvent: el.button, normalColor: [1, 1, 1, 1], hoverColor: [1, 1, 1, 1],
+          pressedColor: [1, 1, 1, 1], interactable: true }
+      : { onClickEvent: el.button, normalColor: [0.80, 0.80, 0.76, 1],
+          hoverColor: [1, 1, 1, 1], pressedColor: [0.55, 0.55, 0.50, 1], interactable: true };
   }
   return e;
 }
