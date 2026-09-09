@@ -1411,43 +1411,36 @@ def act3(Y3, DW, DH):
     #   浮いていて、歩くと 8.8m 落ちる。ただの罠で、しかも何をすればいいのかも
     #   伝わっていなかった。
     #
-    #   直し方は【形に語らせる】こと。手前の 12 段は最初から実在させて、
-    #   普通に歩いて降りられるようにする。段は途中の踊り場でぷつりと終わり、
-    #   その先に残りの 6 段が浮いている。
-    #     ・落ちない(歩ける所は歩ける)
-    #     ・「造りかけの階段」だと一目で分かる = 何を直すのかが分かる
-    #     ・合図は一つも足していない。段の【途切れ】そのものが手がかり
-    #   ★手すりで塞ぐのは駄目だった。「入るな」としか言わず、何をすればいいかを
-    #     何も伝えないので、詰まったままになる。
+    #   ★試して駄目だった直し方を 2 つ残す:
+    #     (1) 縁に手すりを立てる … 「入るな」としか言わず、何をすればいいかを
+    #         何も伝えないので詰まったままになる。
+    #     (2) 手前 12 段を実在させて歩いて降りられるようにする …
+    #         段の途切れから【飛び降りて継ぎ目11 を飛ばせてしまう】。
+    #         机上検査が「解く前に (30.0,188.0) へ行けてしまう」で捕まえた。
+    #         実在の段と破片の段が混ざるので、めり込みも 8 組出た。
+    #   ★採った直し方は【材質】。段は 18 段とも破片のままだが、未実体の破片は
+    #     半透明の幽霊で描くようにした(assets/shaders/Unbuilt.hlsl)。
+    #     透けている段には乗れないと一目で分かるので、
+    #     「歩けると思って落ちる」も「当たり判定があったり無かったり」も起きない。
     NS, RS, RW = 18, 9.30, 3.60             # 段数 / 巻く半径 / 段の幅(半径方向)
-    REAL = 12                                # ここまでは実在。残りが継ぎ目
     A0 = -130.0                              # 棚の北の縁に 1 段目が来る角度
-    coil = [[] for _ in range(3)]
+    coil = [[] for _ in range(6)]
     STEP_A = 270.0 / NS
     for i in range(NS):
         a = math.radians(A0 - STEP_A * i)              # 時計回りに降りる
         top = Y3 - (Y3 - L1) * (i + 1) / NS
         px, pz = DCX + RS * math.cos(a), DCZ + RS * math.sin(a)
-        real = i < REAL
         st = box("C11_s%d" % i, (px, top - 0.11, pz), (RW, 0.22, 2.55), T_METAL, "y",
                  rough=0.5, metal=0.5, color=[0.50, 0.50, 0.47],
-                 rot=(0, -math.degrees(a), 0), tile=(1.3, 1.28), solid=real)
-        if real:
-            continue
-        # 継ぎ目になる 6 段。金の線は【床の印と同じ色】= 印と段が仲間だと読める
+                 rot=(0, -math.degrees(a), 0), tile=(1.3, 1.28))
         g = glow("C11_g%d" % i, (px - math.cos(a) * (RW / 2 - 0.05),
                                  top + 0.02, pz - math.sin(a) * (RW / 2 - 0.05)),
                  (0.05, 0.04, 2.4), GOLD, 1.1, rot=(0, -math.degrees(a), 0))
-        coil[(i - REAL) // 2] += [st, g]
+        coil[i * 6 // NS] += [st, g]
         c11.solid(hit("C11_h%d" % i, (px, top - 0.11, pz), (RW, 0.22, 2.75),
                       rot=(0, -math.degrees(a), 0), kinematic=True))
-    for gi, k in enumerate((1.16, 1.30, 1.44)):
+    for gi, k in enumerate((1.10, 1.17, 1.24, 1.31, 1.38, 1.46)):
         c11.shard(k, coil[gi], glows=[e for e in coil[gi] if e["name"].startswith("C11_g")])
-    # 段が途切れる所の踊り場。★ここで終わっていることを【広げて】見せる
-    aL = math.radians(A0 - STEP_A * (REAL - 1))
-    box("C11_land", (DCX + RS * math.cos(aL), Y3 - (Y3 - L1) * REAL / NS - 0.11,
-                     DCZ + RS * math.sin(aL)), (RW + 1.20, 0.22, 2.55), T_CONC, "y",
-        rough=0.9, color=[0.60, 0.60, 0.57], rot=(0, -math.degrees(aL), 0), solid=True)
     mark("C11_mark", (F11[0], Y3 + 0.008, F11[2]), T_CONC, (0.74, 0.74, 0.72), rough=0.9)
     plight("C11_fill", (26.0, Y3 + 2.6, 182.0), WARM, 9.0, 14.0)
 

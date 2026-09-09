@@ -31733,9 +31733,9 @@
    "guid": "3825d077f154e7c7",
    "transform": {
     "position": [
-     24.0221,
-     5.5344,
-     180.8758
+     24.1643,
+     5.3378,
+     181.3034
     ],
     "rotation": [
      0,
@@ -31743,9 +31743,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     3.96,
+     0.242,
+     2.805
     ]
    },
    "primitive": "box",
@@ -31767,6 +31767,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g0",
+   "guid": "6a7ab8a64d75be9c",
+   "transform": {
+    "position": [
+     25.4017,
+     5.4808,
+     182.778
+    ],
+    "rotation": [
+     0,
+     130.0,
+     0
+    ],
+    "scale": [
+     0.055,
+     0.044,
+     2.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h0",
+   "guid": "8cd8e962d06f4f8b",
+   "transform": {
+    "position": [
+     24.0221,
+     -74.4656,
+     180.8758
+    ],
+    "rotation": [
+     0,
+     130.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -31780,9 +31848,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -31794,9 +31862,9 @@
    "guid": "42fe556303ffca53",
    "transform": {
     "position": [
-     22.3819,
-     5.3789,
-     182.6657
+     22.3601,
+     5.1668,
+     183.2723
     ],
     "rotation": [
      0,
@@ -31804,9 +31872,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     3.96,
+     0.242,
+     2.805
     ]
    },
    "primitive": "box",
@@ -31828,6 +31896,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g1",
+   "guid": "4207de23d52abcaf",
+   "transform": {
+    "position": [
+     23.9369,
+     5.3098,
+     184.3765
+    ],
+    "rotation": [
+     0,
+     145.0,
+     0
+    ],
+    "scale": [
+     0.055,
+     0.044,
+     2.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h1",
+   "guid": "f5bde9402ad6e77d",
+   "transform": {
+    "position": [
+     22.3819,
+     -74.6211,
+     182.6657
+    ],
+    "rotation": [
+     0,
+     145.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -31841,9 +31977,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -31855,9 +31991,9 @@
    "guid": "c81be2223f69e1e7",
    "transform": {
     "position": [
-     21.2609,
-     5.2233,
-     184.8192
+     21.127,
+     4.9956,
+     185.6411
     ],
     "rotation": [
      0,
@@ -31865,9 +32001,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     3.96,
+     0.242,
+     2.805
     ]
    },
    "primitive": "box",
@@ -31889,6 +32025,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g2",
+   "guid": "ff2249bc785130c4",
+   "transform": {
+    "position": [
+     22.9358,
+     5.1386,
+     186.2995
+    ],
+    "rotation": [
+     0,
+     160.0,
+     0
+    ],
+    "scale": [
+     0.055,
+     0.044,
+     2.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h2",
+   "guid": "8ee688e1eb2baf84",
+   "transform": {
+    "position": [
+     21.2609,
+     -74.7767,
+     184.8192
+    ],
+    "rotation": [
+     0,
+     160.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -31902,9 +32106,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -31916,9 +32120,9 @@
    "guid": "5c06598110b25bcc",
    "transform": {
     "position": [
-     20.7354,
-     5.0678,
-     187.1895
+     20.4184,
+     4.6543,
+     188.9897
     ],
     "rotation": [
      0,
@@ -31926,9 +32130,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     4.212,
+     0.2574,
+     2.9835
     ]
    },
    "primitive": "box",
@@ -31950,6 +32154,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g3",
+   "guid": "43015d4bcec1d8b7",
+   "transform": {
+    "position": [
+     22.4581,
+     4.8064,
+     189.1681
+    ],
+    "rotation": [
+     0,
+     175.0,
+     0
+    ],
+    "scale": [
+     0.0585,
+     0.0468,
+     2.808
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h3",
+   "guid": "108137b228cab33a",
+   "transform": {
+    "position": [
+     20.7354,
+     -74.9322,
+     187.1895
+    ],
+    "rotation": [
+     0,
+     175.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -31963,9 +32235,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -31977,9 +32249,9 @@
    "guid": "ca47df9ec5078b7e",
    "transform": {
     "position": [
-     20.8413,
-     4.9122,
-     189.6149
+     20.5423,
+     4.4723,
+     191.8274
     ],
     "rotation": [
      0,
@@ -31987,9 +32259,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     4.212,
+     0.2574,
+     2.9835
     ]
    },
    "primitive": "box",
@@ -32011,6 +32283,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g4",
+   "guid": "d1f9d46fac4f9759",
+   "transform": {
+    "position": [
+     22.5587,
+     4.6244,
+     191.4719
+    ],
+    "rotation": [
+     0,
+     190.0,
+     0
+    ],
+    "scale": [
+     0.0585,
+     0.0468,
+     2.808
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h4",
+   "guid": "36e871defd0b45f5",
+   "transform": {
+    "position": [
+     20.8413,
+     -75.0878,
+     189.6149
+    ],
+    "rotation": [
+     0,
+     190.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -32024,9 +32364,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -32038,9 +32378,9 @@
    "guid": "d9c8d606f79b6de7",
    "transform": {
     "position": [
-     21.5713,
-     4.7567,
-     191.9303
+     21.3964,
+     4.2903,
+     194.5365
     ],
     "rotation": [
      0,
@@ -32048,9 +32388,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     4.212,
+     0.2574,
+     2.9835
     ]
    },
    "primitive": "box",
@@ -32072,6 +32412,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g5",
+   "guid": "e0e87869fa7af005",
+   "transform": {
+    "position": [
+     23.2522,
+     4.4424,
+     193.6712
+    ],
+    "rotation": [
+     0,
+     205.0,
+     0
+    ],
+    "scale": [
+     0.0585,
+     0.0468,
+     2.808
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h5",
+   "guid": "9b3df5695b3d0c43",
+   "transform": {
+    "position": [
+     21.5713,
+     -75.2433,
+     191.9303
+    ],
+    "rotation": [
+     0,
+     205.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -32085,9 +32493,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -32099,9 +32507,9 @@
    "guid": "e2c2f42ec44bccbf",
    "transform": {
     "position": [
-     22.8758,
-     4.6011,
-     193.9779
+     22.942,
+     3.9054,
+     198.1486
     ],
     "rotation": [
      0,
@@ -32109,9 +32517,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     4.464,
+     0.2728,
+     3.162
     ]
    },
    "primitive": "box",
@@ -32133,6 +32541,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g6",
+   "guid": "dd2828bacf6fa322",
+   "transform": {
+    "position": [
+     24.6043,
+     4.0666,
+     196.7537
+    ],
+    "rotation": [
+     0,
+     220.0,
+     0
+    ],
+    "scale": [
+     0.062,
+     0.0496,
+     2.976
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h6",
+   "guid": "3e904442afe64c3e",
+   "transform": {
+    "position": [
+     22.8758,
+     -75.3989,
+     193.9779
+    ],
+    "rotation": [
+     0,
+     220.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -32146,9 +32622,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -32160,9 +32636,9 @@
    "guid": "96147a0771e1528f",
    "transform": {
     "position": [
-     24.6657,
-     4.4456,
-     195.6181
+     25.1615,
+     3.7125,
+     200.1824
     ],
     "rotation": [
      0,
@@ -32170,9 +32646,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     4.464,
+     0.2728,
+     3.162
     ]
    },
    "primitive": "box",
@@ -32194,6 +32670,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g7",
+   "guid": "4c85eda045bab57f",
+   "transform": {
+    "position": [
+     26.4062,
+     3.8737,
+     198.4049
+    ],
+    "rotation": [
+     0,
+     235.0,
+     0
+    ],
+    "scale": [
+     0.062,
+     0.0496,
+     2.976
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h7",
+   "guid": "4c9f636fad821818",
+   "transform": {
+    "position": [
+     24.6657,
+     -75.5544,
+     195.6181
+    ],
+    "rotation": [
+     0,
+     235.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -32207,9 +32751,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -32221,9 +32765,9 @@
    "guid": "0d6fd17b5c164aa6",
    "transform": {
     "position": [
-     26.8192,
-     4.29,
-     196.7391
+     27.8318,
+     3.5196,
+     201.5725
     ],
     "rotation": [
      0,
@@ -32231,9 +32775,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     4.464,
+     0.2728,
+     3.162
     ]
    },
    "primitive": "box",
@@ -32255,6 +32799,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g8",
+   "guid": "76bfb691446210b5",
+   "transform": {
+    "position": [
+     28.5739,
+     3.6808,
+     199.5334
+    ],
+    "rotation": [
+     0,
+     250.0,
+     0
+    ],
+    "scale": [
+     0.062,
+     0.0496,
+     2.976
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h8",
+   "guid": "8bd4075a1901ad55",
+   "transform": {
+    "position": [
+     26.8192,
+     -75.71,
+     196.7391
+    ],
+    "rotation": [
+     0,
+     250.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -32268,9 +32880,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -32282,9 +32894,9 @@
    "guid": "a1a5d5faedb1a602",
    "transform": {
     "position": [
-     29.1895,
-     4.1344,
-     197.2646
+     31.2322,
+     3.0911,
+     203.6706
     ],
     "rotation": [
      0,
@@ -32292,9 +32904,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     4.716,
+     0.2882,
+     3.3405
     ]
    },
    "primitive": "box",
@@ -32316,6 +32928,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g9",
+   "guid": "8a8b77d3bbd73bd2",
+   "transform": {
+    "position": [
+     31.432,
+     3.2614,
+     201.3869
+    ],
+    "rotation": [
+     0,
+     265.0,
+     0
+    ],
+    "scale": [
+     0.0655,
+     0.0524,
+     3.144
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h9",
+   "guid": "4e70183e996094e1",
+   "transform": {
+    "position": [
+     29.1895,
+     -75.8656,
+     197.2646
+    ],
+    "rotation": [
+     0,
+     265.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -32329,9 +33009,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -32343,9 +33023,9 @@
    "guid": "7a048d01fce43063",
    "transform": {
     "position": [
-     31.6149,
-     3.9789,
-     197.1587
+     34.4095,
+     2.8874,
+     203.5319
     ],
     "rotation": [
      0,
@@ -32353,9 +33033,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     4.716,
+     0.2882,
+     3.3405
     ]
    },
    "primitive": "box",
@@ -32377,6 +33057,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g10",
+   "guid": "984fa59704c07bc7",
+   "transform": {
+    "position": [
+     34.0114,
+     3.0577,
+     201.2742
+    ],
+    "rotation": [
+     0,
+     280.0,
+     0
+    ],
+    "scale": [
+     0.0655,
+     0.0524,
+     3.144
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h10",
+   "guid": "d4aeec0505ef20a2",
+   "transform": {
+    "position": [
+     31.6149,
+     -76.0211,
+     197.1587
+    ],
+    "rotation": [
+     0,
+     280.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -32390,9 +33138,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -32404,9 +33152,9 @@
    "guid": "d1f530c554765a07",
    "transform": {
     "position": [
-     33.9303,
-     3.8233,
-     196.4287
+     37.4427,
+     2.6835,
+     202.5756
     ],
     "rotation": [
      0,
@@ -32414,9 +33162,9 @@
      0
     ],
     "scale": [
-     3.6,
-     0.22,
-     2.55
+     4.716,
+     0.2882,
+     3.3405
     ]
    },
    "primitive": "box",
@@ -32438,6 +33186,74 @@
     0.5,
     0.47
    ],
+   "shader": "Unbuilt.hlsl",
+   "shaderAlphaBlend": true,
+   "shaderEffectValue": 0.0,
+   "shaderParams": [
+    0.5,
+    0.5,
+    0.47,
+    0.34
+   ]
+  },
+  {
+   "name": "C11_g11",
+   "guid": "997a62a79de54593",
+   "transform": {
+    "position": [
+     36.4739,
+     2.8538,
+     200.4978
+    ],
+    "rotation": [
+     0,
+     295.0,
+     0
+    ],
+    "scale": [
+     0.0655,
+     0.0524,
+     3.144
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    1.1
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_h11",
+   "guid": "e42b7815db56aecd",
+   "transform": {
+    "position": [
+     33.9303,
+     -76.1767,
+     196.4287
+    ],
+    "rotation": [
+     0,
+     295.0,
+     0
+    ],
+    "scale": [
+     3.6,
+     0.22,
+     2.75
+    ]
+   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -32451,9 +33267,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 0,
+    "motionType": 1,
     "mass": 1,
-    "friction": 0.75,
+    "friction": 0.8,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -32465,9 +33281,9 @@
    "guid": "74c303f626ce2f8e",
    "transform": {
     "position": [
-     38.1184,
-     3.0546,
-     198.0881
+     41.0615,
+     2.2116,
+     202.1634
     ],
     "rotation": [
      0,
@@ -32475,9 +33291,9 @@
      0
     ],
     "scale": [
-     4.176,
-     0.2552,
-     2.958
+     4.968,
+     0.3036,
+     3.519
     ]
    },
    "primitive": "box",
@@ -32514,9 +33330,9 @@
    "guid": "17bec71d2d870bad",
    "transform": {
     "position": [
-     36.8135,
-     3.2054,
-     196.533
+     39.5091,
+     2.391,
+     200.3134
     ],
     "rotation": [
      0,
@@ -32524,9 +33340,9 @@
      0
     ],
     "scale": [
-     0.058,
-     0.0464,
-     2.784
+     0.069,
+     0.0552,
+     3.312
     ]
    },
    "primitive": "box",
@@ -32594,9 +33410,9 @@
    "guid": "1efad2da1315deaf",
    "transform": {
     "position": [
-     40.021,
-     2.8742,
-     196.0118
+     43.325,
+     1.9968,
+     199.6933
     ],
     "rotation": [
      0,
@@ -32604,9 +33420,9 @@
      0
     ],
     "scale": [
-     4.176,
-     0.2552,
-     2.958
+     4.968,
+     0.3036,
+     3.519
     ]
    },
    "primitive": "box",
@@ -32643,9 +33459,9 @@
    "guid": "ff1c4e984ade7a96",
    "transform": {
     "position": [
-     38.3581,
-     3.025,
-     194.8474
+     41.3467,
+     2.1762,
+     198.3081
     ],
     "rotation": [
      0,
@@ -32653,9 +33469,9 @@
      0
     ],
     "scale": [
-     0.058,
-     0.0464,
-     2.784
+     0.069,
+     0.0552,
+     3.312
     ]
    },
    "primitive": "box",
@@ -32723,9 +33539,9 @@
    "guid": "347c122e5fa46510",
    "transform": {
     "position": [
-     43.5808,
-     2.1137,
-     195.555
+     44.872,
+     1.7822,
+     196.7215
     ],
     "rotation": [
      0,
@@ -32733,9 +33549,9 @@
      0
     ],
     "scale": [
-     4.68,
-     0.286,
-     3.315
+     4.968,
+     0.3036,
+     3.519
     ]
    },
    "primitive": "box",
@@ -32772,9 +33588,9 @@
    "guid": "01310d2b6f7b0aee",
    "transform": {
     "position": [
-     41.4431,
-     2.2827,
-     194.777
+     42.6027,
+     1.9616,
+     195.8956
     ],
     "rotation": [
      0,
@@ -32782,9 +33598,9 @@
      0
     ],
     "scale": [
-     0.065,
-     0.052,
-     3.12
+     0.069,
+     0.0552,
+     3.312
     ]
    },
    "primitive": "box",
@@ -32852,9 +33668,9 @@
    "guid": "a73872559a43f48f",
    "transform": {
     "position": [
-     44.264,
-     1.9114,
-     192.4736
+     46.9303,
+     1.2236,
+     194.4273
     ],
     "rotation": [
      0,
@@ -32862,9 +33678,9 @@
      0
     ],
     "scale": [
-     4.68,
-     0.286,
-     3.315
+     5.256,
+     0.3212,
+     3.723
     ]
    },
    "primitive": "box",
@@ -32901,9 +33717,9 @@
    "guid": "c976a868267fae1b",
    "transform": {
     "position": [
-     41.9977,
-     2.0804,
-     192.2754
+     44.3851,
+     1.4134,
+     194.2047
     ],
     "rotation": [
      0,
@@ -32911,9 +33727,9 @@
      0
     ],
     "scale": [
-     0.065,
-     0.052,
-     3.12
+     0.073,
+     0.0584,
+     3.504
     ]
    },
    "primitive": "box",
@@ -32981,9 +33797,9 @@
    "guid": "d04368e6be3776fb",
    "transform": {
     "position": [
-     46.4445,
-     1.0857,
-     190.6905
+     46.7757,
+     0.9966,
+     190.8862
     ],
     "rotation": [
      0,
@@ -32991,9 +33807,9 @@
      0
     ],
     "scale": [
-     5.184,
-     0.3168,
-     3.672
+     5.256,
+     0.3212,
+     3.723
     ]
    },
    "primitive": "box",
@@ -33030,9 +33846,9 @@
    "guid": "80b443e7c0b171ec",
    "transform": {
     "position": [
-     43.9628,
-     1.2729,
-     191.1282
+     44.2595,
+     1.1864,
+     191.3299
     ],
     "rotation": [
      0,
@@ -33040,9 +33856,9 @@
      0
     ],
     "scale": [
-     0.072,
-     0.0576,
-     3.456
+     0.073,
+     0.0584,
+     3.504
     ]
    },
    "primitive": "box",
@@ -33110,9 +33926,9 @@
    "guid": "ceb24c4130265336",
    "transform": {
     "position": [
-     45.3933,
-     0.8616,
-     187.3564
+     45.7099,
+     0.7694,
+     187.5058
     ],
     "rotation": [
      0,
@@ -33120,9 +33936,9 @@
      0
     ],
     "scale": [
-     5.184,
-     0.3168,
-     3.672
+     5.256,
+     0.3212,
+     3.723
     ]
    },
    "primitive": "box",
@@ -33159,9 +33975,9 @@
    "guid": "93c34da9208ea174",
    "transform": {
     "position": [
-     43.1093,
-     1.0488,
-     188.4212
+     43.3942,
+     0.9592,
+     188.5854
     ],
     "rotation": [
      0,
@@ -33169,9 +33985,9 @@
      0
     ],
     "scale": [
-     0.072,
-     0.0576,
-     3.456
+     0.073,
+     0.0584,
+     3.504
     ]
    },
    "primitive": "box",
@@ -33228,67 +34044,6 @@
     "motionType": 1,
     "mass": 1,
     "friction": 0.8,
-    "restitution": 0,
-    "useGravity": false,
-    "linearDamping": 0.02,
-    "angularDamping": 0.01
-   }
-  },
-  {
-   "name": "C11_land",
-   "guid": "d90f77a2a2f5cc4b",
-   "transform": {
-    "position": [
-     33.9303,
-     3.8233,
-     196.4287
-    ],
-    "rotation": [
-     0,
-     295.0,
-     0
-    ],
-    "scale": [
-     4.8,
-     0.22,
-     2.55
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0.0,
-    "roughness": 0.9
-   },
-   "materialTextureOverrides": [
-    {
-     "albedo": "models/tex/lm_conc_col.png"
-    }
-   ],
-   "uvTiling": {
-    "u": 1.275,
-    "v": 2.4
-   },
-   "color": [
-    0.6,
-    0.6,
-    0.57
-   ],
-   "boxCollider": {
-    "halfExtents": [
-     0.5,
-     0.5,
-     0.5
-    ],
-    "offset": [
-     0,
-     0,
-     0
-    ]
-   },
-   "rigidBody": {
-    "motionType": 0,
-    "mass": 1,
-    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
