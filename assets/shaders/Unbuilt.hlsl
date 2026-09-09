@@ -84,12 +84,14 @@ float4 PSMain(PSInput i) : SV_TARGET
     float3 Nv = normalize(mul(N, (float3x3)view));
     float  fres = pow(1.0f - saturate(abs(dot(Nv, float3(0, 0, 1)))), 2.2f);
 
-    // 幽霊のとき: 薄い本体 + 立った縁。本物のとき: ただの不透明
-    float  ghostA = saturate(shaderParams.w + fres * 0.45f);
+    // 幽霊のとき: 面はほとんど消して、縁だけを残す。本物のとき: ただの不透明
+    // ★面を薄くするほど「まだ無い物」に見えるが、薄くしすぎると何の形か読めない。
+    //   読ませるのは【縁】の仕事なので、面を落とすぶん縁を強くして釣り合わせる。
+    float  ghostA = saturate(shaderParams.w + pow(fres, 0.85f) * 0.62f);
     float  a      = lerp(ghostA, 1.0f, effectValue);
 
     // ★縁の明るさは幽霊のときだけ。実体になったら足さない(白く浮いて見える)
-    float3 col = lit + (1.0f - effectValue) * fres * 0.28f * float3(1.0f, 0.97f, 0.90f);
+    float3 col = lit + (1.0f - effectValue) * fres * 0.40f * float3(1.0f, 0.97f, 0.90f);
 
     return float4(col, a);
 }

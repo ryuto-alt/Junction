@@ -183,7 +183,8 @@ def water(name, c, s, tex, color, alpha=0.72, reflect=0.60,
 
 
 UNBUILT = "Unbuilt.hlsl"
-GHOST_A = 0.34          # 幽霊のときの不透明度。★これ以上濃いと本物と見分けがつかない
+GHOST_A = 0.14          # 幽霊の【面】の不透明度。★縁は下のシェーダーが別に立てるので、
+                        #   ここは思い切り薄くてよい。濃いと本物と見分けがつかない
 
 
 def make_ghost(e):
