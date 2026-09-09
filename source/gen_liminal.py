@@ -83,7 +83,7 @@ GOAL = dict(x=56.0, y=13.00, z=302.60, r=0.95, need=25)
 
 # ---------------------------------------------------------------- 定数
 # ★第三幕をどちらで建てるか。作り直し版が机上検査を通ったら True を既定にする
-ACT3_SMALL = False
+ACT3_SMALL = True
 
 WT   = 0.30        # 壁厚
 EYE  = 1.70        # 目の高さ = 体の中心 0.90 + 0.80
@@ -498,18 +498,18 @@ def bench(name, x, y, z, axis="z", L=1.7):
 # を条件に逆算した値をここへ書き戻す。
 LOCKS = {
     1: 2.0,
-    2: 1.1,
+    2: 0.9,
     3: 3.4,
     5: 4.6,
     6: 2.9,
     7: 2.0,
     8: 2.4,
-    9: 2.0,
+    9: 0.9,
     10: 4.0,
-    11: 0.9,
-    12: 2.9,
+    11: 2.9,
+    12: 5.2,
     13: 3.4,
-    14: 4.6,
+    14: 4.0,
     16: 4.0,
     17: 2.9,
     18: 4.6,
@@ -526,6 +526,8 @@ LOCKS = {
 # lock を緩めずに確定域が広がる(浮き方は控えめになる)。これも calib_marks.py が決める。
 SOFT = {
     5: 0.85,
+    11: 0.72,
+    12: 0.85,
     14: 0.72,
     16: 0.72,
     18: 0.85,
@@ -539,24 +541,22 @@ MARKS = {
     "G1_ibB": (0.34, 0.94, 0.9),
     "G1_ibC": (0.26, 1.14, 150.9),
     "G1_ibD": (0.29, 0.94, 0.0),
-    "C12_mk0": (0.54, 1.24, 60.1),
-    "C12_mk1": (0.54, 1.04, 28.5),
-    "C12_mk2": (0.44, 1.14, 8.9),
-    "C12_mk3": (0.54, 1.04, 156.0),
-    "C12_mk4": (0.49, 1.04, 141.8),
+    "C12_mk0": (0.54, 1.04, 153.6),
+    "C12_mk1": (0.49, 1.04, 30.3),
+    "C12_mk2": (0.49, 1.14, 141.2),
     "C1_mark": (0.34, 1.64, 5.2),
-    "C2_mark": (0.39, 1.54, 36.0),
+    "C2_mark": (0.39, 0.54, 41.3),
     "C3_mark": (0.34, 1.44, 70.7),
     "C5_mark": (0.44, 1.04, 167.2),
     "C6_mark": (0.29, 1.04, 0.0),
     "C7_mark": (0.34, 1.54, 39.0),
     "C8_mark": (0.34, 1.14, 2.1),
-    "C9_mark": (0.19, 0.64, 83.0),
+    "C9_mark": (0.19, 0.74, 85.4),
     "C10_mark": (0.54, 1.04, 22.9),
-    "C11_mark": (1.04, 1.04, 81.9),
-    "C13_mark": (0.26, 0.54, 177.8),
-    "C14_mark": (0.34, 0.44, 121.0),
-    "C16_mark": (0.39, 0.54, 67.5),
+    "C11_mark": (0.26, 0.84, 22.4),
+    "C13_mark": (0.34, 0.64, 99.6),
+    "C14_mark": (0.49, 1.04, 66.8),
+    "C16_mark": (0.26, 0.64, 50.3),
     "C18_mark": (0.49, 1.04, 18.4),
     "C19_mark": (0.39, 1.24, 52.9),
     "C20_mark": (0.54, 1.04, 52.2),
@@ -645,10 +645,14 @@ class Conn:
                  lens=None):
         self.cid = cid
         self.focus = focus
-        self.lock = LOCKS.get(cid, lock)   # ★実測で決めた値があればそれを使う
+        # ★実測で決めた値があればそれを使う(source/calib_marks.py が確定域を
+        #   測って書き込む)。第三幕を作り直した時は、旧版向けの値のままだと
+        #   確定域が 0.02m2 まで潰れるので【必ず calib_marks.py を回し直すこと】。
+        self.lock = LOCKS.get(cid, lock)
         self.warn = warn
         self.center = center
         self.note = note
+        JOINT_NOTE[cid] = note      # ★階層の見出しに使う(group_entities)
         self.shards = []
         self.glows = []
         self.solids = []
@@ -2134,6 +2138,76 @@ def act5(Y5, DW, DH):
 DECOR_RE = re.compile(r"(_mark$|dud\d*$|lure|_exit(_b)?$|_c[lrt]$)")
 
 
+JOINT_NOTE = {}          # cid -> note。group_entities が見出しに使う
+
+
+def group_entities():
+    """ヒエラルキーを【幕 → 部屋 / 継ぎ目】へ仕分ける。
+
+    ★なぜ要るか: 1200 個の実体が全部シーンの直下に並んでいて、エディタの階層が
+      読めなかった。名前(A_ / C12_ / S3a_ …)に規則はあるが、目で追える量ではない。
+
+    ★親の transform は必ず単位(位置0 / 回転0 / 倍率1)にすること。
+      このエンジンの親子は【transform の親子】なので、親を動かすと子が全部ずれる。
+      ここで作る親は「入れ物」でしかないので、何も持たせない。
+
+    仕分けの決め方:
+      ・C<数字>_ で始まる物 … その番号の継ぎ目へ。番号から幕が決まる
+      ・それ以外            … z 座標でどの幕かを決める(幕は z で並んでいる)
+      ・LM_ と Sun          … システム(プレイヤー・カメラ・HUD・太陽)
+      ★既に親を持つ物(HUD の中身)はそのまま。二重に親を付け替えない。
+    """
+    def act_of_cid(cid):
+        return 1 if cid <= 4 else 2 if cid <= 10 else 3 if cid <= 16 else 4 if cid <= 21 else 5
+
+    def act_of_z(z):
+        return 1 if z < 80.0 else 2 if z < 172.0 else 3 if z < 220.0 else 4 if z < 250.0 else 5
+
+    made = []
+
+    def group(name, parent=None):
+        for g in made:
+            if g["name"] == name:
+                return g
+        g = dict(name=name, guid=guid("group/" + name),
+                 transform=dict(position=[0, 0, 0], rotation=[0, 0, 0], scale=[1, 1, 1]))
+        if parent is not None:
+            g["parentGuid"] = parent["guid"]
+        made.append(g)
+        return g
+
+    acts = {a: group("第%d幕" % a) for a in (1, 2, 3, 4, 5)}
+    rooms = {a: group("第%d幕 / 部屋と什器" % a, acts[a]) for a in (1, 2, 3, 4, 5)}
+    system = group("システム")
+    joints = {}
+
+    for e in ES:
+        n = e["name"]
+        if "parentGuid" in e:
+            continue                                  # HUD の中身。既に親がいる
+        if n == "Sun" or n.startswith("LM_"):
+            e["parentGuid"] = system["guid"]
+            continue
+        m = re.match(r"^C(\d+)_", n)
+        if m:
+            cid = int(m.group(1))
+            if cid not in joints:
+                a = act_of_cid(cid)
+                note = JOINT_NOTE.get(cid, "")
+                joints[cid] = group("第%d幕 / 継ぎ目%02d %s" % (a, cid, note), acts[a])
+            e["parentGuid"] = joints[cid]["guid"]
+            continue
+        z = e.get("transform", {}).get("position", [0, 0, 0])[2]
+        e["parentGuid"] = rooms[act_of_z(z)]["guid"]
+
+    # ★入れ物を先頭へ置く。読み込みは guid で引くので順序は問わないが、
+    #   エディタの階層とシーン JSON のどちらも、親が上にある方が読みやすい。
+    ES[:0] = made
+    print("  ヒエラルキーを %d 個の入れ物へ仕分けた(幕 5 / 部屋 5 / 継ぎ目 %d / システム 1)"
+          % (len(made), len(joints)))
+    return len(made)
+
+
 def hud_guid(name):
     """HUD の guid は名前から決める。★source/gen_ui.js の guidOf と同じ式にしてある。
     どちらで組んでも同じ guid になるので、作り直しても差分が出ない。"""
@@ -2666,6 +2740,7 @@ def build():
                        wrap=False, outlineWidth=0.0, outlineColor=[1, 1, 1, 0.0])
 
     add_walk_colliders()
+    group_entities()
 
     return dict(
         version=1, entities=ES, shadows=False,
