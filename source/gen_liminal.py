@@ -182,6 +182,32 @@ def water(name, c, s, tex, color, alpha=0.72, reflect=0.60,
     return e
 
 
+UNBUILT = "Unbuilt.hlsl"
+GHOST_A = 0.34          # 幽霊のときの不透明度。★これ以上濃いと本物と見分けがつかない
+
+
+def make_ghost(e):
+    """未実体の破片を【半透明の幽霊】にする。当たり判定の有無と見た目を一致させる。
+
+    ★2026-09-09。破片は本物と同じ材質で作ってあったので、歩ける物と歩けない物が
+      見分けられず、同じ階段でも当たり判定があったり無かったりして
+      【バグにしか見えない】状態だった。透けている物には乗れない、と一目で分かるようにする。
+    ★合図ではない。近づいても狙っても何も変わらない。「まだ無い物はこう見える」
+      という材質の決まりごと。合っているかどうかは今までどおり重なりだけで判断させる。
+    ★確定したら Liminal.lua が scene:setMeshEffect(e, 1) で不透明の本物へ戻す。
+    """
+    if "primitive" not in e:
+        return e                      # meshRenderer の破片(模型など)は対象外
+    if e.get("shader"):
+        return e                      # 光の線(ReconnectInk)はそのまま
+    col = e.get("color") or [1, 1, 1]
+    e["shader"] = UNBUILT
+    e["shaderAlphaBlend"] = True
+    e["shaderEffectValue"] = 0.0
+    e["shaderParams"] = [col[0], col[1], col[2], GHOST_A]
+    return e
+
+
 def glow(name, c, s, rgb=GOLD, power=1.0, rot=(0, 0, 0)):
     """自己発光の板/線(ReconnectInk = ライト非依存の単色)。power>1 でブルームに乗る。"""
     e = ent(name, c, s, rot)
@@ -706,6 +732,8 @@ class Conn:
             e["transform"]["scale"] = [round(v * k, 4) for v in s]
         pts = [[lo[0] if i & 1 else hi[0], lo[1] if i & 2 else hi[1], lo[2] if i & 4 else hi[2]]
                for i in range(8)]
+        for e in ents:
+            make_ghost(e)             # ★未実体の見た目にする(確定で本物へ戻る)
         d = dict(k=k, ents=rec, pts=pts)
         if focus:
             d["focus"] = [round(v, 4) for v in focus]
@@ -726,6 +754,8 @@ class Conn:
             rec.append(dict(n=e["name"], p=list(p), s=list(sc)))
             e["transform"]["position"] = [round(p[i] + disp[i], 4) for i in range(3)]
             e["transform"]["scale"] = [round(v * dk, 4) for v in sc]
+        for e in ents:
+            make_ghost(e)             # ★未実体の見た目にする(確定で本物へ戻る)
         self.shards.append(dict(k=1.0, ents=rec, pts=[list(rec[0]["p"])],
                                 disp=[round(v, 4) for v in disp], dk=dk))
         for g in glows:

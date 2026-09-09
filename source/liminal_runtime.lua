@@ -340,6 +340,22 @@ end
 -- u = 0 で【浮遊姿勢】、u = 1 で【実体】。
 --   通常の破片は焦点まわりの相似変換(k -> 1)。
 --   disp を持つ破片(「触れる」規則用)は、相似の縛りが無い自由な浮遊姿勢からの補間。
+-- ★★未実体の破片は【半透明の幽霊】で置いてある(assets/shaders/Unbuilt.hlsl)。
+--   透けている物には乗れない、と一目で分かる = 当たり判定の有無と見た目が必ず一致する。
+--   確定したらここで不透明の本物へ戻す。
+--   ★これは合図ではない。近づいても狙っても変わらず、確定の瞬間に 1 回だけ切り替わる。
+--     合っているかどうかは今までどおり【破片の重なり】だけで判断させる。
+local function solidify(sh)
+    if sh.solidDone then return end
+    sh.solidDone = true
+    for i = 1, #sh.ents do
+        local r = sh.ents[i]
+        if r.e and r.e:isValid() then
+            pcall(function() scene:setMeshEffect(r.e, 1.0) end)
+        end
+    end
+end
+
 local function applyShard(sh, u, ox, oy, oz)
     ox, oy, oz = ox or 0, oy or 0, oz or 0
     if sh.disp then
@@ -993,6 +1009,7 @@ local function runShards(self, dt, masked)
                     sh.anim = -1.0
                     sh.done = true
                     applyShard(sh, 1.0)
+                    solidify(sh)        -- ★幽霊 -> 本物。ここで初めて不透明になる
                 end
             end
         end
