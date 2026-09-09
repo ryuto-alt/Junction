@@ -2978,9 +2978,161 @@
     "v": 0.82
    },
    "color": [
-    0.72,
-    0.7,
-    0.66
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C1_mark_e0",
+   "guid": "d590951e943a5af3",
+   "transform": {
+    "position": [
+     -0.5916,
+     0.0132,
+     5.5133
+    ],
+    "rotation": [
+     0,
+     5.2,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C1_mark_e1",
+   "guid": "40340b4ff354f767",
+   "transform": {
+    "position": [
+     -0.4484,
+     0.0132,
+     7.0867
+    ],
+    "rotation": [
+     0,
+     5.2,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C1_mark_e2",
+   "guid": "73ad3e0edfd39991",
+   "transform": {
+    "position": [
+     -0.6594,
+     0.0132,
+     6.3127
+    ],
+    "rotation": [
+     0,
+     5.2,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C1_mark_e3",
+   "guid": "daf896dc5ad6f7ed",
+   "transform": {
+    "position": [
+     -0.3806,
+     0.0132,
+     6.2873
+    ],
+    "rotation": [
+     0,
+     5.2,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -7878,9 +8030,161 @@
     "v": 0.77
    },
    "color": [
-    0.72,
-    0.7,
-    0.66
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C2_mark_e0",
+   "guid": "7fab9abb77a5aef8",
+   "transform": {
+    "position": [
+     -6.735,
+     0.0132,
+     17.7013
+    ],
+    "rotation": [
+     0,
+     36.0,
+     0
+    ],
+    "scale": [
+     0.39,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C2_mark_e1",
+   "guid": "b1c3b3e2f2b9dd88",
+   "transform": {
+    "position": [
+     -5.865,
+     0.0132,
+     18.8987
+    ],
+    "rotation": [
+     0,
+     36.0,
+     0
+    ],
+    "scale": [
+     0.39,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C2_mark_e2",
+   "guid": "206a6dbeef588282",
+   "transform": {
+    "position": [
+     -6.4335,
+     0.0132,
+     18.397
+    ],
+    "rotation": [
+     0,
+     36.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C2_mark_e3",
+   "guid": "ab307c9fec8051cb",
+   "transform": {
+    "position": [
+     -6.1665,
+     0.0132,
+     18.203
+    ],
+    "rotation": [
+     0,
+     36.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -13034,9 +13338,161 @@
     "v": 0.72
    },
    "color": [
-    0.78,
-    0.8,
-    0.78
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C3_mark_e0",
+   "guid": "5e7afb34ae220007",
+   "transform": {
+    "position": [
+     -6.0512,
+     0.0224,
+     53.3719
+    ],
+    "rotation": [
+     0,
+     70.7,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C3_mark_e1",
+   "guid": "befe5661c2841c9c",
+   "transform": {
+    "position": [
+     -4.7488,
+     0.0224,
+     53.8281
+    ],
+    "rotation": [
+     0,
+     70.7,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C3_mark_e2",
+   "guid": "4992f3cd314b04e9",
+   "transform": {
+    "position": [
+     -5.4463,
+     0.0224,
+     53.7321
+    ],
+    "rotation": [
+     0,
+     70.7,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.44
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C3_mark_e3",
+   "guid": "e08decdc137102c7",
+   "transform": {
+    "position": [
+     -5.3537,
+     0.0224,
+     53.4679
+    ],
+    "rotation": [
+     0,
+     70.7,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.44
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -19074,9 +19530,161 @@
     "v": 0.52
    },
    "color": [
-    0.72,
-    0.72,
-    0.7
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C5_mark_e0",
+   "guid": "1aa1a810b0ce98fa",
+   "transform": {
+    "position": [
+     6.4914,
+     3.4176,
+     92.4778
+    ],
+    "rotation": [
+     0,
+     167.2,
+     0
+    ],
+    "scale": [
+     0.44,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C5_mark_e1",
+   "guid": "b63b19f1a76f4a1f",
+   "transform": {
+    "position": [
+     6.7086,
+     3.4176,
+     91.5222
+    ],
+    "rotation": [
+     0,
+     167.2,
+     0
+    ],
+    "scale": [
+     0.44,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C5_mark_e2",
+   "guid": "7a5a6a60bee3fee8",
+   "transform": {
+    "position": [
+     6.7853,
+     3.4176,
+     92.0421
+    ],
+    "rotation": [
+     0,
+     167.2,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C5_mark_e3",
+   "guid": "fd64cba24bf094ce",
+   "transform": {
+    "position": [
+     6.4147,
+     3.4176,
+     91.9579
+    ],
+    "rotation": [
+     0,
+     167.2,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -23838,9 +24446,161 @@
     "v": 0.52
    },
    "color": [
-    0.72,
-    0.7,
-    0.66
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C6_mark_e0",
+   "guid": "ef457913c1f841cd",
+   "transform": {
+    "position": [
+     14.0,
+     3.4132,
+     121.51
+    ],
+    "rotation": [
+     0,
+     0.0,
+     0
+    ],
+    "scale": [
+     0.29,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C6_mark_e1",
+   "guid": "8b63ff8ddd361191",
+   "transform": {
+    "position": [
+     14.0,
+     3.4132,
+     122.49
+    ],
+    "rotation": [
+     0,
+     0.0,
+     0
+    ],
+    "scale": [
+     0.29,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C6_mark_e2",
+   "guid": "eceae3b74974b2dc",
+   "transform": {
+    "position": [
+     13.885,
+     3.4132,
+     122.0
+    ],
+    "rotation": [
+     0,
+     0.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C6_mark_e3",
+   "guid": "3ab4b6c115b8d3cb",
+   "transform": {
+    "position": [
+     14.115,
+     3.4132,
+     122.0
+    ],
+    "rotation": [
+     0,
+     0.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -24220,9 +24980,161 @@
     "v": 0.77
    },
    "color": [
-    0.66,
-    0.66,
-    0.63
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C7_mark_e0",
+   "guid": "3ec78c9531e7a428",
+   "transform": {
+    "position": [
+     12.1343,
+     6.0224,
+     110.6249
+    ],
+    "rotation": [
+     0,
+     39.0,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C7_mark_e1",
+   "guid": "8d1eb135ce57c32c",
+   "transform": {
+    "position": [
+     13.0657,
+     6.0224,
+     111.7751
+    ],
+    "rotation": [
+     0,
+     39.0,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C7_mark_e2",
+   "guid": "57f031b91b69604f",
+   "transform": {
+    "position": [
+     12.4912,
+     6.0224,
+     111.2881
+    ],
+    "rotation": [
+     0,
+     39.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C7_mark_e3",
+   "guid": "cd6cdc8c9e8c6edc",
+   "transform": {
+    "position": [
+     12.7088,
+     6.0224,
+     111.1119
+    ],
+    "rotation": [
+     0,
+     39.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -24260,9 +25172,161 @@
     "v": 0.57
    },
    "color": [
-    0.66,
-    0.66,
-    0.63
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C8_mark_e0",
+   "guid": "736b1db8c7e3b8b6",
+   "transform": {
+    "position": [
+     16.0102,
+     6.0224,
+     110.6604
+    ],
+    "rotation": [
+     0,
+     2.1,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C8_mark_e1",
+   "guid": "a146b8ec181feaec",
+   "transform": {
+    "position": [
+     16.0498,
+     6.0224,
+     111.7396
+    ],
+    "rotation": [
+     0,
+     2.1,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C8_mark_e2",
+   "guid": "039acec79abf11c5",
+   "transform": {
+    "position": [
+     15.8901,
+     6.0224,
+     111.2051
+    ],
+    "rotation": [
+     0,
+     2.1,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.14
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C8_mark_e3",
+   "guid": "fca19b5e073e5a2d",
+   "transform": {
+    "position": [
+     16.1699,
+     6.0224,
+     111.1949
+    ],
+    "rotation": [
+     0,
+     2.1,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.14
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -25864,9 +26928,161 @@
     "v": 0.32
    },
    "color": [
-    0.72,
-    0.72,
-    0.7
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C9_mark_e0",
+   "guid": "e4a6e233ef436513",
+   "transform": {
+    "position": [
+     2.9122,
+     3.4176,
+     145.9647
+    ],
+    "rotation": [
+     0,
+     83.0,
+     0
+    ],
+    "scale": [
+     0.19,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C9_mark_e1",
+   "guid": "584327e67eebf3f8",
+   "transform": {
+    "position": [
+     3.4878,
+     3.4176,
+     146.0353
+    ],
+    "rotation": [
+     0,
+     83.0,
+     0
+    ],
+    "scale": [
+     0.19,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C9_mark_e2",
+   "guid": "585f8b9b802d1d0d",
+   "transform": {
+    "position": [
+     3.1921,
+     3.4176,
+     146.0645
+    ],
+    "rotation": [
+     0,
+     83.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C9_mark_e3",
+   "guid": "7284f391e7e1b664",
+   "transform": {
+    "position": [
+     3.2079,
+     3.4176,
+     145.9355
+    ],
+    "rotation": [
+     0,
+     83.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.64
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -27269,9 +28485,161 @@
     "v": 0.52
    },
    "color": [
-    0.74,
-    0.73,
-    0.7
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C10_mark_e0",
+   "guid": "f9e7a4f2fd981528",
+   "transform": {
+    "position": [
+     18.2893,
+     5.8152,
+     158.1786
+    ],
+    "rotation": [
+     0,
+     22.9,
+     0
+    ],
+    "scale": [
+     0.54,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C10_mark_e1",
+   "guid": "195f90b4a53fab75",
+   "transform": {
+    "position": [
+     18.6707,
+     5.8152,
+     159.0814
+    ],
+    "rotation": [
+     0,
+     22.9,
+     0
+    ],
+    "scale": [
+     0.54,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C10_mark_e2",
+   "guid": "efb7f6505898f586",
+   "transform": {
+    "position": [
+     18.2589,
+     5.8152,
+     158.7234
+    ],
+    "rotation": [
+     0,
+     22.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C10_mark_e3",
+   "guid": "46992019c0664531",
+   "transform": {
+    "position": [
+     18.7011,
+     5.8152,
+     158.5366
+    ],
+    "rotation": [
+     0,
+     22.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -29600,9 +30968,9 @@
    "guid": "3825d077f154e7c7",
    "transform": {
     "position": [
-     24.1643,
-     5.3378,
-     181.3034
+     24.0221,
+     5.5344,
+     180.8758
     ],
     "rotation": [
      0,
@@ -29610,9 +30978,9 @@
      0
     ],
     "scale": [
-     3.96,
-     0.242,
-     2.805
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -29633,66 +31001,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g0",
-   "guid": "6a7ab8a64d75be9c",
-   "transform": {
-    "position": [
-     25.4017,
-     5.4808,
-     182.778
-    ],
-    "rotation": [
-     0,
-     130.0,
-     0
-    ],
-    "scale": [
-     0.055,
-     0.044,
-     2.64
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h0",
-   "guid": "8cd8e962d06f4f8b",
-   "transform": {
-    "position": [
-     24.0221,
-     -74.4656,
-     180.8758
-    ],
-    "rotation": [
-     0,
-     130.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -29706,9 +31015,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -29720,9 +31029,9 @@
    "guid": "42fe556303ffca53",
    "transform": {
     "position": [
-     22.3601,
-     5.1668,
-     183.2723
+     22.3819,
+     5.3789,
+     182.6657
     ],
     "rotation": [
      0,
@@ -29730,9 +31039,9 @@
      0
     ],
     "scale": [
-     3.96,
-     0.242,
-     2.805
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -29753,66 +31062,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g1",
-   "guid": "4207de23d52abcaf",
-   "transform": {
-    "position": [
-     23.9369,
-     5.3098,
-     184.3765
-    ],
-    "rotation": [
-     0,
-     145.0,
-     0
-    ],
-    "scale": [
-     0.055,
-     0.044,
-     2.64
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h1",
-   "guid": "f5bde9402ad6e77d",
-   "transform": {
-    "position": [
-     22.3819,
-     -74.6211,
-     182.6657
-    ],
-    "rotation": [
-     0,
-     145.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -29826,9 +31076,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -29840,9 +31090,9 @@
    "guid": "c81be2223f69e1e7",
    "transform": {
     "position": [
-     21.127,
-     4.9956,
-     185.6411
+     21.2609,
+     5.2233,
+     184.8192
     ],
     "rotation": [
      0,
@@ -29850,9 +31100,9 @@
      0
     ],
     "scale": [
-     3.96,
-     0.242,
-     2.805
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -29873,66 +31123,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g2",
-   "guid": "ff2249bc785130c4",
-   "transform": {
-    "position": [
-     22.9358,
-     5.1386,
-     186.2995
-    ],
-    "rotation": [
-     0,
-     160.0,
-     0
-    ],
-    "scale": [
-     0.055,
-     0.044,
-     2.64
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h2",
-   "guid": "8ee688e1eb2baf84",
-   "transform": {
-    "position": [
-     21.2609,
-     -74.7767,
-     184.8192
-    ],
-    "rotation": [
-     0,
-     160.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -29946,9 +31137,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -29960,9 +31151,9 @@
    "guid": "5c06598110b25bcc",
    "transform": {
     "position": [
-     20.4184,
-     4.6543,
-     188.9897
+     20.7354,
+     5.0678,
+     187.1895
     ],
     "rotation": [
      0,
@@ -29970,9 +31161,9 @@
      0
     ],
     "scale": [
-     4.212,
-     0.2574,
-     2.9835
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -29993,66 +31184,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g3",
-   "guid": "43015d4bcec1d8b7",
-   "transform": {
-    "position": [
-     22.4581,
-     4.8064,
-     189.1681
-    ],
-    "rotation": [
-     0,
-     175.0,
-     0
-    ],
-    "scale": [
-     0.0585,
-     0.0468,
-     2.808
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h3",
-   "guid": "108137b228cab33a",
-   "transform": {
-    "position": [
-     20.7354,
-     -74.9322,
-     187.1895
-    ],
-    "rotation": [
-     0,
-     175.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -30066,9 +31198,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -30080,9 +31212,9 @@
    "guid": "ca47df9ec5078b7e",
    "transform": {
     "position": [
-     20.5423,
-     4.4723,
-     191.8274
+     20.8413,
+     4.9122,
+     189.6149
     ],
     "rotation": [
      0,
@@ -30090,9 +31222,9 @@
      0
     ],
     "scale": [
-     4.212,
-     0.2574,
-     2.9835
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -30113,66 +31245,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g4",
-   "guid": "d1f9d46fac4f9759",
-   "transform": {
-    "position": [
-     22.5587,
-     4.6244,
-     191.4719
-    ],
-    "rotation": [
-     0,
-     190.0,
-     0
-    ],
-    "scale": [
-     0.0585,
-     0.0468,
-     2.808
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h4",
-   "guid": "36e871defd0b45f5",
-   "transform": {
-    "position": [
-     20.8413,
-     -75.0878,
-     189.6149
-    ],
-    "rotation": [
-     0,
-     190.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -30186,9 +31259,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -30200,9 +31273,9 @@
    "guid": "d9c8d606f79b6de7",
    "transform": {
     "position": [
-     21.3964,
-     4.2903,
-     194.5365
+     21.5713,
+     4.7567,
+     191.9303
     ],
     "rotation": [
      0,
@@ -30210,9 +31283,9 @@
      0
     ],
     "scale": [
-     4.212,
-     0.2574,
-     2.9835
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -30233,66 +31306,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g5",
-   "guid": "e0e87869fa7af005",
-   "transform": {
-    "position": [
-     23.2522,
-     4.4424,
-     193.6712
-    ],
-    "rotation": [
-     0,
-     205.0,
-     0
-    ],
-    "scale": [
-     0.0585,
-     0.0468,
-     2.808
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h5",
-   "guid": "9b3df5695b3d0c43",
-   "transform": {
-    "position": [
-     21.5713,
-     -75.2433,
-     191.9303
-    ],
-    "rotation": [
-     0,
-     205.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -30306,9 +31320,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -30320,9 +31334,9 @@
    "guid": "e2c2f42ec44bccbf",
    "transform": {
     "position": [
-     22.942,
-     3.9054,
-     198.1486
+     22.8758,
+     4.6011,
+     193.9779
     ],
     "rotation": [
      0,
@@ -30330,9 +31344,9 @@
      0
     ],
     "scale": [
-     4.464,
-     0.2728,
-     3.162
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -30353,66 +31367,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g6",
-   "guid": "dd2828bacf6fa322",
-   "transform": {
-    "position": [
-     24.6043,
-     4.0666,
-     196.7537
-    ],
-    "rotation": [
-     0,
-     220.0,
-     0
-    ],
-    "scale": [
-     0.062,
-     0.0496,
-     2.976
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h6",
-   "guid": "3e904442afe64c3e",
-   "transform": {
-    "position": [
-     22.8758,
-     -75.3989,
-     193.9779
-    ],
-    "rotation": [
-     0,
-     220.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -30426,9 +31381,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -30440,9 +31395,9 @@
    "guid": "96147a0771e1528f",
    "transform": {
     "position": [
-     25.1615,
-     3.7125,
-     200.1824
+     24.6657,
+     4.4456,
+     195.6181
     ],
     "rotation": [
      0,
@@ -30450,9 +31405,9 @@
      0
     ],
     "scale": [
-     4.464,
-     0.2728,
-     3.162
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -30473,66 +31428,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g7",
-   "guid": "4c85eda045bab57f",
-   "transform": {
-    "position": [
-     26.4062,
-     3.8737,
-     198.4049
-    ],
-    "rotation": [
-     0,
-     235.0,
-     0
-    ],
-    "scale": [
-     0.062,
-     0.0496,
-     2.976
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h7",
-   "guid": "4c9f636fad821818",
-   "transform": {
-    "position": [
-     24.6657,
-     -75.5544,
-     195.6181
-    ],
-    "rotation": [
-     0,
-     235.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -30546,9 +31442,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -30560,9 +31456,9 @@
    "guid": "0d6fd17b5c164aa6",
    "transform": {
     "position": [
-     27.8318,
-     3.5196,
-     201.5725
+     26.8192,
+     4.29,
+     196.7391
     ],
     "rotation": [
      0,
@@ -30570,9 +31466,9 @@
      0
     ],
     "scale": [
-     4.464,
-     0.2728,
-     3.162
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -30593,66 +31489,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g8",
-   "guid": "76bfb691446210b5",
-   "transform": {
-    "position": [
-     28.5739,
-     3.6808,
-     199.5334
-    ],
-    "rotation": [
-     0,
-     250.0,
-     0
-    ],
-    "scale": [
-     0.062,
-     0.0496,
-     2.976
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h8",
-   "guid": "8bd4075a1901ad55",
-   "transform": {
-    "position": [
-     26.8192,
-     -75.71,
-     196.7391
-    ],
-    "rotation": [
-     0,
-     250.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -30666,9 +31503,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -30680,9 +31517,9 @@
    "guid": "a1a5d5faedb1a602",
    "transform": {
     "position": [
-     31.2322,
-     3.0911,
-     203.6706
+     29.1895,
+     4.1344,
+     197.2646
     ],
     "rotation": [
      0,
@@ -30690,9 +31527,9 @@
      0
     ],
     "scale": [
-     4.716,
-     0.2882,
-     3.3405
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -30713,66 +31550,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g9",
-   "guid": "8a8b77d3bbd73bd2",
-   "transform": {
-    "position": [
-     31.432,
-     3.2614,
-     201.3869
-    ],
-    "rotation": [
-     0,
-     265.0,
-     0
-    ],
-    "scale": [
-     0.0655,
-     0.0524,
-     3.144
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h9",
-   "guid": "4e70183e996094e1",
-   "transform": {
-    "position": [
-     29.1895,
-     -75.8656,
-     197.2646
-    ],
-    "rotation": [
-     0,
-     265.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -30786,9 +31564,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -30800,9 +31578,9 @@
    "guid": "7a048d01fce43063",
    "transform": {
     "position": [
-     34.4095,
-     2.8874,
-     203.5319
+     31.6149,
+     3.9789,
+     197.1587
     ],
     "rotation": [
      0,
@@ -30810,9 +31588,9 @@
      0
     ],
     "scale": [
-     4.716,
-     0.2882,
-     3.3405
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -30833,66 +31611,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g10",
-   "guid": "984fa59704c07bc7",
-   "transform": {
-    "position": [
-     34.0114,
-     3.0577,
-     201.2742
-    ],
-    "rotation": [
-     0,
-     280.0,
-     0
-    ],
-    "scale": [
-     0.0655,
-     0.0524,
-     3.144
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h10",
-   "guid": "d4aeec0505ef20a2",
-   "transform": {
-    "position": [
-     31.6149,
-     -76.0211,
-     197.1587
-    ],
-    "rotation": [
-     0,
-     280.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -30906,9 +31625,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -30920,9 +31639,9 @@
    "guid": "d1f530c554765a07",
    "transform": {
     "position": [
-     37.4427,
-     2.6835,
-     202.5756
+     33.9303,
+     3.8233,
+     196.4287
     ],
     "rotation": [
      0,
@@ -30930,9 +31649,9 @@
      0
     ],
     "scale": [
-     4.716,
-     0.2882,
-     3.3405
+     3.6,
+     0.22,
+     2.55
     ]
    },
    "primitive": "box",
@@ -30953,66 +31672,7 @@
     0.5,
     0.5,
     0.47
-   ]
-  },
-  {
-   "name": "C11_g11",
-   "guid": "997a62a79de54593",
-   "transform": {
-    "position": [
-     36.4739,
-     2.8538,
-     200.4978
-    ],
-    "rotation": [
-     0,
-     295.0,
-     0
-    ],
-    "scale": [
-     0.0655,
-     0.0524,
-     3.144
-    ]
-   },
-   "primitive": "box",
-   "material": {
-    "metallic": 0,
-    "roughness": 1
-   },
-   "shader": "ReconnectInk.hlsl",
-   "shaderParams": [
-    1.0,
-    0.84,
-    0.52,
-    1.1
    ],
-   "color": [
-    1,
-    1,
-    1
-   ]
-  },
-  {
-   "name": "C11_h11",
-   "guid": "e42b7815db56aecd",
-   "transform": {
-    "position": [
-     33.9303,
-     -76.1767,
-     196.4287
-    ],
-    "rotation": [
-     0,
-     295.0,
-     0
-    ],
-    "scale": [
-     3.6,
-     0.22,
-     2.75
-    ]
-   },
    "boxCollider": {
     "halfExtents": [
      0.5,
@@ -31026,9 +31686,9 @@
     ]
    },
    "rigidBody": {
-    "motionType": 1,
+    "motionType": 0,
     "mass": 1,
-    "friction": 0.8,
+    "friction": 0.75,
     "restitution": 0,
     "useGravity": false,
     "linearDamping": 0.02,
@@ -31040,9 +31700,9 @@
    "guid": "74c303f626ce2f8e",
    "transform": {
     "position": [
-     41.0615,
-     2.2116,
-     202.1634
+     38.1184,
+     3.0546,
+     198.0881
     ],
     "rotation": [
      0,
@@ -31050,9 +31710,9 @@
      0
     ],
     "scale": [
-     4.968,
-     0.3036,
-     3.519
+     4.176,
+     0.2552,
+     2.958
     ]
    },
    "primitive": "box",
@@ -31080,9 +31740,9 @@
    "guid": "17bec71d2d870bad",
    "transform": {
     "position": [
-     39.5091,
-     2.391,
-     200.3134
+     36.8135,
+     3.2054,
+     196.533
     ],
     "rotation": [
      0,
@@ -31090,9 +31750,9 @@
      0
     ],
     "scale": [
-     0.069,
-     0.0552,
-     3.312
+     0.058,
+     0.0464,
+     2.784
     ]
    },
    "primitive": "box",
@@ -31160,9 +31820,9 @@
    "guid": "1efad2da1315deaf",
    "transform": {
     "position": [
-     43.325,
-     1.9968,
-     199.6933
+     40.021,
+     2.8742,
+     196.0118
     ],
     "rotation": [
      0,
@@ -31170,9 +31830,9 @@
      0
     ],
     "scale": [
-     4.968,
-     0.3036,
-     3.519
+     4.176,
+     0.2552,
+     2.958
     ]
    },
    "primitive": "box",
@@ -31200,9 +31860,9 @@
    "guid": "ff1c4e984ade7a96",
    "transform": {
     "position": [
-     41.3467,
-     2.1762,
-     198.3081
+     38.3581,
+     3.025,
+     194.8474
     ],
     "rotation": [
      0,
@@ -31210,9 +31870,9 @@
      0
     ],
     "scale": [
-     0.069,
-     0.0552,
-     3.312
+     0.058,
+     0.0464,
+     2.784
     ]
    },
    "primitive": "box",
@@ -31280,9 +31940,9 @@
    "guid": "347c122e5fa46510",
    "transform": {
     "position": [
-     44.872,
-     1.7822,
-     196.7215
+     43.5808,
+     2.1137,
+     195.555
     ],
     "rotation": [
      0,
@@ -31290,9 +31950,9 @@
      0
     ],
     "scale": [
-     4.968,
-     0.3036,
-     3.519
+     4.68,
+     0.286,
+     3.315
     ]
    },
    "primitive": "box",
@@ -31320,9 +31980,9 @@
    "guid": "01310d2b6f7b0aee",
    "transform": {
     "position": [
-     42.6027,
-     1.9616,
-     195.8956
+     41.4431,
+     2.2827,
+     194.777
     ],
     "rotation": [
      0,
@@ -31330,9 +31990,9 @@
      0
     ],
     "scale": [
-     0.069,
-     0.0552,
-     3.312
+     0.065,
+     0.052,
+     3.12
     ]
    },
    "primitive": "box",
@@ -31400,9 +32060,9 @@
    "guid": "a73872559a43f48f",
    "transform": {
     "position": [
-     46.9303,
-     1.2236,
-     194.4273
+     44.264,
+     1.9114,
+     192.4736
     ],
     "rotation": [
      0,
@@ -31410,9 +32070,9 @@
      0
     ],
     "scale": [
-     5.256,
-     0.3212,
-     3.723
+     4.68,
+     0.286,
+     3.315
     ]
    },
    "primitive": "box",
@@ -31440,9 +32100,9 @@
    "guid": "c976a868267fae1b",
    "transform": {
     "position": [
-     44.3851,
-     1.4134,
-     194.2047
+     41.9977,
+     2.0804,
+     192.2754
     ],
     "rotation": [
      0,
@@ -31450,9 +32110,9 @@
      0
     ],
     "scale": [
-     0.073,
-     0.0584,
-     3.504
+     0.065,
+     0.052,
+     3.12
     ]
    },
    "primitive": "box",
@@ -31520,9 +32180,9 @@
    "guid": "d04368e6be3776fb",
    "transform": {
     "position": [
-     46.7757,
-     0.9966,
-     190.8862
+     46.4445,
+     1.0857,
+     190.6905
     ],
     "rotation": [
      0,
@@ -31530,9 +32190,9 @@
      0
     ],
     "scale": [
-     5.256,
-     0.3212,
-     3.723
+     5.184,
+     0.3168,
+     3.672
     ]
    },
    "primitive": "box",
@@ -31560,9 +32220,9 @@
    "guid": "80b443e7c0b171ec",
    "transform": {
     "position": [
-     44.2595,
-     1.1864,
-     191.3299
+     43.9628,
+     1.2729,
+     191.1282
     ],
     "rotation": [
      0,
@@ -31570,9 +32230,9 @@
      0
     ],
     "scale": [
-     0.073,
-     0.0584,
-     3.504
+     0.072,
+     0.0576,
+     3.456
     ]
    },
    "primitive": "box",
@@ -31640,9 +32300,9 @@
    "guid": "ceb24c4130265336",
    "transform": {
     "position": [
-     45.7099,
-     0.7694,
-     187.5058
+     45.3933,
+     0.8616,
+     187.3564
     ],
     "rotation": [
      0,
@@ -31650,9 +32310,9 @@
      0
     ],
     "scale": [
-     5.256,
-     0.3212,
-     3.723
+     5.184,
+     0.3168,
+     3.672
     ]
    },
    "primitive": "box",
@@ -31680,9 +32340,9 @@
    "guid": "93c34da9208ea174",
    "transform": {
     "position": [
-     43.3942,
-     0.9592,
-     188.5854
+     43.1093,
+     1.0488,
+     188.4212
     ],
     "rotation": [
      0,
@@ -31690,9 +32350,9 @@
      0
     ],
     "scale": [
-     0.073,
-     0.0584,
-     3.504
+     0.072,
+     0.0576,
+     3.456
     ]
    },
    "primitive": "box",
@@ -31756,6 +32416,67 @@
    }
   },
   {
+   "name": "C11_land",
+   "guid": "d90f77a2a2f5cc4b",
+   "transform": {
+    "position": [
+     33.9303,
+     3.8233,
+     196.4287
+    ],
+    "rotation": [
+     0,
+     295.0,
+     0
+    ],
+    "scale": [
+     4.8,
+     0.22,
+     2.55
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.9
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "models/tex/lm_conc_col.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.275,
+    "v": 2.4
+   },
+   "color": [
+    0.6,
+    0.6,
+    0.57
+   ],
+   "boxCollider": {
+    "halfExtents": [
+     0.5,
+     0.5,
+     0.5
+    ],
+    "offset": [
+     0,
+     0,
+     0
+    ]
+   },
+   "rigidBody": {
+    "motionType": 0,
+    "mass": 1,
+    "friction": 0.75,
+    "restitution": 0,
+    "useGravity": false,
+    "linearDamping": 0.02,
+    "angularDamping": 0.01
+   }
+  },
+  {
    "name": "C11_mark",
    "guid": "a9b1eddeadb8a56d",
    "transform": {
@@ -31790,9 +32511,161 @@
     "v": 0.52
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C11_mark_e0",
+   "guid": "2637959525c141cb",
+   "transform": {
+    "position": [
+     22.1149,
+     5.8152,
+     176.531
+    ],
+    "rotation": [
+     0,
+     81.9,
+     0
+    ],
+    "scale": [
+     1.04,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_mark_e1",
+   "guid": "8135ea9c7b8537c2",
+   "transform": {
+    "position": [
+     23.0851,
+     5.8152,
+     176.669
+    ],
+    "rotation": [
+     0,
+     81.9,
+     0
+    ],
+    "scale": [
+     1.04,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_mark_e2",
+   "guid": "c217ffadf219fe6e",
+   "transform": {
+    "position": [
+     22.531,
+     5.8152,
+     177.0851
+    ],
+    "rotation": [
+     0,
+     81.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C11_mark_e3",
+   "guid": "c12e299421627d56",
+   "transform": {
+    "position": [
+     22.669,
+     5.8152,
+     176.1149
+    ],
+    "rotation": [
+     0,
+     81.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -33259,9 +34132,161 @@
     "v": 0.62
    },
    "color": [
-    0.66,
-    0.66,
-    0.63
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C12_mk0_e0",
+   "guid": "443490dccf45269c",
+   "transform": {
+    "position": [
+     26.8595,
+     3.0152,
+     182.7614
+    ],
+    "rotation": [
+     0,
+     60.1,
+     0
+    ],
+    "scale": [
+     0.54,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk0_e1",
+   "guid": "8fc7b08e3b32cb25",
+   "transform": {
+    "position": [
+     27.8824,
+     3.0152,
+     183.3496
+    ],
+    "rotation": [
+     0,
+     60.1,
+     0
+    ],
+    "scale": [
+     0.54,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk0_e2",
+   "guid": "b24209ea6318d4e7",
+   "transform": {
+    "position": [
+     27.2513,
+     3.0152,
+     183.2635
+    ],
+    "rotation": [
+     0,
+     60.1,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.24
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk0_e3",
+   "guid": "2a7e9c17eebbf824",
+   "transform": {
+    "position": [
+     27.4906,
+     3.0152,
+     182.8474
+    ],
+    "rotation": [
+     0,
+     60.1,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.24
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -33299,9 +34324,161 @@
     "v": 0.52
    },
    "color": [
-    0.66,
-    0.66,
-    0.63
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C12_mk1_e0",
+   "guid": "38fecbec60faf828",
+   "transform": {
+    "position": [
+     29.3756,
+     3.0152,
+     181.983
+    ],
+    "rotation": [
+     0,
+     28.5,
+     0
+    ],
+    "scale": [
+     0.54,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk1_e1",
+   "guid": "dc5e669b970ca9ab",
+   "transform": {
+    "position": [
+     29.8432,
+     3.0152,
+     182.8443
+    ],
+    "rotation": [
+     0,
+     28.5,
+     0
+    ],
+    "scale": [
+     0.54,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk1_e2",
+   "guid": "942a46b87def531e",
+   "transform": {
+    "position": [
+     29.3984,
+     3.0152,
+     182.5282
+    ],
+    "rotation": [
+     0,
+     28.5,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk1_e3",
+   "guid": "d877f3599ffa67f5",
+   "transform": {
+    "position": [
+     29.8203,
+     3.0152,
+     182.2991
+    ],
+    "rotation": [
+     0,
+     28.5,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -33339,9 +34516,161 @@
     "v": 0.57
    },
    "color": [
-    0.66,
-    0.66,
-    0.63
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C12_mk2_e0",
+   "guid": "3baabadbed1d8298",
+   "transform": {
+    "position": [
+     31.8318,
+     3.0152,
+     182.2042
+    ],
+    "rotation": [
+     0,
+     8.9,
+     0
+    ],
+    "scale": [
+     0.44,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk2_e1",
+   "guid": "7b7e3534d8eac04d",
+   "transform": {
+    "position": [
+     31.9989,
+     3.0152,
+     183.2712
+    ],
+    "rotation": [
+     0,
+     8.9,
+     0
+    ],
+    "scale": [
+     0.44,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk2_e2",
+   "guid": "2ecf07934ca9b0bc",
+   "transform": {
+    "position": [
+     31.7276,
+     3.0152,
+     182.7671
+    ],
+    "rotation": [
+     0,
+     8.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.14
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk2_e3",
+   "guid": "eae2fbabafa1cd65",
+   "transform": {
+    "position": [
+     32.103,
+     3.0152,
+     182.7083
+    ],
+    "rotation": [
+     0,
+     8.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.14
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -33379,9 +34708,161 @@
     "v": 0.52
    },
    "color": [
-    0.66,
-    0.66,
-    0.63
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C12_mk3_e0",
+   "guid": "167053ca165f2b34",
+   "transform": {
+    "position": [
+     33.6908,
+     3.0152,
+     184.4193
+    ],
+    "rotation": [
+     0,
+     156.0,
+     0
+    ],
+    "scale": [
+     0.54,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk3_e1",
+   "guid": "dd164372ea4e146b",
+   "transform": {
+    "position": [
+     34.0894,
+     3.0152,
+     183.5241
+    ],
+    "rotation": [
+     0,
+     156.0,
+     0
+    ],
+    "scale": [
+     0.54,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk3_e2",
+   "guid": "36d9ef944de6973f",
+   "transform": {
+    "position": [
+     34.1093,
+     3.0152,
+     184.0693
+    ],
+    "rotation": [
+     0,
+     156.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk3_e3",
+   "guid": "105d9cff1f926f4c",
+   "transform": {
+    "position": [
+     33.6708,
+     3.0152,
+     183.8741
+    ],
+    "rotation": [
+     0,
+     156.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -33419,9 +34900,161 @@
     "v": 0.52
    },
    "color": [
-    0.66,
-    0.66,
-    0.63
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C12_mk4_e0",
+   "guid": "dfbe2c7ffa973673",
+   "transform": {
+    "position": [
+     34.8892,
+     3.0152,
+     186.2873
+    ],
+    "rotation": [
+     0,
+     141.8,
+     0
+    ],
+    "scale": [
+     0.49,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk4_e1",
+   "guid": "166570abd541e95a",
+   "transform": {
+    "position": [
+     35.4952,
+     3.0152,
+     185.5171
+    ],
+    "rotation": [
+     0,
+     141.8,
+     0
+    ],
+    "scale": [
+     0.49,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk4_e2",
+   "guid": "592ab52ca4f0505b",
+   "transform": {
+    "position": [
+     35.3612,
+     3.0152,
+     186.0352
+    ],
+    "rotation": [
+     0,
+     141.8,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C12_mk4_e3",
+   "guid": "e30ac39ab117884f",
+   "transform": {
+    "position": [
+     35.0233,
+     3.0152,
+     185.7692
+    ],
+    "rotation": [
+     0,
+     141.8,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -35788,9 +37421,161 @@
     "v": 0.27
    },
    "color": [
-    0.66,
-    0.66,
-    0.63
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C13_mark_e0",
+   "guid": "54e5e3d4ba7617dc",
+   "transform": {
+    "position": [
+     33.1908,
+     3.0152,
+     190.8398
+    ],
+    "rotation": [
+     0,
+     177.8,
+     0
+    ],
+    "scale": [
+     0.26,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C13_mark_e1",
+   "guid": "28396d8497baaf73",
+   "transform": {
+    "position": [
+     33.2092,
+     3.0152,
+     190.3602
+    ],
+    "rotation": [
+     0,
+     177.8,
+     0
+    ],
+    "scale": [
+     0.26,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C13_mark_e2",
+   "guid": "56b322eae80646ee",
+   "transform": {
+    "position": [
+     33.2999,
+     3.0152,
+     190.6038
+    ],
+    "rotation": [
+     0,
+     177.8,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C13_mark_e3",
+   "guid": "fb84d14576b76e60",
+   "transform": {
+    "position": [
+     33.1001,
+     3.0152,
+     190.5962
+    ],
+    "rotation": [
+     0,
+     177.8,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -36383,9 +38168,161 @@
     "v": 0.22
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C14_mark_e0",
+   "guid": "cee6723f90ae77eb",
+   "transform": {
+    "position": [
+     56.9371,
+     7.6152,
+     203.0979
+    ],
+    "rotation": [
+     0,
+     121.0,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C14_mark_e1",
+   "guid": "7662d1232cd28927",
+   "transform": {
+    "position": [
+     57.2629,
+     7.6152,
+     202.9021
+    ],
+    "rotation": [
+     0,
+     121.0,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C14_mark_e2",
+   "guid": "446ac07e8b90822e",
+   "transform": {
+    "position": [
+     57.1721,
+     7.6152,
+     203.12
+    ],
+    "rotation": [
+     0,
+     121.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.44
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C14_mark_e3",
+   "guid": "44293f44fda4c340",
+   "transform": {
+    "position": [
+     57.0279,
+     7.6152,
+     202.88
+    ],
+    "rotation": [
+     0,
+     121.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.44
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -36956,9 +38893,161 @@
     "v": 0.27
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C16_mark_e0",
+   "guid": "1a8edcef3e78ac12",
+   "transform": {
+    "position": [
+     56.8783,
+     7.6152,
+     210.1082
+    ],
+    "rotation": [
+     0,
+     67.5,
+     0
+    ],
+    "scale": [
+     0.39,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_mark_e1",
+   "guid": "0914c8bbfad9c786",
+   "transform": {
+    "position": [
+     57.3217,
+     7.6152,
+     210.2918
+    ],
+    "rotation": [
+     0,
+     67.5,
+     0
+    ],
+    "scale": [
+     0.39,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_mark_e2",
+   "guid": "7845479ffea05ae7",
+   "transform": {
+    "position": [
+     57.0369,
+     7.6152,
+     210.3524
+    ],
+    "rotation": [
+     0,
+     67.5,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C16_mark_e3",
+   "guid": "52ef19faa178835a",
+   "transform": {
+    "position": [
+     57.1631,
+     7.6152,
+     210.0476
+    ],
+    "rotation": [
+     0,
+     67.5,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -39169,9 +41258,161 @@
     "v": 0.47
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "G1_ibA_e0",
+   "guid": "8d0e396c6bf8086e",
+   "transform": {
+    "position": [
+     64.1338,
+     7.6132,
+     233.5426
+    ],
+    "rotation": [
+     0,
+     22.2,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibA_e1",
+   "guid": "a5956360977e9dee",
+   "transform": {
+    "position": [
+     64.4662,
+     7.6132,
+     234.3574
+    ],
+    "rotation": [
+     0,
+     22.2,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibA_e2",
+   "guid": "f53c3cd0b182b725",
+   "transform": {
+    "position": [
+     64.1704,
+     7.6132,
+     234.0029
+    ],
+    "rotation": [
+     0,
+     22.2,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.94
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibA_e3",
+   "guid": "581c113a6e989990",
+   "transform": {
+    "position": [
+     64.4296,
+     7.6132,
+     233.8971
+    ],
+    "rotation": [
+     0,
+     22.2,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.94
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -39301,9 +41542,161 @@
     "v": 0.47
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "G1_ibB_e0",
+   "guid": "94ec4107a3d6d057",
+   "transform": {
+    "position": [
+     67.4931,
+     7.6132,
+     238.3601
+    ],
+    "rotation": [
+     0,
+     0.9,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibB_e1",
+   "guid": "82e6cca39eb9fe86",
+   "transform": {
+    "position": [
+     67.5069,
+     7.6132,
+     239.2399
+    ],
+    "rotation": [
+     0,
+     0.9,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibB_e2",
+   "guid": "0ecf69729ea506d8",
+   "transform": {
+    "position": [
+     67.36,
+     7.6132,
+     238.8022
+    ],
+    "rotation": [
+     0,
+     0.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.94
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibB_e3",
+   "guid": "36edabffa9c9cc6f",
+   "transform": {
+    "position": [
+     67.64,
+     7.6132,
+     238.7978
+    ],
+    "rotation": [
+     0,
+     0.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.94
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -39433,9 +41826,161 @@
     "v": 0.57
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "G1_ibC_e0",
+   "guid": "3e94ff06081a3605",
+   "transform": {
+    "position": [
+     73.4374,
+     7.6132,
+     234.4218
+    ],
+    "rotation": [
+     0,
+     150.9,
+     0
+    ],
+    "scale": [
+     0.26,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibC_e1",
+   "guid": "73eb3a3bc702970a",
+   "transform": {
+    "position": [
+     73.9626,
+     7.6132,
+     233.4782
+    ],
+    "rotation": [
+     0,
+     150.9,
+     0
+    ],
+    "scale": [
+     0.26,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibC_e2",
+   "guid": "b49bd3e766e3bb47",
+   "transform": {
+    "position": [
+     73.7874,
+     7.6132,
+     233.9986
+    ],
+    "rotation": [
+     0,
+     150.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.14
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibC_e3",
+   "guid": "ff7da0f76961b0d6",
+   "transform": {
+    "position": [
+     73.6126,
+     7.6132,
+     233.9014
+    ],
+    "rotation": [
+     0,
+     150.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.14
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -39565,9 +42110,161 @@
     "v": 0.47
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "G1_ibD_e0",
+   "guid": "b0302c9a0d11349b",
+   "transform": {
+    "position": [
+     68.0,
+     7.6132,
+     229.06
+    ],
+    "rotation": [
+     0,
+     0.0,
+     0
+    ],
+    "scale": [
+     0.29,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibD_e1",
+   "guid": "4b7516ff46cf0a3f",
+   "transform": {
+    "position": [
+     68.0,
+     7.6132,
+     229.94
+    ],
+    "rotation": [
+     0,
+     0.0,
+     0
+    ],
+    "scale": [
+     0.29,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibD_e2",
+   "guid": "09134b757cb0db4a",
+   "transform": {
+    "position": [
+     67.885,
+     7.6132,
+     229.5
+    ],
+    "rotation": [
+     0,
+     0.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.94
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "G1_ibD_e3",
+   "guid": "061657b7c7290882",
+   "transform": {
+    "position": [
+     68.115,
+     7.6132,
+     229.5
+    ],
+    "rotation": [
+     0,
+     0.0,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.94
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -40618,9 +43315,161 @@
     "v": 0.52
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C18_mark_e0",
+   "guid": "387e3b1f35a72c65",
+   "transform": {
+    "position": [
+     57.3453,
+     7.6132,
+     228.1351
+    ],
+    "rotation": [
+     0,
+     18.4,
+     0
+    ],
+    "scale": [
+     0.49,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C18_mark_e1",
+   "guid": "c1624a4fbfa2aadb",
+   "transform": {
+    "position": [
+     57.6547,
+     7.6132,
+     229.0649
+    ],
+    "rotation": [
+     0,
+     18.4,
+     0
+    ],
+    "scale": [
+     0.49,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C18_mark_e2",
+   "guid": "16902ccbf0e9f959",
+   "transform": {
+    "position": [
+     57.296,
+     7.6132,
+     228.6679
+    ],
+    "rotation": [
+     0,
+     18.4,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C18_mark_e3",
+   "guid": "93b270f8e5abddf2",
+   "transform": {
+    "position": [
+     57.704,
+     7.6132,
+     228.5321
+    ],
+    "rotation": [
+     0,
+     18.4,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -41101,9 +43950,161 @@
     "v": 0.62
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C19_mark_e0",
+   "guid": "46164decd1add735",
+   "transform": {
+    "position": [
+     79.0294,
+     7.6132,
+     235.6441
+    ],
+    "rotation": [
+     0,
+     52.9,
+     0
+    ],
+    "scale": [
+     0.39,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C19_mark_e1",
+   "guid": "47a365e867712e57",
+   "transform": {
+    "position": [
+     79.9706,
+     7.6132,
+     236.3559
+    ],
+    "rotation": [
+     0,
+     52.9,
+     0
+    ],
+    "scale": [
+     0.39,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C19_mark_e2",
+   "guid": "57dcbaaff90834d9",
+   "transform": {
+    "position": [
+     79.4005,
+     7.6132,
+     236.1316
+    ],
+    "rotation": [
+     0,
+     52.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.24
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C19_mark_e3",
+   "guid": "b88dc796b5c58201",
+   "transform": {
+    "position": [
+     79.5995,
+     7.6132,
+     235.8684
+    ],
+    "rotation": [
+     0,
+     52.9,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.24
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -41534,9 +44535,161 @@
     "v": 0.52
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C20_mark_e0",
+   "guid": "28283c7e5978323f",
+   "transform": {
+    "position": [
+     63.1128,
+     7.6132,
+     223.2997
+    ],
+    "rotation": [
+     0,
+     52.2,
+     0
+    ],
+    "scale": [
+     0.54,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C20_mark_e1",
+   "guid": "84a9f8ada33ed20c",
+   "transform": {
+    "position": [
+     63.8872,
+     7.6132,
+     223.9003
+    ],
+    "rotation": [
+     0,
+     52.2,
+     0
+    ],
+    "scale": [
+     0.54,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C20_mark_e2",
+   "guid": "1b04fea17adb42c0",
+   "transform": {
+    "position": [
+     63.3529,
+     7.6132,
+     223.7896
+    ],
+    "rotation": [
+     0,
+     52.2,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C20_mark_e3",
+   "guid": "f9842a0713e29b69",
+   "transform": {
+    "position": [
+     63.6471,
+     7.6132,
+     223.4104
+    ],
+    "rotation": [
+     0,
+     52.2,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -41893,9 +45046,161 @@
     "v": 0.52
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C21_mark_e0",
+   "guid": "ed296ecf9eef54f9",
+   "transform": {
+    "position": [
+     69.5438,
+     7.6132,
+     244.4212
+    ],
+    "rotation": [
+     0,
+     68.6,
+     0
+    ],
+    "scale": [
+     0.49,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C21_mark_e1",
+   "guid": "4faa9987e25d6950",
+   "transform": {
+    "position": [
+     70.4562,
+     7.6132,
+     244.7788
+    ],
+    "rotation": [
+     0,
+     68.6,
+     0
+    ],
+    "scale": [
+     0.49,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C21_mark_e2",
+   "guid": "0e3351811f115c36",
+   "transform": {
+    "position": [
+     69.9216,
+     7.6132,
+     244.8002
+    ],
+    "rotation": [
+     0,
+     68.6,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C21_mark_e3",
+   "guid": "6fd9f6361eae6fbb",
+   "transform": {
+    "position": [
+     70.0784,
+     7.6132,
+     244.3998
+    ],
+    "rotation": [
+     0,
+     68.6,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     1.04
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -47003,9 +50308,161 @@
     "v": 0.42
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C22_mark_e0",
+   "guid": "bd32d01796d70da7",
+   "transform": {
+    "position": [
+     63.1451,
+     10.6152,
+     265.7617
+    ],
+    "rotation": [
+     0,
+     114.5,
+     0
+    ],
+    "scale": [
+     0.24,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C22_mark_e1",
+   "guid": "cb7c09e6d71b44e1",
+   "transform": {
+    "position": [
+     63.8549,
+     10.6152,
+     265.4383
+    ],
+    "rotation": [
+     0,
+     114.5,
+     0
+    ],
+    "scale": [
+     0.24,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C22_mark_e2",
+   "guid": "95328c70a74eedbc",
+   "transform": {
+    "position": [
+     63.5373,
+     10.6152,
+     265.6819
+    ],
+    "rotation": [
+     0,
+     114.5,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.84
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C22_mark_e3",
+   "guid": "61708680610c3b94",
+   "transform": {
+    "position": [
+     63.4627,
+     10.6152,
+     265.5181
+    ],
+    "rotation": [
+     0,
+     114.5,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.84
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -47457,9 +50914,161 @@
     "v": 0.47
    },
    "color": [
-    0.74,
-    0.74,
-    0.72
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C23_mark_e0",
+   "guid": "b07456bf586fe657",
+   "transform": {
+    "position": [
+     70.06,
+     10.6152,
+     295.5031
+    ],
+    "rotation": [
+     0,
+     90.4,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C23_mark_e1",
+   "guid": "52588c01ed0f1b44",
+   "transform": {
+    "position": [
+     70.94,
+     10.6152,
+     295.4969
+    ],
+    "rotation": [
+     0,
+     90.4,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C23_mark_e2",
+   "guid": "d3508a1d76ea5c4c",
+   "transform": {
+    "position": [
+     70.501,
+     10.6152,
+     295.64
+    ],
+    "rotation": [
+     0,
+     90.4,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.94
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C23_mark_e3",
+   "guid": "c82aa50bc56689c2",
+   "transform": {
+    "position": [
+     70.499,
+     10.6152,
+     295.36
+    ],
+    "rotation": [
+     0,
+     90.4,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.94
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -48326,9 +51935,161 @@
     "v": 0.27
    },
    "color": [
-    0.66,
-    0.66,
-    0.63
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C24_mark_e0",
+   "guid": "b6fc3bad79aca6a1",
+   "transform": {
+    "position": [
+     76.7694,
+     11.2152,
+     299.0666
+    ],
+    "rotation": [
+     0,
+     106.1,
+     0
+    ],
+    "scale": [
+     0.44,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C24_mark_e1",
+   "guid": "fac0d8bde69c80ff",
+   "transform": {
+    "position": [
+     77.2306,
+     11.2152,
+     298.9334
+    ],
+    "rotation": [
+     0,
+     106.1,
+     0
+    ],
+    "scale": [
+     0.44,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C24_mark_e2",
+   "guid": "f3434805278126f7",
+   "transform": {
+    "position": [
+     77.0527,
+     11.2152,
+     299.1825
+    ],
+    "rotation": [
+     0,
+     106.1,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C24_mark_e3",
+   "guid": "7c4e982f510da8c3",
+   "transform": {
+    "position": [
+     76.9473,
+     11.2152,
+     298.8175
+    ],
+    "rotation": [
+     0,
+     106.1,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {
@@ -49129,9 +52890,161 @@
     "v": 0.27
    },
    "color": [
-    0.6,
-    0.6,
-    0.57
+    0.82,
+    0.76,
+    0.6
+   ]
+  },
+  {
+   "name": "C25_mark_e0",
+   "guid": "109035c963f3b114",
+   "transform": {
+    "position": [
+     55.7947,
+     13.0152,
+     299.1243
+    ],
+    "rotation": [
+     0,
+     121.2,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C25_mark_e1",
+   "guid": "bfd87733096a7181",
+   "transform": {
+    "position": [
+     56.2053,
+     13.0152,
+     298.8757
+    ],
+    "rotation": [
+     0,
+     121.2,
+     0
+    ],
+    "scale": [
+     0.34,
+     0.03,
+     0.05
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C25_mark_e2",
+   "guid": "dbe7ab0af8cbfb3b",
+   "transform": {
+    "position": [
+     56.0725,
+     13.0152,
+     299.1198
+    ],
+    "rotation": [
+     0,
+     121.2,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
+   ]
+  },
+  {
+   "name": "C25_mark_e3",
+   "guid": "2f3da40c2e15084a",
+   "transform": {
+    "position": [
+     55.9275,
+     13.0152,
+     298.8802
+    ],
+    "rotation": [
+     0,
+     121.2,
+     0
+    ],
+    "scale": [
+     0.05,
+     0.03,
+     0.54
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0,
+    "roughness": 1
+   },
+   "shader": "ReconnectInk.hlsl",
+   "shaderParams": [
+    1.0,
+    0.84,
+    0.52,
+    0.55
+   ],
+   "color": [
+    1,
+    1,
+    1
    ]
   },
   {

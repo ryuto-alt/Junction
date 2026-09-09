@@ -1799,6 +1799,19 @@ function OnUpdate(self, dt)
     end
     tutUpdate(self, dt, moving, turned)
 
+    -- ------------------------------------------------ レティクル
+    -- ★★この作品は【破片と本物の輪郭を重ねる】遊びなので、画面のどこが中心かが
+    --   分からないと、そもそも何と何を合わせているのかが読めない。
+    --   ★小さい点ひとつ。暗い縁を先に敷いて、明るい壁でも暗い部屋でも読めるようにする。
+    if not self.done and not frozen then
+        local cx, cy = SCREEN_W * 0.5, SCREEN_H * 0.5
+        local R = 2.5                                   -- 点の半径(px)
+        ui:rect(cx - R - 1.2, cy - R - 1.2, (R + 1.2) * 2, (R + 1.2) * 2,
+                0.02, 0.02, 0.02, 0.60, R + 1.2)        -- 縁
+        ui:rect(cx - R, cy - R, R * 2, R * 2,
+                0.95, 0.94, 0.89, 0.90, R)              -- 本体
+    end
+
     -- ------------------------------------------------ 終わり
     if not self.done and self.lockedIds[GOAL.need]
        and p.z > GOAL.z and math.abs(p.x - GOAL.x) < GOAL.r and p.y > GOAL.y - 1.2 then
