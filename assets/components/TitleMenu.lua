@@ -228,11 +228,8 @@ local function enterFocus(self)
             end
         end
     end
-    -- 本編はここから先に読み始める(ロード画面が出る頃には大半が乗っている)
-    if not self.preloaded then
-        self.preloaded = true
-        preloadScene("scenes/stagedemo3.json")
-    end
+    -- ★ここに本編(stagedemo3)の preloadScene があった。2026-09-09 に外した。
+    --   理由は下の OnUpdate の起動ブロックにまとめて書いてある。
     sfx("audio/lm/drone.wav", 0.16)
 end
 
@@ -475,7 +472,6 @@ function OnStart(self)
     self.st        = 0
     self.shot      = 0
     self.leaving   = false
-    self.preloaded = false
     self.dip       = 0        -- 蛍光灯のちらつき用
     input:setMouseCapture(false)
 
@@ -549,38 +545,39 @@ function OnStart(self)
 end
 
 function OnUpdate(self, dt)
-    -- ★★2026-09-09「タイトルからシーン遷移するとき画面フリーズする」への直し。
-    --   本編(1358 体 + テクスチャ / 模型)の読み込みは同期処理で、走った瞬間に
-    --   数秒フレームが止まる。前はこれを【タイトルのモンタージュの途中】で
-    --   走らせていた(enterFocus)ので、絵が動いている最中に固まり、遊ぶ側からは
-    --   ハングにしか見えなかった。START を早く押せば読み終わっていないぶんが
-    --   ロード画面の幕の途中で走り、そこでも固まる。
-    --   ★読み込みは【起動直後の、まだ何も動いていない黒い画面】で済ませる。
-    --     止まっても黒いままなので、ただの起動待ちにしか見えない。ここで温めて
-    --     おけば、START のあとの切り替えでは読む物がほとんど残らない。
+    -- ★★2026-09-09【本編の先読みはここでは【しない】】。経緯を残す:
+    --
+    --   ① もともと本編(1358 体 + テクスチャ / 模型)の読み込みは
+    --      同期の preloadScene で、走った瞬間に数秒フレームが止まっていた。
+    --      それを【タイトルのモンタージュの途中】(enterFocus)で走らせていたので、
+    --      絵が動いている最中に固まり、遊ぶ側にはハングにしか見えなかった。
+    --   ② 直しとして「起動直後のまだ何も動いていない黒い画面」へ移した。
+    --      止まっても黒いままなので、ただの起動待ちにしか見えない ── ここまでが前回。
+    --      ただし【止まっている事実は消えていない】。実測で 1.4 秒、テクスチャの
+    --      BC キャッシュが冷えていれば十数秒、この黒い画面で固まっていた。
+    --      その間に出していた %の帯は読み込みとは無関係の【フレーム数の飾り】で、
+    --      3 フレームで 100% になるだけの嘘だった。
+    --   ③ エンジンに preloadSceneAsync / scenePreloadProgress が入ったので、
+    --      読み込みは【ロード画面(LoadingScreen.lua)へ全部返した】。
+    --      ・ロード画面は「読み終わるまで待たせる」ためだけに存在する画面で、
+    --        1 本の線の演出は最低でも 3.4 秒ぶんある。本編の読み込みはその裏で
+    --        非同期に進むので、3.4 秒に収まるぶんには【待ち時間は増えない】。
+    --      ・そして帯が実測の進捗で動く。ここで先に温めてしまうと、ロード画面の
+    --        帯は一瞬で 100% に飛び、「動的に動く」という依頼そのものが消える。
+    --      ・タイトル側で非同期に温める案もあるが、それだと結局ロード画面が
+    --        空っぽになる(待ち時間は同じで、帯だけが嘘になる)ので採らなかった。
+    --   → 起動ブロックに残っているのは【窓を枠なし全画面にする】仕事だけ。
+    --      止まる処理が無いので帯も要らない。黒を 2 フレーム出すだけで抜ける。
     if not self.booted then
         ui:rect(0, 0, SCREEN_W, SCREEN_H, 0.004, 0.005, 0.005, 1, 0)
         self.bootF = (self.bootF or 0) + 1
-        -- ★起動待ちの帯。ロード画面と同じ見た目にしてある(同じ機械が同じ事をしている)。
-        --   ここは作品の中ではなく起動画面なので、数字を出してよい所。
-        local bw, bh = SCREEN_W * 0.26, 2.0
-        local bx, by = SCREEN_W * 0.5 - bw * 0.5, SCREEN_H * 0.80
-        local pr = math.min(1.0, self.bootF / 3.0)
-        ui:rect(bx, by, bw, bh, 0.22, 0.22, 0.21, 1, 0)
-        ui:rect(bx, by, bw * pr, bh, 1.00, 0.86, 0.58, 0.95, 0)
-        ui:text(bx + bw + 14, by - 7, string.format("%3d%%", math.floor(pr * 100 + 0.5)),
-                13, 1.00, 0.86, 0.58, 0.62)
-        -- ★黒を【1 枚出し切ってから】読む。同じフレームで読むと、黒が画面へ出る
-        --   前に止まるので、起動直後の何も無い画面のまま固まったように見える。
         if self.bootF >= 2 then
             -- ★窓を枠なし全画面へ。OnStart(最初のフレームより前)で呼ぶと、
             --   まだ窓が立ち上がり切っておらず後から上書きされて効かなかった。
             --   数フレーム置いてから宣言する。display の set 系は settings.json へ
             --   保存されるので、次回起動でも復元される。
             pcall(function() display:setWindowMode("borderless") end)
-            pcall(function() preloadScene("scenes/stagedemo3.json") end)
-            self.booted    = true
-            self.preloaded = true      -- enterFocus 側の二度読みを止める
+            self.booted = true
         end
         return
     end

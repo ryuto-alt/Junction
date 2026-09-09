@@ -145,17 +145,27 @@ local SETTINGS = {
     --   VSync は表示待ちのぶん 16〜33ms の遅延を必ず足す(「もっさい」の主因)。
     --   歩くだけの遅い絵なので裂けはほとんど出ないし、出ても入れ直せる。
     { key = "video_vsync", def = 0,  min = 0,  max = 1,   step = 1, video = true,
-      name = "垂直同期",
       fmt = function(v) return v > 0.5 and "入" or "切" end },
 }
+-- ★行の文言(「マウス感度」「垂直同期」…)は source/hud_layout.json の LM_Set<n>_Text が持つ。
+--   ここに二つ目を置くと必ず食い違うので、この表は【値】だけを持つ。
 local S_SENS, S_PADLOOK, S_INVY, S_VOL, S_RUMBLE, S_VSYNC = 1, 2, 3, 4, 5, 6
--- ★シーンの設定パネル(LM_Set0..4)は 5 行しか無い。6 行目は画面に入らないのではなく
---   【シーンを作り直さないと足せない】(entity が要る)。作り直しは Python 側の仕事なので、
---   6 行目だけ即時モード(ui:rect / ui:text)で同じ見た目に描き足す。
---   ★即時モードの描画はキャンバス UI より【後】にコマンドが積まれる = 必ず手前に出る。
-local ROW_FIRST = 537.0       -- LM_Set0_Sel の上端(キャンバス 1600x900 座標)
-local ROW_PITCH = 44.0        -- 行の間隔
-local ROW_H     = 38.0        -- 行の帯の高さ
+
+-- ★★2026-09-09 まで、シーンの設定パネルは LM_Set0..4 の 5 行しか無く、6 行目(垂直同期)
+--   だけを即時モード(ui:rect / ui:text)で描き足していた。これが罠の巣だった:
+--     ・即時モードには文字幅が無い ＝ 値を右端(x1122)へ揃えられず、手で寄せる羽目になる
+--     ・ImGui の見た目になってパネルから浮く ＝ マウスで押せない
+--     ・行が案内文(LM_Menu_Hint)と重なるので、案内文まで即時モードへ逃がす必要があった
+--   直し方は「シーンに 6 行目を足す」ただ一つ。hud_layout.json に LM_Set5_* を置いた。
+--   ★行を増やす時は hud_layout.json の頭に書いた呼吸(22 / 27 / 24)を守ること。
+
+-- 設定の下にもう 1 行、【ゲームを終了】を置く。W / S の選択もここまで回る。
+-- ★★1 回押しただけでは終わらせない。押し間違いで遊びが終わるのが一番きつい。
+--   1 回目は身構えるだけ(帯が赤くなって「もう一度押す」と出る)、2 回目で本当に終わる。
+local QUIT_ROW      = #SETTINGS + 1
+local MENU_ROWS     = #SETTINGS + 1
+local QUIT_ARM_MIN  = 0.35    -- 身構えてからこの秒数は受け付けない(連打 / ダブルクリック避け)
+local QUIT_ARM_HOLD = 4.0     -- 何もしなければこの秒数でほどける
 
 -- 出し分ける記号。同じ枠に貼り替えるので、絵は全部 3:2 に焼いてある
 -- (source/ui_icons/build.js。縦横比が揃っていないと貼り替えた瞬間に潰れる)
@@ -167,7 +177,7 @@ local GLYPH = {
         ctl  = { ICON .. "key_wasd.png", ICON .. "mouse_look.png",
                  ICON .. "key_tab.png",  ICON .. "key_esc.png" },
         text = { "歩く", "見る", "操作と設定を開く / 閉じる", "マウスを離す" },
-        hint = "クリック、または  W / S  選ぶ ・ A / D  変える      TAB  閉じる",
+        hint = "クリック、または  W / S  選ぶ ・ A / D  変える ・ Enter  決める      TAB  閉じる",
         endk = "Enter",
     },
     pad = {
@@ -176,7 +186,7 @@ local GLYPH = {
         ctl  = { ICON .. "pad_lstick.png", ICON .. "pad_rstick.png",
                  ICON .. "pad_start.png",  ICON .. "pad_b.png" },
         text = { "歩く", "見る", "操作と設定を開く / 閉じる", "パネルを閉じる" },
-        hint = "十字キー 上下  選ぶ ・ 左右  変える      B  閉じる",
+        hint = "十字キー 上下  選ぶ ・ 左右  変える ・ A  決める      B  閉じる",
         endk = "A ボタン",
     },
 }
@@ -785,14 +795,10 @@ local function uiFade(e, a, r, g, b)
     scene:setUiColor(e, r, g, b, a)
 end
 
--- キャンバス(LM_HUD = 1600x900 / ScaleToFit)の座標を、即時モード(実ピクセル)へ写す。
--- ★UISystem と同じ計算にすること: 等比で収めて中央寄せ。ここが食い違うと
---   即時モードで描き足した行だけがパネルからずれる。
-local CANVAS_W, CANVAS_H = 1600.0, 900.0
-local function canvasMap()
-    local s = math.min(SCREEN_W / CANVAS_W, SCREEN_H / CANVAS_H)
-    return s, (SCREEN_W - CANVAS_W * s) * 0.5, (SCREEN_H - CANVAS_H * s) * 0.5
-end
+-- ★2026-09-09: キャンバス(1600x900 / ScaleToFit)の座標を即時モードの実ピクセルへ写す
+--   canvasMap() をここに置いていたが、設定パネルを全部キャンバス UI へ移したので消した。
+--   即時モードでパネルの中へ何かを描き足したくなったら、まず【シーンへ実体を足せないか】
+--   を疑うこと。文字幅が無い・ImGui の見た目になる・マウスで押せない、の三重苦になる。
 
 -- 押しっぱなしの繰り返し。最初は間を空け、そのあと速く刻む
 local function repeatOn(self, slot, down, dt)
@@ -1103,15 +1109,31 @@ function OnStart(self)
 
     -- 音: 部屋の唸りだけ。★合い具合のドローンは廃止(音程が上がる = つながる演出そのもの)
     self.hum = {}
-    for _, p in ipairs({ { 0, 2.4, 1 }, { 0, 2.4, 13 }, { -4.5, 3.0, 20.6 }, { 0, 3.0, 28.8 },
-                         { 4.9, 5.6, 55.5 }, { 6.1, 6.0, 68.5 },
-                         { 1.5, 8.5, 89.0 }, { 6.0, 6.4, 106.4 }, { 6.0, 6.9, 112.0 },
+    -- ★★2026-09-09「スピーカーが多すぎるかも、数を減らしていい」への直し。
+    --   17 個の唸りは【全部が同じ buzz.wav】で、しかも隣と 5.6m / 7.7m / 8.8m / 9.4m
+    --   しか離れていない組が 6 つもあった。同じループが位相違いで重なると
+    --   【うなり(コムフィルタ)】になり、音が濁って「スピーカーが多すぎる」としか
+    --   聞こえない。BGM の重なり([[StageMusic.lua]] の ★★ を参照)と同じ話。
+    --   ★エンジンの空間音響は minD までフル音量 / maxD で 0 の【線形】
+    --     (AudioSystem.cpp:528)。つまり **隣との距離 >= maxD * 2 なら
+    --     二つが同時に鳴る場所は存在しない**。そこへ寄せた:
+    --       ・近すぎる 6 個を間引いて【隣同士を必ず 18.0m 以上】離す
+    --         (間引いた分: z13 / z20.6 / z68.5 / z112 / z179 / (51.6,195.4))
+    --       ・maxD を 13.0 -> 9.0m(18.0 の半分より小さい ＝ 数学的に重ならない)
+    --       ・薄くなったぶん 1 個の音量を 0.30 -> 0.34 へ。部屋数ではなく濃さで取り返す
+    --   ★これは「この部屋の設備が鳴っている」音なので、minD/maxD を小さく取るのが
+    --     正しい(位置が分かってよい音)。どこかで鳴っている音楽とは真逆。取り違えないこと。
+    --   ★部屋によっては唸りの届かない帯ができる(z 10〜20 / 38〜47 / 65〜80 など)。
+    --     誰も居ない建物なので「その部屋の設備は止まっている」で筋が通る。
+    for _, p in ipairs({ { 0, 2.4, 1 }, { 0, 3.0, 28.8 },
+                         { 4.9, 5.6, 55.5 },
+                         { 1.5, 8.5, 89.0 }, { 6.0, 6.4, 106.4 },
                          { 17.0, 8.4, 127.0 }, { 17.5, 8.6, 145.0 },
                          -- 第三幕
-                         { 22.0, 8.4, 173.2 }, { 17.0, 8.6, 179.0 }, { 25.0, 8.6, 194.0 },
-                         { 43.4, 10.7, 198.6 }, { 51.6, 10.5, 195.4 }, { 63.5, 12.5, 203.0 } }) do
+                         { 22.0, 8.4, 173.2 }, { 25.0, 8.6, 194.0 },
+                         { 43.4, 10.7, 198.6 }, { 63.5, 12.5, 203.0 } }) do
         self.hum[#self.hum + 1] = audio:playSpatialId("audio/lm/buzz.wav", p[1], p[2], p[3],
-                                                      2.0, 13.0, 0.30, true)
+                                                      1.8, 9.0, 0.34, true)
     end
 
     -- ★蛍光灯の明滅。1 部屋に 1 本だけ。全部やると「演出」になって嘘くさくなる
@@ -1149,7 +1171,11 @@ function OnStart(self)
     self.sweepT, self.sweepId = 0.0, -1
     saveNum("lm_auto", 0); saveNum("lm_test", 0); saveNum("lm_warp", 0); saveNum("lm_tp", 0)
     saveNum("lm_sweep", 0)
-    for i = 1, 24 do saveNum(string.format("lm_c%d", i), 0) end
+    -- ★★本数を直に書かないこと。24 と書いてあったせいで【25 本目だけ落ちず】、
+    --   前の周回の "lm_c25" が 1 のまま残っていた。クリア画面(ClearScreen.lua)は
+    --   この値を数えて成績を出すので、Play を押し直しただけで最後の 1 本が
+    --   最初から繋がっている成績表になる。CONNS から引けば increase しても壊れない。
+    for i = 1, #CONNS do saveNum(string.format("lm_c%d", CONNS[i].id), 0) end
     saveNum("lm_clear", 0)
 
     -- ★環(合い具合のHUD)は廃止。画面の中央は最後まで完全に空のまま。
@@ -1216,6 +1242,15 @@ function OnStart(self)
         self.setLess[i + 1] = soft("LM_Set" .. i .. "_Less")
         self.setMore[i + 1] = soft("LM_Set" .. i .. "_More")
     end
+    -- ★終了の行も同じ並びの【7 番目】へ入れておく。こうしておくと、行を消して回る所
+    --   (この下の初期化と、終わり方の節の endHud)の for i = 1, 8 にそのまま乗る。
+    --   設定を回す所は for i = 1, #SETTINGS(= 6)なので、7 番目は巻き込まれない。
+    self.setSel[QUIT_ROW]  = soft("LM_Menu_Quit")
+    self.setText[QUIT_ROW] = soft("LM_Menu_QuitText")
+    self.setVal[QUIT_ROW]  = soft("LM_Menu_QuitVal")
+    -- ★quitTextShown も忘れる。Play をやり直すとシーンの文字は元(「ゲームを終了」)へ戻るのに、
+    --   控えだけ「本当に終了しますか？」のまま残ると、赤くなっても文言が書き変わらなくなる
+    self.quitArm, self.quitClick, self.quitTextShown = nil, false, nil
     self.menuClose = soft("LM_Menu_Close")
     self.hasHud = (self.menuBg ~= nil)
 
@@ -1297,6 +1332,15 @@ function OnStart(self)
         end)
     end
     events:on("lm_close", function() self.menuWant = false end)
+    -- ★終了だけは【ここで quit() を呼ばない】。押した合図を立てるだけにして、
+    --   身構え / 取り消し / 音は menuUpdate の一箇所へ集める。
+    --   (この購読は OnStart の中で作られるので、下で定義される uiSfx がまだ見えない。
+    --    Lua の local は【それより下の行】からしか見えない ── ここで音を鳴らそうとすると
+    --    nil を呼んで落ちる。2026-09-09 に踏みかけた)
+    events:on("lm_quit", function()
+        self.menuI = QUIT_ROW
+        self.quitClick = true
+    end)
 
     if self.hasHud then applyGlyphs(self) end
 
@@ -1721,6 +1765,8 @@ local function menuUpdate(self, dt)
     if self.menuWant ~= self.menuOpen then
         self.menuOpen = self.menuWant
         self.navT = {}
+        -- ★開け閉てのたびに終了の身構えを忘れる。閉じて開け直したら 1 回目から
+        self.quitArm, self.quitClick = nil, false
         if self.menuOpen then
             self.menuSeen = true
             self.menuI = 1
@@ -1740,26 +1786,69 @@ local function menuUpdate(self, dt)
         local dec  = keyDown("A") or keyDown("LEFT")  or padDown("DPAD_LEFT")  or lx < -0.55
         local inc  = keyDown("D") or keyDown("RIGHT") or padDown("DPAD_RIGHT") or lx > 0.55
 
+        -- ★選べる行は設定 6 本 + 終了の 1 本(MENU_ROWS)。終了まで回れないと
+        --   キーボード / パッドだけの人が終了へ辿り着けない
         if repeatOn(self, "up", up and not down, dt) then
             self.menuI = self.menuI - 1
-            if self.menuI < 1 then self.menuI = #SETTINGS end
+            if self.menuI < 1 then self.menuI = MENU_ROWS end
             uiSfx(UI_NAV, UI_NAV_VOL)
         end
         if repeatOn(self, "down", down and not up, dt) then
-            self.menuI = self.menuI % #SETTINGS + 1
+            self.menuI = self.menuI % MENU_ROWS + 1
             uiSfx(UI_NAV, UI_NAV_VOL)
         end
-        -- ★値は端で止まる。止まっているのに鳴り続けると「効いている」と嘘をつくので、
-        --   実際に動いた時だけ鳴らす(押しっぱなしの繰り返しでも同じ)。
-        if repeatOn(self, "dec", dec and not inc, dt) then
-            local was = self.cfg[self.menuI]
-            cfgNudge(self, self.menuI, -1); bump(self, 0.16, 0.04)
-            if self.cfg[self.menuI] ~= was then uiSfx(UI_NAV, UI_VAL_VOL, UI_VAL_PITCH) end
+        if self.menuI <= #SETTINGS then
+            -- ★値は端で止まる。止まっているのに鳴り続けると「効いている」と嘘をつくので、
+            --   実際に動いた時だけ鳴らす(押しっぱなしの繰り返しでも同じ)。
+            if repeatOn(self, "dec", dec and not inc, dt) then
+                local was = self.cfg[self.menuI]
+                cfgNudge(self, self.menuI, -1); bump(self, 0.16, 0.04)
+                if self.cfg[self.menuI] ~= was then uiSfx(UI_NAV, UI_VAL_VOL, UI_VAL_PITCH) end
+            end
+            if repeatOn(self, "inc", inc and not dec, dt) then
+                local was = self.cfg[self.menuI]
+                cfgNudge(self, self.menuI, 1); bump(self, 0.16, 0.04)
+                if self.cfg[self.menuI] ~= was then uiSfx(UI_NAV, UI_VAL_VOL, UI_VAL_PITCH) end
+            end
         end
-        if repeatOn(self, "inc", inc and not dec, dt) then
-            local was = self.cfg[self.menuI]
-            cfgNudge(self, self.menuI, 1); bump(self, 0.16, 0.04)
-            if self.cfg[self.menuI] ~= was then uiSfx(UI_NAV, UI_VAL_VOL, UI_VAL_PITCH) end
+    end
+
+    -- ---- 終了の行。★押しっぱなしの繰り返し(repeatOn)は使わない ----
+    --   繰り返しで受けると、D を握ったまま行が下りてきただけで 2 回入って終わってしまう。
+    --   ここだけは【押した瞬間(keyPressed / padPressed)】と【クリック】しか受けない。
+    local press = self.quitClick or false
+    self.quitClick = false
+    if self.menuOpen and self.menuI == QUIT_ROW then
+        if keyPressed("ENTER") or padPressed("A")
+           or keyPressed("D") or keyPressed("RIGHT") or padPressed("DPAD_RIGHT") then
+            press = true
+        end
+        -- 左は「やめる」。A / D で変える流儀のまま、取り消しの道を用意しておく
+        if keyPressed("A") or keyPressed("LEFT") or padPressed("DPAD_LEFT") then
+            if self.quitArm then uiSfx(UI_NAV, UI_NAV_VOL) end
+            self.quitArm = nil
+        end
+    else
+        press = false               -- 行から離れている間のクリックは無かったことにする
+        self.quitArm = nil          -- 行を移ったら身構えも忘れる
+    end
+    if self.quitArm then
+        self.quitArm = self.quitArm + dt
+        if self.quitArm > QUIT_ARM_HOLD then self.quitArm = nil end   -- 放っておけばほどける
+    end
+    if press then
+        if self.quitArm then
+            -- ★身構えた直後の QUIT_ARM_MIN 秒だけは受けない。マウスのダブルクリックや
+            --   キーの連打が【1 回の操作】で終了まで通り抜けるのを塞ぐ
+            if self.quitArm >= QUIT_ARM_MIN then
+                uiSfx(UI_ENTER, UI_OPEN_VOL)
+                quit()
+                return
+            end
+        else
+            self.quitArm = 0.0
+            bump(self, 0.30, 0.08)
+            uiSfx(UI_NAV, UI_VAL_VOL, UI_VAL_PITCH)
         end
     end
 
@@ -1772,11 +1861,7 @@ local function menuUpdate(self, dt)
     uiFade(self.menuDim, a * 0.62, 0, 0, 0)
     uiFade(self.menuBg, a * 0.96, 0.055, 0.055, 0.05)
     for _, e in ipairs(self.menuChrome) do uiFade(e, a * 0.9, 0.72, 0.71, 0.66) end
-    -- ★足した行(即時モード)は案内文 LM_Menu_Hint(キャンバス y 778)と重なる。
-    --   entity の位置は Lua から動かせないので、重なる時だけ案内文ごと
-    --   即時モードへ引き取って下(y 803)へ置く。下の描画で出す。
-    local extraRows = (self.setText[#SETTINGS] == nil)
-    uiFade(self.menuHint, extraRows and 0.0 or a * 0.75, 0.72, 0.71, 0.66)
+    uiFade(self.menuHint, a * 0.75, 0.72, 0.71, 0.66)
     for i = 1, #self.ctlIcon do
         uiFade(self.ctlIcon[i], a * 0.85, 0.92, 0.91, 0.85)
         uiFade(self.ctlText[i], a * 0.92, 0.92, 0.91, 0.85)
@@ -1802,39 +1887,33 @@ local function menuUpdate(self, dt)
         end
     end
 
-    -- ★シーンに entity の無い行を、即時モードで同じ見た目に描き足す。
-    --   ★即時モードのコマンドはキャンバス UI より【後】に積まれる = パネルの手前に出る。
-    --   ★ここだけはマウスで押せない(即時モードのボタンは ImGui の見た目になって
-    --     このパネルから浮く)。W / S で選び A / D で変える道は同じように効く。
-    if a > VIS_EPS then
-        local s, ox, oy = canvasMap()
-        local function cx(v) return ox + v * s end
-        local function cy(v) return oy + v * s end
-        for i = 1, #SETTINGS do
-            if not self.setText[i] then
-                local sel = (i == self.menuI)
-                local top = ROW_FIRST + (i - 1) * ROW_PITCH
-                if sel then
-                    ui:rect(cx(410), cy(top), 780 * s, ROW_H * s,
-                            0.92, 0.91, 0.85, a * 0.10, 8 * s)
-                end
-                local ta = a * (sel and 1.0 or 0.72)
-                ui:text(cx(440), cy(top + 8), SETTINGS[i].name or SETTINGS[i].key,
-                        22 * s, 0.92, 0.91, 0.85, ta)
-                -- ★値は本来 x 1122 で右寄せだが、即時モードには文字幅が無い。
-                --   入 / 切 の 1 文字だけなので、1 文字ぶん(22)手前へ置いて揃える
-                ui:text(cx(1100), cy(top + 8), SETTINGS[i].fmt(self.cfg[i]),
-                        22 * s, 0.92, 0.91, 0.85, ta)
-                -- 増減の目印(entity の ui_less / ui_more と同じ位置)
-                ui:text(cx(990),  cy(top + 8), "<", 22 * s, 0.92, 0.91, 0.85, a * 0.9)
-                ui:text(cx(1136), cy(top + 8), ">", 22 * s, 0.92, 0.91, 0.85, a * 0.9)
-            end
+    -- ---- 一番下の「ゲームを終了」----
+    -- ★帯は【いつも薄く出しておく】。設定の行は選ばれた時しか帯が出ないが、
+    --   この行だけは押す物なので、押せることが一目で分かる必要がある。
+    --   uiButton に flat を付けていないので、指を乗せると帯が明るくなる(UISystem)。
+    local qSel   = (self.menuI == QUIT_ROW)
+    local qArmed = (self.quitArm ~= nil)
+    -- 身構えている間は赤。色だけに頼らず文字も変える(色で分からない人がいる)
+    local qr, qg, qb = 0.92, 0.91, 0.85
+    if qArmed then qr, qg, qb = 0.88, 0.34, 0.28 end
+    uiFade(self.setSel[QUIT_ROW],
+           a * (qArmed and (qSel and 0.46 or 0.38) or (qSel and 0.22 or 0.10)), qr, qg, qb)
+    if self.setText[QUIT_ROW] then
+        local qtxt = qArmed and "本当に終了しますか？" or "ゲームを終了"
+        if self.quitTextShown ~= qtxt then
+            scene:setUiText(self.setText[QUIT_ROW], qtxt)
+            self.quitTextShown = qtxt
         end
-        -- 引き取った案内文。★中央寄せは文字幅が要るので、行の見出しと同じ左端に揃える
-        if extraRows then
-            ui:text(cx(440), cy(803), GLYPH[self.dev].hint, 19 * s,
-                    0.72, 0.71, 0.66, a * 0.75)
+        if qArmed then uiFade(self.setText[QUIT_ROW], a, 1.0, 0.72, 0.66)
+        else           uiFade(self.setText[QUIT_ROW], a * (qSel and 1.0 or 0.72), 0.92, 0.91, 0.85) end
+    end
+    if self.setVal[QUIT_ROW] then
+        local vtxt = qArmed and "もう一度押す" or ""
+        if self.valShown[QUIT_ROW] ~= vtxt then
+            scene:setUiText(self.setVal[QUIT_ROW], vtxt)
+            self.valShown[QUIT_ROW] = vtxt
         end
+        uiFade(self.setVal[QUIT_ROW], qArmed and a * 0.95 or 0.0, 1.0, 0.72, 0.66)
     end
 end
 
@@ -2625,6 +2704,10 @@ function OnUpdate(self, dt)
             audio:playSFX("audio/lm/clear.wav")
             endHud(self)              -- ★文字は出さない。HUD ごと消す
             saveNum("lm_clear", 1)
+            -- ★クリア画面(ClearScreen.lua)へ渡す「かかった時間」。
+            --   saveNum のストアはシーンをまたいでも残る(消えるのは Play を押し直した時だけ)。
+            --   継ぎ目の数は lm_c<id> をそのまま数えるので、ここで足すのは時間だけでよい。
+            saveNum("lm_time", self.t)
             log("LIMINAL: complete")
             -- クリア画面は白が乗りきる前に読み終わっていてほしい。
             -- ★真っ白の裏で読むので、多少詰まっても絵には出ない

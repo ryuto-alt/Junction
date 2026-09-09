@@ -892,6 +892,441 @@
       }
     },
     {
+      "guid": "a1c48e0b5f39d267",
+      "name": "Clear_Black",
+      "parent": 20,
+      "parentGuid": "ac256c1f9c09d646",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          0.006000000052154064,
+          0.00800000037997961,
+          0.007000000216066837,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
+        ]
+      },
+      "uiRect": {
+        "alpha": 1.0,
+        "anchorMax": [
+          1.0,
+          1.0
+        ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          60.0,
+          60.0
+        ],
+        "offsetMin": [
+          -60.0,
+          -60.0
+        ],
+        "order": 0,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": true
+      }
+    },
+    {
+      "guid": "3b71d0c48a2f5e91",
+      "name": "Clear_Opt_Back",
+      "parent": 20,
+      "parentGuid": "ac256c1f9c09d646",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiButton": {
+        "clickSound": "",
+        "hoverColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hoverSound": "audio/ui/nav.wav",
+        "interactable": true,
+        "normalColor": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "onClickEvent": "clear_back",
+        "pressedColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          0.8399999737739563,
+          0.5199999809265137,
+          0.0
+        ],
+        "cornerRadius": 3.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
+        ]
+      },
+      "uiRect": {
+        "alpha": 1.0,
+        "anchorMax": [
+          0.0,
+          0.0
+        ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          980.0,
+          736.0
+        ],
+        "offsetMin": [
+          620.0,
+          690.0
+        ],
+        "order": 40,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
+      }
+    },
+    {
+      "guid": "6d2a91f7c05b48ea",
+      "name": "Clear_Opt_Quit",
+      "parent": 20,
+      "parentGuid": "ac256c1f9c09d646",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiButton": {
+        "clickSound": "",
+        "hoverColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "hoverSound": "audio/ui/nav.wav",
+        "interactable": true,
+        "normalColor": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "onClickEvent": "clear_quit",
+        "pressedColor": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          0.8399999737739563,
+          0.5199999809265137,
+          0.0
+        ],
+        "cornerRadius": 3.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
+        ]
+      },
+      "uiRect": {
+        "alpha": 1.0,
+        "anchorMax": [
+          0.0,
+          0.0
+        ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          980.0,
+          788.0
+        ],
+        "offsetMin": [
+          620.0,
+          742.0
+        ],
+        "order": 41,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
+      }
+    },
+    {
       "gridPlane": {
         "size": 20000.0
       },
