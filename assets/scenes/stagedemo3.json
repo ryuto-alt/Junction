@@ -3043,6 +3043,300 @@
    "parentGuid": "d4ce9f9c4d15bb03"
   },
   {
+   "name": "A_sign1_fr",
+   "guid": "584ed9a6af7b8e55",
+   "transform": {
+    "position": [
+     1.5,
+     2.24,
+     -1.6
+    ],
+    "rotation": [
+     0,
+     90.0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "meshRenderer": {
+    "modelPath": "models/props/sign_guide.gltf"
+   },
+   "parentGuid": "d4ce9f9c4d15bb03"
+  },
+  {
+   "name": "A_sign1",
+   "guid": "73b59fc74e7a8b8c",
+   "transform": {
+    "position": [
+     1.455,
+     2.24,
+     -1.6
+    ],
+    "rotation": [
+     0,
+     90.0,
+     0
+    ],
+    "scale": [
+     1.0,
+     0.66,
+     0.03
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.86
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "ui/signs/sign_walk_look.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "parentGuid": "d4ce9f9c4d15bb03"
+  },
+  {
+   "name": "A_sign1_l",
+   "guid": "6825b052d2b5073f",
+   "transform": {
+    "position": [
+     1.185,
+     2.46,
+     -1.6
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 0.9,
+    "range": 2.4,
+    "castShadows": false
+   },
+   "parentGuid": "d4ce9f9c4d15bb03"
+  },
+  {
+   "name": "A_sign2_fr",
+   "guid": "35aea752a32e3838",
+   "transform": {
+    "position": [
+     -1.5,
+     2.24,
+     3.4
+    ],
+    "rotation": [
+     0,
+     -90.0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "meshRenderer": {
+    "modelPath": "models/props/sign_guide.gltf"
+   },
+   "parentGuid": "d4ce9f9c4d15bb03"
+  },
+  {
+   "name": "A_sign2",
+   "guid": "8dcc5612d39f975e",
+   "transform": {
+    "position": [
+     -1.455,
+     2.24,
+     3.4
+    ],
+    "rotation": [
+     0,
+     -90.0,
+     0
+    ],
+    "scale": [
+     1.0,
+     0.66,
+     0.03
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.86
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "ui/signs/sign_stand_mark.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "parentGuid": "d4ce9f9c4d15bb03"
+  },
+  {
+   "name": "A_sign2_l",
+   "guid": "70ee444808166d47",
+   "transform": {
+    "position": [
+     -1.185,
+     2.46,
+     3.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 0.9,
+    "range": 2.4,
+    "castShadows": false
+   },
+   "parentGuid": "d4ce9f9c4d15bb03"
+  },
+  {
+   "name": "A_sign3_fr",
+   "guid": "85cb8f588e0b168f",
+   "transform": {
+    "position": [
+     1.5,
+     2.24,
+     11.4
+    ],
+    "rotation": [
+     0,
+     90.0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "meshRenderer": {
+    "modelPath": "models/props/sign_guide.gltf"
+   },
+   "parentGuid": "d4ce9f9c4d15bb03"
+  },
+  {
+   "name": "A_sign3",
+   "guid": "d29ecd6169a9b808",
+   "transform": {
+    "position": [
+     1.455,
+     2.24,
+     11.4
+    ],
+    "rotation": [
+     0,
+     90.0,
+     0
+    ],
+    "scale": [
+     1.0,
+     0.66,
+     0.03
+    ]
+   },
+   "primitive": "box",
+   "material": {
+    "metallic": 0.0,
+    "roughness": 0.86
+   },
+   "materialTextureOverrides": [
+    {
+     "albedo": "ui/signs/sign_shards_align.png"
+    }
+   ],
+   "uvTiling": {
+    "u": 1.0,
+    "v": 1.0
+   },
+   "color": [
+    1,
+    1,
+    1
+   ],
+   "parentGuid": "d4ce9f9c4d15bb03"
+  },
+  {
+   "name": "A_sign3_l",
+   "guid": "a35f94c26f7d18cc",
+   "transform": {
+    "position": [
+     1.185,
+     2.46,
+     11.4
+    ],
+    "rotation": [
+     0,
+     0,
+     0
+    ],
+    "scale": [
+     1,
+     1,
+     1
+    ]
+   },
+   "pointLight": {
+    "color": [
+     1.0,
+     0.96,
+     0.86
+    ],
+    "intensity": 0.9,
+    "range": 2.4,
+    "castShadows": false
+   },
+   "parentGuid": "d4ce9f9c4d15bb03"
+  },
+  {
    "name": "A_end_0",
    "guid": "3e7621b3d5802e63",
    "transform": {

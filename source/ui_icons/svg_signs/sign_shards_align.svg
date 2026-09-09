@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="660" viewBox="0 0 1000 660">
+  <!-- 第1幕 案内板 3/3 「ばらばらの破片が、1 つの形に重なる」
+       左  = 宙に浮いた半透明の破片(点線・薄い = 実物ではない)
+       中  = 金の印の上にある目 → 矢印(= 印の上から見ると、こうなる)
+       右  = 重なって出来た本物。継ぎ目の色(GOLD)で塗る -->
+  <rect width="1000" height="660" fill="#E4DFCD"/>
+  <rect x="16" y="16" width="968" height="628" fill="none"
+        stroke="#2B2924" stroke-width="6" stroke-opacity="0.45"/>
+
+  <!-- 床の線(左右とも同じ場所であることを示す) -->
+  <path d="M 70 580 L 392 580" stroke="#2B2924" stroke-width="9" stroke-opacity="0.5" stroke-linecap="round"/>
+  <path d="M 608 580 L 932 580" stroke="#2B2924" stroke-width="9" stroke-opacity="0.5" stroke-linecap="round"/>
+
+  <!-- 左: 宙に浮いた 3 つの破片。大きさも向きもばらばら -->
+  <g fill="#2B2924" fill-opacity="0.08" stroke="#2B2924" stroke-opacity="0.52"
+     stroke-width="6" stroke-dasharray="18 13">
+    <rect x="118" y="140" width="160" height="32" transform="rotate(-16 198 156)"/>
+    <rect x="95"  y="210" width="30"  height="280" transform="rotate(9 110 350)"/>
+    <rect x="330" y="250" width="26"  height="240" transform="rotate(-7 343 370)"/>
+  </g>
+
+  <!-- 中: 金の印の上に立つ目 → 矢印 -->
+  <path d="M 420 152 Q 500 94 580 152 Q 500 210 420 152 Z"
+        fill="none" stroke="#2B2924" stroke-width="10" stroke-linejoin="round"/>
+  <circle cx="500" cy="152" r="22" fill="#2B2924"/>
+  <polygon points="434,286 566,286 542,232 458,232"
+           fill="#D9AC5C" fill-opacity="0.20"
+           stroke="#D9AC5C" stroke-width="11" stroke-linejoin="round"/>
+  <path d="M 428 406 L 540 406" stroke="#2B2924" stroke-width="32" stroke-linecap="butt"/>
+  <polygon points="534,366 590,406 534,446" fill="#2B2924"/>
+
+  <!-- 右: 同じ 3 つが重なって出来た「本物」 -->
+  <g fill="#D9AC5C" fill-opacity="0.85" stroke="#A87B33" stroke-width="5">
+    <rect x="690" y="190" width="180" height="38"/>
+    <rect x="690" y="228" width="38"  height="352"/>
+    <rect x="832" y="228" width="38"  height="352"/>
+  </g>
+</svg>

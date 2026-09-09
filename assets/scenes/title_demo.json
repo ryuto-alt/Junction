@@ -2,9 +2,9 @@
   "contactShadow": {
     "bias": 0.019999999552965164,
     "enabled": false,
-    "fadeDistance": 10.0,
-    "intensity": 1.0,
-    "maxDistance": 50.0,
+    "fadeDistance": 10,
+    "intensity": 1,
+    "maxDistance": 50,
     "rayLength": 0.25,
     "steps": 16,
     "thickness": 0.20000000298023224
@@ -12,18 +12,18 @@
   "entities": [
     {
       "camera": {
-        "farClip": 100.0,
-        "fovDegrees": 72.0,
+        "farClip": 100,
+        "fovDegrees": 72,
         "isActive": true,
         "nearClip": 0.019999999552965164,
-        "orthoSize": 10.0,
+        "orthoSize": 10,
         "projection": 0,
         "screenShaderEnabled": true,
         "screenShaderParams": [
-          0.0,
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0,
+          0
         ],
         "screenShaderPath": ""
       },
@@ -31,19 +31,19 @@
       "name": "TitleCamera",
       "transform": {
         "position": [
-          0.0,
+          0,
           1.7200000286102295,
           -5.150000095367432
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
@@ -56,26 +56,26 @@
       "name": "TitleLogic",
       "transform": {
         "position": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "guid": "eef035cc25f67e19",
       "material": {
-        "metallic": 0.0,
+        "metallic": 0,
         "roughness": 0.949999988079071
       },
       "meshRenderer": {
@@ -84,26 +84,26 @@
       "name": "TitleFloor",
       "transform": {
         "position": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "guid": "a11e09a609c38ba3",
       "material": {
-        "metallic": 0.0,
+        "metallic": 0,
         "roughness": 0.9200000166893005
       },
       "meshRenderer": {
@@ -112,26 +112,26 @@
       "name": "TitleCeiling",
       "transform": {
         "position": [
-          0.0,
+          0,
           3.8499999046325684,
-          0.0
+          0
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "guid": "e027b4f1f7dee105",
       "material": {
-        "metallic": 0.0,
+        "metallic": 0,
         "roughness": 0.8799999952316284
       },
       "meshRenderer": {
@@ -140,26 +140,26 @@
       "name": "TitleWall_Back",
       "transform": {
         "position": [
-          0.0,
-          0.0,
-          6.0
+          0,
+          0,
+          6
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "guid": "93bb506daff0589c",
       "material": {
-        "metallic": 0.0,
+        "metallic": 0,
         "roughness": 0.8799999952316284
       },
       "meshRenderer": {
@@ -168,26 +168,26 @@
       "name": "TitleWall_Left",
       "transform": {
         "position": [
-          -6.0,
-          0.0,
-          0.0
+          -6,
+          0,
+          0
         ],
         "rotation": [
-          0.0,
-          90.0,
-          0.0
+          0,
+          90,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "guid": "c00a6829523b7023",
       "material": {
-        "metallic": 0.0,
+        "metallic": 0,
         "roughness": 0.8799999952316284
       },
       "meshRenderer": {
@@ -196,26 +196,26 @@
       "name": "TitleWall_Right",
       "transform": {
         "position": [
-          6.0,
-          0.0,
-          0.0
+          6,
+          0,
+          0
         ],
         "rotation": [
-          0.0,
-          270.0,
-          0.0
+          0,
+          270,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "guid": "1e69419f4d00c904",
       "material": {
-        "metallic": 0.0,
+        "metallic": 0,
         "roughness": 0.8799999952316284
       },
       "meshRenderer": {
@@ -224,26 +224,26 @@
       "name": "TitleWall_Entry",
       "transform": {
         "position": [
-          0.0,
-          0.0,
-          -6.0
+          0,
+          0,
+          -6
         ],
         "rotation": [
-          0.0,
-          180.0,
-          0.0
+          0,
+          180,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "guid": "896c2fb90d9cd253",
       "material": {
-        "metallic": 0.0,
+        "metallic": 0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
@@ -253,25 +253,25 @@
       "transform": {
         "position": [
           -0.9800000190734863,
-          0.0,
+          0,
           5.820000171661377
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "guid": "767471da6347e52d",
       "material": {
-        "metallic": 0.0,
+        "metallic": 0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
@@ -281,25 +281,25 @@
       "transform": {
         "position": [
           5.25,
-          0.0,
+          0,
           2.799999952316284
         ],
         "rotation": [
-          0.0,
-          270.0,
-          0.0
+          0,
+          270,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "guid": "0cfd4aa3682e52c4",
       "material": {
-        "metallic": 0.0,
+        "metallic": 0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
@@ -309,25 +309,25 @@
       "transform": {
         "position": [
           -4.400000095367432,
-          0.0,
+          0,
           2.9000000953674316
         ],
         "rotation": [
-          0.0,
-          90.0,
-          0.0
+          0,
+          90,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "guid": "65c9cd003ebb40d2",
       "material": {
-        "metallic": 0.0,
+        "metallic": 0,
         "roughness": 0.800000011920929
       },
       "meshRenderer": {
@@ -337,13 +337,13 @@
       "transform": {
         "position": [
           4.800000190734863,
-          0.0,
+          0,
           4.400000095367432
         ],
         "rotation": [
-          0.0,
-          15.0,
-          0.0
+          0,
+          15,
+          0
         ],
         "scale": [
           0.800000011920929,
@@ -364,19 +364,19 @@
       "name": "TitleTroffer_1",
       "transform": {
         "position": [
-          0.0,
+          0,
           3.819999933242798,
           -2.5
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
@@ -392,19 +392,19 @@
       "name": "TitleTroffer_2",
       "transform": {
         "position": [
-          0.0,
+          0,
           3.819999933242798,
           1.2999999523162842
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
@@ -420,19 +420,19 @@
       "name": "TitleTroffer_3",
       "transform": {
         "position": [
-          0.0,
+          0,
           3.819999933242798,
           4.5
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
@@ -442,28 +442,28 @@
       "pointLight": {
         "castShadows": true,
         "color": [
-          1.0,
+          1,
           0.9599999785423279,
           0.8600000143051147
         ],
         "intensity": 8.5,
-        "range": 10.0
+        "range": 10
       },
       "transform": {
         "position": [
-          0.0,
+          0,
           3.3499999046325684,
           -2.5
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
@@ -473,28 +473,28 @@
       "pointLight": {
         "castShadows": true,
         "color": [
-          1.0,
+          1,
           0.9599999785423279,
           0.8600000143051147
         ],
         "intensity": 7.199999809265137,
-        "range": 10.0
+        "range": 10
       },
       "transform": {
         "position": [
-          0.0,
+          0,
           3.3499999046325684,
           1.2999999523162842
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
@@ -504,28 +504,28 @@
       "pointLight": {
         "castShadows": true,
         "color": [
-          1.0,
+          1,
           0.9599999785423279,
           0.8600000143051147
         ],
-        "intensity": 0.0,
-        "range": 8.0
+        "intensity": 0,
+        "range": 8
       },
       "transform": {
         "position": [
-          0.0,
+          0,
           3.3499999046325684,
           4.5
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
@@ -539,178 +539,1214 @@
         ],
         "direction": [
           -0.25,
-          -1.0,
+          -1,
           0.25
         ],
-        "intensity": 0.0
+        "intensity": 0
       },
       "guid": "1b7219cc9c7edb59",
       "name": "TitleAmbient",
       "transform": {
         "position": [
-          0.0,
-          5.0,
-          0.0
+          0,
+          5,
+          0
         ],
         "rotation": [
-          25.0,
-          -30.0,
-          0.0
+          25,
+          -30,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
       }
     },
     {
       "gridPlane": {
-        "size": 20000.0
+        "size": 20000
       },
       "guid": "b9b848a67140c070",
       "name": "Grid",
       "primitive": "plane",
-      "primitiveSize": 20000.0,
+      "primitiveSize": 20000,
       "transform": {
         "position": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "rotation": [
-          0.0,
-          0.0,
-          0.0
+          0,
+          0,
+          0
         ],
         "scale": [
-          1.0,
-          1.0,
-          1.0
+          1,
+          1,
+          1
         ]
+      }
+    },
+    {
+      "name": "Title_UI",
+      "guid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiCanvas": {
+        "refWidth": 1600,
+        "refHeight": 900,
+        "scaleMode": 2,
+        "sortOrder": 0,
+        "visible": true
+      }
+    },
+    {
+      "name": "Title_Black",
+      "guid": "bb15a139623b1f20",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": true,
+        "order": 0
+      },
+      "uiImage": {
+        "texturePath": "",
+        "color": [
+          0.006,
+          0.008,
+          0.007,
+          1
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Shot_1",
+      "guid": "3e326102d08d59b3",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": false,
+        "order": 10
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Shot_2",
+      "guid": "3f326295567913ce",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": false,
+        "order": 11
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area2_hall.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Shot_3",
+      "guid": "3c325ddcdc64cd59",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": false,
+        "order": 12
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area3_pits.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Shot_4",
+      "guid": "3d325f6f625086f4",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": false,
+        "order": 13
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area4_islands.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_01",
+      "guid": "2959f56642f1c2bd",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": false,
+        "order": 30
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_02",
+      "guid": "2a59f6f9c8ddb420",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -47,
+          -60
+        ],
+        "offsetMax": [
+          73,
+          60
+        ],
+        "visible": false,
+        "order": 31
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_03",
+      "guid": "2759f2404ec96f97",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -53.5,
+          -48.742000000000004
+        ],
+        "offsetMax": [
+          66.5,
+          71.258
+        ],
+        "visible": false,
+        "order": 32
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_04",
+      "guid": "2859f3d3d4b521fa",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -66.5,
+          -48.742000000000004
+        ],
+        "offsetMax": [
+          53.5,
+          71.258
+        ],
+        "visible": false,
+        "order": 33
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_05",
+      "guid": "2d59fbb25aa11b61",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -73,
+          -60
+        ],
+        "offsetMax": [
+          47,
+          60
+        ],
+        "visible": false,
+        "order": 34
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_06",
+      "guid": "2e59fd45e08aced4",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -66.5,
+          -71.258
+        ],
+        "offsetMax": [
+          53.5,
+          48.742000000000004
+        ],
+        "visible": false,
+        "order": 35
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_07",
+      "guid": "2b59f88c6676803b",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -53.5,
+          -71.258
+        ],
+        "offsetMax": [
+          66.5,
+          48.742000000000004
+        ],
+        "visible": false,
+        "order": 36
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_08",
+      "guid": "2c59fa1fec627bae",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -34.885000000000005,
+          -45.5
+        ],
+        "offsetMax": [
+          85.115,
+          74.5
+        ],
+        "visible": false,
+        "order": 37
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_09",
+      "guid": "315a01fe724e2d15",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -31
+        ],
+        "offsetMax": [
+          60,
+          89
+        ],
+        "visible": false,
+        "order": 38
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_10",
+      "guid": "325a0391f83be778",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -85.115,
+          -45.5
+        ],
+        "offsetMax": [
+          34.885000000000005,
+          74.5
+        ],
+        "visible": false,
+        "order": 39
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_11",
+      "guid": "749f7e6bfa673b9d",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -85.115,
+          -74.5
+        ],
+        "offsetMax": [
+          34.885000000000005,
+          45.5
+        ],
+        "visible": false,
+        "order": 40
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_12",
+      "guid": "739f7cd8804b0136",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -89
+        ],
+        "offsetMax": [
+          60,
+          31
+        ],
+        "visible": false,
+        "order": 41
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Title_Focus_13",
+      "guid": "769f8191063f54ab",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -34.885000000000005,
+          -74.5
+        ],
+        "offsetMax": [
+          85.115,
+          45.5
+        ],
+        "visible": false,
+        "order": 42
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
       }
     }
   ],
   "navmesh": {
     "agentHeight": 1.7999999523162842,
     "agentMaxClimb": 0.44999998807907104,
-    "agentMaxSlope": 45.0,
+    "agentMaxSlope": 45,
     "agentRadius": 0.3499999940395355,
     "boundsMax": [
-      0.0,
-      0.0,
-      0.0
+      0,
+      0,
+      0
     ],
     "boundsMin": [
-      0.0,
-      0.0,
-      0.0
+      0,
+      0,
+      0
     ],
     "cellHeight": 0.11999999731779099,
     "cellSize": 0.20000000298023224,
     "filterLedgeSpans": true,
     "filterLowHanging": true,
-    "maxEdgeLen": 12.0,
+    "maxEdgeLen": 12,
     "maxSimplificationErr": 1.2999999523162842,
     "maxVertsPerPoly": 6,
-    "mergeRegionArea": 20.0,
-    "minRegionArea": 2.0,
+    "mergeRegionArea": 20,
+    "minRegionArea": 2,
     "monotonePartition": false,
     "useBounds": false
   },
   "normalFilter": {
     "enabled": true,
-    "geometricBlend": 2.0,
-    "strength": 2.0,
+    "geometricBlend": 2,
+    "strength": 2,
     "varianceClamp": 0.25
   },
   "postProcess": {
-    "aeEvComp": 0.0,
-    "aeLogMax": 4.0,
-    "aeLogMin": -8.0,
-    "aeSpeed": 2.0,
+    "aeEvComp": 0,
+    "aeLogMax": 4,
+    "aeLogMin": -8,
+    "aeSpeed": 2,
     "autoExposureOn": false,
     "bloom": 0.20000000298023224,
     "bloomKnee": 0.5,
     "bloomOn": true,
     "bloomRadius": 0.6499999761581421,
-    "bloomThreshold": 1.0,
-    "brightness": 0.0,
-    "brightnessOn": false,
+    "bloomThreshold": 1,
+    "brightness": -0.02,
+    "brightnessOn": true,
     "chromaMode": 0,
     "chromatic": 0.5,
     "chromaticOn": false,
-    "contrast": 1.0800000429153442,
-    "contrastOn": false,
+    "contrast": 1.03,
+    "contrastOn": true,
     "debandOn": true,
     "ditherLevels": 4,
     "ditherOn": false,
-    "dofAperture": 2.799999952316284,
-    "dofBlurSize": 12.0,
-    "dofFocalLength": 0.0,
-    "dofFocusDist": 8.0,
+    "dofAperture": 1.4,
+    "dofBlurSize": 30,
+    "dofFocalLength": 0,
+    "dofFocusDist": 0.35,
     "dofFocusName": "",
-    "dofFocusRange": 5.0,
-    "dofOn": false,
+    "dofFocusRange": 5,
+    "dofOn": true,
     "enabled": true,
     "exposure": 1.059999942779541,
     "exposureOn": true,
     "fxaaOn": true,
     "glitch": 0.30000001192092896,
-    "glitchBlocks": 24.0,
+    "glitchBlocks": 24,
     "glitchColor": 0.5,
     "glitchOn": false,
-    "glitchSpeed": 12.0,
+    "glitchSpeed": 12,
     "godraysOn": false,
     "grDecay": 0.9599999785423279,
     "grDensity": 0.8999999761581421,
     "grIntensity": 0.6000000238418579,
-    "grain": 0.02500000037252903,
+    "grain": 0.09,
     "grainColored": false,
     "grainOn": true,
-    "grainSize": 1.0,
-    "grayscale": 1.0,
+    "grainSize": 1.5,
+    "grayscale": 1,
     "grayscaleOn": false,
     "hueOn": false,
-    "hueShift": 0.0,
-    "invert": 1.0,
+    "hueShift": 0,
+    "invert": 1,
     "invertOn": false,
     "lens": 0.30000001192092896,
-    "lensChroma": 0.0,
+    "lensChroma": 0,
     "lensCircular": true,
     "lensEdge": 1,
-    "lensK2": 0.0,
+    "lensK2": 0,
     "lensMode": 0,
     "lensOn": false,
-    "lensZoom": 1.0,
+    "lensZoom": 1,
     "lensflareOn": false,
     "lfChroma": 0.009999999776482582,
     "lfDispersal": 0.3499999940395355,
     "lfGhosts": 4,
     "lfHalo": 0.44999998807907104,
     "lfIntensity": 0.5,
-    "lutAmount": 1.0,
+    "lutAmount": 1,
     "lutOn": false,
     "lutPath": "",
     "mbSamples": 10,
     "mbStrength": 0.5,
     "motionBlurOn": false,
-    "outline": 1.0,
+    "outline": 1,
     "outlineBg": [
-      1.0,
-      1.0,
-      1.0
+      1,
+      1,
+      1
     ],
     "outlineColor": [
-      0.0,
-      0.0,
-      0.0
+      0,
+      0,
+      0
     ],
     "outlineOn": false,
     "outlineOnly": false,
-    "outlineThickness": 1.0,
+    "outlineThickness": 1,
     "outlineThreshold": 0.019999999552965164,
-    "pixelSize": 8.0,
+    "pixelSize": 8,
     "pixelizeOn": false,
     "posterize": 6,
     "posterizeOn": false,
@@ -719,101 +1755,101 @@
     "radialCenterY": 0.5,
     "radialOn": false,
     "radialSamples": 8,
-    "saturation": 1.0700000524520874,
+    "saturation": 0.86,
     "saturationOn": true,
-    "scanCount": 240.0,
+    "scanCount": 240,
     "scanCurve": 0.18000000715255737,
     "scanline": 0.5,
     "scanlineOn": false,
-    "sepia": 1.0,
+    "sepia": 1,
     "sepiaOn": false,
     "sharpen": 0.5,
     "sharpenOn": false,
     "tint": [
-      1.0,
-      1.0,
-      1.0
+      1,
+      1,
+      1
     ],
     "tintOn": false,
     "tonemapper": 1,
-    "vignette": 0.30000001192092896,
+    "vignette": 0.45,
     "vignetteColor": [
-      0.0,
-      0.0,
-      0.0
+      0,
+      0,
+      0
     ],
     "vignetteOn": true,
-    "vignetteRadius": 0.6200000047683716,
-    "vignetteRoundness": 1.0,
-    "vignetteSoftness": 0.44999998807907104,
+    "vignetteRadius": 0.66,
+    "vignetteRoundness": 1,
+    "vignetteSoftness": 0.5,
     "warmth": 0.05000000074505806,
     "warmthOn": true,
     "waveAmp": 0.009999999776482582,
-    "waveFreq": 12.0,
+    "waveFreq": 12,
     "waveOn": false,
-    "waveSpeed": 2.0
+    "waveSpeed": 2
   },
   "raytracing": {
     "aoCombineWithSsao": false,
     "aoDenoise": true,
-    "aoDenoiseRadius": 8.0,
+    "aoDenoiseRadius": 8,
     "aoEnabled": false,
-    "aoIntensity": 1.0,
+    "aoIntensity": 1,
     "aoPower": 1.5,
-    "aoRadius": 1.0,
+    "aoRadius": 1,
     "aoRayCount": 2,
     "ddgi": {
-      "bounceIntensity": 0.0,
+      "bounceIntensity": 0,
       "enabled": false,
       "hysteresis": 0.9700000286102295,
-      "intensity": 1.0,
+      "intensity": 1,
       "normalBias": 0.019999999552965164,
-      "originX": -8.0,
+      "originX": -8,
       "originY": 0.5,
-      "originZ": -8.0,
+      "originZ": -8,
       "probeCountX": 8,
       "probeCountY": 4,
       "probeCountZ": 8,
-      "rayLength": 30.0,
-      "spacing": 2.0
+      "rayLength": 30,
+      "spacing": 2
     },
     "maxInstances": 0,
     "shadowEnabled": false,
-    "shadowIntensity": 1.0,
-    "shadowMaxDistance": 0.0,
+    "shadowIntensity": 1,
+    "shadowMaxDistance": 0,
     "shadowNormalBias": 0.019999999552965164,
     "shadowSunAngle": 0.5299999713897705
   },
   "shadowPcss": {
-    "blockerSearchTexels": 16.0,
+    "blockerSearchTexels": 16,
     "enabled": false,
     "lightTanAngle": 0.05000000074505806,
-    "maxPenumbraTexels": 16.0,
+    "maxPenumbraTexels": 16,
     "temporalDither": true
   },
   "shadows": true,
   "skybox": {
     "drawSkybox": true,
     "envMapPath": "__procedural_sky__",
-    "iblIntensity": 1.0,
-    "skyboxIntensity": 1.0
+    "iblIntensity": 1,
+    "skyboxIntensity": 1
   },
   "ssao": {
     "bias": 0.02500000037252903,
     "blur": true,
     "enabled": false,
-    "intensity": 1.0,
+    "intensity": 1,
     "power": 1.5,
     "radius": 0.5,
     "sampleCount": 16
   },
   "ssgi": {
-    "clampValue": 4.0,
+    "clampValue": 4,
     "enabled": false,
     "feedback": 0.9200000166893005,
     "iblFallback": true,
     "intensity": 0.800000011920929,
-    "radius": 6.0,
+    "radius": 6,
     "rayCount": 2,
     "stepCount": 12,
     "thickness": 0.5
@@ -822,27 +1858,27 @@
     "bias": 0.05000000074505806,
     "edgeFade": 0.15000000596046448,
     "enabled": false,
-    "intensity": 1.0,
-    "maxDistance": 50.0,
+    "intensity": 1,
+    "maxDistance": 50,
     "maxSteps": 48,
     "roughnessCutoff": 0.6000000238418579,
-    "stride": 2.0,
+    "stride": 2,
     "thickness": 0.5
   },
   "taa": {
     "enabled": false,
     "feedbackMax": 0.9700000286102295,
     "feedbackMin": 0.8799999952316284,
-    "jitterScale": 1.0,
+    "jitterScale": 1,
     "sampleCount": 8,
-    "varianceGamma": 1.0
+    "varianceGamma": 1
   },
   "version": 1,
   "volumetricFog": {
     "albedo": [
-      1.0,
-      1.0,
-      1.0
+      1,
+      1,
+      1
     ],
     "ambient": [
       0.20000000298023224,
@@ -851,14 +1887,14 @@
     ],
     "anisotropy": 0.30000001192092896,
     "density": 0.019999999552965164,
-    "depthDistribution": 2.0,
-    "distance": 150.0,
+    "depthDistribution": 2,
+    "distance": 150,
     "enabled": false,
     "extendBeyondRange": true,
     "heightFalloff": 0.10000000149011612,
-    "heightRef": 0.0,
+    "heightRef": 0,
     "lightScattering": true,
-    "sunIntensity": 1.0,
+    "sunIntensity": 1,
     "temporal": true,
     "temporalBlend": 0.07999999821186066
   }

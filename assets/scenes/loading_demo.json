@@ -3,59 +3,70 @@
   "entities": [
     {
       "name": "LoadingCamera",
+      "guid": "5a1c0d3e7b904611",
       "transform": {
         "position": [
-          0,
+          0.0,
           1.7,
-          -4
+          -4.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       },
       "camera": {
-        "active": true,
-        "fov": 60,
-        "near": 0.1,
-        "far": 1000
+        "isActive": true,
+        "fovDegrees": 60.0,
+        "nearClip": 0.1,
+        "farClip": 200.0,
+        "projection": 0,
+        "orthoSize": 10.0
       }
     },
     {
       "name": "LoadingLogic",
+      "guid": "5a1c0d3e7b904612",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       },
       "luaScript": {
-        "scriptPath": "components/LoadingScreen.lua",
-        "properties": {}
+        "enabled": true,
+        "scriptPath": "components/LoadingScreen.lua"
       }
     }
   ],
+  "shadows": false,
+  "skybox": {
+    "drawSkybox": false,
+    "envMapPath": "__procedural_sky__",
+    "iblIntensity": 0.2,
+    "skyboxIntensity": 0.0
+  },
   "postProcess": {
     "enabled": true,
     "exposureOn": true,
-    "exposure": 1,
+    "exposure": 1.0,
     "vignetteOn": false,
     "grainOn": false
   }

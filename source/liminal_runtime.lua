@@ -34,7 +34,18 @@ local EYE_OFF = 0.80          -- 体の中心から目まで
 -- ★STILL(1.10) は上げない。速く歩けるようにしても『止まって見る』の条件は変えない
 --   ＝通りすがりで確定してしまう事故は増えない(減速に掛かる時間は ACCEL 次第で同じ)。
 local SPEED   = 3.80
-local ACCEL   = 13.0
+-- ★★2026-09-09「操作がもっさい」の実体は【描画の重さではなく遅延】だった。
+--   計測: GPU 4.57ms / 予算 16.7ms、CPU はほぼ待ち(fenceWait 11.79ms)。つまり暇。
+--   にも関わらず遅く感じたのは、移動が指数の平滑化で ACCEL=13 ＝ 時定数 77ms、
+--   95% の速さに乗るまで【230ms】かかっていたから。押しても離しても同じだけ滑るので
+--   「効かない」「止まらない」が両方出る。
+-- ★ACCEL を上げても謎解きは壊れない。むしろ良くなる ── この作品は
+--   「速さ STILL(1.10) 以下でないと確定しない」ので、減速が速いほど
+--   【止まってから確定するまで】が短くなる。
+-- ★ただし完全に滑りを消してはいけない(リミナル空間の浮遊感がそこにある)。
+--   踏み出しを速く・止まりはほんの少しだけ緩く、の非対称にして重さだけ残す。
+local ACCEL   = 30.0          -- 踏み出し(時定数 33ms / 95% まで 100ms)
+local ACCEL_S = 22.0          -- 止まり  (時定数 45ms / 95% まで 136ms)
 local SENS    = 0.082
 local CONE    = 26.0          -- 「見ている」と認める視野角(度)
 local PERI_IN = 24.0          -- 【直視しない】規則: これより内側だと成立しない
@@ -51,6 +62,13 @@ local STILL   = 1.10          -- この速さ以下でないと確定しない(�
 --   どれも来なければ WELD_WAIT で諦めて、WELD_T のイージングで静かに寄せる。
 local WELD_WAIT = 0.45        -- マスクを待つ上限
 local WELD_T    = 0.18        -- 寄せる時間
+-- ★★「つながった手応え」。★これは合図ではない ── 破片が実体の位置へ収まった【後】に
+--   結果だけを短く伝える。近づいている最中には何も起きない(この作品の芯は変えない)。
+--   実体になった破片の effectValue を 2.0 -> 1.0 へ落とす。Unbuilt.hlsl 側は
+--   1 を超えた分を「つながった直後の残り時間」と読み、輪郭から内側へ光を 1 度だけ走らせる。
+-- ★1 秒足らずで完全に消す。残ると「光る建材」になり、まだ幽霊の破片との
+--   見分け(この遊びの本体)が濁る。
+local WELD_SHOW = 0.90        -- 光が輪郭から中心へ収束しきるまで(秒)
 local MASK_TURN = 55.0        -- 視線の角速度(度/秒)。これ以上ならマスクが効く
 local MASK_MOVE = 1.20        -- 歩く速さ(m/s)。これ以上ならマスクが効く
 local DARK_PERIOD = 3.60      -- 明滅する部屋の周期
@@ -82,8 +100,14 @@ local NAV_FIRST = 0.42        -- メニューの押しっぱなし: 最初の繰
 local NAV_REPEAT = 0.11       -- そのあとの繰り返し間隔(秒)
 
 -- 設定。settings.json に残る(savePersist)。min/max/step は「押すたび 1 段」の幅
+-- ★video=true の行だけは savePersist を使わない。垂直同期はエンジン(display)が
+--   自分で settings.json の video_vsync へ書くので、二重に持つと食い違う。
+-- ★★lm_sens の既定を 82 -> 110 へ。0.082 度/カウントは低すぎて、
+--   遅延が無くても「もっさい」と感じる(振り向くのに何度もマウスを持ち上げる)。
+--   平滑化は一切掛けていない(生の getMouseDeltaX をそのまま足す)ので、
+--   感度を上げたぶんはそのまま素直に返ってくる。
 local SETTINGS = {
-    { key = "lm_sens",    def = 82,  min = 20, max = 300, step = 4,
+    { key = "lm_sens",    def = 110, min = 20, max = 300, step = 4,
       fmt = function(v) return string.format("%d", v) end },
     { key = "lm_padlook", def = 145, min = 60, max = 300, step = 5,
       fmt = function(v) return string.format("%d", v) end },
@@ -93,8 +117,21 @@ local SETTINGS = {
       fmt = function(v) return string.format("%d%%", v) end },
     { key = "lm_rumble",  def = 1,   min = 0,  max = 1,   step = 1,
       fmt = function(v) return v > 0.5 and "入" or "切" end },
+    -- ★垂直同期。既定は【切】。この作品は押した所へ視線が付いてくるかが全てで、
+    --   VSync は表示待ちのぶん 16〜33ms の遅延を必ず足す(「もっさい」の主因)。
+    --   歩くだけの遅い絵なので裂けはほとんど出ないし、出ても入れ直せる。
+    { key = "video_vsync", def = 0,  min = 0,  max = 1,   step = 1, video = true,
+      name = "垂直同期",
+      fmt = function(v) return v > 0.5 and "入" or "切" end },
 }
-local S_SENS, S_PADLOOK, S_INVY, S_VOL, S_RUMBLE = 1, 2, 3, 4, 5
+local S_SENS, S_PADLOOK, S_INVY, S_VOL, S_RUMBLE, S_VSYNC = 1, 2, 3, 4, 5, 6
+-- ★シーンの設定パネル(LM_Set0..4)は 5 行しか無い。6 行目は画面に入らないのではなく
+--   【シーンを作り直さないと足せない】(entity が要る)。作り直しは Python 側の仕事なので、
+--   6 行目だけ即時モード(ui:rect / ui:text)で同じ見た目に描き足す。
+--   ★即時モードの描画はキャンバス UI より【後】にコマンドが積まれる = 必ず手前に出る。
+local ROW_FIRST = 537.0       -- LM_Set0_Sel の上端(キャンバス 1600x900 座標)
+local ROW_PITCH = 44.0        -- 行の間隔
+local ROW_H     = 38.0        -- 行の帯の高さ
 
 -- 出し分ける記号。同じ枠に貼り替えるので、絵は全部 3:2 に焼いてある
 -- (source/ui_icons/build.js。縦横比が揃っていないと貼り替えた瞬間に潰れる)
@@ -147,10 +184,13 @@ local GLYPH = {
 --   contrast 1.04 / vignette / bloom / grain が乗った状態で作ってある。
 --   off にして戻すと、一度レンズを通っただけで【以後ずっと色調が変わったまま】になる。
 local LENS_FIELDS = {
+    -- ★outline / blur は【基調のソフトフォーカス(bloom)も抜く】ので、その 2 つを
+    --   戻し先の表に加えてある(理由は各レンズの中のコメント)。
     outline = { "outlineOn", "outlineThickness", "outlineThreshold",
                 "saturationOn", "saturation", "brightnessOn", "brightness",
-                "contrastOn", "contrast" },
-    blur    = { "dofOn", "dofFocusDist", "dofFocusRange", "dofBlurSize", "dofAperture" },
+                "contrastOn", "contrast", "bloomOn", "bloom" },
+    blur    = { "dofOn", "dofFocusDist", "dofFocusRange", "dofBlurSize", "dofAperture",
+                "bloomOn", "bloom" },
     warp    = { "lensOn", "lensMode", "lensCircular", "lensEdge",
                 "lens", "lensK2", "lensZoom", "lensChroma" },
     drain   = { "saturationOn", "saturation" },
@@ -177,6 +217,11 @@ local LENSES = {
             saturationOn = true, saturation = B.saturation * (1.0 - 0.94 * u),
             brightnessOn = true, brightness = B.brightness + 0.10 * w,  -- ★加算。中立 0
             contrastOn = true, contrast = B.contrast + 0.22 * w,
+            -- ★基調のソフトフォーカス(bloom)を抜く。このレンズは【白へ寄せて輪郭を太らせる】
+            --   ので、明るい所がにじむ効果が乗ったままだと、太らせた線の周りに
+            --   ハローが出て線がぼやける ＝ 線にした意味が無くなる。
+            --   ★u=0 では B.bloom ちょうど(w=u*u なので w=0)。基調と段差なくつながる。
+            bloomOn = true, bloom = B.bloom * (1.0 - 0.85 * w),
         }
     end,
     -- ぼかす: 細部が潰れると低い周波数の構造だけが残る(目を細めると絵が見える錯視)
@@ -184,20 +229,35 @@ local LENSES = {
         post.setMany{
             dofOn = u > 0.01, dofFocusDist = 0.35, dofFocusRange = 0.30,
             dofBlurSize = 5.5 * u, dofAperture = 2.4,
+            -- ★★基調のソフトフォーカス(bloom)を【抜きながら】ぼかす。
+            --   常時にじんでいる画面の上に dof を重ねると、「ピントが外れた」のか
+            --   「元からにじんでいる」のかが読めない ＝ この規則が規則として成立しない。
+            --   にじみ(明るい所の広がり)を引きながらボケ(細部が消える)を入れれば、
+            --   画面の変化は【ピントだけ】になり、規則が一意に読める。
+            --   ★u=0 で B.bloom ちょうど。基調から段差なく入る。
+            bloomOn = true, bloom = B.bloom * (1.0 - 0.85 * u),
         }
     end,
-    -- 歪ませる: 樽型に曲げる。わざと曲げて置いた破片が、正しい歪み量で真っ直ぐになる
+    -- 歪ませる: もっと曲げる。わざと曲げて置いた破片が、正しい歪み量で真っ直ぐになる
+    -- ★★2026-09-09 改訂。基調そのものが魚眼(下の POST_BASE)になったので、
+    --   ここを 0 から書き起こすと u=0.01 の瞬間に【基調の魚眼が消えて画面が跳ねる】。
+    --   他のレンズと同じ規則 ── u=0 で素の値ちょうど ── に揃え、素の魚眼から
+    --   さらに曲げる形にする。二重に歪むこともない(同じ 1 本の写像を強めるだけ)。
     warp = function(u, B)
         post.setMany{
-            -- ★樽歪みは像を外へ押すので、四隅が【画面の外】から拾われる。
+            -- ★魚眼は像を外へ押すので、四隅が【画面の外】から拾われる。
             --   拡大で埋めきらないと、そこに鏡映(lensEdge=2)や黒が出て
             --   「壊れている」ようにしか見えない。zoom を歪みに見合うだけ上げ、
             --   足りない分は端を引き伸ばして(lensEdge=0)目立たせない。
-            lensOn = u > 0.01, lensMode = 0, lensCircular = true, lensEdge = 0,
-            lens = 0.30 * u,               -- ★主の歪み量。中立 0、正で樽
-            lensK2 = 0.08 * u,             -- 端だけ余計に曲げる
-            lensZoom = 1.0 + 0.42 * u,     -- ★乗算。歪みで空く四隅を埋める
-            lensChroma = 0.005 * u,
+            -- ★★等距離魚眼は theta = r * thetaMax、thetaMax = lens * 1.52 rad。
+            --   16:9 の四隅は r = 2.04 なので、lens が 0.5 を超えると
+            --   四隅の theta が 90 度を跨いで tan が発散する ＝ 画面が壊れる。
+            --   だから足す量は 0.14 まで(素 0.20 + 0.14 = 0.34)。ここは上げないこと。
+            lensOn = true, lensMode = B.lensMode, lensCircular = true, lensEdge = 0,
+            lens = B.lens + 0.14 * u,        -- ★中立 0、正で魚眼。合計 0.34 が上限
+            lensK2 = B.lensK2,               -- 魚眼モードでは使わない(バレル専用)
+            lensZoom = B.lensZoom + 0.38 * u, -- ★乗算。四隅を埋めるのに必要な量
+            lensChroma = B.lensChroma + 0.010 * u,
         }
     end,
     -- 色を抜く: 明度が同じで色だけ違う 2 つが、彩度を落とすと 1 つの形に融合する
@@ -219,6 +279,115 @@ local LENSES = {
         }
     end,
 }
+
+-- ================================================================ 画面の基調(魚眼 + PS1 風)
+-- ★★2026-09-09。「魚眼で不安をあおる・画質を PS1 風にレトロへ」。
+--   ★これは【必ず lensBaseline() より前】に流し込むこと。あとに置くと、
+--     素の値を控えるのが元のシーン設定になり、レンズを抜けた瞬間に全部消える。
+--
+-- ■ 魚眼で謎解きが壊れないことの確認(ここが一番大事)
+--   この作品の判定は全部【世界座標の角度】で、画面座標は一切見ていない。
+--   そして魚眼は「画面中心からの半径を半径へ写す」だけの写像なので、
+--   ★透視投影で同じ画面位置に来る 2 点は、歪ませた後も必ず同じ位置に来る。
+--   ＝「破片と本物の輪郭が重なって見える」も「2 点が重なって見える」も、
+--     歪ませても【まったく壊れない】。だから歪み量を動かしても解けなくならない。
+--
+-- ■ 魚眼(等距離射影)の数式的な足切り
+--   theta = r * thetaMax、thetaMax = lens * 1.5208 rad。16:9 の四隅は r = 2.04 なので
+--   lens が 0.5 を超えると四隅で theta が 90 度を跨いで tan が発散する ＝ 画面が壊れる。
+--   基調は 0.20 に留める(四隅で必要な拡大は 1.113 倍)。
+-- ★lensEdge = 0(端を引き伸ばす)。ここを 1(黒)や 2(鏡映)にすると、埋めきれなかった
+--   四隅がそのまま「壊れた絵」として出る。
+-- ★lensZoom は 1.16。1.113 に余裕を足した値で、16:10 まで四隅が埋まる。
+--   上げすぎると画角が削れる。この作品には【直視しない】規則(24〜62 度)があるので、
+--   周辺視の窓を潰さない範囲に留めること。魚眼は中心を膨らませて周辺を圧縮するので、
+--   1.16 でも横の画角は 52.2 度 -> 50.2 度としか減らない(削れるのは中心の倍率だけ)。
+--
+-- ■ PS1 風
+--   低解像度 + 少ない階調 + ディザ。★ポスタライズは使わない ── 2 つ理由がある:
+--     ・posterize は RGB を【チャンネルごとに】量子化するので、暖色寄りの白壁が
+--       赤と黄へ分離して極彩色になる(この場面で実際に起きた)。
+--     ・そして何より、posterize は【階調を潰す】レンズ(band)の持ち物。
+--       基調で常時掛けてしまうと、あの規則の「効いている / 効いていない」が読めなくなる。
+--   ディザ(順序ディザ)は floor(col*N + bayer)/N ＝ PS1 の 15bit 出力と同じやり方で、
+--   段の縞ではなく網点になる。色数は落ちるのに階調は読めたまま = 破片の縁も残る。
+-- ★pixelSize は 3。1920 幅で 640 列相当。一番厳しい継ぎ目でも lock は 0.9 度 ＝
+--   縦 fov 72 度/1080p で約 13px ＝ 4 ブロック分あるので、重なりの判定は目で追える。
+--   ここを 6 や 8 にすると【輪郭を見比べる遊びが成立しない】。上げないこと。
+-- ★scanline は入れない。scanCurve が魚眼と別の歪みを重ねてしまう(二重に曲がる)。
+--
+-- ■ ソフトフォーカス ── なぜ assets/shaders/ScreenShader/SoftFocus.hlsl を使わないのか
+--   ★★2026-09-09 追記。調べた結果、【Lua からはスクリーンシェーダーを差せない】。
+--   エンジン側の口は CameraComponent::screenShaderPath ただ 1 つで、
+--   これを書けるのは (a) エディタの Inspector へ .hlsl を D&D、(b) シーン JSON、
+--   (c) MCP の set_component の 3 つだけ。ScriptEngine.cpp の Lua バインドには
+--   post / ssao はあってもスクリーンシェーダーの項目が【1 つも無い】
+--   (grep: ScriptEngine.cpp に screenShader の文字列が出てこない)。
+--   なので、この Lua から常時掛ける方法は無い。
+--   ★そして SoftFocus.hlsl 自体が、この作品には向いていない。あれは
+--     「深度が focusNear..focusFar の間で 0->1 に上がる量だけ 3x3 ぼかしへ寄せる」
+--     ＝ 遠景ほどぼける被写界深度で、昔 stage3.json が使っていた値は
+--     softness 0.8 / radius 3px / 5m..10m。この作品は【遠くの本物の輪郭と
+--     手前の破片の輪郭を見比べて重ねる】遊びなので、遠景を 0.8 でぼかしたら
+--     照合そのものが成立しない。しかも同じ「遠くをぼかす」は blur レンズ(継ぎ目21)の
+--     持ち物で、常時掛かっていたらあの規則が読めなくなる。
+--   ★★そこで、組み込みの bloom で【古典的なソフトフォーカス】を作る。
+--     写真のソフトフォーカス(ワセリン/ソフター)は「像そのものをぼかす」のではなく
+--     「明るい所だけがにじんで暗い所へ滲み出す」効果で、輪郭は残る。
+--     bloom はまさにそれ ── 元の絵はそのまま、しきい値より明るい所を広げて足すだけ。
+--     ＝ 破片の細い縁も、壁の見切り線も【一切ぼけない】ので謎解きは壊れない。
+--   ・bloomThreshold は 1.0(=白の輝度)。ニー(bloomKnee)0.55 で肩を柔らかくしてあるので、
+--     実際には輝度 0.45 あたりから【ごく弱く】にじみ始める(Unity 方式のソフトニー。
+--     shaders/post/Bloom.hlsl の Prefilter がそれ)。窓や天井灯や白い壁の明るい所が
+--     ふわっと広がり、暗い廊下や破片の影側は素のまま残る。
+--   ・bloom(合成強度) は 0.14。ここは【上げないこと】。0.3 を超えると明るい壁の
+--     にじみが手前の破片の縁へかぶって、縁が背景に溶ける。
+--   ・bloomRadius 0.82 は「広く柔らかく」。半径を広げるぶんには輪郭は食われない
+--     (にじみが薄く広がるだけ)ので、強度ではなく半径で「空気感」を出す。
+--   ・レンズの規則が効いている間の扱いは LENSES.blur / LENSES.outline を見ること。
+--     パネルを開けている間と終わったあとは calm と一緒に抜く(下の更新側)。
+local POST_BASE = {
+    -- ── 魚眼 ──
+    lensOn = true, lensMode = 1, lensCircular = true, lensEdge = 0,
+    lens = 0.20, lensK2 = 0.0, lensZoom = 1.16, lensChroma = 0.006,
+    -- ── PS1 風 ──
+    -- ★pixelSize は 3.0 -> 2.0 へ(2026-09-09「もうちょい画質あげていいかも」)。
+    --   一番厳しい継ぎ目の lock は 0.9 度 ＝ 1080p で約 13px なので、
+    --   ブロックが 3px だと輪郭の見比べに 4 ブロックしか使えなかった。2px なら 6 ブロック。
+    --   ★ここを 4 以上へ上げてはいけない。輪郭が読めなくなって謎解きが成立しない。
+    pixelizeOn = true, pixelSize = 2.0,
+    -- ★★ditherLevels は 6 -> 14 へ戻した。実機で見て決めた値。
+    --   6 段だと 1 チャンネルが 6 値しか取れず、(a) 黄ばんだ壁紙が桃色と緑へ割れて
+    --   リミナルの色が消え、(b) 何より【幽霊の破片が網点に埋もれて見えなくなる】。
+    --   破片は半透明の薄い面と細い縁でできているので、量子化の刻みが粗いと
+    --   縁が丸ごと 1 段に飲まれる ＝ 何と何を重ねるのかが読めない = 謎解きが成立しない。
+    --   14 段でも pixelize 3 と grain と相まって PS1 の顔は充分に残る。
+    --   ★ここを下げる時は必ず継ぎ目1(廊下の突き当りの門)を焦点から見て、
+    --     幽霊の枠が読めることを確かめること。
+    ditherOn = true, ditherLevels = 20,
+    posterizeOn = false, posterize = 16,     -- ★基調では使わない(band レンズの持ち物)
+    fxaaOn = false,                          -- 縁のジャギは PS1 の顔。均さない
+    debandOn = false,                        -- 段を消す仕上げ。レトロにしたい今は邪魔
+    -- ── ソフトフォーカス(明るい所だけがにじむ。像はぼかさない) ──
+    -- ★輪郭で遊ぶ作品なので【ごく薄く】。bloom は 0.14 より上げないこと(上の説明)
+    bloomOn = true, bloom = 0.14,
+    bloomThreshold = 1.0,                    -- ★白の輝度。ここより上が「明るい所」
+    bloomKnee = 0.55,                        -- 肩を柔らかく。しきい値の境目を見せない
+    bloomRadius = 0.82,                      -- 広く柔らかく。半径で空気感を出す
+    -- ── 不安感 ──
+    -- ★brightness は【加算】で中立 0。ここへ 1.05 を入れて画面を真っ白に飛ばした事故がある
+    saturationOn = true, saturation = 0.94,  -- ★乗算。中立 1
+    contrastOn = true, contrast = 1.08,      -- ★乗算。中立 1
+    vignetteOn = true, vignette = 0.44, vignetteRadius = 0.66, vignetteSoftness = 0.52,
+    -- ★粒子も 0.085 -> 0.055。細い縁の上に乗る雑音は、そのまま「読めなさ」になる
+    grainOn = true, grain = 0.055, grainSize = 2.0, grainColored = false,
+}
+-- 魚眼をゆっくり呼吸させる。★これは合図ではない(継ぎ目にも距離にも一切関係しない)。
+--   ★上で確認したとおり、歪み量が変わっても「重なって見えるか」は変わらない ＝
+--     解けなくならない。壁が静かに膨らんで戻るだけで、居心地の悪さだけが残る。
+local LENS_BREATH  = 0.012    -- 呼吸の振れ幅(lens に加算)
+local LENS_PERIOD  = 14.7     -- 呼吸の周期(秒)。他の周期(明滅 3.6)と割り切れない値にする
+local LENS_CALM    = 0.85     -- パネルを開けている / 終わった時に歪みを抜く割合
 
 -- Play の頭で「素の絵」を控える。★off にして戻すのではなく、ここへ戻す
 local function lensBaseline()
@@ -345,13 +514,34 @@ end
 --   確定したらここで不透明の本物へ戻す。
 --   ★これは合図ではない。近づいても狙っても変わらず、確定の瞬間に 1 回だけ切り替わる。
 --     合っているかどうかは今までどおり【破片の重なり】だけで判断させる。
+-- ★★2026-09-09「つながったかどうか分かりにくい」の修正。
+--   これまでは effectValue を 1.0 へ書いて終わり ＝ パチンと不透明になるだけだった。
+--   ここでは 2.0 を書き、runShards が毎フレーム 1.0 へ向けて落としていく。
+--   Unbuilt.hlsl は 1 を超えた分を「つながった直後の残り時間」と読み、
+--   輪郭から内側へ光を 1 度だけ走らせる(0.9 秒で消える)。
+-- ★合図ではない。ここへ来る時には破片はもう実体の位置に収まっている ＝
+--   近づいている最中には何も起きない。結果だけを、後から短く伝える。
 local function solidify(sh)
     if sh.solidDone then return end
     sh.solidDone = true
+    sh.showT = 0.0                -- 0 -> 1。runShards が進める
     for i = 1, #sh.ents do
         local r = sh.ents[i]
         if r.e and r.e:isValid() then
-            pcall(function() scene:setMeshEffect(r.e, 1.0) end)
+            pcall(function() scene:setMeshEffect(r.e, 2.0) end)
+        end
+    end
+end
+
+-- つながった直後の光。effectValue を 2.0 -> 1.0 へ落とすだけ(形は全部シェーダー側)
+local function runWeldShow(sh, dt)
+    if not sh.showT or sh.showT >= 1.0 then return end
+    sh.showT = math.min(sh.showT + dt / WELD_SHOW, 1.0)
+    local v = 2.0 - sh.showT       -- ★終わりは 1.0 ちょうど = 旧来の「本物」に戻る
+    for i = 1, #sh.ents do
+        local r = sh.ents[i]
+        if r.e and r.e:isValid() then
+            pcall(function() scene:setMeshEffect(r.e, v) end)
         end
     end
 end
@@ -476,6 +666,15 @@ local function uiFade(e, a, r, g, b)
     scene:setUiColor(e, r, g, b, a)
 end
 
+-- キャンバス(LM_HUD = 1600x900 / ScaleToFit)の座標を、即時モード(実ピクセル)へ写す。
+-- ★UISystem と同じ計算にすること: 等比で収めて中央寄せ。ここが食い違うと
+--   即時モードで描き足した行だけがパネルからずれる。
+local CANVAS_W, CANVAS_H = 1600.0, 900.0
+local function canvasMap()
+    local s = math.min(SCREEN_W / CANVAS_W, SCREEN_H / CANVAS_H)
+    return s, (SCREEN_W - CANVAS_W * s) * 0.5, (SCREEN_H - CANVAS_H * s) * 0.5
+end
+
 -- 押しっぱなしの繰り返し。最初は間を空け、そのあと速く刻む
 local function repeatOn(self, slot, down, dt)
     local t = self.navT[slot] or 0.0
@@ -496,7 +695,22 @@ local function cfgLoad(self)
     self.cfg = {}
     for i = 1, #SETTINGS do
         local s = SETTINGS[i]
-        self.cfg[i] = clamp(loadPersist(s.key, s.def), s.min, s.max)
+        if s.video then
+            -- ★垂直同期は display が settings.json を持っている。こちらは読むだけ。
+            --   ★ただし【この作品として初めて起動した時だけ】は既定(切)を押し込む。
+            --   エンジンの既定は入で、それだと初見の人が一番もっさい状態で始める。
+            --   一度でも自分で触った人の選択は lm_vsset で覚えて、二度と上書きしない。
+            local v = 0
+            pcall(function() v = display:getVSync() and 1 or 0 end)
+            if loadPersist("lm_vsset", 0) < 0.5 then
+                v = s.def
+                pcall(function() display:setVSync(v > 0.5) end)
+                savePersist("lm_vsset", 1)
+            end
+            self.cfg[i] = v
+        else
+            self.cfg[i] = clamp(loadPersist(s.key, s.def), s.min, s.max)
+        end
     end
     cfgApply(self)
 end
@@ -504,7 +718,12 @@ end
 local function cfgNudge(self, i, dir)
     local s = SETTINGS[i]
     self.cfg[i] = clamp(self.cfg[i] + dir * s.step, s.min, s.max)
-    savePersist(s.key, self.cfg[i])
+    if s.video then
+        -- ★display 側が PersistSet("video_vsync") まで面倒を見る。savePersist は呼ばない
+        pcall(function() display:setVSync(self.cfg[i] > 0.5) end)
+    else
+        savePersist(s.key, self.cfg[i])
+    end
     cfgApply(self)
 end
 
@@ -635,13 +854,32 @@ function OnStart(self)
     end
 
     -- ★蛍光灯の明滅。1 部屋に 1 本だけ。全部やると「演出」になって嘘くさくなる
+    -- ★★2026-09-09「電気モデルは白くついてるのに辺りだけ消えて不自然」の修正。
+    --   エンジンの Flicker() は light.intensity しか動かさない。ところが troffer は
+    --     <名前>_f 金属の枠 / <名前>_p 乳白カバー / <名前>_l 点光源
+    --   の 3 つで出来ていて、カバー _p は ReconnectInk の【自己発光】＝
+    --   点光源の明るさとは無関係にずっと光ったまま。だから器具だけ白く点いて見えた。
+    --   上の「暗の一瞬」(darkE)は最初から両方落としていた。こちらだけ漏れていた。
+    -- ★毎フレーム【実際の light.intensity】からカバーの明るさを引く。
+    --   lightstyle の文字を Lua 側で解釈し直さないので、どんな style でも必ず一致する。
+    -- ★枠(_f)は点光源で照らされているだけなので、放っておいても一緒に暗くなる。
+    self.flick = {}
     for _, n in ipairs({ "A_tr+09_l", "B_tr9_29_l", "C_tr14_56_l",
                          "T1_tr6_112_l", "M1_tr17_138_l",
                          "W1_tr_l", "T3_tr59_l", "T3d_tr53_203_l", "X3_tr209_l" }) do
         local e = scene:findEntity(n)
         if e and e:isValid() then
             local l = e:light()
-            if l then Flicker(l, "fluorescent") end
+            if l then
+                -- ★素の明るさは Flicker を掛ける【前】に控える(掛けた後だと
+                --   その瞬間に消灯していた場合、base が 0 になって二度と点かない)
+                local base = l.intensity
+                Flicker(l, "fluorescent")
+                local pe = scene:findEntity((n:gsub("_l$", "_p")))
+                if pe and pe:isValid() and base > 0.001 then
+                    self.flick[#self.flick + 1] = { l = l, p = pe, base = base }
+                end
+            end
         end
     end
 
@@ -741,9 +979,14 @@ function OnStart(self)
     self.hintShown = false
     self.valShown = {}
 
+    -- ★★画面の基調(魚眼 + PS1 風)。★必ず lensBaseline() の【前】に流す。
+    --   あとに置くと素の値として控えられるのが元のシーン設定になり、
+    --   レンズを 1 度でも通り抜けた瞬間に、この基調が丸ごと消える。
+    post.setMany(POST_BASE)
     -- ★レンズが触る post の項目を、素の値のまま控えておく(戻し先)
     self.postBase = lensBaseline()
     self.lensNow = nil
+    self.calm = 0.0          -- 1 でパネルを読んでいる = 歪みを抜いている
 
     cfgLoad(self)
 
@@ -1012,6 +1255,9 @@ local function runShards(self, dt, masked)
                     solidify(sh)        -- ★幽霊 -> 本物。ここで初めて不透明になる
                 end
             end
+            -- ★つながった【後】の光。寄せ終わった破片だけが対象なので、
+            --   合わせている最中には絶対に出ない(上の分岐とは別に回す)。
+            runWeldShow(sh, dt)
         end
     end
 end
@@ -1226,7 +1472,11 @@ local function menuUpdate(self, dt)
     uiFade(self.menuDim, a * 0.62, 0, 0, 0)
     uiFade(self.menuBg, a * 0.96, 0.055, 0.055, 0.05)
     for _, e in ipairs(self.menuChrome) do uiFade(e, a * 0.9, 0.72, 0.71, 0.66) end
-    uiFade(self.menuHint, a * 0.75, 0.72, 0.71, 0.66)
+    -- ★足した行(即時モード)は案内文 LM_Menu_Hint(キャンバス y 778)と重なる。
+    --   entity の位置は Lua から動かせないので、重なる時だけ案内文ごと
+    --   即時モードへ引き取って下(y 803)へ置く。下の描画で出す。
+    local extraRows = (self.setText[#SETTINGS] == nil)
+    uiFade(self.menuHint, extraRows and 0.0 or a * 0.75, 0.72, 0.71, 0.66)
     for i = 1, #self.ctlIcon do
         uiFade(self.ctlIcon[i], a * 0.85, 0.92, 0.91, 0.85)
         uiFade(self.ctlText[i], a * 0.92, 0.92, 0.91, 0.85)
@@ -1249,6 +1499,41 @@ local function menuUpdate(self, dt)
                 self.valShown[i] = txt
             end
             uiFade(self.setVal[i], a * (sel and 1.0 or 0.72), 0.92, 0.91, 0.85)
+        end
+    end
+
+    -- ★シーンに entity の無い行を、即時モードで同じ見た目に描き足す。
+    --   ★即時モードのコマンドはキャンバス UI より【後】に積まれる = パネルの手前に出る。
+    --   ★ここだけはマウスで押せない(即時モードのボタンは ImGui の見た目になって
+    --     このパネルから浮く)。W / S で選び A / D で変える道は同じように効く。
+    if a > VIS_EPS then
+        local s, ox, oy = canvasMap()
+        local function cx(v) return ox + v * s end
+        local function cy(v) return oy + v * s end
+        for i = 1, #SETTINGS do
+            if not self.setText[i] then
+                local sel = (i == self.menuI)
+                local top = ROW_FIRST + (i - 1) * ROW_PITCH
+                if sel then
+                    ui:rect(cx(410), cy(top), 780 * s, ROW_H * s,
+                            0.92, 0.91, 0.85, a * 0.10, 8 * s)
+                end
+                local ta = a * (sel and 1.0 or 0.72)
+                ui:text(cx(440), cy(top + 8), SETTINGS[i].name or SETTINGS[i].key,
+                        22 * s, 0.92, 0.91, 0.85, ta)
+                -- ★値は本来 x 1122 で右寄せだが、即時モードには文字幅が無い。
+                --   入 / 切 の 1 文字だけなので、1 文字ぶん(22)手前へ置いて揃える
+                ui:text(cx(1100), cy(top + 8), SETTINGS[i].fmt(self.cfg[i]),
+                        22 * s, 0.92, 0.91, 0.85, ta)
+                -- 増減の目印(entity の ui_less / ui_more と同じ位置)
+                ui:text(cx(990),  cy(top + 8), "<", 22 * s, 0.92, 0.91, 0.85, a * 0.9)
+                ui:text(cx(1136), cy(top + 8), ">", 22 * s, 0.92, 0.91, 0.85, a * 0.9)
+            end
+        end
+        -- 引き取った案内文。★中央寄せは文字幅が要るので、行の見出しと同じ左端に揃える
+        if extraRows then
+            ui:text(cx(440), cy(803), GLYPH[self.dev].hint, 19 * s,
+                    0.72, 0.71, 0.66, a * 0.75)
         end
     end
 end
@@ -1408,7 +1693,11 @@ function OnUpdate(self, dt)
     local len = math.sqrt(wx * wx + wz * wz)
     local tx, tz = 0.0, 0.0
     if len > 0 then tx, tz = wx / len * SPEED, wz / len * SPEED end
-    local f = clamp(ACCEL * dt, 0, 1)
+    -- ★踏み出しと止まりで係数を分ける。踏み出しは速く(押した所に効く)、
+    --   止まりはほんの少しだけ緩く(リミナル空間の浮遊感を残す)。
+    --   ★止まりも十分速いので、STILL(1.10)を割るまでの間が短い ＝
+    --     「止まったのに確定しない」の待ち時間もそのぶん減る。
+    local f = clamp((len > 0 and ACCEL or ACCEL_S) * dt, 0, 1)
     self.vx = self.vx + (tx - self.vx) * f
     self.vz = self.vz + (tz - self.vz) * f
     physics:move(self.body, self.vx, self.vz)
@@ -1487,6 +1776,15 @@ function OnUpdate(self, dt)
         if d.l then d.l.intensity = self.darkNow and 0.0 or d.base end
         if d.p then scene:setMeshParams(d.p, 1.0, 0.96, 0.86, self.darkNow and 0.06 or 1.35) end
     end
+    -- ★ちかちかする蛍光灯。カバー(自己発光)を点光源の明るさへ追従させる。
+    --   Flicker が動かすのは light.intensity だけなので、ここで引いてやらないと
+    --   「器具は白く点いたまま、辺りだけ消える」になる(2026-09-09 の指摘)。
+    -- ★0.06 / 1.35 は上の「暗の一瞬」と同じ値。同じ建物の同じ器具は同じ落ち方をする。
+    for i = 1, #self.flick do
+        local f = self.flick[i]
+        local u = clamp(f.l.intensity / f.base, 0.0, 1.0)
+        scene:setMeshParams(f.p, 1.0, 0.96, 0.86, 0.06 + u * 1.29)
+    end
 
     if loadNum("lm_sweep", 0) > 0.5 then sweepStep(self, dt) end
 
@@ -1522,6 +1820,33 @@ function OnUpdate(self, dt)
         end
         self.lensNow = best
         saveNum("lm_lens", bestU)
+
+        -- ------------------------------------------------ 基調の魚眼(呼吸と、抜き)
+        -- ★レンズの規則が効いている間は触らない(あちらが lens を直に書いている)。
+        -- ★TAB のパネルを開けている間 / 終わったあとは歪みを抜く。
+        --   歪んだ画面で設定は読めないし、終わりの文字も読めない。
+        -- ★calm = 0 のとき、式は素の値(postBase)と【1 の位まで一致する】ように書く。
+        --   ここがずれると、パネルを閉じるたびに基調が少しずつ動いていく。
+        if not best then
+            local B = self.postBase
+            local want = (frozen or self.done) and 1.0 or 0.0
+            self.calm = toward(self.calm, want, dt, 6.0)
+            local k = 1.0 - LENS_CALM * self.calm
+            -- 呼吸。落ち着かせている間は止める(パネルの裏で壁が動くのは邪魔なだけ)
+            local br = LENS_BREATH * math.sin(2 * math.pi * (self.t / LENS_PERIOD))
+                       * (1.0 - self.calm)
+            post.setMany{
+                lens = (B.lens + br) * k,
+                lensZoom = 1.0 + (B.lensZoom - 1.0) * k,
+                lensChroma = B.lensChroma * k,
+                -- ★ソフトフォーカスも歪みと一緒に抜く。設定パネルの文字も終わりの文字も
+                --   【暗い字】で、背景の明るい所がにじむと縁が食われて読みにくい。
+                --   終わりは exposure が 1.76 まで跳ねて 1.31 に落ち着く(下の「終わり」)ので、
+                --   抜いておかないと画面全部がにじんで「つながった」が沈む。
+                --   ★calm=0 のとき B.bloom ちょうど ＝ 閉じても基調が動かない。
+                bloom = B.bloom * k,
+            }
+        end
     end
 
     for i = 1, #self.conns do
@@ -1871,14 +2196,17 @@ function OnUpdate(self, dt)
     -- 検証用: いま動いている機構の数(0 なら止まっている)と、適用待ちの継ぎ目の数
     saveNum("lm_anim", #self.tweens + #self.swings + #self.lamps)
     -- 検証用: いま【実体へ寄せている最中 / マスク待ち】の破片の数
-    local wq = 0
+    local wq, fw = 0, 0
     for i = 1, #self.conns do
         for s2 = 1, #self.conns[i].shards do
             local sh = self.conns[i].shards[s2]
             if sh.queued or sh.anim >= 0.0 then wq = wq + 1 end
+            -- 検証用: いま「つながった光」が走っている破片の数(0.9 秒で必ず 0 へ戻る)
+            if sh.showT and sh.showT < 1.0 then fw = fw + 1 end
         end
     end
     saveNum("lm_weld", wq)
+    saveNum("lm_flash", fw)
     saveNum("lm_pend", #self.pending)
     saveNum("lm_px", p.x); saveNum("lm_py", p.y); saveNum("lm_pz", p.z)
     saveNum("lm_yawr", self.yaw)

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="660" viewBox="0 0 1000 660">
+  <!-- 第1幕 案内板 2/3 「床の金の印の【上に立つ】」
+       金色は継ぎ目の色(GOLD)。床の印と同じ色で描くことで、
+       「あの金の四角は立つ場所だ」と、文字を使わずに繋げる。 -->
+  <rect width="1000" height="660" fill="#E4DFCD"/>
+  <rect x="16" y="16" width="968" height="628" fill="none"
+        stroke="#2B2924" stroke-width="6" stroke-opacity="0.45"/>
+
+  <!-- 床の印(手前から見た四角 = 台形)。金の縁取りは実物と同じ -->
+  <polygon points="248,606 752,606 652,470 348,470"
+           fill="#D9AC5C" fill-opacity="0.18"
+           stroke="#D9AC5C" stroke-width="16" stroke-linejoin="round"/>
+  <polygon points="286,586 714,586 632,492 368,492"
+           fill="none" stroke="#D9AC5C" stroke-width="7" stroke-opacity="0.75"
+           stroke-linejoin="round"/>
+
+  <!-- 立っている人(正面) -->
+  <g stroke="#2B2924" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 500 250 L 500 394" stroke-width="46"/>
+    <path d="M 500 290 L 430 384" stroke-width="26"/>
+    <path d="M 500 290 L 570 384" stroke-width="26"/>
+    <path d="M 500 394 L 462 538" stroke-width="32"/>
+    <path d="M 500 394 L 538 538" stroke-width="32"/>
+  </g>
+  <circle cx="500" cy="202" r="48" fill="#2B2924"/>
+
+  <!-- 真上から人を指す矢印(=ここに立つ) -->
+  <polygon points="470,30 530,30 530,74 562,74 500,132 438,74 470,74" fill="#2B2924"/>
+</svg>

@@ -1,0 +1,381 @@
+{
+  "version": 1,
+  "entities": [
+    {
+      "name": "ClearCamera",
+      "guid": "2e3f67aa4457fdb4",
+      "transform": {
+        "position": [
+          0,
+          1.7,
+          -5
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "camera": {
+        "isActive": true,
+        "fovDegrees": 60,
+        "nearClip": 0.05,
+        "farClip": 200,
+        "projection": 0,
+        "orthoSize": 10
+      }
+    },
+    {
+      "name": "ClearLogic",
+      "guid": "8c5ca637287b1aad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/ClearScreen.lua"
+      }
+    },
+    {
+      "name": "Clear_UI",
+      "guid": "f89c207f90e42ae1",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiCanvas": {
+        "refWidth": 1600,
+        "refHeight": 900,
+        "scaleMode": 2,
+        "sortOrder": 0,
+        "visible": true
+      }
+    },
+    {
+      "name": "Clear_Black",
+      "guid": "6459149a7c24eaf5",
+      "parentGuid": "f89c207f90e42ae1",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": true,
+        "order": 0
+      },
+      "uiImage": {
+        "texturePath": "",
+        "color": [
+          0.005,
+          0.006,
+          0.006,
+          1
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Clear_Shot_1",
+      "guid": "36f0f1995c7fbbe5",
+      "parentGuid": "f89c207f90e42ae1",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": false,
+        "order": 10
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area1_pool.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Clear_Shot_2",
+      "guid": "35f0f006e2634c7e",
+      "parentGuid": "f89c207f90e42ae1",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": false,
+        "order": 11
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area2_hall.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Clear_Shot_3",
+      "guid": "34f0ee7368570693",
+      "parentGuid": "f89c207f90e42ae1",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": false,
+        "order": 12
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area3_pits.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    },
+    {
+      "name": "Clear_Shot_4",
+      "guid": "33f0ece0ee3adb24",
+      "parentGuid": "f89c207f90e42ae1",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          1,
+          1
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          -60,
+          -60
+        ],
+        "offsetMax": [
+          60,
+          60
+        ],
+        "visible": false,
+        "order": 13
+      },
+      "uiImage": {
+        "texturePath": "ui/shots/area4_islands.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false
+      }
+    }
+  ],
+  "shadows": false,
+  "skybox": {
+    "drawSkybox": false,
+    "envMapPath": "__procedural_sky__",
+    "iblIntensity": 0.2,
+    "skyboxIntensity": 0
+  },
+  "postProcess": {
+    "enabled": true,
+    "exposureOn": true,
+    "exposure": 1,
+    "vignetteOn": false,
+    "grainOn": false
+  }
+}
