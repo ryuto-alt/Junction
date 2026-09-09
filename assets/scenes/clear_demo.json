@@ -1829,6 +1829,312 @@
           1.0
         ]
       }
+    },
+    {
+      "guid": "bea050686438793b",
+      "material": {
+        "metallic": 0.3499999940395355,
+        "roughness": 0.44999998807907104
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      },
+      "name": "ClearTroffer_3",
+      "transform": {
+        "position": [
+          0.0,
+          4.800000190734863,
+          1.899999976158142
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "f762d8bc652ffaf5",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 1.0
+      },
+      "name": "ClearLightPanel_3",
+      "primitive": "box",
+      "shader": "ReconnectInk.hlsl",
+      "shaderParams": [
+        0.9800000190734863,
+        0.9900000095367432,
+        1.0,
+        1.2400000095367432
+      ],
+      "transform": {
+        "position": [
+          0.0,
+          4.75,
+          1.899999976158142
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.1799999475479126,
+          0.029999999329447746,
+          0.28999999165534973
+        ]
+      }
+    },
+    {
+      "guid": "44e6b956b8bd0649",
+      "name": "ClearLight_3",
+      "pointLight": {
+        "castShadows": true,
+        "color": [
+          1.0,
+          0.9800000190734863,
+          0.9300000071525574
+        ],
+        "intensity": 5.300000190734863,
+        "range": 7.199999809265137
+      },
+      "transform": {
+        "position": [
+          0.0,
+          4.429999828338623,
+          1.899999976158142
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "70e9aa27d343a3fb",
+      "material": {
+        "metallic": 0.3499999940395355,
+        "roughness": 0.44999998807907104
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      },
+      "name": "ClearTroffer_4",
+      "transform": {
+        "position": [
+          0.0,
+          4.800000190734863,
+          4.699999809265137
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "1c7e9b78bf60d3f7",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 1.0
+      },
+      "name": "ClearLightPanel_4",
+      "primitive": "box",
+      "shader": "ReconnectInk.hlsl",
+      "shaderParams": [
+        0.9800000190734863,
+        0.9900000095367432,
+        1.0,
+        1.2400000095367432
+      ],
+      "transform": {
+        "position": [
+          0.0,
+          4.75,
+          4.699999809265137
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.1799999475479126,
+          0.029999999329447746,
+          0.28999999165534973
+        ]
+      }
+    },
+    {
+      "guid": "8350ff77adb96047",
+      "name": "ClearLight_4",
+      "pointLight": {
+        "castShadows": true,
+        "color": [
+          1.0,
+          0.9800000190734863,
+          0.9300000071525574
+        ],
+        "intensity": 4.599999904632568,
+        "range": 7.199999809265137
+      },
+      "transform": {
+        "position": [
+          0.0,
+          4.429999828338623,
+          4.699999809265137
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "6247ab1fcd9d7d61",
+      "material": {
+        "metallic": 0.3499999940395355,
+        "roughness": 0.44999998807907104
+      },
+      "materialTextureOverrides": [
+        {
+          "albedo": "models/tex/lm_metal_col.png"
+        }
+      ],
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      },
+      "name": "ClearTroffer_5",
+      "transform": {
+        "position": [
+          0.0,
+          4.800000190734863,
+          7.400000095367432
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "color": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "guid": "ae4afc7b504baa8c",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 1.0
+      },
+      "name": "ClearLightPanel_5",
+      "primitive": "box",
+      "shader": "ReconnectInk.hlsl",
+      "shaderParams": [
+        0.9800000190734863,
+        0.9900000095367432,
+        1.0,
+        1.2400000095367432
+      ],
+      "transform": {
+        "position": [
+          0.0,
+          4.75,
+          7.400000095367432
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.1799999475479126,
+          0.029999999329447746,
+          0.28999999165534973
+        ]
+      }
+    },
+    {
+      "guid": "3d387872de5065f6",
+      "name": "ClearLight_5",
+      "pointLight": {
+        "castShadows": true,
+        "color": [
+          1.0,
+          0.9800000190734863,
+          0.9300000071525574
+        ],
+        "intensity": 3.5999999046325684,
+        "range": 7.199999809265137
+      },
+      "transform": {
+        "position": [
+          0.0,
+          4.429999828338623,
+          7.400000095367432
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
     }
   ],
   "navmesh": {
