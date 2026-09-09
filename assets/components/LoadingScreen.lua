@@ -64,6 +64,17 @@ local TT1 = TL1 + T_TURN                   -- 継ぎ目が立った = ここで�
 local GOLD_W = { 0.90, 0.94, 0.90 }        -- 蛍光灯の白(わずかに緑)
 local SEAM   = { 1.00, 0.86, 0.58 }        -- 継ぎ目の色。幕の合わせ目の暖色に寄せてある
 
+-- 題名曲(title.mp3)はタイトルから鳴りっぱなしでここへ来る。
+-- ★本編まで持ち込むと台無しになるので、ここで消す。消し方は【幕が閉じるのと同じ速さ】。
+--   線が縦の継ぎ目になり、幕が中央で合わさり切ったとき、ちょうど無音になる。
+--   そのあと幕が開いて本編が出る = 本編は静けさから始まる。
+-- ★このスクリプトはシーンが入れ替わった時点で消えるので、下げ切る前に途切れる可能性がある。
+--   最後の止めは本編側(StageMusic.lua の OnStart の stopBGM)が受け持っている。
+-- ★BGM の音量つまみは全体に効く。0 にしたまま置いていくので、
+--   タイトル側(TitleMenu.lua)と本編側で必ず戻すこと。
+local BGM_VOL  = 0.55                      -- TitleMenu.lua の TITLE_VOL と同じ値にすること
+local BGM_FADE = 0.90                      -- 消えるまでの秒数(= T_OPEN の閉じる半分)
+
 local function clamp(v, lo, hi) return math.max(lo, math.min(hi, v)) end
 
 local function strikeLevel(t)
@@ -136,6 +147,8 @@ function OnUpdate(self, dt)
     local seamA = lit * turn
     if self.moved then
         seamA = seamA * clamp(1 - (t - TT1) / (T_OPEN * 0.5), 0, 1)
+        -- 題名曲も継ぎ目と一緒に引く(同じ時計・同じ長さ。絵と音を別々に動かさない)
+        pcall(function() audio:setBGMVolume(BGM_VOL * clamp(1 - (t - TT1) / BGM_FADE, 0, 1)) end)
     end
     -- 立ち上がりは速く、最後だけ詰める(機械が「カチ」と噛み合う速さ)
     local grow = turn ^ 0.6

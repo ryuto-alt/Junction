@@ -2,9 +2,9 @@
   "contactShadow": {
     "bias": 0.019999999552965164,
     "enabled": false,
-    "fadeDistance": 10,
-    "intensity": 1,
-    "maxDistance": 50,
+    "fadeDistance": 10.0,
+    "intensity": 1.0,
+    "maxDistance": 50.0,
     "rayLength": 0.25,
     "steps": 16,
     "thickness": 0.20000000298023224
@@ -12,18 +12,18 @@
   "entities": [
     {
       "camera": {
-        "farClip": 100,
-        "fovDegrees": 72,
+        "farClip": 100.0,
+        "fovDegrees": 72.0,
         "isActive": true,
         "nearClip": 0.019999999552965164,
-        "orthoSize": 10,
+        "orthoSize": 10.0,
         "projection": 0,
         "screenShaderEnabled": true,
         "screenShaderParams": [
-          0,
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0,
+          0.0
         ],
         "screenShaderPath": ""
       },
@@ -31,19 +31,19 @@
       "name": "TitleCamera",
       "transform": {
         "position": [
-          0,
+          0.0,
           1.7200000286102295,
           -5.150000095367432
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
@@ -56,26 +56,26 @@
       "name": "TitleLogic",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "guid": "eef035cc25f67e19",
       "material": {
-        "metallic": 0,
+        "metallic": 0.0,
         "roughness": 0.949999988079071
       },
       "meshRenderer": {
@@ -84,26 +84,26 @@
       "name": "TitleFloor",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "guid": "a11e09a609c38ba3",
       "material": {
-        "metallic": 0,
+        "metallic": 0.0,
         "roughness": 0.9200000166893005
       },
       "meshRenderer": {
@@ -112,26 +112,26 @@
       "name": "TitleCeiling",
       "transform": {
         "position": [
-          0,
+          0.0,
           3.8499999046325684,
-          0
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "guid": "e027b4f1f7dee105",
       "material": {
-        "metallic": 0,
+        "metallic": 0.0,
         "roughness": 0.8799999952316284
       },
       "meshRenderer": {
@@ -140,26 +140,26 @@
       "name": "TitleWall_Back",
       "transform": {
         "position": [
-          0,
-          0,
-          6
+          0.0,
+          0.0,
+          6.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "guid": "93bb506daff0589c",
       "material": {
-        "metallic": 0,
+        "metallic": 0.0,
         "roughness": 0.8799999952316284
       },
       "meshRenderer": {
@@ -168,26 +168,26 @@
       "name": "TitleWall_Left",
       "transform": {
         "position": [
-          -6,
-          0,
-          0
+          -6.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          90,
-          0
+          0.0,
+          90.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "guid": "c00a6829523b7023",
       "material": {
-        "metallic": 0,
+        "metallic": 0.0,
         "roughness": 0.8799999952316284
       },
       "meshRenderer": {
@@ -196,26 +196,26 @@
       "name": "TitleWall_Right",
       "transform": {
         "position": [
-          6,
-          0,
-          0
+          6.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          270,
-          0
+          0.0,
+          270.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "guid": "1e69419f4d00c904",
       "material": {
-        "metallic": 0,
+        "metallic": 0.0,
         "roughness": 0.8799999952316284
       },
       "meshRenderer": {
@@ -224,26 +224,26 @@
       "name": "TitleWall_Entry",
       "transform": {
         "position": [
-          0,
-          0,
-          -6
+          0.0,
+          0.0,
+          -6.0
         ],
         "rotation": [
-          0,
-          180,
-          0
+          0.0,
+          180.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "guid": "896c2fb90d9cd253",
       "material": {
-        "metallic": 0,
+        "metallic": 0.0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
@@ -253,25 +253,25 @@
       "transform": {
         "position": [
           -0.9800000190734863,
-          0,
+          0.0,
           5.820000171661377
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "guid": "767471da6347e52d",
       "material": {
-        "metallic": 0,
+        "metallic": 0.0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
@@ -281,25 +281,25 @@
       "transform": {
         "position": [
           5.25,
-          0,
+          0.0,
           2.799999952316284
         ],
         "rotation": [
-          0,
-          270,
-          0
+          0.0,
+          270.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "guid": "0cfd4aa3682e52c4",
       "material": {
-        "metallic": 0,
+        "metallic": 0.0,
         "roughness": 0.550000011920929
       },
       "meshRenderer": {
@@ -309,25 +309,25 @@
       "transform": {
         "position": [
           -4.400000095367432,
-          0,
+          0.0,
           2.9000000953674316
         ],
         "rotation": [
-          0,
-          90,
-          0
+          0.0,
+          90.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "guid": "65c9cd003ebb40d2",
       "material": {
-        "metallic": 0,
+        "metallic": 0.0,
         "roughness": 0.800000011920929
       },
       "meshRenderer": {
@@ -337,13 +337,13 @@
       "transform": {
         "position": [
           4.800000190734863,
-          0,
+          0.0,
           4.400000095367432
         ],
         "rotation": [
-          0,
-          15,
-          0
+          0.0,
+          15.0,
+          0.0
         ],
         "scale": [
           0.800000011920929,
@@ -364,19 +364,19 @@
       "name": "TitleTroffer_1",
       "transform": {
         "position": [
-          0,
+          0.0,
           3.819999933242798,
           -2.5
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
@@ -392,19 +392,19 @@
       "name": "TitleTroffer_2",
       "transform": {
         "position": [
-          0,
+          0.0,
           3.819999933242798,
           1.2999999523162842
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
@@ -420,19 +420,19 @@
       "name": "TitleTroffer_3",
       "transform": {
         "position": [
-          0,
+          0.0,
           3.819999933242798,
           4.5
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
@@ -442,28 +442,28 @@
       "pointLight": {
         "castShadows": true,
         "color": [
-          1,
+          1.0,
           0.9599999785423279,
           0.8600000143051147
         ],
         "intensity": 8.5,
-        "range": 10
+        "range": 10.0
       },
       "transform": {
         "position": [
-          0,
+          0.0,
           3.3499999046325684,
           -2.5
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
@@ -473,28 +473,28 @@
       "pointLight": {
         "castShadows": true,
         "color": [
-          1,
+          1.0,
           0.9599999785423279,
           0.8600000143051147
         ],
         "intensity": 7.199999809265137,
-        "range": 10
+        "range": 10.0
       },
       "transform": {
         "position": [
-          0,
+          0.0,
           3.3499999046325684,
           1.2999999523162842
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
@@ -504,28 +504,28 @@
       "pointLight": {
         "castShadows": true,
         "color": [
-          1,
+          1.0,
           0.9599999785423279,
           0.8600000143051147
         ],
-        "intensity": 0,
-        "range": 8
+        "intensity": 0.0,
+        "range": 8.0
       },
       "transform": {
         "position": [
-          0,
+          0.0,
           3.3499999046325684,
           4.5
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
@@ -539,1442 +539,3044 @@
         ],
         "direction": [
           -0.25,
-          -1,
+          -1.0,
           0.25
         ],
-        "intensity": 0
+        "intensity": 0.0
       },
       "guid": "1b7219cc9c7edb59",
       "name": "TitleAmbient",
       "transform": {
         "position": [
-          0,
-          5,
-          0
+          0.0,
+          5.0,
+          0.0
         ],
         "rotation": [
-          25,
-          -30,
-          0
+          25.0,
+          -30.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
       "gridPlane": {
-        "size": 20000
+        "size": 20000.0
       },
       "guid": "b9b848a67140c070",
       "name": "Grid",
       "primitive": "plane",
-      "primitiveSize": 20000,
+      "primitiveSize": 20000.0,
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       }
     },
     {
-      "name": "Title_UI",
       "guid": "4de077f2fdbca4ad",
+      "name": "Title_UI",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       },
       "uiCanvas": {
-        "refWidth": 1600,
-        "refHeight": 900,
+        "refHeight": 900.0,
+        "refWidth": 1600.0,
         "scaleMode": 2,
         "sortOrder": 0,
         "visible": true
       }
     },
     {
-      "name": "Title_Black",
       "guid": "bb15a139623b1f20",
+      "name": "Title_Black",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
-        "anchorMax": [
-          1,
-          1
-        ],
-        "pivot": [
-          0.5,
-          0.5
-        ],
-        "offsetMin": [
-          -60,
-          -60
-        ],
-        "offsetMax": [
-          60,
-          60
-        ],
-        "visible": true,
-        "order": 0
-      },
       "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          0.006000000052154064,
+          0.00800000037997961,
+          0.007000000216066837,
+          1.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
         "texturePath": "",
-        "color": [
-          0.006,
-          0.008,
-          0.007,
-          1
+        "uvMax": [
+          1.0,
+          1.0
         ],
-        "raycastBlock": false
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
+        ]
+      },
+      "uiRect": {
+        "alpha": 1.0,
+        "anchorMax": [
+          1.0,
+          1.0
+        ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          60.0,
+          60.0
+        ],
+        "offsetMin": [
+          -60.0,
+          -60.0
+        ],
+        "order": 0,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": true
       }
     },
     {
-      "name": "Title_Shot_1",
       "guid": "3e326102d08d59b3",
+      "name": "Title_Shot_1",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          60.0,
+          60.0
+        ],
+        "offsetMin": [
+          -60.0,
+          -60.0
+        ],
+        "order": 10,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          -60,
-          -60
-        ],
-        "offsetMax": [
-          60,
-          60
-        ],
-        "visible": false,
-        "order": 10
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Shot_2",
       "guid": "3f326295567913ce",
+      "name": "Title_Shot_2",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
-        "anchorMax": [
-          1,
-          1
-        ],
-        "pivot": [
-          0.5,
-          0.5
-        ],
-        "offsetMin": [
-          -60,
-          -60
-        ],
-        "offsetMax": [
-          60,
-          60
-        ],
-        "visible": false,
-        "order": 11
-      },
       "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
         "texturePath": "ui/shots/area2_hall.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
+        "uvMax": [
+          1.0,
+          1.0
         ],
-        "raycastBlock": false
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
+        ]
+      },
+      "uiRect": {
+        "alpha": 1.0,
+        "anchorMax": [
+          1.0,
+          1.0
+        ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          60.0,
+          60.0
+        ],
+        "offsetMin": [
+          -60.0,
+          -60.0
+        ],
+        "order": 11,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Shot_3",
       "guid": "3c325ddcdc64cd59",
+      "name": "Title_Shot_3",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
-        "anchorMax": [
-          1,
-          1
-        ],
-        "pivot": [
-          0.5,
-          0.5
-        ],
-        "offsetMin": [
-          -60,
-          -60
-        ],
-        "offsetMax": [
-          60,
-          60
-        ],
-        "visible": false,
-        "order": 12
-      },
       "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
         "texturePath": "ui/shots/area3_pits.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
+        "uvMax": [
+          1.0,
+          1.0
         ],
-        "raycastBlock": false
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
+        ]
+      },
+      "uiRect": {
+        "alpha": 1.0,
+        "anchorMax": [
+          1.0,
+          1.0
+        ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          60.0,
+          60.0
+        ],
+        "offsetMin": [
+          -60.0,
+          -60.0
+        ],
+        "order": 12,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Shot_4",
       "guid": "3d325f6f625086f4",
+      "name": "Title_Shot_4",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
-        "anchorMax": [
-          1,
-          1
-        ],
-        "pivot": [
-          0.5,
-          0.5
-        ],
-        "offsetMin": [
-          -60,
-          -60
-        ],
-        "offsetMax": [
-          60,
-          60
-        ],
-        "visible": false,
-        "order": 13
-      },
       "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
         "texturePath": "ui/shots/area4_islands.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
+        "uvMax": [
+          1.0,
+          1.0
         ],
-        "raycastBlock": false
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
+        ]
+      },
+      "uiRect": {
+        "alpha": 1.0,
+        "anchorMax": [
+          1.0,
+          1.0
+        ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          60.0,
+          60.0
+        ],
+        "offsetMin": [
+          -60.0,
+          -60.0
+        ],
+        "order": 13,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_01",
       "guid": "2959f56642f1c2bd",
+      "name": "Title_Focus_01",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          60.0,
+          60.0
+        ],
+        "offsetMin": [
+          -60.0,
+          -60.0
+        ],
+        "order": 30,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          -60,
-          -60
-        ],
-        "offsetMax": [
-          60,
-          60
-        ],
-        "visible": false,
-        "order": 30
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_02",
       "guid": "2a59f6f9c8ddb420",
+      "name": "Title_Focus_02",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          73.0,
+          60.0
+        ],
+        "offsetMin": [
+          -47.0,
+          -60.0
+        ],
+        "order": 31,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          -47,
-          -60
-        ],
-        "offsetMax": [
-          73,
-          60
-        ],
-        "visible": false,
-        "order": 31
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_03",
       "guid": "2759f2404ec96f97",
+      "name": "Title_Focus_03",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          66.5,
+          71.25800323486328
+        ],
+        "offsetMin": [
+          -53.5,
+          -48.742000579833984
+        ],
+        "order": 32,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          -53.5,
-          -48.742000000000004
-        ],
-        "offsetMax": [
-          66.5,
-          71.258
-        ],
-        "visible": false,
-        "order": 32
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_04",
       "guid": "2859f3d3d4b521fa",
+      "name": "Title_Focus_04",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          53.5,
+          71.25800323486328
+        ],
+        "offsetMin": [
+          -66.5,
+          -48.742000579833984
+        ],
+        "order": 33,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          -66.5,
-          -48.742000000000004
-        ],
-        "offsetMax": [
-          53.5,
-          71.258
-        ],
-        "visible": false,
-        "order": 33
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_05",
       "guid": "2d59fbb25aa11b61",
+      "name": "Title_Focus_05",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          47.0,
+          60.0
+        ],
+        "offsetMin": [
+          -73.0,
+          -60.0
+        ],
+        "order": 34,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          -73,
-          -60
-        ],
-        "offsetMax": [
-          47,
-          60
-        ],
-        "visible": false,
-        "order": 34
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_06",
       "guid": "2e59fd45e08aced4",
+      "name": "Title_Focus_06",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
-        "pivot": [
-          0.5,
-          0.5
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          53.5,
+          48.742000579833984
         ],
         "offsetMin": [
           -66.5,
-          -71.258
+          -71.25800323486328
         ],
-        "offsetMax": [
-          53.5,
-          48.742000000000004
-        ],
-        "visible": false,
-        "order": 35
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
-      }
-    },
-    {
-      "name": "Title_Focus_07",
-      "guid": "2b59f88c6676803b",
-      "parentGuid": "4de077f2fdbca4ad",
-      "transform": {
-        "position": [
-          0,
-          0,
-          0
-        ],
-        "rotation": [
-          0,
-          0,
-          0
-        ],
-        "scale": [
-          1,
-          1,
-          1
-        ]
-      },
-      "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
-        "anchorMax": [
-          1,
-          1
-        ],
+        "order": 35,
         "pivot": [
           0.5,
           0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
+      }
+    },
+    {
+      "guid": "2b59f88c6676803b",
+      "name": "Title_Focus_07",
+      "parent": 20,
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
+        ]
+      },
+      "uiRect": {
+        "alpha": 1.0,
+        "anchorMax": [
+          1.0,
+          1.0
+        ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          66.5,
+          48.742000579833984
         ],
         "offsetMin": [
           -53.5,
-          -71.258
+          -71.25800323486328
         ],
-        "offsetMax": [
-          66.5,
-          48.742000000000004
+        "order": 36,
+        "pivot": [
+          0.5,
+          0.5
         ],
-        "visible": false,
-        "order": 36
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_08",
       "guid": "2c59fa1fec627bae",
+      "name": "Title_Focus_08",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          85.11499786376953,
+          74.5
+        ],
+        "offsetMin": [
+          -34.8849983215332,
+          -45.5
+        ],
+        "order": 37,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          -34.885000000000005,
-          -45.5
-        ],
-        "offsetMax": [
-          85.115,
-          74.5
-        ],
-        "visible": false,
-        "order": 37
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_09",
       "guid": "315a01fe724e2d15",
+      "name": "Title_Focus_09",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          60.0,
+          89.0
+        ],
+        "offsetMin": [
+          -60.0,
+          -31.0
+        ],
+        "order": 38,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          -60,
-          -31
-        ],
-        "offsetMax": [
-          60,
-          89
-        ],
-        "visible": false,
-        "order": 38
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_10",
       "guid": "325a0391f83be778",
+      "name": "Title_Focus_10",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
-        "pivot": [
-          0.5,
-          0.5
+        "anchorMin": [
+          0.0,
+          0.0
         ],
-        "offsetMin": [
-          -85.115,
-          -45.5
-        ],
+        "clipChildren": false,
         "offsetMax": [
-          34.885000000000005,
+          34.8849983215332,
           74.5
         ],
-        "visible": false,
-        "order": 39
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
+        "offsetMin": [
+          -85.11499786376953,
+          -45.5
         ],
-        "raycastBlock": false
+        "order": 39,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_11",
       "guid": "749f7e6bfa673b9d",
+      "name": "Title_Focus_11",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          34.8849983215332,
+          45.5
+        ],
+        "offsetMin": [
+          -85.11499786376953,
+          -74.5
+        ],
+        "order": 40,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          -85.115,
-          -74.5
-        ],
-        "offsetMax": [
-          34.885000000000005,
-          45.5
-        ],
-        "visible": false,
-        "order": 40
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_12",
       "guid": "739f7cd8804b0136",
+      "name": "Title_Focus_12",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          60.0,
+          31.0
+        ],
+        "offsetMin": [
+          -60.0,
+          -89.0
+        ],
+        "order": 41,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          -60,
-          -89
-        ],
-        "offsetMax": [
-          60,
-          31
-        ],
-        "visible": false,
-        "order": 41
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Focus_13",
       "guid": "769f8191063f54ab",
+      "name": "Title_Focus_13",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/shots/area1_pool.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          1,
-          1
+          1.0,
+          1.0
         ],
-        "pivot": [
-          0.5,
-          0.5
+        "anchorMin": [
+          0.0,
+          0.0
         ],
-        "offsetMin": [
-          -34.885000000000005,
-          -74.5
-        ],
+        "clipChildren": false,
         "offsetMax": [
-          85.115,
+          85.11499786376953,
           45.5
         ],
-        "visible": false,
-        "order": 42
-      },
-      "uiImage": {
-        "texturePath": "ui/shots/area1_pool.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
+        "offsetMin": [
+          -34.8849983215332,
+          -74.5
         ],
-        "raycastBlock": false
+        "order": 42,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": false
       }
     },
     {
-      "name": "Title_Logo_Top",
       "guid": "9c1af04d21b7e310",
+      "name": "Title_Logo_Top",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
         ]
       },
-      "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
-        "anchorMax": [
-          0,
-          0
-        ],
-        "pivot": [
-          0.5,
-          0.5
-        ],
-        "offsetMin": [
-          275.5,
-          118
-        ],
-        "offsetMax": [
-          1324.5,
-          296
-        ],
-        "visible": true,
-        "order": 60
-      },
       "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
         "texturePath": "ui/logo/junction_top.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
+        "uvMax": [
+          1.0,
+          1.0
         ],
-        "raycastBlock": false,
-        "outlineWidth": 0
-      }
-    },
-    {
-      "name": "Title_Logo_Bot",
-      "guid": "9c1af04d21b7e311",
-      "parentGuid": "4de077f2fdbca4ad",
-      "transform": {
-        "position": [
-          0,
-          0,
-          0
+        "uvMin": [
+          0.0,
+          0.0
         ],
-        "rotation": [
-          0,
-          0,
-          0
-        ],
-        "scale": [
-          1,
-          1,
-          1
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          0,
-          0
+          0.0,
+          0.0
         ],
-        "pivot": [
-          0.5,
-          0.5
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          1324.5,
+          296.0
         ],
         "offsetMin": [
           275.5,
-          186
+          118.0
         ],
+        "order": 60,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": true
+      }
+    },
+    {
+      "guid": "9c1af04d21b7e311",
+      "name": "Title_Logo_Bot",
+      "parent": 20,
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/logo/junction_bottom.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
+        ]
+      },
+      "uiRect": {
+        "alpha": 1.0,
+        "anchorMax": [
+          0.0,
+          0.0
+        ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
         "offsetMax": [
           1324.5,
-          364
+          364.0
         ],
-        "visible": true,
-        "order": 61
-      },
-      "uiImage": {
-        "texturePath": "ui/logo/junction_bottom.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
+        "offsetMin": [
+          275.5,
+          186.0
         ],
-        "raycastBlock": false,
-        "outlineWidth": 0
+        "order": 61,
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": true
       }
     },
     {
-      "name": "Title_Menu_Start",
       "guid": "9c1af04d21b7e312",
+      "name": "Title_Menu_Start",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/logo/label_start.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          0,
-          0
+          0.0,
+          0.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          862.0,
+          588.0
+        ],
+        "offsetMin": [
+          738.0,
+          548.0
+        ],
+        "order": 62,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          738,
-          548
-        ],
-        "offsetMax": [
-          862,
-          588
-        ],
-        "visible": true,
-        "order": 62
-      },
-      "uiImage": {
-        "texturePath": "ui/logo/label_start.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false,
-        "outlineWidth": 0
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": true
       }
     },
     {
-      "name": "Title_Menu_Exit",
       "guid": "9c1af04d21b7e313",
+      "name": "Title_Menu_Exit",
+      "parent": 20,
       "parentGuid": "4de077f2fdbca4ad",
       "transform": {
         "position": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "rotation": [
-          0,
-          0,
-          0
+          0.0,
+          0.0,
+          0.0
         ],
         "scale": [
-          1,
-          1,
-          1
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "uiImage": {
+        "animCols": 0,
+        "animFps": 8.0,
+        "animFrames": 0,
+        "animMode": 0,
+        "animRow": 0,
+        "animRows": 0,
+        "color": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "cornerRadius": 0.0,
+        "fillAmount": 1.0,
+        "fillDir": 0,
+        "fillOrigin": 0.0,
+        "gradientColor2": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "gradientDir": 0,
+        "gradientScrollSpeed": 0.0,
+        "outlineColor": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "outlineDash": 12.0,
+        "outlineStyle": 0,
+        "outlineWidth": 0.0,
+        "raycastBlock": false,
+        "ringThickness": 8.0,
+        "segmentColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.699999988079071
+        ],
+        "segmentGap": 3.0,
+        "segments": 0,
+        "shadowColor": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "shadowOffset": [
+          2.0,
+          2.0
+        ],
+        "shadowSoftness": 4.0,
+        "shape": 0,
+        "sliceBorder": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "texturePath": "ui/logo/label_exit.png",
+        "uvMax": [
+          1.0,
+          1.0
+        ],
+        "uvMin": [
+          0.0,
+          0.0
+        ],
+        "uvScroll": [
+          0.0,
+          0.0
         ]
       },
       "uiRect": {
-        "anchorMin": [
-          0,
-          0
-        ],
+        "alpha": 1.0,
         "anchorMax": [
-          0,
-          0
+          0.0,
+          0.0
         ],
+        "anchorMin": [
+          0.0,
+          0.0
+        ],
+        "clipChildren": false,
+        "offsetMax": [
+          840.0,
+          656.0
+        ],
+        "offsetMin": [
+          760.0,
+          616.0
+        ],
+        "order": 63,
         "pivot": [
           0.5,
           0.5
         ],
-        "offsetMin": [
-          760,
-          616
-        ],
-        "offsetMax": [
-          840,
-          656
-        ],
-        "visible": true,
-        "order": 63
-      },
-      "uiImage": {
-        "texturePath": "ui/logo/label_exit.png",
-        "color": [
-          1,
-          1,
-          1,
-          0
-        ],
-        "raycastBlock": false,
-        "outlineWidth": 0
+        "rotation": 0.0,
+        "scaleX": 1.0,
+        "scaleY": 1.0,
+        "skewX": 0.0,
+        "visible": true
       }
     }
   ],
   "navmesh": {
     "agentHeight": 1.7999999523162842,
     "agentMaxClimb": 0.44999998807907104,
-    "agentMaxSlope": 45,
+    "agentMaxSlope": 45.0,
     "agentRadius": 0.3499999940395355,
     "boundsMax": [
-      0,
-      0,
-      0
+      0.0,
+      0.0,
+      0.0
     ],
     "boundsMin": [
-      0,
-      0,
-      0
+      0.0,
+      0.0,
+      0.0
     ],
     "cellHeight": 0.11999999731779099,
     "cellSize": 0.20000000298023224,
     "filterLedgeSpans": true,
     "filterLowHanging": true,
-    "maxEdgeLen": 12,
+    "maxEdgeLen": 12.0,
     "maxSimplificationErr": 1.2999999523162842,
     "maxVertsPerPoly": 6,
-    "mergeRegionArea": 20,
-    "minRegionArea": 2,
+    "mergeRegionArea": 20.0,
+    "minRegionArea": 2.0,
     "monotonePartition": false,
     "useBounds": false
   },
   "normalFilter": {
     "enabled": true,
-    "geometricBlend": 2,
-    "strength": 2,
+    "geometricBlend": 2.0,
+    "strength": 2.0,
     "varianceClamp": 0.25
   },
   "postProcess": {
-    "aeEvComp": 0,
-    "aeLogMax": 4,
-    "aeLogMin": -8,
-    "aeSpeed": 2,
+    "aeEvComp": 0.0,
+    "aeLogMax": 4.0,
+    "aeLogMin": -8.0,
+    "aeSpeed": 2.0,
     "autoExposureOn": false,
     "bloom": 0.20000000298023224,
     "bloomKnee": 0.5,
     "bloomOn": true,
     "bloomRadius": 0.6499999761581421,
-    "bloomThreshold": 1,
-    "brightness": -0.02,
+    "bloomThreshold": 1.0,
+    "brightness": -0.019999999552965164,
     "brightnessOn": true,
     "chromaMode": 0,
     "chromatic": 0.5,
     "chromaticOn": false,
-    "contrast": 1.03,
+    "contrast": 1.0299999713897705,
     "contrastOn": true,
     "debandOn": true,
     "ditherLevels": 4,
     "ditherOn": false,
-    "dofAperture": 1.4,
-    "dofBlurSize": 30,
-    "dofFocalLength": 0,
-    "dofFocusDist": 0.35,
+    "dofAperture": 1.399999976158142,
+    "dofBlurSize": 30.0,
+    "dofFocalLength": 0.0,
+    "dofFocusDist": 0.3499999940395355,
     "dofFocusName": "",
-    "dofFocusRange": 5,
+    "dofFocusRange": 5.0,
     "dofOn": true,
     "enabled": true,
     "exposure": 1.059999942779541,
     "exposureOn": true,
     "fxaaOn": true,
     "glitch": 0.30000001192092896,
-    "glitchBlocks": 24,
+    "glitchBlocks": 24.0,
     "glitchColor": 0.5,
     "glitchOn": false,
-    "glitchSpeed": 12,
+    "glitchSpeed": 12.0,
     "godraysOn": false,
     "grDecay": 0.9599999785423279,
     "grDensity": 0.8999999761581421,
     "grIntensity": 0.6000000238418579,
-    "grain": 0.09,
+    "grain": 0.09000000357627869,
     "grainColored": false,
     "grainOn": true,
     "grainSize": 1.5,
-    "grayscale": 1,
+    "grayscale": 1.0,
     "grayscaleOn": false,
     "hueOn": false,
-    "hueShift": 0,
-    "invert": 1,
+    "hueShift": 0.0,
+    "invert": 1.0,
     "invertOn": false,
     "lens": 0.30000001192092896,
-    "lensChroma": 0,
+    "lensChroma": 0.0,
     "lensCircular": true,
     "lensEdge": 1,
-    "lensK2": 0,
+    "lensK2": 0.0,
     "lensMode": 0,
     "lensOn": false,
-    "lensZoom": 1,
+    "lensZoom": 1.0,
     "lensflareOn": false,
     "lfChroma": 0.009999999776482582,
     "lfDispersal": 0.3499999940395355,
     "lfGhosts": 4,
     "lfHalo": 0.44999998807907104,
     "lfIntensity": 0.5,
-    "lutAmount": 1,
+    "lutAmount": 1.0,
     "lutOn": false,
     "lutPath": "",
     "mbSamples": 10,
     "mbStrength": 0.5,
     "motionBlurOn": false,
-    "outline": 1,
+    "outline": 1.0,
     "outlineBg": [
-      1,
-      1,
-      1
+      1.0,
+      1.0,
+      1.0
     ],
     "outlineColor": [
-      0,
-      0,
-      0
+      0.0,
+      0.0,
+      0.0
     ],
     "outlineOn": false,
     "outlineOnly": false,
-    "outlineThickness": 1,
+    "outlineThickness": 1.0,
     "outlineThreshold": 0.019999999552965164,
-    "pixelSize": 8,
+    "pixelSize": 8.0,
     "pixelizeOn": false,
     "posterize": 6,
     "posterizeOn": false,
@@ -1983,101 +3585,101 @@
     "radialCenterY": 0.5,
     "radialOn": false,
     "radialSamples": 8,
-    "saturation": 0.86,
+    "saturation": 0.8600000143051147,
     "saturationOn": true,
-    "scanCount": 240,
+    "scanCount": 240.0,
     "scanCurve": 0.18000000715255737,
     "scanline": 0.5,
     "scanlineOn": false,
-    "sepia": 1,
+    "sepia": 1.0,
     "sepiaOn": false,
     "sharpen": 0.5,
     "sharpenOn": false,
     "tint": [
-      1,
-      1,
-      1
+      1.0,
+      1.0,
+      1.0
     ],
     "tintOn": false,
     "tonemapper": 1,
-    "vignette": 0.45,
+    "vignette": 0.44999998807907104,
     "vignetteColor": [
-      0,
-      0,
-      0
+      0.0,
+      0.0,
+      0.0
     ],
     "vignetteOn": true,
-    "vignetteRadius": 0.66,
-    "vignetteRoundness": 1,
+    "vignetteRadius": 0.6600000262260437,
+    "vignetteRoundness": 1.0,
     "vignetteSoftness": 0.5,
     "warmth": 0.05000000074505806,
     "warmthOn": true,
     "waveAmp": 0.009999999776482582,
-    "waveFreq": 12,
+    "waveFreq": 12.0,
     "waveOn": false,
-    "waveSpeed": 2
+    "waveSpeed": 2.0
   },
   "raytracing": {
     "aoCombineWithSsao": false,
     "aoDenoise": true,
-    "aoDenoiseRadius": 8,
+    "aoDenoiseRadius": 8.0,
     "aoEnabled": false,
-    "aoIntensity": 1,
+    "aoIntensity": 1.0,
     "aoPower": 1.5,
-    "aoRadius": 1,
+    "aoRadius": 1.0,
     "aoRayCount": 2,
     "ddgi": {
-      "bounceIntensity": 0,
+      "bounceIntensity": 0.0,
       "enabled": false,
       "hysteresis": 0.9700000286102295,
-      "intensity": 1,
+      "intensity": 1.0,
       "normalBias": 0.019999999552965164,
-      "originX": -8,
+      "originX": -8.0,
       "originY": 0.5,
-      "originZ": -8,
+      "originZ": -8.0,
       "probeCountX": 8,
       "probeCountY": 4,
       "probeCountZ": 8,
-      "rayLength": 30,
-      "spacing": 2
+      "rayLength": 30.0,
+      "spacing": 2.0
     },
     "maxInstances": 0,
     "shadowEnabled": false,
-    "shadowIntensity": 1,
-    "shadowMaxDistance": 0,
+    "shadowIntensity": 1.0,
+    "shadowMaxDistance": 0.0,
     "shadowNormalBias": 0.019999999552965164,
     "shadowSunAngle": 0.5299999713897705
   },
   "shadowPcss": {
-    "blockerSearchTexels": 16,
+    "blockerSearchTexels": 16.0,
     "enabled": false,
     "lightTanAngle": 0.05000000074505806,
-    "maxPenumbraTexels": 16,
+    "maxPenumbraTexels": 16.0,
     "temporalDither": true
   },
   "shadows": true,
   "skybox": {
     "drawSkybox": true,
     "envMapPath": "__procedural_sky__",
-    "iblIntensity": 1,
-    "skyboxIntensity": 1
+    "iblIntensity": 1.0,
+    "skyboxIntensity": 1.0
   },
   "ssao": {
     "bias": 0.02500000037252903,
     "blur": true,
     "enabled": false,
-    "intensity": 1,
+    "intensity": 1.0,
     "power": 1.5,
     "radius": 0.5,
     "sampleCount": 16
   },
   "ssgi": {
-    "clampValue": 4,
+    "clampValue": 4.0,
     "enabled": false,
     "feedback": 0.9200000166893005,
     "iblFallback": true,
     "intensity": 0.800000011920929,
-    "radius": 6,
+    "radius": 6.0,
     "rayCount": 2,
     "stepCount": 12,
     "thickness": 0.5
@@ -2086,27 +3688,27 @@
     "bias": 0.05000000074505806,
     "edgeFade": 0.15000000596046448,
     "enabled": false,
-    "intensity": 1,
-    "maxDistance": 50,
+    "intensity": 1.0,
+    "maxDistance": 50.0,
     "maxSteps": 48,
     "roughnessCutoff": 0.6000000238418579,
-    "stride": 2,
+    "stride": 2.0,
     "thickness": 0.5
   },
   "taa": {
     "enabled": false,
     "feedbackMax": 0.9700000286102295,
     "feedbackMin": 0.8799999952316284,
-    "jitterScale": 1,
+    "jitterScale": 1.0,
     "sampleCount": 8,
-    "varianceGamma": 1
+    "varianceGamma": 1.0
   },
   "version": 1,
   "volumetricFog": {
     "albedo": [
-      1,
-      1,
-      1
+      1.0,
+      1.0,
+      1.0
     ],
     "ambient": [
       0.20000000298023224,
@@ -2115,14 +3717,14 @@
     ],
     "anisotropy": 0.30000001192092896,
     "density": 0.019999999552965164,
-    "depthDistribution": 2,
-    "distance": 150,
+    "depthDistribution": 2.0,
+    "distance": 150.0,
     "enabled": false,
     "extendBeyondRange": true,
     "heightFalloff": 0.10000000149011612,
-    "heightRef": 0,
+    "heightRef": 0.0,
     "lightScattering": true,
-    "sunIntensity": 1,
+    "sunIntensity": 1.0,
     "temporal": true,
     "temporalBlend": 0.07999999821186066
   }

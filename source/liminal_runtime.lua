@@ -88,6 +88,30 @@ local FORCE_T = 0.50          -- 見ていても、この秒数で動き出す(�
 local FOCUS_WARN = 9.0        -- ここから環と光が反応する
 local FOCUS_LOCK = 7.0        -- ここまで近づかないと確定しない
 
+-- ★★★手がかりの遅れ(veil)。2026-09-09「最初から印と案内板があると謎が早く解けすぎる」。
+--   部屋へ入った直後は手がかりが何も無い。しばらくさまよって、もう一度そこを見ると
+--   【さっきは無かった物がある】。Layers of Fear の作法そのままで、変わる瞬間は見せない。
+-- ★フェードインはしない。じわっと出すと「演出が始まった」と読まれて【合図】になる。
+--   出すのは【その物が画面に入っていない一瞬】。上の「しれっと変える」と同じ規則で、
+--   AWAY / AWAY_T / MASK_TURN をそのまま使い回す(新しい仕組みは足していない)。
+-- ★実機で詰める数値はこの 6 本だけ。ここを触れば全部変わる。
+local VEIL_SEEN   = 40.0      -- 視線からこの角度内 = 『見た』。時計はここから動き出す(度)
+local VEIL_RANGE  = 30.0      -- ただし、これより遠い物は『見た』に数えない(m)
+local VEIL_WAIT   = 20.0      -- 見てから、出してよくなるまで(秒)
+-- ★★2026-09-09「20 秒たっても出てこない」への直し。仕組みは動いていたが、
+--   出すのに【画面の外に出ている一瞬】を待つ作りなので、廊下を印に向かって
+--   まっすぐ歩く場面(第一幕がまさにそれ)では印がずっと画面の真ん中に居座り、
+--   隠せる一瞬が来ない。結果、逃げ道の 20+10=30 秒まで待たされていた。
+--   ★約束は「20 秒」なので、猶予は【一瞬を探すぶん】だけにする。3 秒あれば
+--     普通に遊んでいれば必ず首が動くし、動かなくても 23 秒で必ず出る。
+local VEIL_GIVEUP = 3.0      -- そのあと隠せる一瞬が来なくても、この秒数で諦めて出す(秒)
+local VEIL_SINK   = 80.0      -- 隠している間、地下へ沈めておく深さ(m)。S3c_shd と同じ手
+local VEIL_SETTLE = 0.80      -- Play 直後はシーン復元が transform を書き戻す。押さえ続ける秒数
+-- ★例外。第一幕の最初の 1 枚だけは最初から見せる ── これは「歩く / 見る」＝操作そのものを
+--   教える板で、無いと開始 20 秒間【何をしていいか本当に分からない】。
+--   「案内板というものが在る」ことだけは先に教えて、中身(印・破片)を遅らせる。
+local VEIL_KEEP = { A_sign1 = true }
+
 -- ================================================================ 入力(キーボード / コントローラー)
 -- ★この作品に押すボタンは無い(歩いて、見る、それだけ)。だから入力の仕事は 3 つしかない:
 --   「歩く」「見る」「操作と設定を出す」。キーボードでもコントローラーでも同じ 3 つを受ける。
@@ -513,6 +537,84 @@ local function throughSlot(sl, yawNow, ex, ez, cx, cz)
     return math.abs(d3) < sl.half
 end
 
+-- ================================================================ 規則「枠に収める」
+-- ★★2026-09-09 第三幕の作り直しで足した規則。回る筒を「時間の窓」から
+--   【空間の窓】へ直したのと、まったく同じ考え方の一般形。
+--   筒のスリットが円筒の窓なら、これは【床に立っている四角い窓】。
+--
+--   やること: 目 E と枠の 4 隅が作る四角錐の中に、破片が【全部】入っているか。
+--   4 つの側面の法線との内積の符号が揃うかを見るだけで、カメラ行列も射影も要らない。
+--
+--   なぜ動詞が違うのか:
+--     これまでの継ぎ目は「点(焦点)を探す」だった。枠は【面】なので、探す対象が
+--     「枠と破片を結ぶ四角錐」になる。枠より手前に浮いている破片は、近づくと
+--     枠からはみ出し、下がると枠に収まる ＝【前後に歩くことに初めて意味が出る】。
+--
+--   ★合図は出さない。枠は最初から部屋に立っている物で、光りも鳴りもしない。
+--     枠は通り道の真ん中に立てること(避けて通れるが、通ろうとして必ず一度覗く)。
+--   ★机上検査(sim_liminal.framed)と必ず同じ式にしておくこと。
+local function insideFrame(fr, ex, ey, ez, px, py, pz)
+    local s0 = nil
+    for i = 1, 4 do
+        local a, b = fr[i], fr[i % 4 + 1]
+        local ax, ay, az = a[1] - ex, a[2] - ey, a[3] - ez
+        local bx, by, bz = b[1] - ex, b[2] - ey, b[3] - ez
+        local nx = ay * bz - az * by
+        local ny = az * bx - ax * bz
+        local nz = ax * by - ay * bx
+        local d = nx * (px - ex) + ny * (py - ey) + nz * (pz - ez)
+        if s0 == nil then s0 = (d >= 0.0)
+        elseif (d >= 0.0) ~= s0 then return false end
+    end
+    return true
+end
+
+-- 破片の【浮遊姿勢】の 8 隅が、全部 枠の中に見えているか。
+-- ★見えている物(幽霊)で判定する。焦点に立てば幽霊と実体は同じ方向に重なるので、
+--   「幽霊が枠に収まる」＝「実体が枠に収まる」。表示と判定が食い違わない。
+local function framedAll(c, ex, ey, ez)
+    for s = 1, #c.shards do
+        local sh = c.shards[s]
+        local k, F = sh.k, sh.F
+        for i = 1, #sh.pts do
+            local p = sh.pts[i]
+            if not insideFrame(c.frame, ex, ey, ez,
+                               F[1] + k * (p[1] - F[1]),
+                               F[2] + k * (p[2] - F[2]),
+                               F[3] + k * (p[3] - F[3])) then
+                return false
+            end
+        end
+    end
+    return true
+end
+
+-- ================================================================ 規則「影を重ねる」
+-- ★この作品で唯一【照準を使わない】足切り。目をつぶっていても満たせる。
+--   灯り L から見た自分(目の位置)の、床への投影が、床に描かれた輪郭の中に入るか。
+--   式は gen_liminal.floor_shadow() と同じ相似変換で、焦点を灯り・破片を自分に
+--   置き換えただけ。
+-- ★合図ではない。輪郭も灯りも最初から部屋にあり、近づいても何も起きない。
+--   影そのものは runtime が薄い板で描く(castShadows は使わない)。
+local function shadowPoint(sd, ex, ey, ez)
+    local L = sd.L
+    local dy = ey - L[2]
+    if dy > -0.20 then return nil end          -- 目が灯りより上 = 床に落ちない
+    local t = (sd.fy - L[2]) / dy
+    return L[1] + t * (ex - L[1]), L[3] + t * (ez - L[3])
+end
+
+local function shadowHits(sd, ex, ey, ez)
+    local sx, sz = shadowPoint(sd, ex, ey, ez)
+    if not sx then return false end
+    local dx, dz = sx - sd.c[1], sz - sd.c[2]
+    local ca = math.cos(math.rad(sd.yaw))
+    local sa = math.sin(math.rad(sd.yaw))
+    local u = dx * ca - dz * sa
+    local v = dx * sa + dz * ca
+    return math.abs(u) <= sd.w * 0.5 and math.abs(v) <= sd.l * 0.5
+end
+
 local function pairAngle(ex, ey, ez, a, b)
     local ax, ay, az = a[1] - ex, a[2] - ey, a[3] - ez
     local bx, by, bz = b[1] - ex, b[2] - ey, b[3] - ez
@@ -764,6 +866,144 @@ local function bump(self, strength, sec)
     end
 end
 
+-- ================================================================ 手がかりの遅れ(veil)
+-- ★沈める / 戻す。動かすのは transform だけで、当たり判定には一切触らない。
+--   印・偽の印・案内板はどれも【飾り】で剛体を持たない(add_walk_colliders が
+--   "囮と偽の印(lure / dud / mark)" と "壁に貼った薄い飾り" を対象外にしている)。
+--   だから沈めても戻しても、歩ける所も、ぶつかる所も 1mm も変わらない。
+local function veilPut(g, down)
+    local dy = down and VEIL_SINK or 0.0
+    for i = 1, #g.e do
+        local r = g.e[i]
+        r.e.transform.position = V(r.p[1], r.p[2] - dy, r.p[3])
+    end
+end
+
+-- 隠す物を集めて、いきなり地下へ沈める。
+-- ★★名前を手で並べない。第三幕へ案内板を足している最中で名前が決まっていないし、
+--   継ぎ目が増えれば印も増える。queryInBox はタグ無しで【全部】の名前を返すので、
+--   それを名前の形で振り分ける(entity を数えられる口はこれしか無い)。
+local function veilSetup(self)
+    self.veil = {}
+    local names = scene:queryInBox(-1e5, -1e5, 1e5, 1e5)
+    local groups, order = {}, {}
+    -- ★組の単位は【継ぎ目 1 本 / 案内板 1 枚】。同じ組は必ず一緒に出す。
+    --   偽の印(C24_dud*)を本物と別の組にすると、出る時刻の違いで本物が分かってしまい、
+    --   その部屋の仕掛けが丸ごと崩れる。だから C24 の 3 枚は 1 つの組。
+    local function grp(key)
+        local g = groups[key]
+        if not g then
+            g = { key = key, e = {}, pts = {}, t = 0.0, away = 0.0, seen = false }
+            groups[key] = g
+            order[#order + 1] = g
+        end
+        return g
+    end
+    -- pt=true の物だけ「画面に入っているか」を測る代表点にする。
+    -- ★金線 _e0..3 は板とまったく同じ場所にあるので、測るのは板だけでよい。
+    local function add(g, n, pt)
+        local e = scene:findEntity(n)
+        if not (e and e:isValid()) then return end
+        local p = e.transform.position
+        g.e[#g.e + 1] = { e = e, p = { p.x, p.y, p.z } }
+        if pt then g.pts[#g.pts + 1] = { p.x, p.y, p.z } end
+    end
+
+    for i = 1, #names do
+        local n = names[i]
+        -- ---- 床の印 ----
+        -- 本物 C7_mark / 破片ごとの印 C12_mk0 / 偽の印 C24_dud0 と、それぞれの金線 _e0..3。
+        local tag, rest = n:match("^(C%d+)_(.+)$")
+        if tag then
+            if rest == "mark" or rest:match("^mk%d+$") or rest:match("^dud%d+$") then
+                add(grp(tag), n, true)
+            elseif rest:match("^mark_e%d+$") or rest:match("^mk%d+_e%d+$") then
+                add(grp(tag), n, false)
+            end
+        end
+        -- ---- 壁の案内板 ----
+        -- 額縁(模型) + 絵の板 + 小さな灯りの 3 つ組。★3 つとも一緒に沈める ──
+        --   灯りだけ残ると、板の無い壁に光の染みだけが浮く。
+        -- ★見分けは【額縁 <名前>_fr を持っているか】。guide_sign() だけがこの形を作る。
+        --   非常口の板 C4_sign は額縁を持たないので拾われない(あれは継ぎ目 4 が点ける
+        --   標識で、沈めると applyVisible の lights が空を照らすことになる)。
+        local base = n:match("^(.+)_fr$")
+        if base and (base:find("sign") or base:find("guide")) and not VEIL_KEEP[base] then
+            local g = grp(base)
+            add(g, base, true)
+            add(g, n, false)
+            add(g, base .. "_l", false)
+        end
+    end
+
+    for i = 1, #order do
+        local g = order[i]
+        if #g.e > 0 and #g.pts > 0 then
+            veilPut(g, true)
+            self.veil[#self.veil + 1] = g
+        end
+    end
+    log(string.format("LIMINAL: veil %d groups (wait %.0fs)", #self.veil, VEIL_WAIT))
+end
+
+-- 20 秒経ったら、その組が【画面に入っていない一瞬】を待って、一息に出す。
+-- ★時計が見ているのは「視界に入ったか」と「何秒経ったか」の 2 つだけ。
+--   距離も、合い具合も、解けたかどうかも見ていない ＝ 出方から答えは読めない。
+-- ★出す時に光らない・鳴らない・粒子も出さない。ただ在るだけ。
+-- ★一度出したら組ごと表から外す。二度と隠れない(消えたり出たりは嫌がらせになる)。
+local function veilUpdate(self, dt, ex, ey, ez, offAxis, turnSpd)
+    local v = self.veil
+    if not v or #v == 0 then return end
+    local i = 1
+    while i <= #v do
+        local g = v[i]
+        -- ★Play 直後はシーン復元が transform を書き戻す。数フレームだけ押さえ続ける
+        if self.t < VEIL_SETTLE then veilPut(g, true) end
+        -- 『見た』か = ここで時計が動き出す。★近くて、視線の中にある事。
+        -- ★一度でも見たら、あとは見ていなくても時計は進む ── ちらっと見ては逸らすのを
+        --   繰り返す人が、いつまでも出せなくなるのを防ぐ。
+        -- ★★2026-09-09「今いる場所、20 秒以上経っても出てこない。解けないと言われる」
+        --   への直し。前は【その印を視線に入れたら】時計が動き出す作りだった。
+        --   これは循環になっていた ── 手がかりを探している人は、まさにその
+        --   手がかりの在り処を知らない。答えの場所を先に見ないと、答えが出ない。
+        --   部屋を歩き回っても、たまたまその一点を視野へ入れなければ永久に 0 秒のまま。
+        --   ★時計は【その辺りに居るか】だけで動かす。部屋へ入って 20 秒で必ず出る。
+        --     どこを向いていたかは問わない。探し方を強制しないのがこの作品の作法でもある。
+        if not g.seen then
+            for k = 1, #g.pts do
+                local p = g.pts[k]
+                local dx, dy, dz = p[1] - ex, p[2] - ey, p[3] - ez
+                if dx * dx + dy * dy + dz * dz < VEIL_RANGE * VEIL_RANGE then
+                    g.seen = true
+                    break
+                end
+            end
+        end
+        local out = false
+        if g.seen then
+            g.t = g.t + dt
+            out = true
+            for k = 1, #g.pts do
+                if offAxis(g.pts[k][1], g.pts[k][2], g.pts[k][3]) <= AWAY then
+                    out = false
+                    break
+                end
+            end
+        end
+        if out then g.away = g.away + dt else g.away = 0.0 end
+        -- 隠せる一瞬。画面の外に居続けている / 首を速く振っている(サッカード抑制)。
+        -- ★逃げ道: 狭い部屋で印を見つめ続ける人にも必ず出す。VEIL_GIVEUP 秒で諦めて、
+        --   視界の中でもそのまま置く。永久に出ないのが一番まずい。
+        local hide = (g.away >= AWAY_T) or (turnSpd > MASK_TURN)
+        if g.seen and g.t >= VEIL_WAIT and (hide or g.t >= VEIL_WAIT + VEIL_GIVEUP) then
+            veilPut(g, false)
+            table.remove(v, i)
+        else
+            i = i + 1
+        end
+    end
+end
+
 function OnStart(self)
     self.body = find("LM_Player")
     self.cam  = find("LM_Camera")
@@ -802,6 +1042,10 @@ function OnStart(self)
                     slot     = d.slot,
                     lens     = d.lens,                -- 【レンズ】立ち位置で画面の写り方が変わる
                     occl     = d.occl,                -- 【かくれて合わせる】陰に隠す
+                    -- 【枠に収める】枠の 4 隅(周回順)。破片が全部そこへ収まる位置でだけ成立
+                    frame    = d.frame,
+                    -- 【影を重ねる】灯りと床の輪郭。自分の影の先が輪郭に入る位置でだけ成立
+                    shadow   = d.shadow,
                     peri     = d.peri or false,       -- 【直視しない】周辺視でだけ合う
                     dark     = d.dark or false,       -- 暗くなった一瞬だけ合わせられる
                     touch    = d.touch,               -- 2 点が画面上で重なったら成立
@@ -1055,6 +1299,11 @@ function OnStart(self)
     events:on("lm_close", function() self.menuWant = false end)
 
     if self.hasHud then applyGlyphs(self) end
+
+    -- ★★手がかり(床の印 / 壁の案内板)を隠す。出すのは veilUpdate。
+    --   ここは【シーンを触る仕事の一番最後】に置く。上の探索より先に沈めると、
+    --   位置を控えている所が沈めたあとの値を読んでしまう。
+    veilSetup(self)
 
     log("LIMINAL: " .. #self.conns .. " joints. look, and it becomes.")
 end
@@ -1436,6 +1685,29 @@ local function tutUpdate(self, dt, moving, turned)
 end
 
 -- ================================================================ 操作と設定(TAB)
+-- ★★パネルの手応え(音)。耳で詰めるならこの塊だけ触ればいい。
+--   タイトル(TitleMenu.lua)とまったく同じ 2 音を使う。同じ操作は同じ音、が作法。
+--     nav   … 45ms の乾いた接点の音。「選択が 1 つ動いた」
+--     enter … 300ms、nav より低く長く重い。「決めた / 開けた / 閉めた」
+--   ★値の変更は【行の移動と別物に聞こえる】必要がある。ファイルを 3 つ目にするより、
+--     同じ nav を一段低く鳴らすほうが「同じ機械の別の段」に聞こえる(音程ではなく段)。
+--   ★どちらも source/gen_ui_sfx.py で合成した物。既存の 11 個は世界の中で意味を
+--     持っている(detent=回る筒、pass=扉をくぐる…)ので、メニューへは流用しない。
+local UI_NAV       = "audio/ui/nav.wav"
+local UI_ENTER     = "audio/ui/enter.wav"
+local UI_NAV_VOL   = 0.32     -- 行の移動
+local UI_VAL_VOL   = 0.24     -- 値の変更(行の移動より控えめ)
+local UI_VAL_PITCH = 0.84     -- 値の変更は一段低く鳴らす
+local UI_OPEN_VOL  = 0.42     -- パネルを開けた
+local UI_CLOSE_VOL = 0.32     -- パネルを閉じた
+
+local function uiSfx(path, vol, pitch)
+    pcall(function()
+        local id = audio:playSFXId(path, false, vol)
+        if id and pitch then audio:setVoicePitch(id, pitch) end
+    end)
+end
+
 -- ★開けている間はプレイヤーを止める。継ぎ目の判定も止める ── パネルの裏で
 --   焦点に立ったまま合ってしまうと、閉じた瞬間に「何もしていないのに解けた」になる。
 local function menuUpdate(self, dt)
@@ -1454,6 +1726,9 @@ local function menuUpdate(self, dt)
             self.menuI = 1
         end
         bump(self, 0.20, 0.05)
+        -- 開けるのも閉じるのも「決めた」。閉じるほうを一段落として、
+        -- 開いた時のほうが手前に聞こえるようにしてある
+        uiSfx(UI_ENTER, self.menuOpen and UI_OPEN_VOL or UI_CLOSE_VOL)
         -- ★カーソルの出し入れはここでは【やらない】。OnUpdate の holdMouse が
         --   毎フレーム面倒を見る(下の理由)。
     end
@@ -1468,15 +1743,23 @@ local function menuUpdate(self, dt)
         if repeatOn(self, "up", up and not down, dt) then
             self.menuI = self.menuI - 1
             if self.menuI < 1 then self.menuI = #SETTINGS end
+            uiSfx(UI_NAV, UI_NAV_VOL)
         end
         if repeatOn(self, "down", down and not up, dt) then
             self.menuI = self.menuI % #SETTINGS + 1
+            uiSfx(UI_NAV, UI_NAV_VOL)
         end
+        -- ★値は端で止まる。止まっているのに鳴り続けると「効いている」と嘘をつくので、
+        --   実際に動いた時だけ鳴らす(押しっぱなしの繰り返しでも同じ)。
         if repeatOn(self, "dec", dec and not inc, dt) then
+            local was = self.cfg[self.menuI]
             cfgNudge(self, self.menuI, -1); bump(self, 0.16, 0.04)
+            if self.cfg[self.menuI] ~= was then uiSfx(UI_NAV, UI_VAL_VOL, UI_VAL_PITCH) end
         end
         if repeatOn(self, "inc", inc and not dec, dt) then
+            local was = self.cfg[self.menuI]
             cfgNudge(self, self.menuI, 1); bump(self, 0.16, 0.04)
+            if self.cfg[self.menuI] ~= was then uiSfx(UI_NAV, UI_VAL_VOL, UI_VAL_PITCH) end
         end
     end
 
@@ -1615,6 +1898,60 @@ local function dbgUpdate(self, dt)
             (self.dev == "pad") and "十字キー 上下 選ぶ    A 飛ぶ    BACK 閉じる"
                                  or "W / S 選ぶ    Enter 飛ぶ    F1 閉じる",
             15, 0.66, 0.65, 0.61, 1.0)
+end
+
+-- ================================================================ 終わり方
+-- ★★終端で実機に合わせる値は【全部この塊】にある。散らしていない。
+--
+-- ★どこで切るか。候補は 2 つあった:
+--     (a) 継ぎ目 25 が解けた瞬間に白へ抜ける
+--     (b) 出口の白い部屋へ【自分の足で入ってから】白へ抜ける     ← こちらを採った
+--   この作品は最初から最後まで「歩いて、見て、気づく」しかしていない。
+--   解けた瞬間に画面を奪うと、その一貫性が最後の一手で折れる。扉が開いたのを見て、
+--   自分でそこをくぐって、明るい所へ入って、それから終わる。
+--   ★GOAL(gen_liminal.py が書く)は塞ぎ板の面 z=302.60 ＝【戸口】。
+--     そこから END_WALK_IN だけ奥へ入った所 ＝ 白い部屋の灯りの真下が終端になる。
+--
+-- ★★白の作り方(何度も踏んだ罠が 2 つある):
+--   [1] post.* は 3D にしか掛からない。UI(HUD)はポスト処理の【後】に描かれるので、
+--       exposure だけ上げても白の【上に HUD が残る】。
+--       → 白は最後に即時 ui:rect で敷く。即時は retained UI より手前に出るので、
+--         これ 1 枚で HUD もパネルも案内も丸ごと覆える。加えて done の瞬間に
+--         retained の HUD を要素ごと消す(endHud)。二重に手当てしてある。
+--   [2] brightness は【加算・中立 0.0 / 範囲 -0.5〜0.5】。ここに 1.0 を入れて
+--       画面が飛んだ事故がある。白飛びは exposure(【乗算・中立 1.0】)でやること。
+--
+-- ★場面の切り替えは fadeToScene ではなく loadScene。
+--   既に真っ白なので、遷移側で暗転を挟むと 白 → 黒 → クリア画面 になって台無し。
+--   受け側(ClearScreen.lua)は【真っ白から始まる】ので、そのまま繋がる。
+local END_WALK_IN  = 2.10   -- 戸口の面から、これだけ奥へ入ったら終わる(m)
+local END_WIDE     = 1.15   -- 左右の余裕。GOAL.r に足す(m)。白い部屋の幅ぶん見る
+local END_GRACE    = 22.0   -- 戸口は越えたのに奥まで来ない人の保険(秒)
+local WHITE_T0     = 0.55   -- 白い板が乗り始めるまで(秒)
+local WHITE_RISE   = 1.85   -- 板が真っ白になりきるまで(秒)
+local WHITE_HOLD   = 0.60   -- 真っ白のまま持たせてから場面を切る(秒)
+local EXP_BLOW     = 3.20   -- 白飛びの exposure。★乗算・中立 1.0
+local CLEAR_SCENE  = "scenes/clear_demo.json"
+
+-- 終わった瞬間に HUD を【要素ごと】消す。★alpha 0 では縁取りと枠が残る。
+-- 上に白を敷くので原理的には見えないが、白が乗りきる前の 0.5 秒に残っていると
+-- 「文字が白飛びしていく」絵になる。始めから出さないのが正しい。
+local function endHud(self)
+    for _, e in ipairs({ self.hint, self.endt, self.tutMove, self.tutLook, self.tutMenu,
+                         self.menuDim, self.menuBg, self.menuHint, self.menuClose }) do
+        if e then scene:setUiVisible(e, false) end
+    end
+    for _, list in ipairs({ self.tutKeys, self.tutCap, self.menuChrome,
+                            self.ctlIcon, self.ctlText, self.setSel, self.setText,
+                            self.setVal, self.setLess, self.setMore }) do
+        for i = 1, 8 do
+            if list and list[i] then scene:setUiVisible(list[i], false) end
+        end
+    end
+    for i = 1, 3 do self.tutA[i] = 0.0 end
+    -- パネルも即時モードで描かれる。開いたまま終わられると白の手前に残るので閉じる
+    self.menuWant, self.menuOpen, self.menuA = false, false, 0.0
+    self.dbgOpen = false
 end
 
 function OnUpdate(self, dt)
@@ -1786,6 +2123,10 @@ function OnUpdate(self, dt)
     local moveSpd = math.sqrt(self.vx * self.vx + self.vz * self.vz)
     local masked = (turnSpd > MASK_TURN) or (moveSpd > MASK_MOVE)
     local still = moveSpd < STILL
+    -- ★手がかり(印 / 案内板)を、見えていない一瞬に出す。判定より前でも後でもよいが、
+    --   offAxis と turnSpd が揃うのがここ。パネルを開けている間は動かさない
+    --   (歩けないのに時計だけ進むし、薄暗い幕の裏で物が現れるのが見えかねない)。
+    if not frozen then veilUpdate(self, dt, ex, ey, ez, offAxis, turnSpd) end
     -- 明滅する部屋の位相(暗の一瞬だけ合わせられる継ぎ目のため)
     self.darkNow = ((self.t % DARK_PERIOD) < DARK_LEN)
     for i = 1, #self.darkE do
@@ -1856,13 +2197,69 @@ function OnUpdate(self, dt)
                 lens = (B.lens + br) * k,
                 lensZoom = 1.0 + (B.lensZoom - 1.0) * k,
                 lensChroma = B.lensChroma * k,
-                -- ★ソフトフォーカスも歪みと一緒に抜く。設定パネルの文字も終わりの文字も
-                --   【暗い字】で、背景の明るい所がにじむと縁が食われて読みにくい。
-                --   終わりは exposure が 1.76 まで跳ねて 1.31 に落ち着く(下の「終わり」)ので、
-                --   抜いておかないと画面全部がにじんで「つながった」が沈む。
+                -- ★ソフトフォーカスも歪みと一緒に抜く。設定パネルの文字は【暗い字】で、
+                --   背景の明るい所がにじむと縁が食われて読みにくい。
+                --   ★終わり(done)でも同じく抜く。あちらは exposure を 3.2 まで持ち上げて
+                --   白へ飛ばす(下の「終わり」)ので、歪んだまま飛ばすと画面の四隅が
+                --   引き伸ばされながら白くなって、ただの事故に見える。
                 --   ★calm=0 のとき B.bloom ちょうど ＝ 閉じても基調が動かない。
                 bloom = B.bloom * k,
             }
+        end
+    end
+
+    -- ------------------------------------------------ 自分の影を描く(規則「影を重ねる」)
+    -- ★エンジンの影(castShadows)は使わない。この作品は昔から【影を箱で描いて】いる
+    --   (gen_liminal.floor_shadow)。同じ作法で、足元から影の先までを薄い黒板 1 枚で結ぶ。
+    --   形も濃さも完全に制御できるので「見えているものと判定が一致する」を守れる。
+    -- ★合図ではない。ただ影があるだけで、近づいても光らないし鳴らない。
+    for i = 1, #self.conns do
+        local sd = self.conns[i].shadow
+        if sd then
+            local e = find(sd.board)
+            if e then
+                -- ★★2026-09-09「途中で下にも影が出てくる。意味が分からない。バグだと思う」
+                --   への直し。原因は 2 つ。どちらも【影が部屋の外へ漏れる】ことだった。
+                --   (1) 出す条件が「灯りから水平 14m 以内」だった。その円(x 4〜32 /
+                --       z 194〜222)は影の間(x 15.9〜30.1 / z 201.4〜210.1)を大きく
+                --       はみ出していて、一つ手前の【並びの間】まで覆っていた。
+                --       しかも板は影の間の床(7.60m)の高さに描くのに、並びの間の床は
+                --       6.70m ── 手前の部屋では【足元から 90cm 浮いた黒い板】が
+                --       付いて回っていた。「下にも影が出てくる」はこれ。
+                --   (2) 板の長さを 14m まで許していたので、部屋(14.6 x 9.0m)の中でも
+                --       壁を突き抜け、隣から見ると床に浮いた黒い板に見えた。
+                --   ★半径ではなく【部屋の四角】で切る。部屋の中に居るときだけ描き、
+                --     板の先も部屋の内側で止める。これで漏れようが無い。
+                local b = sd.box
+                local sx, sz = nil, nil
+                if b and ex > b[1] and ex < b[2] and ez > b[3] and ez < b[4]
+                   and ey > sd.fy and ey - sd.fy < 3.00 then
+                    sx, sz = shadowPoint(sd, ex, ey, ez)
+                end
+                if not sx then
+                    local pp = e.transform.position
+                    if pp.y > -50.0 then e.transform.position = V(pp.x, -80.0, pp.z) end
+                else
+                    local dx, dz = sx - ex, sz - ez
+                    local d2 = dx * dx + dz * dz
+                    local len = math.sqrt(d2)
+                    local ux, uz = 0.0, 1.0
+                    if d2 > 1e-6 then ux, uz = dx / len, dz / len end
+                    -- ★板の先を部屋の内側で止める。ここに居る以上 b の内側なので、
+                    --   下の割り算は必ず正になる(壁までの残り距離)
+                    local lim = 14.0
+                    if ux > 1e-4 then lim = math.min(lim, (b[2] - ex) / ux)
+                    elseif ux < -1e-4 then lim = math.min(lim, (b[1] - ex) / ux) end
+                    if uz > 1e-4 then lim = math.min(lim, (b[4] - ez) / uz)
+                    elseif uz < -1e-4 then lim = math.min(lim, (b[3] - ez) / uz) end
+                    if len > lim then len = lim end
+                    if len < 0.30 then len = 0.30 end
+                    e.transform.position = V(ex + ux * len * 0.5, sd.fy + 0.008,
+                                             ez + uz * len * 0.5)
+                    e.transform.rotation = V(0, math.deg(atan2(dx, dz)), 0)
+                    e.transform.scale = V(0.62, 0.012, len)
+                end
+            end
         end
     end
 
@@ -1884,6 +2281,11 @@ function OnUpdate(self, dt)
             if c.maxY and ey > c.maxY then gateB = false end
             -- ★規則F: 偽物が柱の陰に入っていない間は、いくら合っていても決まらない
             if c.occl and not hidden(c.occl, ex, ey, ez) then gateB = false end
+            -- ★規則「枠に収める」: 破片が枠からはみ出している間は、いくら合っていても決まらない。
+            --   近づくとはみ出し、下がると収まる ＝ 前後に歩くことが初めて仕事になる
+            if c.frame and not framedAll(c, ex, ey, ez) then gateB = false end
+            -- ★規則「影を重ねる」: 自分の影の先が床の輪郭に入っていない間は決まらない
+            if c.shadow and not shadowHits(c.shadow, ex, ey, ez) then gateB = false end
             -- ★規則「レンズ」: 画面の写り方が足りていないと決まらない。
             --   立ち位置が合っていても【線にしていない / ぼかしていない】なら成立しない
             if c.lens and (c.lensU or 0) < (c.lens.need or 0.75) then gateB = false end
@@ -2184,7 +2586,8 @@ function OnUpdate(self, dt)
     -- ★環も、合い具合のドローンも無い。画面中央は最後まで空。
     --   合っているかどうかは【破片が重なって見えるか】だけで判断する。
     -- ★案内は文字ではなく【記号】でやる(tutUpdate)。歩けた・見回せた塊から順に消える。
-    --   古い文字の帯(LM_Hint)は最初から出さない。終わりの「Enter」にだけ使い回す。
+    --   古い文字の帯(LM_Hint / LM_End)は【最後まで一度も出さない】。
+    --   ★終わりも文字を出さない ── 白へ抜けてクリア画面へ渡す(下の「終わり」)。
     if self.hintShown ~= false and not self.done then
         self.hintShown = false
         scene:setUiVisible(self.hint, false)      -- ★alpha 0 でも縁取りは残る。要素ごと消す
@@ -2205,38 +2608,54 @@ function OnUpdate(self, dt)
     end
 
     -- ------------------------------------------------ 終わり
-    if not self.done and self.lockedIds[GOAL.need]
-       and p.z > GOAL.z and math.abs(p.x - GOAL.x) < GOAL.r and p.y > GOAL.y - 1.2 then
-        self.done = true
-        self.doneT = 0.0
-        self.wantCap = false          -- 終わったら掴まない(holdMouse がカーソルを出す)
-        input:setMouseCapture(false)
-        audio:playSFX("audio/lm/clear.wav")
-        scene:setUiText(self.endt, "つながった")
-        saveNum("lm_clear", 1)
-        log("LIMINAL: complete")
+    -- ★段取りと、詰める値は上の「終わり方」の塊を見ること。
+    --   [b] 出口の白い部屋へ【入ってから】終わる。戸口を越えただけでは終わらない。
+    if not self.done and self.lockedIds[GOAL.need] and p.y > GOAL.y - 1.2 then
+        -- 戸口を越えたか(奥へ入る時計を回し始める合図)
+        local through = (p.z > GOAL.z and math.abs(p.x - GOAL.x) < GOAL.r + END_WIDE)
+        self.inT = through and ((self.inT or 0.0) + dt) or 0.0
+        -- 白い部屋の灯りの真下まで入ったら終わる。
+        -- ★END_GRACE は保険。戸口だけ越えて振り返ったまま動かない人がいても、
+        --   必ず終われるようにしておく(終端が詰むのが一番まずい)。
+        if through and (p.z > GOAL.z + END_WALK_IN or self.inT > END_GRACE) then
+            self.done = true
+            self.doneT = 0.0
+            self.wantCap = false      -- 終わったら掴まない(holdMouse がカーソルを出す)
+            input:setMouseCapture(false)
+            audio:playSFX("audio/lm/clear.wav")
+            endHud(self)              -- ★文字は出さない。HUD ごと消す
+            saveNum("lm_clear", 1)
+            log("LIMINAL: complete")
+            -- クリア画面は白が乗りきる前に読み終わっていてほしい。
+            -- ★真っ白の裏で読むので、多少詰まっても絵には出ない
+            pcall(function() preloadScene(CLEAR_SCENE) end)
+        end
     end
     if self.done then
         self.doneT = self.doneT + dt
-        -- ★白く飛ばしっぱなしにすると UI もポストを浴びて文字が消える。
-        --   閃光 -> 落ち着く、の 2 段にして、文字は落ち着いてから出す。
-        local flash = clamp(self.doneT / 0.7, 0, 1)
-        local settle = clamp((self.doneT - 0.7) / 1.3, 0, 1)
-        post.set("exposure", 1.06 + 0.70 * flash - 0.45 * settle)
-        local ta = clamp((self.doneT - 1.1) / 1.0, 0, 1)
-        scene:setUiColor(self.endt, 0.12, 0.12, 0.11, ta)
-        scene:setUiVisible(self.hint, self.doneT > 2.4)
-        if self.doneT > 2.4 then
-            -- ★案内は今つないでいる機器の名前で出す。パッドで遊んだ人に「Enter」は届かない
-            --   (applyGlyphs が機器の切り替わりで endHint を false へ戻す)
-            if not self.endHint then
-                self.endHint = true
-                scene:setUiText(self.hint, GLYPH[self.dev].endk)   -- 毎フレームは呼ばない
-            end
-            scene:setUiColor(self.hint, 0.20, 0.20, 0.18, 0.5)
+        -- 3D 側は exposure で白へ飛ばす(★乗算・中立 1.0)。ただしこれだけでは
+        -- UI が白の上に残るので、下で即時 ui:rect の白を重ねる。
+        local blow = clamp(self.doneT / (WHITE_T0 + WHITE_RISE), 0, 1)
+        post.set("exposure", 1.06 + (EXP_BLOW - 1.06) * blow * blow)
+        -- 部屋の唸りを一緒に引く。建物の音が先に止まってから白になる
+        local hush = 1.0 - clamp(self.doneT / (WHITE_T0 + WHITE_RISE), 0, 1)
+        for i = 1, #self.hum do
+            local id = self.hum[i]
+            if id then pcall(function() audio:setVoiceVolume(id, 0.30 * hush) end) end
         end
-        if self.doneT > 2.6 and (keyPressed("ENTER") or padPressed("A")) then
-            loadScene("scenes/stagedemo3.json")
+        if self.doneT >= WHITE_T0 + WHITE_RISE + WHITE_HOLD and not self.leftForClear then
+            self.leftForClear = true          -- ★毎フレーム呼ばない
+            -- ★fadeToScene ではなく loadScene。既に真っ白なので、
+            --   遷移側で暗転を挟むと 白 → 黒 → クリア画面 になって台無しになる。
+            loadScene(CLEAR_SCENE)
+        end
+        -- ★★白の板。OnUpdate で【一番最後に積む即時コマンド】であること。
+        --   即時 ui:* は retained UI(キャンバス)より手前に出るので、この 1 枚で
+        --   HUD も案内もパネルもレティクルも丸ごと覆える。post の白飛びだけでは
+        --   UI がポストを浴びないので白の上に文字が残る ―― それを潰すための板。
+        local wa = clamp((self.doneT - WHITE_T0) / WHITE_RISE, 0, 1)
+        if wa > 0.002 then
+            ui:rect(0, 0, SCREEN_W, SCREEN_H, 1, 1, 1, wa, 0)
         end
     end
 

@@ -77,6 +77,28 @@ local DOF_NEAR = 0.35
 local DOF_MID  = 2.20
 local DOF_FAR  = 8.00
 
+-- ---------------------------------------------------------------- 音
+-- ★題名曲はタイトル → ロード画面まで一続きで鳴らし、本編が開く所で消える。
+--   止めているのは 2 か所:
+--     ・LoadingScreen.lua … 幕が閉じるあいだに BGM の音量を 0 まで落とす
+--     ・StageMusic.lua    … 本編の OnStart で無条件に stopBGM()
+--   ★どちらか片方だけだと「本編まで曲が鳴り続ける」か「ぶつ切り」になる。
+-- ★耳で詰める値はこの 3 つ。
+local TITLE_BGM = "audio/bgm/title.mp3"
+local TITLE_VOL = 0.55      -- 題名曲の音量。控えめに敷く
+local HUM_VOL   = 0.10      -- 部屋の唸り。曲を敷いたぶん元の 0.20 から半分に落とした
+
+-- ★★メニューの手応え。ここの 2 音だけで選択画面の操作感が決まる。耳で詰めるならここ。
+--   nav   = 選択が 1 つ動いた。45ms の乾いた接点の音(source/gen_ui_sfx.py で合成)
+--   enter = 決めた。300ms、nav より【低く・長く・重い】。押した本人にだけ分かる濃さ
+--   ★lock.wav は「決定音」ではなく【決めたあとに起きること】(題名の継ぎ目が外れる)の
+--     音。enter を先に鳴らして、その結果として lock が続く、という順にしてある。
+local SFX_NAV     = "audio/ui/nav.wav"
+local SFX_ENTER   = "audio/ui/enter.wav"
+local NAV_VOL     = 0.34    -- 選択の移動。何度も鳴るので控えめに
+local ENTER_VOL   = 0.50    -- START の決定
+local ENTER_BYE   = 0.40    -- EXIT の決定。去る側なので一段落とす
+
 -- ---------------------------------------------------------------- 画面配置
 -- uiCanvas の基準は 1600x900・StretchToFill。即時 ui:* は【実ピクセル】なので、
 -- retained 側の矩形と揃えるには必ずこの 2 つを通して換算すること。
@@ -295,11 +317,12 @@ local function confirm(self)
         -- 「ここから先は継ぎ目の向こう側」という送り出しにしている。
         if self.logoT then scene:tweenUi(self.logoT, { dy = -58, duration = LEAVE_LEN, easing = "in" }) end
         if self.logoB then scene:tweenUi(self.logoB, { dy = 58, duration = LEAVE_LEN, easing = "in" }) end
-        sfx("audio/lm/lock.wav", 0.22)
+        sfx(SFX_ENTER, ENTER_VOL)          -- 決めた
+        sfx("audio/lm/lock.wav", 0.22)     -- その結果、継ぎ目が外れていく
     else
         self.stage = "bye"
         self.lt = 0
-        sfx("audio/lm/tick.wav", 0.18)
+        sfx(SFX_ENTER, ENTER_BYE)
     end
 end
 
@@ -316,15 +339,15 @@ local function menuInput(self, dt)
     end
 
     if keyPressed("DOWN") or keyPressed("S") or padPressed("DPAD_DOWN") then
-        if self.selection ~= 2 then self.selection = 2; sfx("audio/lm/tick.wav", 0.12) end
+        if self.selection ~= 2 then self.selection = 2; sfx(SFX_NAV, NAV_VOL) end
     end
     if keyPressed("UP") or keyPressed("W") or padPressed("DPAD_UP") then
-        if self.selection ~= 1 then self.selection = 1; sfx("audio/lm/tick.wav", 0.12) end
+        if self.selection ~= 1 then self.selection = 1; sfx(SFX_NAV, NAV_VOL) end
     end
     -- ESC は「終わる」ではなく「EXIT を選ぶ」。誤爆で落ちないように一段挟む
     if keyPressed("ESC") and self.selection ~= 2 then
         self.selection = 2
-        sfx("audio/lm/tick.wav", 0.12)
+        sfx(SFX_NAV, NAV_VOL)
     end
 
     -- 左スティック。倒しっぱなしで送り続けないよう、中立へ戻るまで 1 回だけ効かせる
@@ -333,7 +356,7 @@ local function menuInput(self, dt)
     if stickY > 0.65 then dir = 1 elseif stickY < -0.65 then dir = -1 end
     if dir ~= 0 and self.stickDir == 0 then
         local want = (dir > 0) and 1 or 2
-        if self.selection ~= want then self.selection = want; sfx("audio/lm/tick.wav", 0.12) end
+        if self.selection ~= want then self.selection = want; sfx(SFX_NAV, NAV_VOL) end
     end
     self.stickDir = dir
 
@@ -501,7 +524,22 @@ function OnStart(self)
     if flickerLight and flickerLight:isValid() and flickerLight:light() then
         Flicker(flickerLight:light(), "fluorescent")
     end
-    pcall(function() audio:playSFXId("audio/amb/hum.wav", true, 0.20) end)
+    -- 部屋の唸り。★題名曲を敷いたぶん半分まで落とす(消しはしない。唸りが無くなると
+    --   奥の部屋が「絵」になってしまい、曲だけが浮く)
+    pcall(function() audio:playSFXId("audio/amb/hum.wav", true, HUM_VOL) end)
+
+    -- 題名曲。★ここからロード画面まで【切らずに】鳴らし続ける。
+    --   ・playBGM は同じパスでも必ず頭出しするので、既に鳴っているなら呼ばない。
+    --     (タイトルへ戻ってきたときに曲が飛ぶのを防ぐ)
+    --   ・BGM の音量つまみはロード画面が幕を閉じながら 0 まで下げていく。
+    --     戻ってきた場合に無音のままにならないよう、ここで必ず戻しておく。
+    --   ・止めるのは本編側(StageMusic.lua の OnStart)。ここでは止めない。
+    pcall(function()
+        audio:setBGMVolume(TITLE_VOL)
+        if audio:getCurrentBGM() ~= TITLE_BGM or not audio:isBGMPlaying() then
+            audio:playBGM(TITLE_BGM)
+        end
+    end)
 end
 
 function OnUpdate(self, dt)

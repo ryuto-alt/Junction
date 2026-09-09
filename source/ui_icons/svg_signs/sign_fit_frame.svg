@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="660" viewBox="0 0 1000 660">
+  <!-- 第3幕 案内板 「枠に収める」(継ぎ目11 / R1 枠の廊下)
+       左  = 同じ形が枠より【大きすぎて、枠を呑み込んでいる】(点線・薄い = まだ実物ではない)
+       中  = 第1幕 3 枚目と同じ「こうなる」の矢印。語彙を揃えて後付けの説明書に見せない
+       右  = 同じ形が、同じ大きさの枠の内側へ【収まった】= 継ぎ目の色(GOLD)で塗る
+       下  = 床に寝かせた両向きの矢印。大きさを変える手は【床の上を前後に歩くこと】
+       ★形は第1幕 3 枚目の「本物」と同じ門の形。同じ絵が枠に入る/入らないだけの違い。
+       ★左は枠と門を重ねずに描いてある。線が重なると門の形が読めなくなるため。
+       ★どこに立てとは描かない。床の金の印が既にそれを言っている。 -->
+  <rect width="1000" height="660" fill="#E4DFCD"/>
+  <rect x="16" y="16" width="968" height="628" fill="none"
+        stroke="#2B2924" stroke-width="6" stroke-opacity="0.45"/>
+
+  <!-- 左: 枠(ただの四角い窓)を、大きすぎる門がぐるりと囲んでしまっている -->
+  <path d="M 52 392 L 52 48 L 372 48 L 372 392 L 316 392 L 316 104 L 108 104 L 108 392 Z"
+        fill="#2B2924" fill-opacity="0.08" stroke="#2B2924" stroke-opacity="0.52"
+        stroke-width="6" stroke-dasharray="18 13" stroke-linejoin="round"/>
+  <rect x="127" y="125" width="170" height="190" fill="none"
+        stroke="#2B2924" stroke-width="12" stroke-linejoin="round"/>
+
+  <!-- 中: 「こうなる」 -->
+  <path d="M 460 220 L 580 220" stroke="#2B2924" stroke-width="32" stroke-linecap="butt"/>
+  <polygon points="574,178 636,220 574,262" fill="#2B2924"/>
+
+  <!-- 右: まったく同じ大きさの枠に、同じ門が四方 18 の等しい余白で収まっている -->
+  <rect x="730" y="125" width="170" height="190" fill="none"
+        stroke="#2B2924" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M 748 297 L 748 143 L 882 143 L 882 297 L 858 297 L 858 167 L 772 167 L 772 297 Z"
+        fill="#D9AC5C" fill-opacity="0.85" stroke="#A87B33" stroke-width="5"
+        stroke-linejoin="round"/>
+
+  <!-- 下: 床と、その上を前後する両向きの矢印 -->
+  <path d="M 130 560 L 870 560" stroke="#2B2924" stroke-width="9" stroke-opacity="0.5"
+        stroke-linecap="round"/>
+  <path d="M 320 560 L 680 560" stroke="#2B2924" stroke-width="26" stroke-linecap="butt"/>
+  <polygon points="326,520 262,560 326,600" fill="#2B2924"/>
+  <polygon points="674,520 738,560 674,600" fill="#2B2924"/>
+</svg>

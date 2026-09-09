@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="660" viewBox="0 0 1000 660">
+  <!-- 第3幕 案内板 「なぞる」(継ぎ目12 / R2 並びの間)
+       下  = 目(第1幕 1 枚目・3 枚目と同じ形)。ここが振れる中心
+       中  = その目を中心にした【両向きの弧】= 端から端へ首を振り切る
+       上  = 弧の外側に並ぶ 5 枚の板。振り切った側から順に、点線の幽霊が
+             継ぎ目の色(GOLD)へ変わっていく = なぞった順に溶接される
+       ★止まって待つ絵(第1幕)と紛れないよう、【弧】であることが肝。
+         第3幕 1 枚目の「床の上を前後する直線の矢印」とも形で区別している。
+       ★どこに立つかは描かない。振る動作だけを言う。 -->
+  <rect width="1000" height="660" fill="#E4DFCD"/>
+  <rect x="16" y="16" width="968" height="628" fill="none"
+        stroke="#2B2924" stroke-width="6" stroke-opacity="0.45"/>
+
+  <!-- 上: 5 枚の板。左(なぞり終えた側)3 枚は本物、右 2 枚はまだ幽霊 -->
+  <g fill="#D9AC5C" fill-opacity="0.85" stroke="#A87B33" stroke-width="5">
+    <rect x="128" y="377" width="104" height="32" transform="rotate(-60 180 393)"/>
+    <rect x="263" y="242" width="104" height="32" transform="rotate(-30 315 258)"/>
+    <rect x="448" y="192" width="104" height="32"/>
+  </g>
+  <g fill="#2B2924" fill-opacity="0.08" stroke="#2B2924" stroke-opacity="0.52"
+     stroke-width="6" stroke-dasharray="18 13">
+    <rect x="633" y="242" width="104" height="32" transform="rotate(30 685 258)"/>
+    <rect x="768" y="377" width="104" height="32" transform="rotate(60 820 393)"/>
+  </g>
+
+  <!-- 中: 目を中心にした弧。両端に矢羽根 = どちらへも振り切れる -->
+  <path d="M 276.6 449 A 258 258 0 0 1 723.4 449" fill="none"
+        stroke="#2B2924" stroke-width="22" stroke-linecap="butt"/>
+  <polygon points="251,494 298,462 255,437" fill="#2B2924"/>
+  <polygon points="749,494 702,462 745,437" fill="#2B2924"/>
+
+  <!-- 下: 目(=見る)。第1幕と同じ形・同じ瞳 -->
+  <path d="M 416 578 Q 500 478 584 578 Q 500 678 416 578 Z"
+        fill="none" stroke="#2B2924" stroke-width="11" stroke-linejoin="round"/>
+  <circle cx="500" cy="578" r="24" fill="#2B2924"/>
+</svg>

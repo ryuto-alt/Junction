@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="660" viewBox="0 0 1000 660">
+  <!-- 第3幕 案内板 「枠で消す」(継ぎ目14 / 廊下)
+       ★左は 1 枚目「枠に収める」の右半分と【まったく同じ寸法の絵】。手は同じだと目で言う。
+         違うのは矢印の先。1 枚目は 点線 → 金(出来る)、この 1 枚は 金 → 点線(無くなる)。
+         第1幕 3 枚目から続く「点線=まだ無い / 金=本物」の語彙を、そのまま裏返す。
+       右 = 突き当りの壁。点線 = もう無い。下向きの矢印 = 床下へ沈んだ。
+            床の線は壁があった所を素通りして先へ続く = 道が開く。
+       ★この幕で唯一「物が減る」継ぎ目。どこに立つかは描かない。 -->
+  <rect width="1000" height="660" fill="#E4DFCD"/>
+  <rect x="16" y="16" width="968" height="628" fill="none"
+        stroke="#2B2924" stroke-width="6" stroke-opacity="0.45"/>
+
+  <!-- 床。左の枠も右の壁も同じ 1 本の床の上にある -->
+  <path d="M 60 576 L 940 576" stroke="#2B2924" stroke-width="9" stroke-opacity="0.5"
+        stroke-linecap="round"/>
+
+  <!-- 左: 1 枚目の右半分と同じ「枠に収まった門」 -->
+  <rect x="110" y="155" width="170" height="190" fill="none"
+        stroke="#2B2924" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M 128 327 L 128 173 L 262 173 L 262 327 L 238 327 L 238 197 L 152 197 L 152 327 Z"
+        fill="#D9AC5C" fill-opacity="0.85" stroke="#A87B33" stroke-width="5"
+        stroke-linejoin="round"/>
+
+  <!-- 中: 「こうなる」。1 枚目と同じ矢印 -->
+  <path d="M 400 255 L 520 255" stroke="#2B2924" stroke-width="32" stroke-linecap="butt"/>
+  <polygon points="514,213 576,255 514,297" fill="#2B2924"/>
+
+  <!-- 右: 突き当りの壁。点線 = もう無い。下向きの矢印 = 床下へ沈んだ -->
+  <rect x="646" y="176" width="250" height="400" fill="#2B2924" fill-opacity="0.08"
+        stroke="#2B2924" stroke-opacity="0.52" stroke-width="6" stroke-dasharray="18 13"/>
+  <path d="M 771 260 L 771 424" stroke="#2B2924" stroke-width="32" stroke-linecap="butt"/>
+  <polygon points="727,418 771,490 815,418" fill="#2B2924"/>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="660" viewBox="0 0 1000 660">
+  <!-- 第3幕 案内板 「選ぶ」(継ぎ目15/16 / R5 最後の部屋)
+       奥の壁に開口が 2 つ(中は暗い)、その手前に同じ形の穴が 2 つ、道は二股。
+       板は 5 枚しか無い。左の穴には金(本物)で架かっているが、
+       右の穴には【まったく同じ 5 枚】が点線(幽霊)のまま架からない。
+       ★「二つあって、橋は一つぶんしか無い」を、同じ 5 枚を二度描くことだけで言う。
+       ★どちらが正解かは言っていない(実際どちらでも出口へ着く)。
+         描いてあるのは規則だけで、立ち位置も、選ぶべき側も描かない。 -->
+  <rect width="1000" height="660" fill="#E4DFCD"/>
+  <rect x="16" y="16" width="968" height="628" fill="none"
+        stroke="#2B2924" stroke-width="6" stroke-opacity="0.45"/>
+
+  <!-- 奥の壁。まぐさ + 三本の柱。間の 2 つが開口で、奥は暗い -->
+  <g fill="#2B2924" fill-opacity="0.50">
+    <rect x="204" y="162" width="148" height="210"/>
+    <rect x="648" y="162" width="148" height="210"/>
+  </g>
+  <g fill="#2B2924" fill-opacity="0.13" stroke="#2B2924" stroke-opacity="0.65"
+     stroke-width="8" stroke-linejoin="round">
+    <rect x="120" y="116" width="760" height="46"/>
+    <rect x="120" y="162" width="84" height="210"/>
+    <rect x="352" y="162" width="296" height="210"/>
+    <rect x="796" y="162" width="84" height="210"/>
+  </g>
+
+  <!-- 二股の道 -->
+  <g stroke="#2B2924" stroke-width="12" stroke-opacity="0.5" stroke-linecap="round">
+    <path d="M 500 614 L 322 544"/>
+    <path d="M 500 614 L 678 544"/>
+  </g>
+
+  <!-- 開口の手前の穴 2 つ。同じ形・同じ大きさ -->
+  <g fill="#2B2924" fill-opacity="0.42">
+    <polygon points="178,402 378,402 410,530 146,530"/>
+    <polygon points="622,402 822,402 854,530 590,530"/>
+  </g>
+
+  <!-- 左の穴: 5 枚が本物になって架かっている(穴は板の左右に見えたまま残る) -->
+  <g fill="#D9AC5C" fill-opacity="0.85" stroke="#A87B33" stroke-width="5">
+    <rect x="230" y="398" width="96" height="22"/>
+    <rect x="227" y="426" width="102" height="22"/>
+    <rect x="224" y="454" width="108" height="22"/>
+    <rect x="221" y="482" width="114" height="22"/>
+    <rect x="218" y="510" width="120" height="22"/>
+  </g>
+  <!-- 右の穴: まったく同じ 5 枚が、幽霊のまま架からない -->
+  <g fill="#2B2924" fill-opacity="0.08" stroke="#2B2924" stroke-opacity="0.52"
+     stroke-width="6" stroke-dasharray="18 13">
+    <rect x="674" y="398" width="96" height="22"/>
+    <rect x="671" y="426" width="102" height="22"/>
+    <rect x="668" y="454" width="108" height="22"/>
+    <rect x="665" y="482" width="114" height="22"/>
+    <rect x="662" y="510" width="120" height="22"/>
+  </g>
+
+  <!-- 二股の手前に立つ人 -->
+  <g stroke="#2B2924" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 500 450 L 500 542" stroke-width="42"/>
+    <path d="M 500 472 L 444 534" stroke-width="24"/>
+    <path d="M 500 472 L 556 534" stroke-width="24"/>
+    <path d="M 500 542 L 476 610" stroke-width="28"/>
+    <path d="M 500 542 L 524 610" stroke-width="28"/>
+  </g>
+  <circle cx="500" cy="414" r="36" fill="#2B2924"/>
+</svg>
