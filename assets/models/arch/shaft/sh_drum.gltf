@@ -1,6 +1,6 @@
 {
 	"asset":{
-		"generator":"Khronos glTF Blender I/O v5.2.39",
+		"generator":"Khronos glTF Blender I/O v5.2.40",
 		"version":"2.0"
 	},
 	"scene":0,
@@ -105,7 +105,7 @@
 		{
 			"bufferView":0,
 			"componentType":5126,
-			"count":2596,
+			"count":2524,
 			"max":[
 				7.159999847412109,
 				16.1200008392334,
@@ -121,25 +121,25 @@
 		{
 			"bufferView":1,
 			"componentType":5126,
-			"count":2596,
+			"count":2524,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":2,
 			"componentType":5126,
-			"count":2596,
+			"count":2524,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":3,
 			"componentType":5123,
-			"count":3222,
+			"count":3114,
 			"type":"SCALAR"
 		},
 		{
 			"bufferView":4,
 			"componentType":5126,
-			"count":400,
+			"count":352,
 			"max":[
 				7,
 				16,
@@ -155,69 +155,69 @@
 		{
 			"bufferView":5,
 			"componentType":5126,
-			"count":400,
+			"count":352,
 			"type":"VEC3"
 		},
 		{
 			"bufferView":6,
 			"componentType":5126,
-			"count":400,
+			"count":352,
 			"type":"VEC2"
 		},
 		{
 			"bufferView":7,
 			"componentType":5123,
-			"count":600,
+			"count":528,
 			"type":"SCALAR"
 		}
 	],
 	"bufferViews":[
 		{
 			"buffer":0,
-			"byteLength":31152,
+			"byteLength":30288,
 			"byteOffset":0,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":31152,
-			"byteOffset":31152,
+			"byteLength":30288,
+			"byteOffset":30288,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":20768,
-			"byteOffset":62304,
+			"byteLength":20192,
+			"byteOffset":60576,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":6444,
-			"byteOffset":83072,
+			"byteLength":6228,
+			"byteOffset":80768,
 			"target":34963
 		},
 		{
 			"buffer":0,
-			"byteLength":4800,
-			"byteOffset":89516,
+			"byteLength":4224,
+			"byteOffset":86996,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":4800,
-			"byteOffset":94316,
+			"byteLength":4224,
+			"byteOffset":91220,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":3200,
-			"byteOffset":99116,
+			"byteLength":2816,
+			"byteOffset":95444,
 			"target":34962
 		},
 		{
 			"buffer":0,
-			"byteLength":1200,
-			"byteOffset":102316,
+			"byteLength":1056,
+			"byteOffset":98260,
 			"target":34963
 		}
 	],
@@ -229,7 +229,7 @@
 	],
 	"buffers":[
 		{
-			"byteLength":103516,
+			"byteLength":99316,
 			"uri":"sh_drum.bin"
 		}
 	]

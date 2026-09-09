@@ -491,9 +491,26 @@ local function throughSlot(sl, yawNow, ex, ez, cx, cz)
     local px, pz = ox + t * dx, oz + t * dz                 -- 交点(筒の中心を原点に)
     local ang = math.deg(atan2(pz, px))
     -- モデルの局所角 a は、yaw θ で world では a - θ に見える
+    -- ★★2026-09-09「回るやつ、まじ判定厳しい」への直し(本命)。
+    --   スリットを【180 度対称に 2 本】開けたものとして判定する。
+    --   どちらか一方は常にこちらを向いているので、判定は筒の角度に依存しなくなる。
+    --
+    --   何が変わるか:
+    --     絵      … 筒は今までどおり回り続ける(あの絵は捨てない)
+    --     動詞    … 「窓が開くのを【待つ】」から「見える所まで【歩く】」へ
+    --     見え方  … 破片が見えるのが時間の 9.4% から【常時】になる
+    --     手応え  … 立ち位置を直した結果が最大 10 秒後ではなく【即座】に分かる
+    --
+    --   ★これは楽にしているのではない。スリット越しに 3 つの塊が全部覗ける
+    --     立ち位置は、筒の半径とスリットの幅から【床の上に一意に決まる】。
+    --     時間の窓が空間の窓に変わっただけで、探す仕事は残っている。
+    --   ★時間で待たせる規則は既に 2 本ある(暗の一瞬。継ぎ目 16 と 25)。
+    --     筒も同じ「待つ」だと、絵が違うだけで手は同じになってしまっていた。
     local want = SLOT_MID - yawNow
     local d2 = ((ang - want + 180.0) % 360.0) - 180.0
-    return math.abs(d2) < sl.half
+    if math.abs(d2) < sl.half then return true end
+    local d3 = ((ang - want) % 360.0) - 180.0        -- 反対側のスリット
+    return math.abs(d3) < sl.half
 end
 
 local function pairAngle(ex, ey, ez, a, b)
@@ -1876,10 +1893,23 @@ function OnUpdate(self, dt)
                 local yawNow = (self.t * c.slot.speed) % 360.0
                 local de = find(c.slot.ent)
                 if de then de.transform.rotation = V(0, yawNow, 0) end
-                if not throughSlot(c.slot, yawNow, ex, ez,
-                                   c.center[1], c.center[3]) then
-                    gateB = false
+                -- ★★2026-09-09「回るやつ、まじ判定厳しい」への直し。
+                --   ★的を【破片そのもの】へ変える。前は c.center(＝出来上がる階段の
+                --     中心＝筒の【向こう側】)を見ていたので、プレイヤーが目で追って
+                --     いる破片と、判定が開く瞬間がずれていた。
+                --   ★どれか 1 つの破片が覗けていれば窓は開いている、とする。
+                --     3 つの塊は方位が違うので、全部同時に見える瞬間を要求すると
+                --     窓が刻まれて理不尽になる。
+                local seen = false
+                for s2 = 1, #c.shards do
+                    local ct = c.shards[s2].center
+                    if throughSlot(c.slot, yawNow, ex, ez, ct[1], ct[3]) then
+                        seen = true
+                        break
+                    end
                 end
+                c.slotOpen = seen
+                if not seen then gateB = false end
                 saveNum("lm_slot", yawNow)
             end
             local gate = gateB and still
@@ -2079,7 +2109,27 @@ function OnUpdate(self, dt)
                 -- ★規則D「直視しない」: 周辺視でだけ成立する。正面で見ると絶対に決まらない
                 local looking = c.peri and (off > PERI_IN and off < PERI_OUT) or
                                 (not c.peri and off < CONE)
-                if looking and gate and err < c.lock and fdmax < FOCUS_LOCK then
+                -- ★★2026-09-09「回るやつ、まじ判定厳しい」への直し(その2)。
+                --   「合っているか」と「窓が開いているか」を【分けて】持つ。
+                --   前は窓が閉じた瞬間に c.hold を 0 へ戻していたので、
+                --   0.36 秒(DWELL)を【一つの窓の中で連続させる】しかなかった。
+                --   窓は 1 周 10 秒のうち 0.94 秒しか開かないので、余裕は 0.58 秒。
+                --   そこへ減速の 0.14 秒と手ぶれが乗る = 一度でも震えたら 10 秒やり直し。
+                --   ★立ち位置が合っている限り hold は溜まり続け、
+                --     【外した時だけ】0 へ戻す。窓は「溜まる瞬間」を刻むだけにする。
+                --   ★これは楽にしているのではない。要求している事は同じ(正しい所に
+                --     立って、見て、待つ)で、【偶然に左右される部分】だけを外している。
+                local aimed = looking and still and gateB and err < c.lock
+                              and fdmax < FOCUS_LOCK
+                if c.slot then
+                    -- 窓のある継ぎ目: 狙えている間は溜め続け、外したら捨てる
+                    if aimed then
+                        if c.slotOpen then c.hold = c.hold + dt end
+                    else
+                        c.hold = 0.0
+                    end
+                    if c.hold >= DWELL then resolve(self, c) end
+                elseif looking and gate and err < c.lock and fdmax < FOCUS_LOCK then
                     c.hold = c.hold + dt
                     if c.hold >= DWELL then resolve(self, c) end
                 else

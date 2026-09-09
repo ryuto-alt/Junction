@@ -31,9 +31,16 @@ def build_shaft():
 
     def band(b, r, y0, y1, n, m, uo=0.0, skip=None, inward=False):
         """半径 r の筒の側面。skip=(i0,i1) の区間は開ける(スリット)。
-        inward=True で法線を内向きにする(中を見せる筒に要る)。"""
+        inward=True で法線を内向きにする(中を見せる筒に要る)。
+
+        ★skip は【区間のリスト】も受ける: skip=[(0,6), (28,34)] で 2 本開く。
+          2026-09-09、回る筒の判定を「時間の窓」から「空間の窓」へ変えたのに伴い、
+          スリットを 180 度対称に 2 本開けるために足した。
+          どちらか一方が常にこちらを向くので、筒は回っているのに
+          中の破片はいつでも覗ける ＝ 立ち位置を直した結果が即座に分かる。"""
+        cuts = skip if (skip and isinstance(skip[0], (tuple, list))) else ([skip] if skip else [])
         for i in range(n):
-            if skip and skip[0] <= i < skip[1]:
+            if any(c[0] <= i < c[1] for c in cuts):
                 continue
             j = (i + 1) % n
             u0 = (2.0 * math.pi * r * i / n) * K + uo
@@ -91,10 +98,15 @@ def build_shaft():
     #   SL0..SL1 の区間だけ壁もリブも帯も開ける。中を見せるので内側の面も張る。
     R, H, N, NR = 7.0, 16.0, 56, 24
     SL0, SL1 = 0, 6                                            # 6/56 = 38.6 度のスリット
+    # ★180 度反対側にも同じ幅で 1 本。判定側(liminal_runtime.lua の throughSlot)も
+    #   2 本前提で書いてある。絵と判定は必ず一致させること
+    #   ── 以前 モデル 38.6 度 / 判定 34 度 とずれていて、
+    #      「スリット越しに見えているのに繋がらない」帯が 1 周 0.13 秒あった。
+    SLOTS = [(SL0, SL1), (SL0 + N // 2, SL1 + N // 2)]
     SLA0, SLA1 = 2.0 * math.pi * SL0 / N, 2.0 * math.pi * SL1 / N
     b = Build()
-    band(b, R, 0.0, H, N, 1, skip=(SL0, SL1))                  # 外壁(コンクリ)
-    band(b, R - 0.34, 0.0, H, N, 1, skip=(SL0, SL1), inward=True)   # 内壁(中が見える)
+    band(b, R, 0.0, H, N, 1, skip=SLOTS)                  # 外壁(コンクリ)
+    band(b, R - 0.34, 0.0, H, N, 1, skip=SLOTS, inward=True)   # 内壁(中が見える)
     cap(b, R, H, N, 0, up=True)                                # 天面(金属・足場になる)
     # スリットの小口(壁の厚みを見せる。無いと紙のように見える)
     for aa in (SLA0, SLA1):
@@ -111,7 +123,7 @@ def build_shaft():
             continue                                           # スリットの前は開けておく
         radial_box(b, a, R - 0.05, R + 0.30, 0.35, H - 0.35, 0.22, 0)
     for y in (4.2, 8.4, 12.6):                                 # 水平の帯(高さを読ませる)
-        band(b, R + 0.16, y, y + 0.42, N, 0, skip=(SL0, SL1))
+        band(b, R + 0.16, y, y + 0.42, N, 0, skip=SLOTS)
         cap(b, R + 0.16, y + 0.42, N, 0, up=True)
         cap(b, R + 0.16, y, N, 0, up=False)
     # 天面の縁(人の寸法の物 = 巨大さの物差し)

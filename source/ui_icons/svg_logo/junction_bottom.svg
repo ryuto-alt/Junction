@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1405.38" height="248" viewBox="0 0 1405.38 248">
+<defs><clipPath id="cB"><rect x="0" y="124.5" width="1405.38" height="123.5"/></clipPath></defs>
+<g fill="#ffffff" stroke="none">
+  <g clip-path="url(#cB)"><g transform="translate(24 24)" fill="#ffffff" stroke="#ffffff" stroke-linecap="butt">
+  <g transform="translate(0 0)"><path fill="none" stroke-width="46" stroke-linejoin="round" d="M109.02 0V133.99A43.01 43.01 0 0 1 23 133.99"/></g>
+  <g transform="translate(168.02 0)"><path fill="none" stroke-width="46" stroke-linejoin="round" d="M23 0V125.02A51.98 51.98 0 0 0 126.96 125.02V0"/></g>
+  <g transform="translate(353.98 0)"><path stroke="none" d="M0 0h46v200h-46z"/><path stroke="none" d="M109.94 0h46v200h-46z"/><path stroke="none" d="M0 0L46 0L155.94 200L109.94 200z"/></g>
+  <g transform="translate(545.92 0)"><path fill="none" stroke-width="46" stroke-linejoin="round" d="M122.93 147.41A55.89 77 0 1 1 122.93 52.59"/></g>
+  <g transform="translate(739.7 0)"><path stroke="none" d="M0 0h149.96v46h-149.96z"/><path stroke="none" d="M51.98 46h46v154h-46z"/></g>
+  <g transform="translate(925.66 0)"><path stroke="none" d="M0 0h46v200h-46z"/></g>
+  <g transform="translate(1007.66 0)"><path fill="none" stroke-width="46" stroke-linejoin="round" d="M23 100A55.89 77 0 0 1 134.78 100A55.89 77 0 0 1 23 100Z"/></g>
+  <g transform="translate(1201.44 0)"><path stroke="none" d="M0 0h46v200h-46z"/><path stroke="none" d="M109.94 0h46v200h-46z"/><path stroke="none" d="M0 0L46 0L155.94 200L109.94 200z"/></g>
+  </g></g>
+</g>
+</svg>
