@@ -1,0 +1,865 @@
+{
+  "contactShadow": {
+    "bias": 0.019999999552965164,
+    "enabled": false,
+    "fadeDistance": 10.0,
+    "intensity": 1.0,
+    "maxDistance": 50.0,
+    "rayLength": 0.25,
+    "steps": 16,
+    "thickness": 0.20000000298023224
+  },
+  "entities": [
+    {
+      "camera": {
+        "farClip": 100.0,
+        "fovDegrees": 72.0,
+        "isActive": true,
+        "nearClip": 0.019999999552965164,
+        "orthoSize": 10.0,
+        "projection": 0,
+        "screenShaderEnabled": true,
+        "screenShaderParams": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "screenShaderPath": ""
+      },
+      "guid": "7ed2d00cd41c1910",
+      "name": "TitleCamera",
+      "transform": {
+        "position": [
+          0.0,
+          1.7200000286102295,
+          -5.150000095367432
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "34559d617e8aba97",
+      "luaScript": {
+        "enabled": true,
+        "scriptPath": "components/TitleMenu.lua"
+      },
+      "name": "TitleLogic",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "eef035cc25f67e19",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.949999988079071
+      },
+      "meshRenderer": {
+        "modelPath": "models/arch/slab/floor.gltf"
+      },
+      "name": "TitleFloor",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "a11e09a609c38ba3",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.9200000166893005
+      },
+      "meshRenderer": {
+        "modelPath": "models/arch/slab/ceiling.gltf"
+      },
+      "name": "TitleCeiling",
+      "transform": {
+        "position": [
+          0.0,
+          3.8499999046325684,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "e027b4f1f7dee105",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall_door.gltf"
+      },
+      "name": "TitleWall_Back",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          6.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "93bb506daff0589c",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
+      },
+      "name": "TitleWall_Left",
+      "transform": {
+        "position": [
+          -6.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "c00a6829523b7023",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
+      },
+      "name": "TitleWall_Right",
+      "transform": {
+        "position": [
+          6.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          270.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "1e69419f4d00c904",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.8799999952316284
+      },
+      "meshRenderer": {
+        "modelPath": "models/arch/wall/wall.gltf"
+      },
+      "name": "TitleWall_Entry",
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          -6.0
+        ],
+        "rotation": [
+          0.0,
+          180.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "896c2fb90d9cd253",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.550000011920929
+      },
+      "meshRenderer": {
+        "modelPath": "models/arch/trim/doorleaf.gltf"
+      },
+      "name": "TitleDoor",
+      "transform": {
+        "position": [
+          -0.9800000190734863,
+          0.0,
+          5.820000171661377
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "767471da6347e52d",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.550000011920929
+      },
+      "meshRenderer": {
+        "modelPath": "models/props/locker.gltf"
+      },
+      "name": "TitleLocker",
+      "transform": {
+        "position": [
+          5.25,
+          0.0,
+          2.799999952316284
+        ],
+        "rotation": [
+          0.0,
+          270.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "0cfd4aa3682e52c4",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.550000011920929
+      },
+      "meshRenderer": {
+        "modelPath": "models/props/bench.gltf"
+      },
+      "name": "TitleBench",
+      "transform": {
+        "position": [
+          -4.400000095367432,
+          0.0,
+          2.9000000953674316
+        ],
+        "rotation": [
+          0.0,
+          90.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "65c9cd003ebb40d2",
+      "material": {
+        "metallic": 0.0,
+        "roughness": 0.800000011920929
+      },
+      "meshRenderer": {
+        "modelPath": "models/props/crate.gltf"
+      },
+      "name": "TitleCrate",
+      "transform": {
+        "position": [
+          4.800000190734863,
+          0.0,
+          4.400000095367432
+        ],
+        "rotation": [
+          0.0,
+          15.0,
+          0.0
+        ],
+        "scale": [
+          0.800000011920929,
+          0.800000011920929,
+          0.800000011920929
+        ]
+      }
+    },
+    {
+      "guid": "cab9330e034a508c",
+      "material": {
+        "metallic": 0.6000000238418579,
+        "roughness": 0.44999998807907104
+      },
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      },
+      "name": "TitleTroffer_1",
+      "transform": {
+        "position": [
+          0.0,
+          3.819999933242798,
+          -2.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "63cc6e06bb39b2f2",
+      "material": {
+        "metallic": 0.6000000238418579,
+        "roughness": 0.44999998807907104
+      },
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      },
+      "name": "TitleTroffer_2",
+      "transform": {
+        "position": [
+          0.0,
+          3.819999933242798,
+          1.2999999523162842
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "57c877271d1c1caf",
+      "material": {
+        "metallic": 0.6000000238418579,
+        "roughness": 0.44999998807907104
+      },
+      "meshRenderer": {
+        "modelPath": "models/props/troffer.gltf"
+      },
+      "name": "TitleTroffer_3",
+      "transform": {
+        "position": [
+          0.0,
+          3.819999933242798,
+          4.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "f8599d9aab2adb05",
+      "name": "TitleLight_1",
+      "pointLight": {
+        "castShadows": true,
+        "color": [
+          1.0,
+          0.9599999785423279,
+          0.8600000143051147
+        ],
+        "intensity": 8.5,
+        "range": 10.0
+      },
+      "transform": {
+        "position": [
+          0.0,
+          3.3499999046325684,
+          -2.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "9e84bd4b50674bd3",
+      "name": "TitleLight_2",
+      "pointLight": {
+        "castShadows": true,
+        "color": [
+          1.0,
+          0.9599999785423279,
+          0.8600000143051147
+        ],
+        "intensity": 7.199999809265137,
+        "range": 10.0
+      },
+      "transform": {
+        "position": [
+          0.0,
+          3.3499999046325684,
+          1.2999999523162842
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "guid": "c6da64afedf89832",
+      "name": "TitleLight_3",
+      "pointLight": {
+        "castShadows": true,
+        "color": [
+          1.0,
+          0.9599999785423279,
+          0.8600000143051147
+        ],
+        "intensity": 0.0,
+        "range": 8.0
+      },
+      "transform": {
+        "position": [
+          0.0,
+          3.3499999046325684,
+          4.5
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "directionalLight": {
+        "ambient": 0.08500000089406967,
+        "color": [
+          0.8600000143051147,
+          0.8799999952316284,
+          0.9200000166893005
+        ],
+        "direction": [
+          -0.25,
+          -1.0,
+          0.25
+        ],
+        "intensity": 0.0
+      },
+      "guid": "1b7219cc9c7edb59",
+      "name": "TitleAmbient",
+      "transform": {
+        "position": [
+          0.0,
+          5.0,
+          0.0
+        ],
+        "rotation": [
+          25.0,
+          -30.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "gridPlane": {
+        "size": 20000.0
+      },
+      "guid": "b9b848a67140c070",
+      "name": "Grid",
+      "primitive": "plane",
+      "primitiveSize": 20000.0,
+      "transform": {
+        "position": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
+  ],
+  "navmesh": {
+    "agentHeight": 1.7999999523162842,
+    "agentMaxClimb": 0.44999998807907104,
+    "agentMaxSlope": 45.0,
+    "agentRadius": 0.3499999940395355,
+    "boundsMax": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "boundsMin": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "cellHeight": 0.11999999731779099,
+    "cellSize": 0.20000000298023224,
+    "filterLedgeSpans": true,
+    "filterLowHanging": true,
+    "maxEdgeLen": 12.0,
+    "maxSimplificationErr": 1.2999999523162842,
+    "maxVertsPerPoly": 6,
+    "mergeRegionArea": 20.0,
+    "minRegionArea": 2.0,
+    "monotonePartition": false,
+    "useBounds": false
+  },
+  "normalFilter": {
+    "enabled": true,
+    "geometricBlend": 2.0,
+    "strength": 2.0,
+    "varianceClamp": 0.25
+  },
+  "postProcess": {
+    "aeEvComp": 0.0,
+    "aeLogMax": 4.0,
+    "aeLogMin": -8.0,
+    "aeSpeed": 2.0,
+    "autoExposureOn": false,
+    "bloom": 0.20000000298023224,
+    "bloomKnee": 0.5,
+    "bloomOn": true,
+    "bloomRadius": 0.6499999761581421,
+    "bloomThreshold": 1.0,
+    "brightness": 0.0,
+    "brightnessOn": false,
+    "chromaMode": 0,
+    "chromatic": 0.5,
+    "chromaticOn": false,
+    "contrast": 1.0800000429153442,
+    "contrastOn": false,
+    "debandOn": true,
+    "ditherLevels": 4,
+    "ditherOn": false,
+    "dofAperture": 2.799999952316284,
+    "dofBlurSize": 12.0,
+    "dofFocalLength": 0.0,
+    "dofFocusDist": 8.0,
+    "dofFocusName": "",
+    "dofFocusRange": 5.0,
+    "dofOn": false,
+    "enabled": true,
+    "exposure": 1.059999942779541,
+    "exposureOn": true,
+    "fxaaOn": true,
+    "glitch": 0.30000001192092896,
+    "glitchBlocks": 24.0,
+    "glitchColor": 0.5,
+    "glitchOn": false,
+    "glitchSpeed": 12.0,
+    "godraysOn": false,
+    "grDecay": 0.9599999785423279,
+    "grDensity": 0.8999999761581421,
+    "grIntensity": 0.6000000238418579,
+    "grain": 0.02500000037252903,
+    "grainColored": false,
+    "grainOn": true,
+    "grainSize": 1.0,
+    "grayscale": 1.0,
+    "grayscaleOn": false,
+    "hueOn": false,
+    "hueShift": 0.0,
+    "invert": 1.0,
+    "invertOn": false,
+    "lens": 0.30000001192092896,
+    "lensChroma": 0.0,
+    "lensCircular": true,
+    "lensEdge": 1,
+    "lensK2": 0.0,
+    "lensMode": 0,
+    "lensOn": false,
+    "lensZoom": 1.0,
+    "lensflareOn": false,
+    "lfChroma": 0.009999999776482582,
+    "lfDispersal": 0.3499999940395355,
+    "lfGhosts": 4,
+    "lfHalo": 0.44999998807907104,
+    "lfIntensity": 0.5,
+    "lutAmount": 1.0,
+    "lutOn": false,
+    "lutPath": "",
+    "mbSamples": 10,
+    "mbStrength": 0.5,
+    "motionBlurOn": false,
+    "outline": 1.0,
+    "outlineBg": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "outlineColor": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "outlineOn": false,
+    "outlineOnly": false,
+    "outlineThickness": 1.0,
+    "outlineThreshold": 0.019999999552965164,
+    "pixelSize": 8.0,
+    "pixelizeOn": false,
+    "posterize": 6,
+    "posterizeOn": false,
+    "radial": 0.30000001192092896,
+    "radialCenterX": 0.5,
+    "radialCenterY": 0.5,
+    "radialOn": false,
+    "radialSamples": 8,
+    "saturation": 1.0700000524520874,
+    "saturationOn": true,
+    "scanCount": 240.0,
+    "scanCurve": 0.18000000715255737,
+    "scanline": 0.5,
+    "scanlineOn": false,
+    "sepia": 1.0,
+    "sepiaOn": false,
+    "sharpen": 0.5,
+    "sharpenOn": false,
+    "tint": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "tintOn": false,
+    "tonemapper": 1,
+    "vignette": 0.30000001192092896,
+    "vignetteColor": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "vignetteOn": true,
+    "vignetteRadius": 0.6200000047683716,
+    "vignetteRoundness": 1.0,
+    "vignetteSoftness": 0.44999998807907104,
+    "warmth": 0.05000000074505806,
+    "warmthOn": true,
+    "waveAmp": 0.009999999776482582,
+    "waveFreq": 12.0,
+    "waveOn": false,
+    "waveSpeed": 2.0
+  },
+  "raytracing": {
+    "aoCombineWithSsao": false,
+    "aoDenoise": true,
+    "aoDenoiseRadius": 8.0,
+    "aoEnabled": false,
+    "aoIntensity": 1.0,
+    "aoPower": 1.5,
+    "aoRadius": 1.0,
+    "aoRayCount": 2,
+    "ddgi": {
+      "bounceIntensity": 0.0,
+      "enabled": false,
+      "hysteresis": 0.9700000286102295,
+      "intensity": 1.0,
+      "normalBias": 0.019999999552965164,
+      "originX": -8.0,
+      "originY": 0.5,
+      "originZ": -8.0,
+      "probeCountX": 8,
+      "probeCountY": 4,
+      "probeCountZ": 8,
+      "rayLength": 30.0,
+      "spacing": 2.0
+    },
+    "maxInstances": 0,
+    "shadowEnabled": false,
+    "shadowIntensity": 1.0,
+    "shadowMaxDistance": 0.0,
+    "shadowNormalBias": 0.019999999552965164,
+    "shadowSunAngle": 0.5299999713897705
+  },
+  "shadowPcss": {
+    "blockerSearchTexels": 16.0,
+    "enabled": false,
+    "lightTanAngle": 0.05000000074505806,
+    "maxPenumbraTexels": 16.0,
+    "temporalDither": true
+  },
+  "shadows": true,
+  "skybox": {
+    "drawSkybox": true,
+    "envMapPath": "__procedural_sky__",
+    "iblIntensity": 1.0,
+    "skyboxIntensity": 1.0
+  },
+  "ssao": {
+    "bias": 0.02500000037252903,
+    "blur": true,
+    "enabled": false,
+    "intensity": 1.0,
+    "power": 1.5,
+    "radius": 0.5,
+    "sampleCount": 16
+  },
+  "ssgi": {
+    "clampValue": 4.0,
+    "enabled": false,
+    "feedback": 0.9200000166893005,
+    "iblFallback": true,
+    "intensity": 0.800000011920929,
+    "radius": 6.0,
+    "rayCount": 2,
+    "stepCount": 12,
+    "thickness": 0.5
+  },
+  "ssr": {
+    "bias": 0.05000000074505806,
+    "edgeFade": 0.15000000596046448,
+    "enabled": false,
+    "intensity": 1.0,
+    "maxDistance": 50.0,
+    "maxSteps": 48,
+    "roughnessCutoff": 0.6000000238418579,
+    "stride": 2.0,
+    "thickness": 0.5
+  },
+  "taa": {
+    "enabled": false,
+    "feedbackMax": 0.9700000286102295,
+    "feedbackMin": 0.8799999952316284,
+    "jitterScale": 1.0,
+    "sampleCount": 8,
+    "varianceGamma": 1.0
+  },
+  "version": 1,
+  "volumetricFog": {
+    "albedo": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "ambient": [
+      0.20000000298023224,
+      0.23999999463558197,
+      0.3199999928474426
+    ],
+    "anisotropy": 0.30000001192092896,
+    "density": 0.019999999552965164,
+    "depthDistribution": 2.0,
+    "distance": 150.0,
+    "enabled": false,
+    "extendBeyondRange": true,
+    "heightFalloff": 0.10000000149011612,
+    "heightRef": 0.0,
+    "lightScattering": true,
+    "sunIntensity": 1.0,
+    "temporal": true,
+    "temporalBlend": 0.07999999821186066
+  }
+}

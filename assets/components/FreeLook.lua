@@ -25,6 +25,9 @@ local BODY_H  = 1.8
 local SCALES  = { 0.125, 0.25, 0.5, 1.0, 2.0 }   -- Body_0..4(gen_stages.py と一致)
 local EYE_H   = 1.7
 local EYE_OFF = EYE_H - BODY_H * 0.5    -- 体の中心から目まで(大きさ 1 のとき 0.8)
+local GRAVITY = 14.0
+local JUMP_HEIGHT = 0.9
+local CEILING_MARGIN = 0.08
 
 local BOB_AMP, BOB_ROLL, BOB_FREQ, BOB_BLEND = 0.42, 0.36, 1.75, 8.0
 
@@ -40,6 +43,25 @@ local function body(self)
     local e = scene:findEntity("Body_" .. i)
     if e and e:isValid() then return e end
     return nil
+end
+
+local function bodyScale()
+    return SCALES[math.floor(loadNum("bodyIdx", 3) + 0.5) + 1] or 1.0
+end
+
+local function jumpSpeedForHeadroom(b)
+    local p = b.transform.position
+    local halfBody = BODY_H * 0.5 * bodyScale()
+    local defaultRise = JUMP_HEIGHT * bodyScale()
+    -- コントローラ中心から、頭上の通常ジャンプ到達点までを調べる。
+    local hit = physics:raycast(Vec3.new(p.x, p.y + 0.02, p.z), Vec3.new(0, 1, 0),
+                                halfBody + defaultRise + CEILING_MARGIN)
+    if not hit.hit then return math.sqrt(2 * GRAVITY * defaultRise) end
+
+    -- 頭が当たる高さではなく、安全マージンを引いた位置を最高点にする。
+    local rise = math.min(defaultRise, hit.distance - halfBody - CEILING_MARGIN)
+    if rise <= 0.02 then return 0 end
+    return math.sqrt(2 * GRAVITY * rise)
 end
 
 function OnStart(self)
@@ -111,12 +133,15 @@ function OnUpdate(self, dt)
     -- ★keyPressed ではなく keyDown。押しっぱなしで連続ジャンプできる方が
 --   プラットフォーマーとして素直で、失敗のやり直しが軽い。
     if b and keyDown("SPACE") and physics:isGrounded(b) then
-        physics:jump(b)
-        saveNum("jumped", 1)
-        pcall(function()
-            local id = audio:playSFXId("audio/ui/step.wav", false, 0.5)
-            if id then audio:setVoicePitch(id, 0.85) end   -- ★大きさで変えない(教えてしまう)
-        end)
+        local jumpSpeed = jumpSpeedForHeadroom(b)
+        if jumpSpeed > 0 then
+            physics:jump(b, jumpSpeed)
+            saveNum("jumped", 1)
+            pcall(function()
+                local id = audio:playSFXId("audio/ui/step.wav", false, 0.5)
+                if id then audio:setVoicePitch(id, 0.85) end   -- ★大きさで変えない(教えてしまう)
+            end)
+        end
     end
 
     saveNum("camYaw", self.yaw)
@@ -152,7 +177,7 @@ function OnUpdate(self, dt)
         local p = b.transform.position
         -- ★目の高さは【体の足元 + 1.7 x 見た目の縮尺】。廊下の中では体(当たり判定)と
         --   見た目の縮尺が違う(体は 5 種しか無い)ので、体の中心からの固定オフセットでは狂う
-        local sb = SCALES[math.floor(loadNum("bodyIdx", 3) + 0.5) + 1] or 1.0
+        local sb = bodyScale()
         e.transform.position = Vec3.new(p.x, p.y - BODY_H * 0.5 * sb + EYE_H * s, p.z)
     end
     -- ★v10: Junction.lua が書く camRoll を足す(視界だけを転がす = 平衡感覚の錯覚)。
