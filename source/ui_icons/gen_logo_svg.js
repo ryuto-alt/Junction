@@ -23,7 +23,7 @@ const OUT = path.join(__dirname, "svg_logo");
 
 // ---- 題名 ----
 const LOGO_W     = 46;   // 太さ。案内板の見出しくらい太く
-const LOGO_TRACK = 36;   // 字間。余白を多く = 静かな絵作り
+const LOGO_TRACK = 44;   // 字間。余白を多く = 静かな絵作り
 const LOGO_M     = 24;   // 余白(焼くときに端が欠けないように)
 const SEAM_Y     = 94;   // 継ぎ目の位置(キャップ上端からの距離)。中心よりわずかに上
 const SEAM_GAP   = 13;   // 継ぎ目の空き

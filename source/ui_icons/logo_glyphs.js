@@ -33,8 +33,8 @@ const rect = (x, y, w, h) => `<path stroke="none" d="M${f(x)} ${f(y)}h${f(w)}v${
 const poly = (pts) => `<path stroke="none" d="M${pts.map((p) => `${f(p[0])} ${f(p[1])}`).join("L")}z"/>`;
 // 線で描く字。★fill="none" を必ず付ける(親の fill を継ぐと、線で描いた
 //   "U" の内側まで塗り潰されて別の字になる。実際そうなった)
-const line = (d, W, extra) =>
-  `<path fill="none" stroke-width="${f(W)}" stroke-linejoin="round"${extra ? " " + extra : ""} d="${d}"/>`;
+const line = (d, W, join) =>
+  `<path fill="none" stroke-width="${f(W)}" stroke-linejoin="${join || "round"}" d="${d}"/>`;
 
 const rad = (deg) => (deg * Math.PI) / 180;
 
@@ -184,7 +184,7 @@ function glyphA(W, A) {
   return {
     advance: A,
     elems: [
-      line(`M0 ${f(H)}L${f(cx)} 0L${f(A)} ${f(H)}`, W, 'stroke-linejoin="bevel"'),
+      line(`M0 ${f(H)}L${f(cx)} 0L${f(A)} ${f(H)}`, W, "bevel"),
       rect(L, cbY, A - L * 2, W),
     ],
   };

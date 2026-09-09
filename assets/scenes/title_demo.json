@@ -1625,6 +1625,234 @@
         ],
         "raycastBlock": false
       }
+    },
+    {
+      "name": "Title_Logo_Top",
+      "guid": "9c1af04d21b7e310",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          0,
+          0
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          275.5,
+          118
+        ],
+        "offsetMax": [
+          1324.5,
+          296
+        ],
+        "visible": true,
+        "order": 60
+      },
+      "uiImage": {
+        "texturePath": "ui/logo/junction_top.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false,
+        "outlineWidth": 0
+      }
+    },
+    {
+      "name": "Title_Logo_Bot",
+      "guid": "9c1af04d21b7e311",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          0,
+          0
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          275.5,
+          186
+        ],
+        "offsetMax": [
+          1324.5,
+          364
+        ],
+        "visible": true,
+        "order": 61
+      },
+      "uiImage": {
+        "texturePath": "ui/logo/junction_bottom.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false,
+        "outlineWidth": 0
+      }
+    },
+    {
+      "name": "Title_Menu_Start",
+      "guid": "9c1af04d21b7e312",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          0,
+          0
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          738,
+          548
+        ],
+        "offsetMax": [
+          862,
+          588
+        ],
+        "visible": true,
+        "order": 62
+      },
+      "uiImage": {
+        "texturePath": "ui/logo/label_start.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false,
+        "outlineWidth": 0
+      }
+    },
+    {
+      "name": "Title_Menu_Exit",
+      "guid": "9c1af04d21b7e313",
+      "parentGuid": "4de077f2fdbca4ad",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "uiRect": {
+        "anchorMin": [
+          0,
+          0
+        ],
+        "anchorMax": [
+          0,
+          0
+        ],
+        "pivot": [
+          0.5,
+          0.5
+        ],
+        "offsetMin": [
+          760,
+          616
+        ],
+        "offsetMax": [
+          840,
+          656
+        ],
+        "visible": true,
+        "order": 63
+      },
+      "uiImage": {
+        "texturePath": "ui/logo/label_exit.png",
+        "color": [
+          1,
+          1,
+          1,
+          0
+        ],
+        "raycastBlock": false,
+        "outlineWidth": 0
+      }
     }
   ],
   "navmesh": {
